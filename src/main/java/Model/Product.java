@@ -31,6 +31,9 @@ public class Product {
         this.off = false;
         sellers = new ArrayList<Seller>();
         this.sellers.add(seller);
+        this.valuesForSpiecalProperties = new HashMap<String, String>();
+        this.allComments = new ArrayList<Comment>();
+
     }
 
     public void setName(String name) {
