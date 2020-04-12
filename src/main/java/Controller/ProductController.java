@@ -54,3 +54,9 @@ public class ProductController {
     }
 
 }
+
+class canNotFilterOnThisKey extends Exception {
+    public canNotFilterOnThisKey(String message) {
+        super(message);
+    }
+}

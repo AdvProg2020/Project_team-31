@@ -84,3 +84,10 @@ public class ManagerController {
     }
 
 }
+
+class isThereDiscountCodeWithThisName extends Exception {
+    public isThereDiscountCodeWithThisName(String message) {
+        super(message);
+    }
+}
+

@@ -40,7 +40,7 @@ public class CustomerController {
         return 0;
     }
 
-    public BuyingLog createASaleLog(User user, String[] information){
+    public BuyingLog createBuyingLog(User user, String[] information){
         return null;
     }
 
@@ -72,4 +72,16 @@ public class CustomerController {
         return null;
     }
 
+}
+
+class canNotPayMoney extends Exception {
+    public canNotPayMoney(String message) {
+        super(message);
+    }
+}
+
+class discountCodeIsInvalid extends Exception {
+    public discountCodeIsInvalid(String message) {
+        super(message);
+    }
 }
