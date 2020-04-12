@@ -22,6 +22,47 @@ public class BuyingLog {
         this.deliveryStatus = deliveryStatus;
         this.customer = customer;
         this.buyingProducts = buyingProducts;
+        buyingProducts = new ArrayList<Product>();
+    }
+
+    public ArrayList<Product> getBuyingProducts() {
+        return buyingProducts;
+    }
+
+    public String getLogId() {
+        return logId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Double getPayedAmount() {
+        return payedAmount;
+    }
+
+    public Double getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public String getSellerName() {
+        return SellerName;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public DeliveryStatus getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(DeliveryStatus deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+
+    public void addProducttoLog(Product product){
+        this.buyingProducts.add(product);
     }
 }
 enum DeliveryStatus{
