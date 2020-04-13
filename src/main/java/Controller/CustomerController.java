@@ -2,9 +2,8 @@ package Controller;
 
 import Model.BuyingLog;
 import Model.User;
-import org.graalvm.compiler.lir.LIRInstruction;
+//import org.graalvm.compiler.lir.LIRInstruction;
 
-import java.nio.DoubleBuffer;
 
 public class CustomerController {
     private static CustomerController customerControllerInstance = new CustomerController();
