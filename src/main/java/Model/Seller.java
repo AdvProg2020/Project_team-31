@@ -3,15 +3,19 @@ package Model;
 import java.util.ArrayList;
 
 public class Seller extends User {
-    private String companName;
+    private String companyName;
     private ArrayList<SellingLog> allSellingLogs;
     private ArrayList<Product> onSaleProducts;
     public static ArrayList<Seller> allSellers = new ArrayList<Seller>();
 
-    public Seller(String name, String lastname, String username, String emailAddress, int phoneNumber, String password, String companName) {
-        super(name, lastname, username, emailAddress, phoneNumber, password);
-        this.companName = companName;
+    public Seller(String name, String lastName, String username, String emailAddress, String  phoneNumber, String password, String companyName) {
+        super(name, lastName, username, emailAddress, phoneNumber, password);
+        this.companyName = companyName;
         this.allSellingLogs = new ArrayList<SellingLog>();
         this.onSaleProducts = new ArrayList<Product>();
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }
