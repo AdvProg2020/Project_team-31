@@ -66,5 +66,5 @@ public class BuyingLog {
     }
 }
 enum DeliveryStatus{
-
+    sending , recieved
 }

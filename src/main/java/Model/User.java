@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class User {
     private String name;
-    private String lastname;
+    private String lastName;
     private  String username;
     private String emailAddress;
     private int phoneNumber;
@@ -13,9 +13,9 @@ public abstract class User {
     public static ArrayList<User> allUsers = new ArrayList<User>();
 
 
-    public User(String name, String lastname, String username, String emailAddress, int phoneNumber, String password) {
+    public User(String name, String lastName, String username, String emailAddress, int phoneNumber, String password) {
         this.name = name;
-        this.lastname = lastname;
+        this.lastName = lastName;
         this.username = username;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
