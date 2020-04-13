@@ -60,6 +60,7 @@ public class MainMenu extends Menu {
     }
 
     private void viewPersonalInformation() {
+
     }
 
     private void viewCompanyInformation() {
@@ -87,7 +88,7 @@ public class MainMenu extends Menu {
     private void viewBalance() {
     }
 
-    ///////////////////////////////////////////
+    /////////////////////////////////////////////////////////
     private void managerMenu() {
         String command;
         while (true) {
@@ -119,7 +120,6 @@ public class MainMenu extends Menu {
     }
 
     private void manageUsers() {
-
     }
 
     private void manageAllProducts() {
