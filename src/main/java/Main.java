@@ -1,3 +1,7 @@
+import View.MainMenu;
+
 public class Main {
-    //please code here!
+    public static void main(String[] args) {
+        MainMenu.getInstance().run();
+    }
 }
