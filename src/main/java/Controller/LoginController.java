@@ -6,9 +6,6 @@ import Model.Seller;
 import Model.User;
 import java.lang.String;
 
-import Model.Manager.*;
-
-import java.util.ArrayList;
 
 public class LoginController {
     private static LoginController loginControllerInstance = new LoginController();
@@ -58,6 +55,14 @@ public class LoginController {
         if(user instanceof Seller){
             ((Seller)user).setCompanyName(newInformation[5]);
         }
+    }
+
+    public static User getUserByUsername(String username){
+        for (User user : User.allUsers) {
+            if(user.getUsername().equals(username))
+                return user;
+        }
+        return null;
     }
 }
 

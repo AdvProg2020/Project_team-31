@@ -10,7 +10,8 @@ public abstract class User {
     private String phoneNumber;
     private  String password;
     private Double credit;
-    public static ArrayList<User> allUsers = new ArrayList<User>();
+    private Card card;
+    public static ArrayList<User> allUsers = new ArrayList<>();
 
 
     public User(String name, String lastName, String username, String emailAddress, String  phoneNumber, String password) {
@@ -50,5 +51,13 @@ public abstract class User {
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
         this.password = password;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
     }
 }

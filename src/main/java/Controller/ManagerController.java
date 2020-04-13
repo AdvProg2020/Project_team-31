@@ -4,6 +4,7 @@ import Model.Manager;
 
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
+import java.lang.String;
 
 public class ManagerController {
     private static ManagerController managerControllerInstance = new ManagerController();
