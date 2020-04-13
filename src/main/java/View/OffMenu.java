@@ -15,6 +15,34 @@ public class OffMenu extends Menu {
 
     @Override
     public void run() {
+        showOffProducts();
+        String command;
+        while (true) {
+            command = scanner.nextLine().trim();
+            if (getMatcher("^(?i)filtering$", command).find())
+                filtering();
+            else if (getMatcher("^(?i)sorting$", command).find())
+                sorting();
+            else if (getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command).find())
+                showProduct();
+            else if (getMatcher("^(?i)back$", command).find())
+                break;
+            else System.out.println("invalid command");
+
+        }
+    }
+
+    private void filtering() {
+    }
+
+    private void sorting() {
+    }
+
+    private void showOffProducts() {
 
     }
+
+    private void showProduct() {
+    }
+
 }
