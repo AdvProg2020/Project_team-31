@@ -8,7 +8,7 @@ public class LoginMenu extends Menu {
     }
 
     public static LoginMenu getInstance() {
-        if (instance != null)
+        if (instance == null)
             instance = new LoginMenu();
         return instance;
     }
@@ -22,6 +22,8 @@ public class LoginMenu extends Menu {
                 register();
             else if (getMatcher("^(?i)login\\s+(\\S+)$", command).find())
                 login();
+            else if (getMatcher("^(?i)back$",command).find())
+                break;
             else System.out.println("invalid command");
         }
     }
