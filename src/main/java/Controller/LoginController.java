@@ -1,9 +1,7 @@
 package Controller;
 
-import Model.Customer;
-import Model.Manager;
-import Model.Seller;
-import Model.User;
+import Model.*;
+
 import java.lang.String;
 
 
@@ -28,7 +26,7 @@ public class LoginController {
         if (role.equals("customer")) {
             new Customer(information[0], information[1], username, information[2], information[3], information[4]);
         } else if (role.equals("seller")) {
-            new Seller(information[0], information[1], username, information[2], information[3], information[4], information[5]);
+            new SellerRequest(username, information);
         } else {
             new Manager(information[0], information[1], username, information[2], information[3], information[4]);
         }
