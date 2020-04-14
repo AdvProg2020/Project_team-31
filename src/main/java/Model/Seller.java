@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class Seller extends User {
     private String companyName;
@@ -17,5 +18,9 @@ public class Seller extends User {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public void addSellingLog(SellingLog sellingLog) {
+        allSellingLogs.add(sellingLog);
     }
 }

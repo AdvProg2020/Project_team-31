@@ -48,6 +48,14 @@ public class BuyingLog {
     public HashMap<Product, ProductInCard> getBuyingProducts() {
         return buyingProducts;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
 }
 enum DeliveryStatus{
 

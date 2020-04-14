@@ -41,4 +41,10 @@ public class DiscountCode {
     public HashMap<Customer, Integer> getDiscountTimesForEachCustomer() {
         return discountTimesForEachCustomer;
     }
+
+    public void decreaseDiscountTimesForEachCustomer(Customer customer) {
+        int i = discountTimesForEachCustomer.get(customer);
+        discountTimesForEachCustomer.remove(customer,i);
+        discountTimesForEachCustomer.put(customer,i-1);
+    }
 }

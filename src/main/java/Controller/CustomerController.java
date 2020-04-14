@@ -57,6 +57,9 @@ public class CustomerController {
             throw new DoesNotHaveThisProduct("This user does not have this product");
         else {
             ProductInCard productInCard = products.get(productToChange);
+            if (productToChange.getAvailable() < productInCard.getNumber() + changingNum) {
+                throw new DoesNotHaveThisProduct("Inventory of product is not enough");
+            }
             productInCard.changeNumberOfProduct(changingNum);
             if (productInCard.getNumber() == 0) {
                 products.remove(productToChange, productInCard);
@@ -64,7 +67,7 @@ public class CustomerController {
         }
     }
 
-    public void addProductToCard(User user, Product product, String sellerUsername) throws invalidUsername {
+    public void addProductToCard(User user, Product product, String sellerUsername) throws invalidUsername, DoesNotHaveThisProduct {
         Card card;
         if (user.getCard() == null) {
             card = new Card();
@@ -76,11 +79,13 @@ public class CustomerController {
 
         if (seller instanceof Seller) {
             if (product.getSellersOfThisProduct().contains(seller)) {
+                if (product.getAvailable() == 0)
+                    throw new DoesNotHaveThisProduct("Inventory of product is not enough");
                 card.addProductToCard(new ProductInCard(product, (Seller) seller));
                 return;
             }
         }
-        throw new invalidUsername("There is not seller with this username");
+        throw new invalidUsername("There is not seller with this username for this product");
     }
 
     public double showTotalPrice(User user) {
@@ -111,8 +116,8 @@ public class CustomerController {
         if (discount.getDiscountTimesForEachCustomer().get(user) == 0)
             throw new discountCodeIsInvalid("User has used this code before");
 
-
-        /// discount
+        buyingLog.setDiscountAmount(Math.min(buyingLog.getTotalPrice()*discount.getDiscountPercent()/100, discount.getMaximumDiscount()));
+        discount.decreaseDiscountTimesForEachCustomer((Customer)user);
     }
 
     public void payMoney(User user, BuyingLog buyingLog) throws canNotPayMoney {
@@ -122,7 +127,15 @@ public class CustomerController {
         user.payMoney(buyingLog.getTotalPrice() - buyingLog.getDiscountAmount());
         ((Customer) user).addBuyingLog(buyingLog);
         ((Customer) user).addRecentShoppingProducts(buyingLog.getBuyingProducts().keySet());
-        // create sellingLog and pay money of sellers
+        createSellingLog(buyingLog);
+    }
+
+    private void createSellingLog(BuyingLog buyingLog) {
+        ArrayList<ProductInCard> products = new ArrayList<ProductInCard>(buyingLog.getBuyingProducts().values());
+        for (ProductInCard product : products) {
+            product.getSeller().addSellingLog(new SellingLog(buyingLog.getDate(), buyingLog.getTotalPrice(), 0.0, product.getProduct(), buyingLog.getCustomer()));
+            product.getProduct().decreaseNumberOfProduct(product.getNumber());
+        }
     }
 
     public String showOrder(String orderId) {

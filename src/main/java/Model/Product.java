@@ -13,7 +13,7 @@ public class Product {
     private Double meanOfCustomersRate;
     private ArrayList<Comment> allComments;
     private Boolean off;
-    private Boolean available;
+    private int available;
     private ProductStatus productStatus;
     public static ArrayList<Product> allProducts;
     private String information;
@@ -45,6 +45,14 @@ public class Product {
 
     public ArrayList<Seller> getSellersOfThisProduct() {
         return sellersOfThisProduct;
+    }
+
+    public int getAvailable() {
+        return available;
+    }
+
+    public void decreaseNumberOfProduct(int number) {
+        available -= number;
     }
 }
 
