@@ -1,7 +1,6 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class Seller extends User {
     private String companyName;

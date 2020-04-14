@@ -11,4 +11,24 @@ public class Category {
         this.name = name;
         this.specialProperties = specialProperties;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<String> getSpecialProperties() {
+        return specialProperties;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    public void addSpecialProperties(String specialProperty){
+        this.specialProperties.add(specialProperty);
+    }
+
+    public void addProduct(Product product){
+        this.products.add(product);
+    }
 }

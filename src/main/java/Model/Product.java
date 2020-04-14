@@ -58,6 +58,5 @@ public class Product {
 
 enum ProductStatus {
     accepted, creating, editing
-
 }
 
