@@ -2,26 +2,51 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class BuyingLog {
     private String logId;
     private Date date;
-    private Double payedAmount;
+    private Double totalPrice;
     private Double discountAmount;
-    private String SellerName;
+    private HashMap<Product, ProductInCard> buyingProducts;
     private DeliveryStatus deliveryStatus;
     private Customer customer;
-    private ArrayList<Product> buyingProducts;
+    private static ArrayList<BuyingLog> allBuyingLog;
+    private String[] personalInformation;
 
-    public BuyingLog(String logId, Date date, Double payedAmount, Double discountAmount, String sellerName, DeliveryStatus deliveryStatus, Customer customer, ArrayList<Product> buyingProducts) {
-        this.logId = logId;
-        this.date = date;
-        this.payedAmount = payedAmount;
-        this.discountAmount = discountAmount;
-        this.SellerName = sellerName;
-        this.deliveryStatus = deliveryStatus;
+    public BuyingLog(Double totalPrice, Customer customer, HashMap<Product, ProductInCard> buyingProducts, String[] personalInformation) {
+        this.totalPrice = totalPrice;
+        this.discountAmount = 0.0;
         this.customer = customer;
         this.buyingProducts = buyingProducts;
+        this.personalInformation = personalInformation;
+    }
+
+    public static ArrayList<BuyingLog> getAllBuyingLog() {
+        return allBuyingLog;
+    }
+
+    public void finishBuying(String logId, Date date) {
+        this.logId = logId;
+        this.date = date;
+        allBuyingLog.add(this);
+    }
+
+    public void setDiscountAmount(Double discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public Double getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public HashMap<Product, ProductInCard> getBuyingProducts() {
+        return buyingProducts;
     }
 }
 enum DeliveryStatus{

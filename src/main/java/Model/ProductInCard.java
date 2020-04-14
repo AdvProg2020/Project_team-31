@@ -22,4 +22,8 @@ public class ProductInCard {
     public int getNumber() {
         return number;
     }
+
+    public Seller getSeller() {
+        return seller;
+    }
 }

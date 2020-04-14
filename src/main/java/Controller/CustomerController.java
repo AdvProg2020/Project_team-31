@@ -3,7 +3,9 @@ package Controller;
 import Model.*;
 
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.lang.String;
 
@@ -29,8 +31,14 @@ public class CustomerController {
         return arrayOfInformation;
     }
 
-    public String showProductInCard(User user) {
-        return null;
+    public String[] showProductInCard(User user) {
+        HashMap<Product, ProductInCard> products = user.getCard().getProductsInThisCard();
+        String[] arrayOfProducts = new String[products.size()];
+        int i = 0;
+        for (Product product : products.keySet()) {
+            arrayOfProducts[i++] = i + 1 + ". productId: " + product.getProductId() + " ,nameOfProduct: " + product.getName() + " ,number: " + products.get(product).getNumber() + " ,sellerUsername: " + products.get(product).getSeller().getUsername();
+        }
+        return arrayOfProducts;
     }
 
     public String showProduct(String productId) {
@@ -76,7 +84,7 @@ public class CustomerController {
     }
 
     public double showTotalPrice(User user) {
-        HashMap <Product, ProductInCard> productsInThisCard = user.getCard().getProductsInThisCard();
+        HashMap<Product, ProductInCard> productsInThisCard = user.getCard().getProductsInThisCard();
         double totalPrice = 0.0;
         for (Product product : productsInThisCard.keySet()) {
             totalPrice += (product.getPrice() * productsInThisCard.get(product).getNumber());
@@ -85,15 +93,36 @@ public class CustomerController {
     }
 
     public BuyingLog createBuyingLog(User user, String[] information) {
-        return null;
-    }
-
-    public void putDiscount(User user, BuyingLog buyingLog, String discountCode) {
+        return new BuyingLog(customerControllerInstance.showTotalPrice(user), (Customer) user, user.getCard().getProductsInThisCard(), information);
 
     }
 
-    public void payMoney(User user, BuyingLog buyingLog) {
+    public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws discountCodeIsInvalid {
+        DiscountCode discount = null;
+        for (DiscountCode code : ((Customer) user).getAllDiscountCodes()) {
+            if (code.getDiscountCode().equals(discountCodeString)) {
+                discount = code;
+            }
+        }
+        if (discount == null)
+            throw new discountCodeIsInvalid("This user has not this discountCode");
+        if (discount.getBeginTime() > time || discount.getEndTime() < time)
+            throw new discountCodeIsInvalid("DiscountCode is unavailable this time");
+        if (discount.getDiscountTimesForEachCustomer().get(user) == 0)
+            throw new discountCodeIsInvalid("User has used this code before");
 
+
+        /// discount
+    }
+
+    public void payMoney(User user, BuyingLog buyingLog) throws canNotPayMoney {
+        if (buyingLog.getTotalPrice() - buyingLog.getDiscountAmount() > user.getCredit())
+            throw new canNotPayMoney("Credit of money is not enough");
+        buyingLog.finishBuying("BuyingLog" + BuyingLog.getAllBuyingLog().size() + 1, Date);
+        user.payMoney(buyingLog.getTotalPrice() - buyingLog.getDiscountAmount());
+        ((Customer) user).addBuyingLog(buyingLog);
+        ((Customer) user).addRecentShoppingProducts(buyingLog.getBuyingProducts().keySet());
+        // create sellingLog and pay money of sellers
     }
 
     public String showOrder(String orderId) {

@@ -60,4 +60,12 @@ public abstract class User {
     public void setCard(Card card) {
         this.card = card;
     }
+
+    public Double getCredit() {
+        return credit;
+    }
+
+    public void payMoney(double payedMoney) {
+        credit -= payedMoney;
+    }
 }
