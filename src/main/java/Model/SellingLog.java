@@ -1,8 +1,6 @@
 package Model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class SellingLog {
     private String logId;
@@ -12,7 +10,7 @@ public class SellingLog {
     private Product buyingProducts;
     private DeliveryStatus deliveryStatus;
     private Customer customer;
-    private int numberOfSellingLog;
+    private static int numberOfSellingLog;
 
     public SellingLog(Date date, Double totalPriceArrived, Double amountOfOff, Product buyingProducts, Customer customer) {
         numberOfSellingLog ++;
