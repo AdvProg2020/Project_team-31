@@ -111,7 +111,7 @@ public class CustomerController {
         }
         if (discount == null)
             throw new discountCodeIsInvalid("This user has not this discountCode");
-        if (discount.getBeginTime() > time || discount.getEndTime() < time)
+        if (discount.getBeginTime().after(new Date()) || discount.getEndTime().before(new Date()))
             throw new discountCodeIsInvalid("DiscountCode is unavailable this time");
         if (discount.getDiscountTimesForEachCustomer().get(user) == 0)
             throw new discountCodeIsInvalid("User has used this code before");
@@ -123,7 +123,7 @@ public class CustomerController {
     public void payMoney(User user, BuyingLog buyingLog) throws canNotPayMoney {
         if (buyingLog.getTotalPrice() - buyingLog.getDiscountAmount() > user.getCredit())
             throw new canNotPayMoney("Credit of money is not enough");
-        buyingLog.finishBuying("BuyingLog" + BuyingLog.getAllBuyingLog().size() + 1, Date);
+        buyingLog.finishBuying("BuyingLog" + BuyingLog.getAllBuyingLog().size() + 1, new Date());
         user.payMoney(buyingLog.getTotalPrice() - buyingLog.getDiscountAmount());
         ((Customer) user).addBuyingLog(buyingLog);
         ((Customer) user).addRecentShoppingProducts(buyingLog.getBuyingProducts().keySet());
@@ -131,7 +131,7 @@ public class CustomerController {
     }
 
     private void createSellingLog(BuyingLog buyingLog) {
-        ArrayList<ProductInCard> products = new ArrayList<ProductInCard>(buyingLog.getBuyingProducts().values());
+        ArrayList<ProductInCard> products = new ArrayList<>(buyingLog.getBuyingProducts().values());
         for (ProductInCard product : products) {
             product.getSeller().addSellingLog(new SellingLog(buyingLog.getDate(), buyingLog.getTotalPrice(), 0.0, product.getProduct(), buyingLog.getCustomer()));
             product.getProduct().decreaseNumberOfProduct(product.getNumber());
