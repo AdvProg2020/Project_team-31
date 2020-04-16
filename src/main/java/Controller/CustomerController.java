@@ -88,7 +88,7 @@ public class CustomerController {
         throw new invalidUsername("There is not seller with this username for this product");
     }
 
-    public double showTotalPrice(User user) {
+    double showTotalPrice(User user) {
         HashMap<Product, ProductInCard> productsInThisCard = user.getCard().getProductsInThisCard();
         double totalPrice = 0.0;
         for (Product product : productsInThisCard.keySet()) {

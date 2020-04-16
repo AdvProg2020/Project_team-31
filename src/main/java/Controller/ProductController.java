@@ -41,7 +41,7 @@ public class ProductController {
 
     }
 
-    public String compareTwoProduct(String productId1, String productId2) {
+    public String compareTwoProduct(Product product1, String productId2) {
         return null;
     }
 
@@ -53,10 +53,9 @@ public class ProductController {
 
     }
 
-}
-
-class canNotFilterOnThisKey extends Exception {
-    public canNotFilterOnThisKey(String message) {
-        super(message);
+    private class canNotFilterOnThisKey extends Exception {
+        public canNotFilterOnThisKey(String message) {
+            super(message);
+        }
     }
 }

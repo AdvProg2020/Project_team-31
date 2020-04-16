@@ -55,36 +55,38 @@ public class LoginController {
         }
     }
 
-    public static User getUserByUsername(String username){
+    static User getUserByUsername(String username){
         for (User user : User.allUsers) {
             if(user.getUsername().equals(username))
                 return user;
         }
         return null;
     }
-}
 
-class canNotRegisterManager extends Exception {
-    public canNotRegisterManager(String message) {
-        super(message);
+    private class canNotRegisterManager extends Exception {
+        public canNotRegisterManager(String message) {
+            super(message);
+        }
+    }
+
+    private class thereIsAnotherUserWithThisName extends Exception {
+        public thereIsAnotherUserWithThisName(String message) {
+            super(message);
+        }
+    }
+
+    private class incorrectPassword extends Exception {
+        public incorrectPassword(String message) {
+            super(message);
+        }
+    }
+
+    private class thereIsNotThisUser extends Exception {
+        public thereIsNotThisUser(String message) {
+            super(message);
+        }
     }
 }
 
-class thereIsAnotherUserWithThisName extends Exception {
-    public thereIsAnotherUserWithThisName(String message) {
-        super(message);
-    }
-}
 
-class incorrectPassword extends Exception {
-    public incorrectPassword(String message) {
-        super(message);
-    }
-}
-
-class thereIsNotThisUser extends Exception {
-    public thereIsNotThisUser(String message) {
-        super(message);
-    }
-}
 

@@ -80,15 +80,13 @@ public class ManagerController {
 
     }
 
-    public void editCategory(String name){
-        /// voroodia maloom nist
+    public void editCategory(String name, ArrayList<String> newFeatures){
     }
 
-}
-
-class isThereDiscountCodeWithThisName extends Exception {
-    public isThereDiscountCodeWithThisName(String message) {
-        super(message);
+    private class isThereDiscountCodeWithThisName extends Exception {
+        public isThereDiscountCodeWithThisName(String message) {
+            super(message);
+        }
     }
 }
 
