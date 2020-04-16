@@ -63,6 +63,10 @@ public class MainMenu extends Menu {
 
     }
 
+    private void editPersonalInformation() {
+
+    }
+
     private void viewCompanyInformation() {
 
     }
