@@ -19,7 +19,7 @@ public class ProductMenu extends Menu {
         while (true) {
             command = scanner.nextLine().trim();
             if (getMatcher("^(?i)view\\s+categories$", command).find())
-                viewCategories();
+                viewAllCategories();
             else if (getMatcher("^(?i)filtering$", command).find())
                 filtering();
             else if (getMatcher("^(?i)sorting$", command).find())
@@ -35,7 +35,10 @@ public class ProductMenu extends Menu {
         }
     }
 
-    private void viewCategories() {
+    private void viewAllCategories() {
+    }
+
+    private void viewCategory() {
     }
 
     private void filtering() {
