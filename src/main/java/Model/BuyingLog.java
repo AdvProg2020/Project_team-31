@@ -4,18 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class BuyingLog {
-    private String logId;
-    private Date date;
+public class BuyingLog extends Log{
     private Double totalPrice;
     private Double discountAmount;
     private HashMap<Product, ProductInCard> buyingProducts;
-    private DeliveryStatus deliveryStatus;
-    private Customer customer;
     private static ArrayList<BuyingLog> allBuyingLog;
     private String[] personalInformation;
 
     public BuyingLog(Double totalPrice, Customer customer, HashMap<Product, ProductInCard> buyingProducts, String[] personalInformation) {
+        super(null, null, customer, null);
         this.totalPrice = totalPrice;
         this.discountAmount = 0.0;
         this.customer = customer;
@@ -56,7 +53,4 @@ public class BuyingLog {
     public Customer getCustomer() {
         return customer;
     }
-}
-enum DeliveryStatus{
-
 }
