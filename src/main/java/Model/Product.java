@@ -15,9 +15,9 @@ public class Product {
     private Boolean off;
     private int available;
     private ProductStatus productStatus;
-    public static ArrayList<Product> allProducts;
     private String information;
     private HashMap<String , String > specialPropertiesRelatedToCategory;
+    public static ArrayList<Product> allProducts;
 
     public Product(String productId, String name, String company, Double price, ArrayList<Seller> sellersOfThisProduct, Category category, ProductStatus productStatus, String information, HashMap<String, String> specialPropertiesRelatedToCategory) {
         this.productId = productId;

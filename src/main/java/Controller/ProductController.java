@@ -52,10 +52,9 @@ public class ProductController {
     public void addComment(User user, String productId, String title, String content) {
 
     }
-
-    private class canNotFilterOnThisKey extends Exception {
-        public canNotFilterOnThisKey(String message) {
-            super(message);
-        }
+}
+class canNotFilterOnThisKey extends Exception {
+    public canNotFilterOnThisKey(String message) {
+        super(message);
     }
 }

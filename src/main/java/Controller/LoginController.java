@@ -62,29 +62,26 @@ public class LoginController {
         }
         return null;
     }
-
-    private class canNotRegisterManager extends Exception {
-        public canNotRegisterManager(String message) {
-            super(message);
-        }
+}
+class canNotRegisterManager extends Exception {
+    public canNotRegisterManager(String message) {
+        super(message);
     }
+}
 
-    private class thereIsAnotherUserWithThisName extends Exception {
-        public thereIsAnotherUserWithThisName(String message) {
-            super(message);
-        }
+class thereIsAnotherUserWithThisName extends Exception {
+    public thereIsAnotherUserWithThisName(String message) {
+        super(message);
     }
-
-    private class incorrectPassword extends Exception {
-        public incorrectPassword(String message) {
-            super(message);
-        }
+}
+class incorrectPassword extends Exception {
+    public incorrectPassword(String message) {
+        super(message);
     }
-
-    private class thereIsNotThisUser extends Exception {
-        public thereIsNotThisUser(String message) {
-            super(message);
-        }
+}
+class thereIsNotThisUser extends Exception {
+    public thereIsNotThisUser(String message) {
+        super(message);
     }
 }
 

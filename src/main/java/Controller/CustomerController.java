@@ -158,30 +158,27 @@ public class CustomerController {
         return null;
     }
 
-    private class canNotPayMoney extends Exception {
-        public canNotPayMoney(String message) {
-            super(message);
-        }
-    }
-
-    private class discountCodeIsInvalid extends Exception {
-        public discountCodeIsInvalid(String message) {
-            super(message);
-        }
-    }
-
-    private class DoesNotHaveThisProduct extends Exception {
-        public DoesNotHaveThisProduct(String message) {
-            super(message);
-        }
-    }
-
-    private class invalidUsername extends Exception {
-        public invalidUsername(String message) {
-            super(message);
-        }
-    }
-
 }
+class canNotPayMoney extends Exception {
+    public canNotPayMoney(String message) {
+        super(message);
+    }
+}
+class discountCodeIsInvalid extends Exception {
+    public discountCodeIsInvalid(String message) {
+        super(message);
+    }
+}
+class DoesNotHaveThisProduct extends Exception {
+    public DoesNotHaveThisProduct(String message) {
+        super(message);
+    }
+}
+class invalidUsername extends Exception {
+    public invalidUsername(String message) {
+        super(message);
+    }
+}
+
 
 

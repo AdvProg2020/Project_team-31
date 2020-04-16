@@ -14,7 +14,9 @@ public class Comment {
         this.commentContent = commentContent;
         this.commentStatus = CommentStatus.waiting;
     }
+
 }
+
 enum CommentStatus{
     waiting,accepted,reject;
 }

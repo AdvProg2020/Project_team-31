@@ -8,7 +8,7 @@ public class SellerRequest extends Request {
     private static ArrayList<SellerRequest> allSellerRequest = new ArrayList<>();
 
     public SellerRequest(String username, String[] information) {
-        super("sellerRequest" + Request.getAllRequest().size()+1);
+        super("sellerRequest" + allRequests.size()+1);
         this.information = information;
         this.username = username;
         allSellerRequest.add(this);

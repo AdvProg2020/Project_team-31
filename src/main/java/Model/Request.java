@@ -3,8 +3,8 @@ package Model;
 import java.util.ArrayList;
 
 public abstract class Request {
-    private String requestId;
-    private static ArrayList<Request> allRequests = new ArrayList<>();
+    protected String requestId;
+    protected static ArrayList<Request> allRequests = new ArrayList<>();
 
     public Request(String requestId) {
         this.requestId = requestId;
@@ -26,5 +26,4 @@ public abstract class Request {
     public void deleteRequest() {
         allRequests.remove(this);
     }
-
 }

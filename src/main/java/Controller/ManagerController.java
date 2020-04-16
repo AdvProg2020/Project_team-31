@@ -83,10 +83,10 @@ public class ManagerController {
     public void editCategory(String name, ArrayList<String> newFeatures){
     }
 
-    private class isThereDiscountCodeWithThisName extends Exception {
-        public isThereDiscountCodeWithThisName(String message) {
-            super(message);
-        }
+}
+class isThereDiscountCodeWithThisName extends Exception {
+    public isThereDiscountCodeWithThisName(String message) {
+        super(message);
     }
 }
 
