@@ -62,7 +62,7 @@ public class LoginMenu extends Menu {
             if (!information[3].matches("^[0-9]{6,14}$"))
                 System.out.println("incorrect phone number");
         }
-        information[4]=password;
+        information[4] = password;
         if (type.equalsIgnoreCase("seller")) {
             System.out.println("please enter your company name:");
             information[5] = scanner.nextLine().trim();
@@ -72,10 +72,10 @@ public class LoginMenu extends Menu {
 
     public void login(String username) {
         System.out.println("please enter your password:");
-        String password=scanner.nextLine();
+        String password = scanner.nextLine();
         try {
-            loginController.login(username,password);
-        } catch (Exception e){
+            loginController.login(username, password);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
