@@ -4,6 +4,7 @@ import Model.*;
 
 public class MainMenu extends Menu {
     public static MainMenu instance = null;
+    public static boolean end = false;
 
     public static MainMenu getInstance() {
         if (instance == null)

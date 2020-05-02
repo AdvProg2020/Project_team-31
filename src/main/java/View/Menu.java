@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 public abstract class Menu {
     public static User user;
-    public static boolean end = false;
     public static Scanner scanner;
 
     static {
