@@ -22,4 +22,14 @@ public class Seller extends User {
     public void addSellingLog(SellingLog sellingLog) {
         allSellingLogs.add(sellingLog);
     }
+
+    public void removeProduct(Product product){
+        for (Product onSaleProduct : this.onSaleProducts) {
+            if (product.getProductId().equals(onSaleProduct.getProductId())){
+                this.onSaleProducts.remove(onSaleProduct);
+                break;
+            }
+        }
+    }
+
 }
