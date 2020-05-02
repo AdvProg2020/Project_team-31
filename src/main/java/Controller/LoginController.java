@@ -15,14 +15,7 @@ public class LoginController {
         return loginControllerInstance;
     }
 
-    public void register(String username, String role, String[] information) throws canNotRegisterManager, thereIsAnotherUserWithThisName {
-        if (role.equals("manager") && Manager.allManagers.size() > 0) {
-            throw new canNotRegisterManager("manager is registered before");
-        }
-        for (User user : User.allUsers) {
-            if (user.getUsername().equals(username))
-                throw new thereIsAnotherUserWithThisName("There is another person with this name");
-        }
+    public void register(String username, String role, String[] information) {
         if (role.equals("customer")) {
             new Customer(information[0], information[1], username, information[2], information[3], information[4]);
         } else if (role.equals("seller")) {
@@ -32,10 +25,21 @@ public class LoginController {
         }
     }
 
-    public User login(String username, String password) throws incorrectPassword, thereIsNotThisUser{
+    public boolean isThereAnyManager() {
+        return Manager.allManagers.size() > 0;
+    }
+
+    public boolean IsUsernameFree(String username) {
+        for (User user : User.allUsers)
+            if (user.getUsername().equals(username))
+                return false;
+        return true;
+    }
+
+    public User login(String username, String password) throws incorrectPassword, thereIsNotThisUser {
         for (User user : User.allUsers) {
-            if (user.getUsername().equals(username)){
-                if(user.getPassword().equals(password))
+            if (user.getUsername().equals(username)) {
+                if (user.getPassword().equals(password))
                     return user;
                 else
                     throw new incorrectPassword("Password is incorrect");
@@ -50,35 +54,27 @@ public class LoginController {
 
     public void editPersonalInformation(User user, String[] newInformation) {
         user.setNewInformation(newInformation[0], newInformation[1], newInformation[2], newInformation[3], newInformation[4]);
-        if(user instanceof Seller){
-            ((Seller)user).setCompanyName(newInformation[5]);
+        if (user instanceof Seller) {
+            ((Seller) user).setCompanyName(newInformation[5]);
         }
     }
 
-    static User getUserByUsername(String username){
+    static User getUserByUsername(String username) {
         for (User user : User.allUsers) {
-            if(user.getUsername().equals(username))
+            if (user.getUsername().equals(username))
                 return user;
         }
         return null;
     }
 }
-class canNotRegisterManager extends Exception {
-    public canNotRegisterManager(String message) {
-        super(message);
-    }
-}
 
-class thereIsAnotherUserWithThisName extends Exception {
-    public thereIsAnotherUserWithThisName(String message) {
-        super(message);
-    }
-}
+
 class incorrectPassword extends Exception {
     public incorrectPassword(String message) {
         super(message);
     }
 }
+
 class thereIsNotThisUser extends Exception {
     public thereIsNotThisUser(String message) {
         super(message);

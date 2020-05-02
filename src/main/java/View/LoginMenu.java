@@ -33,16 +33,17 @@ public class LoginMenu extends Menu {
 
     public void register(String type, String username) {
 
-        if (type.equalsIgnoreCase("customer"))
-            customerRegister(type, username);
-        if (type.equalsIgnoreCase("manager"))
-            managerRegister(type, username);
-        if (type.equalsIgnoreCase("seller"))
-            sellerRegister(type, username);
+//        if (type.equalsIgnoreCase("customer"))
+//            customerRegister(type, username);
+//        if (type.equalsIgnoreCase("manager"))
+//            managerRegister(type, username);
+//        if (type.equalsIgnoreCase("seller"))
+//            sellerRegister(type, username);
 
     }
 
     private void customerRegister(String type, String username) {
+
     }
 
     private void managerRegister(String type, String username) {
