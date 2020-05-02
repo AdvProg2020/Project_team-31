@@ -1,9 +1,7 @@
 package Controller;
 
 import Model.*;
-
 import java.lang.String;
-
 
 public class LoginController {
     private static LoginController loginControllerInstance = new LoginController();

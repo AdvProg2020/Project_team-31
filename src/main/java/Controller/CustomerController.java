@@ -46,13 +46,9 @@ public class CustomerController {
 
     public void changeNumberOfProductInCard(User user, String productId, int changingNum) throws DoesNotHaveThisProduct {
         HashMap<Product, ProductInCard> products = user.getCard().getProductsInThisCard();
-        Product productToChange = null;
-        for (Product product : products.keySet()) {
-            if (product.getProductId().equals(productId)) {
-                productToChange = product;
-            }
-        }
-        if (productToChange == null)
+        Product productToChange = getProductById(productId);
+
+        if (productToChange == null || !products.containsKey(productToChange))
             throw new DoesNotHaveThisProduct("This user does not have this product");
         else {
             ProductInCard productInCard = products.get(productToChange);
@@ -66,14 +62,21 @@ public class CustomerController {
         }
     }
 
+    private Product getProductById(String productId) {
+        for (Product product : Product.allProducts) {
+            if (product.getProductId().equals(productId)) {
+                return product;
+            }
+        }
+        return null;
+    }
+
     public void addProductToCard(User user, Product product, String sellerUsername) throws InvalidUsername, DoesNotHaveThisProduct {
-        Card card;
-        if (user.getCard() == null) {
+        Card card = user.getCard();
+        if (card == null) {
             card = new Card();
             user.setCard(card);
-        } else
-            card = user.getCard();
-
+        }
         User seller = LoginController.getUserByUsername(sellerUsername);
 
         if (seller instanceof Seller) {
@@ -115,8 +118,8 @@ public class CustomerController {
         if (discount.getDiscountTimesForEachCustomer().get(user) == 0)
             throw new DiscountCodeIsInvalid("User has used this code before");
 
-        buyingLog.setDiscountAmount(Math.min(buyingLog.getTotalPrice()*discount.getDiscountPercent()/100, discount.getMaximumDiscount()));
-        discount.decreaseDiscountTimesForEachCustomer((Customer)user);
+        buyingLog.setDiscountAmount(Math.min(buyingLog.getTotalPrice() * discount.getDiscountPercent() / 100, discount.getMaximumDiscount()));
+        discount.decreaseDiscountTimesForEachCustomer((Customer) user);
     }
 
     public void payMoney(User user, BuyingLog buyingLog) throws CannotPayMoney {
@@ -158,21 +161,25 @@ public class CustomerController {
     }
 
 }
+
 class CannotPayMoney extends Exception {
     public CannotPayMoney(String message) {
         super(message);
     }
 }
+
 class DiscountCodeIsInvalid extends Exception {
     public DiscountCodeIsInvalid(String message) {
         super(message);
     }
 }
+
 class DoesNotHaveThisProduct extends Exception {
     public DoesNotHaveThisProduct(String message) {
         super(message);
     }
 }
+
 class InvalidUsername extends Exception {
     public InvalidUsername(String message) {
         super(message);
