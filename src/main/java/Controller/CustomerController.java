@@ -3,7 +3,6 @@ package Controller;
 import Model.*;
 
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,7 +66,7 @@ public class CustomerController {
         }
     }
 
-    public void addProductToCard(User user, Product product, String sellerUsername) throws invalidUsername, DoesNotHaveThisProduct {
+    public void addProductToCard(User user, Product product, String sellerUsername) throws InvalidUsername, DoesNotHaveThisProduct {
         Card card;
         if (user.getCard() == null) {
             card = new Card();
@@ -85,7 +84,7 @@ public class CustomerController {
                 return;
             }
         }
-        throw new invalidUsername("There is not seller with this username for this product");
+        throw new InvalidUsername("There is not seller with this username for this product");
     }
 
     double showTotalPrice(User user) {
@@ -102,7 +101,7 @@ public class CustomerController {
 
     }
 
-    public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws discountCodeIsInvalid {
+    public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws DiscountCodeIsInvalid {
         DiscountCode discount = null;
         for (DiscountCode code : ((Customer) user).getAllDiscountCodes()) {
             if (code.getDiscountCode().equals(discountCodeString)) {
@@ -110,19 +109,19 @@ public class CustomerController {
             }
         }
         if (discount == null)
-            throw new discountCodeIsInvalid("This user has not this discountCode");
+            throw new DiscountCodeIsInvalid("This user has not this discountCode");
         if (discount.getBeginTime().after(new Date()) || discount.getEndTime().before(new Date()))
-            throw new discountCodeIsInvalid("DiscountCode is unavailable this time");
+            throw new DiscountCodeIsInvalid("DiscountCode is unavailable this time");
         if (discount.getDiscountTimesForEachCustomer().get(user) == 0)
-            throw new discountCodeIsInvalid("User has used this code before");
+            throw new DiscountCodeIsInvalid("User has used this code before");
 
         buyingLog.setDiscountAmount(Math.min(buyingLog.getTotalPrice()*discount.getDiscountPercent()/100, discount.getMaximumDiscount()));
         discount.decreaseDiscountTimesForEachCustomer((Customer)user);
     }
 
-    public void payMoney(User user, BuyingLog buyingLog) throws canNotPayMoney {
+    public void payMoney(User user, BuyingLog buyingLog) throws CannotPayMoney {
         if (buyingLog.getTotalPrice() - buyingLog.getDiscountAmount() > user.getCredit())
-            throw new canNotPayMoney("Credit of money is not enough");
+            throw new CannotPayMoney("Credit of money is not enough");
         buyingLog.finishBuying("BuyingLog" + BuyingLog.getAllBuyingLog().size() + 1, new Date());
         user.payMoney(buyingLog.getTotalPrice() - buyingLog.getDiscountAmount());
         ((Customer) user).addBuyingLog(buyingLog);
@@ -159,13 +158,13 @@ public class CustomerController {
     }
 
 }
-class canNotPayMoney extends Exception {
-    public canNotPayMoney(String message) {
+class CannotPayMoney extends Exception {
+    public CannotPayMoney(String message) {
         super(message);
     }
 }
-class discountCodeIsInvalid extends Exception {
-    public discountCodeIsInvalid(String message) {
+class DiscountCodeIsInvalid extends Exception {
+    public DiscountCodeIsInvalid(String message) {
         super(message);
     }
 }
@@ -174,8 +173,8 @@ class DoesNotHaveThisProduct extends Exception {
         super(message);
     }
 }
-class invalidUsername extends Exception {
-    public invalidUsername(String message) {
+class InvalidUsername extends Exception {
+    public InvalidUsername(String message) {
         super(message);
     }
 }
