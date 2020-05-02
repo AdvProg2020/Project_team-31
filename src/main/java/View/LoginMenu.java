@@ -45,7 +45,7 @@ public class LoginMenu extends Menu {
             if (!password.matches("^(?=.*\\d).{4,8}$"))
                 System.out.println("unacceptable password");
         }
-        String[] information = new String[5];
+        String[] information = new String[6];
         System.out.println("please enter your firstname:");
         information[0] = scanner.nextLine().trim();
         System.out.println("please enter your lastname:");
@@ -62,9 +62,10 @@ public class LoginMenu extends Menu {
             if (!information[3].matches("^[0-9]{6,14}$"))
                 System.out.println("incorrect phone number");
         }
+        information[4]=password;
         if (type.equalsIgnoreCase("seller")) {
             System.out.println("please enter your company name:");
-            information[4] = scanner.nextLine().trim();
+            information[5] = scanner.nextLine().trim();
         }
         loginController.register(username, password, information);
     }
@@ -77,6 +78,5 @@ public class LoginMenu extends Menu {
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
-
     }
 }
