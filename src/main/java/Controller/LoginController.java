@@ -45,7 +45,7 @@ public class LoginController {
                     throw new IncorrectPassword("Password is incorrect");
             }
         }
-        throw new ThereIsNotThisUser("There is any user with this username");
+        throw new ThereIsNotThisUser("There is already a user with this username");
     }
 
     public String[] showPersonalInformation(User user) {

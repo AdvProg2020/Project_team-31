@@ -72,9 +72,11 @@ public class LoginMenu extends Menu {
     public void login(String username) {
         System.out.println("please enter your password:");
         String password=scanner.nextLine();
-//        try {
-//            loginController.login(username,password);
-//        } catch ()
+        try {
+            loginController.login(username,password);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
     }
 }
