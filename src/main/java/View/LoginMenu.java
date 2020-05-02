@@ -1,8 +1,7 @@
 package View;
 
-import Controller.LoginController;
+import Controller.*;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
@@ -28,7 +27,7 @@ public class LoginMenu extends Menu {
             if (matcher.find())
                 register(matcher.group(1), matcher.group(2));
             else if (getMatcher("^(?i)login\\s+(\\S+)$", command).find())
-                login();
+                login(matcher.group(1));
             else if (getMatcher("^(?i)back$", command).find())
                 break;
             else System.out.println("invalid command");
@@ -38,7 +37,7 @@ public class LoginMenu extends Menu {
     public void register(String type, String username) {
         if (loginController.isThereAnyManager() || !loginController.IsUsernameFree(username))
             return;
-        String password="";
+        String password = "";
         System.out.println("please enter your password:" +
                 "Password must be between 4 and 8 digits long and include at least one numeric digit.\n");
         while (!password.matches("^(?=.*\\d).{4,8}$")) {
@@ -70,7 +69,12 @@ public class LoginMenu extends Menu {
         loginController.register(username, password, information);
     }
 
-    public void login() {
+    public void login(String username) {
+        System.out.println("please enter your password:");
+        String password=scanner.nextLine();
+//        try {
+//            loginController.login(username,password);
+//        } catch ()
 
     }
 }
