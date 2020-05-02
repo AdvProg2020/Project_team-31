@@ -25,4 +25,12 @@ public class Customer extends User {
     public void addRecentShoppingProducts(Set<Product> products) {
         recentShoppingProducts.addAll(products);
     }
+
+    public ArrayList<BuyingLog> getAllBuyingLogs() {
+        return this.allBuyingLogs;
+    }
+
+    public ArrayList<Product> getRecentShoppingProducts() {
+        return this.recentShoppingProducts;
+    }
 }

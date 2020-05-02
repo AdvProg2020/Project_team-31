@@ -9,6 +9,7 @@ public class Product {
     private String company;
     private Double price;
     private ArrayList<Seller> sellersOfThisProduct;
+    private ArrayList<Customer> customersWhoRated;
     private Category category;
     private Double meanOfCustomersRate;
     private ArrayList<Comment> allComments;
@@ -53,6 +54,26 @@ public class Product {
 
     public void decreaseNumberOfProduct(int number) {
         available -= number;
+    }
+
+    public Double getMeanOfCustomersRate() {
+        return this.meanOfCustomersRate;
+    }
+
+    public void setMeanOfCustomersRate(Double meanOfCustomersRate) {
+        this.meanOfCustomersRate = meanOfCustomersRate;
+    }
+
+    public ArrayList<Customer> getCustomersWhoRated() {
+        return this.customersWhoRated;
+    }
+
+    public void setCustomersWhoRated(ArrayList<Customer> customersWhoRated) {
+        this.customersWhoRated = customersWhoRated;
+    }
+
+    public void addCustomerWhoRated(Customer customer){
+        this.customersWhoRated.add(customer);
     }
 }
 

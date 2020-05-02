@@ -18,5 +18,5 @@ public class Comment {
 }
 
 enum CommentStatus{
-    waiting,accepted,reject;
+    waiting,accepted,reject
 }
