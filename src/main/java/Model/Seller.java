@@ -6,13 +6,13 @@ public class Seller extends User {
     private String companyName;
     private ArrayList<SellingLog> allSellingLogs;
     private ArrayList<Product> onSaleProducts;
-    public static ArrayList<Seller> allSellers = new ArrayList<Seller>();
+    public static ArrayList<Seller> allSellers = new ArrayList<>();
 
     public Seller(String name, String lastName, String username, String emailAddress, String  phoneNumber, String password, String companyName) {
         super(name, lastName, username, emailAddress, phoneNumber, password);
         this.companyName = companyName;
-        this.allSellingLogs = new ArrayList<SellingLog>();
-        this.onSaleProducts = new ArrayList<Product>();
+        this.allSellingLogs = new ArrayList<>();
+        this.onSaleProducts = new ArrayList<>();
     }
 
     public void setCompanyName(String companyName) {
@@ -24,12 +24,7 @@ public class Seller extends User {
     }
 
     public void removeProduct(Product product){
-        for (Product onSaleProduct : this.onSaleProducts) {
-            if (product.getProductId().equals(onSaleProduct.getProductId())){
-                this.onSaleProducts.remove(onSaleProduct);
-                break;
-            }
-        }
+        this.onSaleProducts.remove(product);
     }
 
 }
