@@ -6,7 +6,7 @@ public class Seller extends User {
     private String companyName;
     private ArrayList<SellingLog> allSellingLogs;
     private ArrayList<Product> onSaleProducts;
-    public static ArrayList<Seller> allSellers = new ArrayList<>();
+    private static ArrayList<Seller> allSellers = new ArrayList<>();
 
     public Seller(String name, String lastName, String username, String emailAddress, String  phoneNumber, String password, String companyName) {
         super(name, lastName, username, emailAddress, phoneNumber, password);
@@ -26,5 +26,14 @@ public class Seller extends User {
     public void removeProduct(Product product){
         this.onSaleProducts.remove(product);
     }
+
+    public static ArrayList<Seller> getAllSellers() {
+        return allSellers;
+    }
+
+    public void deleteSeller(Seller seller){
+        allSellers.remove(seller);
+    }
+
 
 }

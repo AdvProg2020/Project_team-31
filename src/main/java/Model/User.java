@@ -11,7 +11,7 @@ public abstract class User {
     private  String password;
     private Double credit;
     private Card card;
-    public static ArrayList<User> allUsers = new ArrayList<>();
+    private static ArrayList<User> allUsers = new ArrayList<>();
 
 
     public User(String name, String lastName, String username, String emailAddress, String  phoneNumber, String password) {
@@ -67,5 +67,13 @@ public abstract class User {
 
     public void payMoney(double payedMoney) {
         credit -= payedMoney;
+    }
+
+    public static ArrayList<User> getAllUsers() {
+        return allUsers;
+    }
+
+    public void deleteUser(User user){
+        allUsers.remove(user);
     }
 }
