@@ -24,18 +24,18 @@ public class LoginController {
     }
 
     public boolean isThereAnyManager() {
-        return Manager.allManagers.size() > 0;
+        return Manager.getAllManagers().size() > 0;
     }
 
     public boolean IsUsernameFree(String username) {
-        for (User user : User.allUsers)
+        for (User user : User.getAllUsers())
             if (user.getUsername().equals(username))
                 return false;
         return true;
     }
 
     public User login(String username, String password) throws IncorrectPassword, ThereIsNotThisUser {
-        for (User user : User.allUsers) {
+        for (User user : User.getAllUsers()) {
             if (user.getUsername().equals(username)) {
                 if (user.getPassword().equals(password))
                     return user;
@@ -58,7 +58,7 @@ public class LoginController {
     }
 
     static User getUserByUsername(String username) {
-        for (User user : User.allUsers) {
+        for (User user : User.getAllUsers()) {
             if (user.getUsername().equals(username))
                 return user;
         }

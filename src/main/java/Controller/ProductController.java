@@ -52,6 +52,14 @@ public class ProductController {
     public void addComment(User user, String productId, String title, String content) {
 
     }
+
+    static Product getProductById(String productId) {
+        for (Product product : Product.allProducts) {
+            if(product.getProductId().equals(productId))
+                return product;
+        }
+        return null;
+    }
 }
 class CanNotFilterOnThisKey extends Exception {
     public CanNotFilterOnThisKey(String message) {

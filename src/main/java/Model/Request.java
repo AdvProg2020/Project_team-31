@@ -22,4 +22,8 @@ public abstract class Request {
     public void deleteRequest() {
         allRequests.remove(this);
     }
+
+    public String getRequestId() {
+        return requestId;
+    }
 }
