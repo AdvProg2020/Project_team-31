@@ -75,6 +75,10 @@ public class Product {
     public void addCustomerWhoRated(Customer customer){
         this.customersWhoRated.add(customer);
     }
+
+    public void removeProduct(Product product){
+        allProducts.remove(product);
+    }
 }
 
 enum ProductStatus {

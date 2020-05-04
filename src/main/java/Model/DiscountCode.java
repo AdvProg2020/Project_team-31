@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class DiscountCode {
-    public static ArrayList<DiscountCode> allDiscountCodes = new ArrayList<>();
+    private static ArrayList<DiscountCode> allDiscountCodes = new ArrayList<>();
     private String discountCode;
     private Date beginTime;
     private Date endTime;
@@ -50,6 +50,9 @@ public class DiscountCode {
         int i = discountTimesForEachCustomer.get(customer);
         discountTimesForEachCustomer.remove(customer);
         discountTimesForEachCustomer.put(customer,i-1);
+    }
 
+    public static ArrayList<DiscountCode> getAllDiscountCodes() {
+        return allDiscountCodes;
     }
 }

@@ -35,5 +35,15 @@ public class Seller extends User {
         allSellers.remove(seller);
     }
 
+    public String getCompanyName() {
+        return this.companyName;
+    }
 
+    public ArrayList<SellingLog> getAllSellingLogs() {
+        return this.allSellingLogs;
+    }
+
+    public ArrayList<Product> getOnSaleProducts() {
+        return this.onSaleProducts;
+    }
 }
