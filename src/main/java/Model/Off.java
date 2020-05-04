@@ -3,6 +3,8 @@ package Model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static Model.OffStatus.*;
+
 public class Off {
     private String offId;
     private Date beginTime;
@@ -16,10 +18,13 @@ public class Off {
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.offAmount = offAmount;
-        this.offStatus = OffStatus.creating;
+        this.offStatus = creating;
         onSaleProduct = products;
     }
 
+    public void setOffStatus(OffStatus offStatus) {
+        this.offStatus = accepted;
+    }
 }
 enum OffStatus {
     accepted, creating, editing

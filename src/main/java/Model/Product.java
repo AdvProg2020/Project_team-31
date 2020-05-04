@@ -3,6 +3,8 @@ package Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static Model.ProductStatus.*;
+
 public class Product {
     private String productId;
     private String name;
@@ -78,6 +80,10 @@ public class Product {
 
     public void removeProduct(){
         allProducts.remove(this);
+    }
+
+    public void setProductStatus(ProductStatus productStatus) {
+        this.productStatus = accepted;
     }
 }
 
