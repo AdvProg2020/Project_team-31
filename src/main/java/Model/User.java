@@ -73,7 +73,7 @@ public abstract class User {
         return allUsers;
     }
 
-    public void deleteUser(User user){
-        allUsers.remove(user);
+    public void deleteUser(){
+        allUsers.remove(this);
     }
 }

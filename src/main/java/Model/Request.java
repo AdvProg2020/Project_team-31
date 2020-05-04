@@ -15,10 +15,6 @@ public abstract class Request {
         return allRequests;
     }
 
-    public void acceptRequest() {}
-
-    public void declineRequest(){}
-
     public String showDetail() {
         return null;
     }

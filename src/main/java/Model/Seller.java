@@ -31,8 +31,8 @@ public class Seller extends User {
         return allSellers;
     }
 
-    public void deleteSeller(Seller seller){
-        allSellers.remove(seller);
+    public void deleteSeller(){
+        allSellers.remove(this);
     }
 
     public String getCompanyName() {

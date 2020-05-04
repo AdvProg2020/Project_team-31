@@ -38,7 +38,7 @@ public class Customer extends User {
         return allCustomers;
     }
 
-    public void deleteCustomer(Customer customer){
-        allCustomers.remove(customer);
+    public void deleteCustomer(){
+        allCustomers.remove(this);
     }
 }

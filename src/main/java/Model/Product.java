@@ -76,8 +76,8 @@ public class Product {
         this.customersWhoRated.add(customer);
     }
 
-    public void removeProduct(Product product){
-        allProducts.remove(product);
+    public void removeProduct(){
+        allProducts.remove(this);
     }
 }
 
