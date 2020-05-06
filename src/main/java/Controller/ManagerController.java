@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import org.graalvm.compiler.lir.amd64.AMD64Move;
 
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
@@ -112,19 +113,39 @@ public class ManagerController {
         return null;
     }
 
-    public String showAllCategories() {
-        return null;
+    public ArrayList<String> showAllCategories() {
+        ArrayList<Category> allCategories = Category.getAllCategories();
+        ArrayList<String> information = new ArrayList<>();
+        for (Category category : allCategories) {
+            information.add("name:" + category.getName() + ", specialProperties:" + category.getSpecialProperties());
+        }
+        return information;
     }
 
     public void addCategory(String name, ArrayList<String> features) {
-
+        new Category(name, features);
     }
 
     public void removeCategory(String name) {
-
+        Category deletingCategory = getCategoryByName(name);
+        for (Product product : deletingCategory.getProducts()) {
+            product.removeProduct();
+            for (Seller seller : product.getSellersOfThisProduct()) {
+                seller.removeProduct(product);
+            }
+        }
+        // remove from all categories
     }
 
     public void editCategory(String name, ArrayList<String> newFeatures) {
+    }
+
+    private Category getCategoryByName(String name) {
+        for (Category category : Category.getAllCategories()) {
+            if(category.getName().equals(name))
+                return category
+        }
+        return null;
     }
 
 }
