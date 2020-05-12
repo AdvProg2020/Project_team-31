@@ -17,8 +17,13 @@ public class ManagerController {
         return managerControllerInstance;
     }
 
-    public String showUsers() {
-        return null;
+    public ArrayList<String> showUsers() {
+        ArrayList<String> information = new ArrayList<>();
+        for (User user : User.getAllUsers()) {
+            String[] personalInformation = user.getPersonalInformation();
+            information.add("firstName:" + personalInformation[0] + ", lastName:" + personalInformation[1] + ", emailAddress:" + personalInformation[3] + ", phoneNumber:" + personalInformation[4]);
+        }
+        return information;
     }
 
     public void deleteUser(String username) {
@@ -138,9 +143,10 @@ public class ManagerController {
     }
 
     public void editCategory(String name, ArrayList<String> newFeatures) {
+
     }
 
-    private Category getCategoryByName(String name) {
+    public Category getCategoryByName(String name) {
         for (Category category : Category.getAllCategories()) {
             if(category.getName().equals(name))
                 return category
