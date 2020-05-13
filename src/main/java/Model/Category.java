@@ -22,19 +22,19 @@ public class Category {
         return specialProperties;
     }
 
-    public ArrayList<Product> getProducts() {
-        return products;
-    }
-
-    public void addSpecialProperties(String specialProperty){
-        this.specialProperties.add(specialProperty);
-    }
-
     public void addProduct(Product product){
         this.products.add(product);
     }
 
     public static ArrayList<Category> getAllCategories() {
         return allCategories;
+    }
+
+    public void deleteCategory(){
+        allCategories.remove(this);
+    }
+
+    public void setSpecialProperties(ArrayList<String> specialProperties) {
+        this.specialProperties = specialProperties;
     }
 }

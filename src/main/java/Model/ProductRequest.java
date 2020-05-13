@@ -17,4 +17,8 @@ public class ProductRequest extends Request {
     public String showDetail() {
         return null;
     }
+
+    public Product getProduct() {
+        return product;
+    }
 }
