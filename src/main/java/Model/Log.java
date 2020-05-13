@@ -14,6 +14,18 @@ public class Log {
         this.customer = customer;
         this.deliveryStatus = deliveryStatus;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public String getLogId() {
+        return logId;
+    }
 }
 enum DeliveryStatus{
 
