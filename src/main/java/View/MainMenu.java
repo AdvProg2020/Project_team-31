@@ -223,7 +223,11 @@ public class MainMenu extends Menu {
     }
 
     private void viewBuyerProduct(String group) {
-
+        try {
+            //...
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void editProduct() {
