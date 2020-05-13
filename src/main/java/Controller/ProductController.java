@@ -64,7 +64,7 @@ public class ProductController {
         
     }
 
-    static Product getProductById(String productId) {
+    public static Product getProductById(String productId) {
         for (Product product : Product.allProducts) {
             if(product.getProductId().equals(productId))
                 return product;

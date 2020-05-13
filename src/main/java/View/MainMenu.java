@@ -1,7 +1,10 @@
 package View;
 
+import Controller.*;
 import Model.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
@@ -34,6 +37,7 @@ public class MainMenu extends Menu {
         String command;
         while (true) {
             command = scanner.nextLine().trim();
+            Matcher matcher = getMatcher("^(?i)remove\\s+product\\s+(\\S+)$", command);
             if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
                 viewPersonalInformation();
             else if (getMatcher("^(?i)view\\s+company\\s+information$", command).find())
@@ -44,12 +48,12 @@ public class MainMenu extends Menu {
                 manageProducts();
             else if (getMatcher("^(?i)add\\s+product$", command).find())
                 addProducts();
-            else if (getMatcher("^(?i)remove\\s+product\\s+(\\S+)$", command).find())
-                removeProducts();
+            else if (matcher.find())
+                removeProduct(matcher.group(1));
             else if (getMatcher("^(?i)show\\s+categories$", command).find())
                 showCategories();
             else if (getMatcher("^(?i)view\\s+offs$", command).find())
-                viewOffs();
+                viewAllOffs();
             else if (getMatcher("^(?i)view\\s+balance\n$", command).find())
                 viewBalance();
             else if (getMatcher("^(?i)products$", command).find())
@@ -125,6 +129,7 @@ public class MainMenu extends Menu {
             data[4] = editPassword();
         else if (index == 5)
             data[5] = editCompanyName();
+        loginController.editPersonalInformation(user, data);
     }
 
     private String editFirstName() {
@@ -183,24 +188,139 @@ public class MainMenu extends Menu {
     }
 
     private void viewSalesHistory() {
+        ArrayList<String> sellLogs = sellerController.showSalesHistory(user);
+        for (String log : sellLogs) {
+            System.out.println(log);
+        }
     }
 
     private void manageProducts() {
+        ArrayList<String> products = sellerController.showProductsOfThisSeller(user);
+        for (String product : products) {
+            System.out.println(product);
+        }
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            Matcher viewBuyersMatcher = getMatcher("^(?i)view\\s+buyers\\s+(\\S+)$", command);
+            Matcher editMatcher = getMatcher("^(?i)edit\\s+(\\S+)$", command);
+            if (viewMatcher.find())
+                viewProduct(viewMatcher.group(1));
+            else if (viewBuyersMatcher.find())
+                viewBuyerProduct(editMatcher.group(1));
+            else if (editMatcher.find())
+                editProduct();
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void viewProduct(String productId) {
+        try {
+            //...
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void viewBuyerProduct(String group) {
+        try {
+            //...
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void editProduct() {
+        try {
+            //...
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void addProducts() {
+        String[] data = new String[10];
+        getGeneralData(data);
+        System.out.println("please enter the category name");
+        String categoryName = scanner.nextLine().trim();
+//        while (/* invalid category name */) {
+//            System.out.println("invalid category name");
+//            categoryName = scanner.nextLine().trim();
+//        }
+        HashMap<String, String> categoryData = new HashMap<String, String>();
+        ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(categoryName);
+        for (String categoryFeature : categoryFeatures) {
+            System.out.println("enter the value of : "+categoryFeature);
+            String featureValue=scanner.nextLine().trim();
+            categoryData.put(categoryFeature,featureValue);
+        }
+        //addProduct();
     }
 
-    private void removeProducts() {
+    private void getGeneralData(String[] data) {
+        System.out.println("please enter a productId");
+        data[0] = scanner.nextLine().trim();
+        System.out.println("please enter the product name");
+        data[1] = scanner.nextLine().trim();
+        System.out.println("please enter the price");
+        data[2] = scanner.nextLine().trim();
+        System.out.println("please enter the product availability status (available/unavailable)");
+        data[3] = scanner.nextLine().trim();
+        System.out.println("please enter the product description");
+        data[4] = scanner.nextLine().trim();
+    }
+
+    private void removeProduct(String productId) {
+        try {
+            sellerController.removeProduct(productId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void showCategories() {
+        ArrayList<String> categories = managerController.showAllCategories();
+        for (String category : categories) {
+            System.out.println(category);
+        }
     }
 
-    private void viewOffs() {
+    private void viewAllOffs() {
+        String[] allOffs = sellerController.showAllOffs(user);
+        for (String off : allOffs)
+            System.out.println(off);
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            Matcher editMatcher = getMatcher("^(?i)edit\\s+(\\S+)$", command);
+            if (viewMatcher.find())
+                viewOff(viewMatcher.group(1));
+            else if (editMatcher.find())
+                editOff(editMatcher.group(1));
+            else if (command.trim().equalsIgnoreCase("add off"))
+                addOff();
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void addOff() {
+
+    }
+
+    private void editOff(String offId) {
+
+    }
+
+    private void viewOff(String offId) {
+        String[] offData = sellerController.showOff(offId);
+        System.out.println("////////////////////////////////////////////////");
+        for (String data : offData)
+            System.out.println(data);
+        System.out.println("////////////////////////////////////////////////");
     }
 
     private void viewBalance() {
+        System.out.println(sellerController.ShowBalanceOfSeller(user));
     }
 
     /////////////////////////////////////////////////////////
