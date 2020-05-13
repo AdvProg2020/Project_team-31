@@ -40,8 +40,13 @@ public class CustomerController {
         return arrayOfProducts;
     }
 
-    public String showProduct(String productId) {
+    public String showProduct(String productId, User user) throws Exception {
         Product product = getProductById(productId);
+        if(user != null) {
+            if(!product.getSellersOfThisProduct().contains((Seller)user)) {
+                throw new Exception("Seller does'nt have this product");
+            }
+        }
         return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + product.getMeanOfCustomersRate();
     }
 
