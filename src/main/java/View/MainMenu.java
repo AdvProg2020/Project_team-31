@@ -129,6 +129,7 @@ public class MainMenu extends Menu {
             data[4] = editPassword();
         else if (index == 5)
             data[5] = editCompanyName();
+        loginController.editPersonalInformation(user,data);
     }
 
     private String editFirstName() {
@@ -197,6 +198,7 @@ public class MainMenu extends Menu {
     }
 
     private void addProducts() {
+
     }
 
     private void removeProducts(String productId) {
