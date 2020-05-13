@@ -195,6 +195,34 @@ public class MainMenu extends Menu {
     }
 
     private void manageProducts() {
+        ArrayList<String> products = sellerController.showProductsOfThisSeller(user);
+        for (String product : products) {
+            System.out.println(product);
+        }
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            Matcher viewBuyersMatcher = getMatcher("^(?i)view\\s+buyers\\s+(\\S+)$", command);
+            Matcher editMatcher = getMatcher("^(?i)edit\\s+(\\S+)$", command);
+            if (viewMatcher.find())
+                viewProduct(viewMatcher.group(1));
+            else if (viewBuyersMatcher.find())
+                viewBuyerProduct(editMatcher.group(1));
+            else if (editMatcher.find())
+                editProduct();
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void viewProduct(String group) {
+    }
+
+    private void viewBuyerProduct(String group) {
+
+    }
+
+    private void editProduct() {
+
     }
 
     private void addProducts() {
@@ -226,7 +254,7 @@ public class MainMenu extends Menu {
     }
 
     private void showCategories() {
-        ArrayList<String> categories=managerController.showAllCategories();
+        ArrayList<String> categories = managerController.showAllCategories();
         for (String category : categories) {
             System.out.println(category);
         }
@@ -239,7 +267,7 @@ public class MainMenu extends Menu {
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
-            Matcher editMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            Matcher editMatcher = getMatcher("^(?i)edit\\s+(\\S+)$", command);
             if (viewMatcher.find())
                 viewOff(viewMatcher.group(1));
             else if (editMatcher.find())
