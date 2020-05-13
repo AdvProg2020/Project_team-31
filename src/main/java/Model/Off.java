@@ -22,11 +22,12 @@ public class Off {
         onSaleProduct = products;
     }
 
-    public void setOffStatus(OffStatus offStatus) {
+    public void acceptedStatus() {
         this.offStatus = accepted;
     }
+
+    public void editingStatus(){this.offStatus = editing;}
 }
 enum OffStatus {
     accepted, creating, editing
-
 }

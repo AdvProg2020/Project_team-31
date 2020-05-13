@@ -37,4 +37,8 @@ public class Category {
     public void setSpecialProperties(ArrayList<String> specialProperties) {
         this.specialProperties = specialProperties;
     }
+
+    public void removeProduct(Product product){
+        allCategories.remove(product);
+    }
 }
