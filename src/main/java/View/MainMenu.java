@@ -2,6 +2,7 @@ package View;
 
 import Model.*;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
@@ -183,6 +184,10 @@ public class MainMenu extends Menu {
     }
 
     private void viewSalesHistory() {
+        ArrayList<String> sellLogs = sellerController.showSalesHistory(user);
+        for (String log : sellLogs) {
+            System.out.println(log);
+        }
     }
 
     private void manageProducts() {
