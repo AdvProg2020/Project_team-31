@@ -71,6 +71,7 @@ public class MainMenu extends Menu {
                 "phone number : " + information[4] +
                 "password : " + information[5] +
                 "credit : " + information[6]);
+        viewCompanyInformation();
         String[] changedInfo = new String[6];
         changedInfo[0] = information[0]; //first name
         changedInfo[1] = information[1]; //last name
@@ -177,7 +178,8 @@ public class MainMenu extends Menu {
 
 
     private void viewCompanyInformation() {
-
+        String info = sellerController.showCompanyInformation(user);
+        System.out.println("company name : " + info);
     }
 
     private void viewSalesHistory() {
