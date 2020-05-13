@@ -78,8 +78,15 @@ public class Product {
         allProducts.remove(this);
     }
 
-    public void setProductStatus(ProductStatus productStatus) {
+    public void acceptedStatus() {
         this.productStatus = accepted;
+    }
+    public void editingStatus(){
+        this.productStatus = editing;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 }
 

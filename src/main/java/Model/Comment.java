@@ -14,9 +14,16 @@ public class Comment {
         this.commentContent = commentContent;
         this.commentStatus = CommentStatus.waiting;
     }
+    public void acceptedStatus(){
+        this.commentStatus = CommentStatus.accepted;
+    }
+
+    public void rejectedStatus(){
+        this.commentStatus = CommentStatus.rejected;
+    }
 
 }
 
 enum CommentStatus{
-    waiting,accepted,reject
+    waiting, accepted, rejected
 }
