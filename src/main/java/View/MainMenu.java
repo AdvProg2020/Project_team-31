@@ -1,6 +1,10 @@
 package View;
 
+import Controller.*;
 import Model.*;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
     public static MainMenu instance = null;
@@ -32,6 +36,7 @@ public class MainMenu extends Menu {
         String command;
         while (true) {
             command = scanner.nextLine().trim();
+            Matcher matcher = getMatcher("^(?i)remove\\s+product\\s+(\\S+)$", command);
             if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
                 viewPersonalInformation();
             else if (getMatcher("^(?i)view\\s+company\\s+information$", command).find())
@@ -42,12 +47,12 @@ public class MainMenu extends Menu {
                 manageProducts();
             else if (getMatcher("^(?i)add\\s+product$", command).find())
                 addProducts();
-            else if (getMatcher("^(?i)remove\\s+product\\s+(\\S+)$", command).find())
-                removeProducts();
+            else if (matcher.find())
+                removeProducts(matcher.group(1));
             else if (getMatcher("^(?i)show\\s+categories$", command).find())
                 showCategories();
             else if (getMatcher("^(?i)view\\s+offs$", command).find())
-                viewOffs();
+                viewAllOffs();
             else if (getMatcher("^(?i)view\\s+balance\n$", command).find())
                 viewBalance();
             else if (getMatcher("^(?i)products$", command).find())
@@ -60,37 +65,209 @@ public class MainMenu extends Menu {
         }
     }
 
+
     private void viewPersonalInformation() {
-
+        String[] information = loginController.showPersonalInformation(user);
+        System.out.println("first name : " + information[0] +
+                "last name : " + information[1] +
+                "username : " + information[2] +
+                "email address : " + information[3] +
+                "phone number : " + information[4] +
+                "password : " + information[5] +
+                "credit : " + information[6]);
+        viewCompanyInformation();
+        String[] changedInfo = new String[6];
+        changedInfo[0] = information[0]; //first name
+        changedInfo[1] = information[1]; //last name
+        changedInfo[2] = information[3]; //email
+        changedInfo[3] = information[4]; // phone
+        changedInfo[4] = information[5]; //password
+        if (user instanceof Seller) {
+            changedInfo[5] = sellerController.showCompanyInformation(user);
+        }
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher matcher = getMatcher("^(?i)edit\\s+(.+)$", command);
+            if (matcher.find()) {
+                int index = findIndex(matcher.group(1));
+                if (index == 7)
+                    System.out.println("invalid command");
+                else if (index != 6) editPersonalInformation(index, changedInfo);
+            } else System.out.println("invalid command");
+        }
     }
 
-    private void editPersonalInformation() {
-
+    private int findIndex(String check) {
+        if (check.equalsIgnoreCase("first name"))
+            return 0;
+        else if (check.equalsIgnoreCase("last name"))
+            return 1;
+        else if (check.equalsIgnoreCase("email address"))
+            return 2;
+        else if (check.equalsIgnoreCase("phone number"))
+            return 3;
+        else if (check.equalsIgnoreCase("password"))
+            return 4;
+        else if (check.equalsIgnoreCase("company name")) {
+            if (user instanceof Seller)
+                return 5;
+            else System.out.println("you are not a seller!");
+            return 6;
+        } else return 7;
     }
+
+    private void editPersonalInformation(int index, String[] data) {
+        if (index == 0)
+            data[0] = editFirstName();
+        else if (index == 1)
+            data[1] = editLastName();
+        else if (index == 2)
+            data[2] = editEmail();
+        else if (index == 3)
+            data[3] = editPhoneNumber();
+        else if (index == 4)
+            data[4] = editPassword();
+        else if (index == 5)
+            data[5] = editCompanyName();
+        loginController.editPersonalInformation(user, data);
+    }
+
+    private String editFirstName() {
+        System.out.println("please enter your first name");
+        return scanner.nextLine().trim();
+    }
+
+    private String editLastName() {
+        System.out.println("please enter your last name");
+        return scanner.nextLine().trim();
+    }
+
+    private String editEmail() {
+        System.out.println("please enter your email address");
+        String newData = "";
+        while (!newData.matches("^(.+)@(.+)$")) {
+            newData = scanner.nextLine();
+            if (!newData.matches("^(.+)@(.+)$"))
+                System.out.println("unacceptable email address");
+        }
+        return newData;
+    }
+
+    private String editPhoneNumber() {
+        System.out.println("please enter your phone number");
+        String newData = "";
+        while (!newData.matches("^[0-9]{6,14}$")) {
+            newData = scanner.nextLine();
+            if (!newData.matches("^[0-9]{6,14}$"))
+                System.out.println("unacceptable phone number");
+        }
+        return newData;
+    }
+
+    private String editPassword() {
+        System.out.println("please enter your password:" +
+                "Password must be between 4 and 8 digits long and include at least one numeric digit.\n");
+        String newData = "";
+        while (!newData.matches("^(?=.*\\d).{4,8}$")) {
+            newData = scanner.nextLine();
+            if (!newData.matches("^(?=.*\\d).{4,8}$"))
+                System.out.println("unacceptable password");
+        }
+        return newData;
+    }
+
+    private String editCompanyName() {
+        System.out.println("please enter your company name");
+        return scanner.nextLine().trim();
+    }
+
 
     private void viewCompanyInformation() {
-
+        String info = sellerController.showCompanyInformation(user);
+        System.out.println("company name : " + info);
     }
 
     private void viewSalesHistory() {
+        ArrayList<String> sellLogs = sellerController.showSalesHistory(user);
+        for (String log : sellLogs) {
+            System.out.println(log);
+        }
     }
 
     private void manageProducts() {
     }
 
     private void addProducts() {
+        String[] data = new String[10];
+        getGeneralData(data);
+        System.out.println("please enter the category name");
+        //...
     }
 
-    private void removeProducts() {
+    private void getGeneralData(String[] data) {
+        System.out.println("please enter a productId");
+        data[0] = scanner.nextLine().trim();
+        System.out.println("please enter the product name");
+        data[1] = scanner.nextLine().trim();
+        System.out.println("please enter the price");
+        data[2] = scanner.nextLine().trim();
+        System.out.println("please enter the product availability status (available/unavailable)");
+        data[3] = scanner.nextLine().trim();
+        System.out.println("please enter the product description");
+        data[4] = scanner.nextLine().trim();
+    }
+
+    private void removeProducts(String productId) {
+        try {
+            sellerController.removeProduct(productId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void showCategories() {
+        ArrayList<String> categories=managerController.showAllCategories();
+        for (String category : categories) {
+            System.out.println(category);
+        }
     }
 
-    private void viewOffs() {
+    private void viewAllOffs() {
+        String[] allOffs = sellerController.showAllOffs(user);
+        for (String off : allOffs)
+            System.out.println(off);
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            Matcher editMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            if (viewMatcher.find())
+                viewOff(viewMatcher.group(1));
+            else if (editMatcher.find())
+                editOff(editMatcher.group(1));
+            else if (command.trim().equalsIgnoreCase("add off"))
+                addOff();
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void addOff() {
+
+    }
+
+    private void editOff(String offId) {
+
+    }
+
+    private void viewOff(String offId) {
+        String[] offData = sellerController.showOff(offId);
+        System.out.println("////////////////////////////////////////////////");
+        for (String data : offData)
+            System.out.println(data);
+        System.out.println("////////////////////////////////////////////////");
     }
 
     private void viewBalance() {
+        System.out.println(sellerController.ShowBalanceOfSeller(user));
     }
 
     /////////////////////////////////////////////////////////

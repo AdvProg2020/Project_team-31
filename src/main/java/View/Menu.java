@@ -1,7 +1,9 @@
 package View;
 
+import Model.Seller;
 import Model.User;
 import Controller.*;
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +11,10 @@ import java.util.regex.Pattern;
 public abstract class Menu {
     public static User user;
     public static Scanner scanner;
+    LoginController loginController = LoginController.getInstance();
+    SellerController sellerController = SellerController.getInstance();
+    ProductController productController=ProductController.getInstance();
+    ManagerController managerController=ManagerController.getInstance();
 
     static {
         scanner = new Scanner(System.in);

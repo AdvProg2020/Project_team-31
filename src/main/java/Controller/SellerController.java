@@ -41,7 +41,7 @@ public class SellerController {
         for (String s : sellerOfThisProduct) {
             sellers.add((Seller)LoginController.getUserByUsername(s));
         }
-        
+
         new ProductRequest(new Product("Product" + (Product.allProducts.size()+1) ,productGeneralInformation[0], productGeneralInformation[1], Double.parseDouble(productGeneralInformation[2]),ManagerController.getCategoryByName(productGeneralInformation[3]),productGeneralInformation[4], sellers,specialInformationRelatedToCategory));
     }
 
@@ -53,11 +53,11 @@ public class SellerController {
 
     }
 
-    public String showAllOffs(User user){
+    public String[] showAllOffs(User user){
         return null;
     }
 
-    public String showOff(String offId){
+    public String[] showOff(String offId){
         return null;
     }
 

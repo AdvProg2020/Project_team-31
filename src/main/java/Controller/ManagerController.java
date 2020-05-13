@@ -108,16 +108,16 @@ public class ManagerController {
     }
 
     public void acceptRequest(String requestId) {
-        Request request = getRequestById(requestId);
-        if (request instanceof SellerRequest) {
-            String[] information = ((SellerRequest) request).getInformation();
-            new Seller(information[0], information[1], ((SellerRequest)request).getUsername(), information[2], information[3], information[4], information[5])
-        } else if (request instanceof OffRequest) {
-            ((OffRequest)request).getOff().setOffStatus(OffStatus.accepted);
-        } else if (request instanceof ProductRequest) {
-            // change productStatus
-        }
-        request.deleteRequest();
+//        Request request = getRequestById(requestId);
+//        if (request instanceof SellerRequest) {
+//            String[] information = ((SellerRequest) request).getInformation();
+//            new Seller(information[0], information[1], ((SellerRequest)request).getUsername(), information[2], information[3], information[4], information[5])
+//        } else if (request instanceof OffRequest) {
+//            ((OffRequest)request).getOff().setOffStatus(OffStatus.accepted);
+//        } else if (request instanceof ProductRequest) {
+//            ((ProductRequest)request).
+//        }
+//        request.deleteRequest();
     }
 
     public void declineRequest(String requestId) {
@@ -136,7 +136,7 @@ public class ManagerController {
         ArrayList<Category> allCategories = Category.getAllCategories();
         ArrayList<String> information = new ArrayList<>();
         for (Category category : allCategories) {
-            information.add("name:" + category.getName() + ", specialProperties:" + category.getSpecialProperties());
+            information.add("name : " + category.getName() + ", specialProperties : " + category.getSpecialProperties());
         }
         return information;
     }
@@ -146,14 +146,14 @@ public class ManagerController {
     }
 
     public void removeCategory(String name) {
-        Category deletingCategory = getCategoryByName(name);
-        for (Product product : deletingCategory.getProducts()) {
-            product.removeProduct();
-            for (Seller seller : product.getSellersOfThisProduct()) {
-                seller.removeProduct(product);
-            }
-        }
-        deletingCategory.deleteCategory();
+//        Category deletingCategory = getCategoryByName(name);
+//        for (Product product : deletingCategory.getProducts()) {
+//            product.removeProduct();
+//            for (Seller seller : product.getSellersOfThisProduct()) {
+//                seller.removeProduct(product);
+//            }
+//        }
+//        // remove from all categories
     }
 
     public void editCategory(String name, ArrayList<String> newFeatures) {
