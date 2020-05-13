@@ -214,6 +214,7 @@ public class MainMenu extends Menu {
     }
 
     private void viewBalance() {
+        System.out.println(sellerController.ShowBalanceOfSeller(user));
     }
 
     /////////////////////////////////////////////////////////
