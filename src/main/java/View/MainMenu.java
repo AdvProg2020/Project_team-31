@@ -234,14 +234,32 @@ public class MainMenu extends Menu {
             System.out.println(off);
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
-            Matcher matcher=getMatcher("^(?i)view\\s+(\\S+)$",command);
-            if(matcher.find())
-                viewOff(matcher.group(1));
-
+            Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            Matcher editMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            if (viewMatcher.find())
+                viewOff(viewMatcher.group(1));
+            else if (editMatcher.find())
+                editOff(editMatcher.group(1));
+            else if (command.trim().equalsIgnoreCase("add off"))
+                addOff();
+            else System.out.println("invalid command");
         }
     }
 
-    private void viewOff(String Id) {
+    private void addOff() {
+
+    }
+
+    private void editOff(String offId) {
+
+    }
+
+    private void viewOff(String offId) {
+        String[] offData = sellerController.showOff(offId);
+        System.out.println("////////////////////////////////////////////////");
+        for (String data : offData)
+            System.out.println(data);
+        System.out.println("////////////////////////////////////////////////");
     }
 
     private void viewBalance() {
