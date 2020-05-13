@@ -220,7 +220,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    } ///
 
     private void viewBuyerProduct(String group) {
         try {
@@ -228,7 +228,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    } ///
 
     private void editProduct() {
         try {
@@ -236,7 +236,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    } ///
 
     private void addProducts() {
         String[] data = new String[10];
@@ -249,25 +249,24 @@ public class MainMenu extends Menu {
 //        }
         HashMap<String, String> categoryData = new HashMap<String, String>();
         ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(categoryName);
-        for (String categoryFeature : categoryFeatures) {
+        for (
+                String categoryFeature : categoryFeatures) {
             System.out.println("enter the value of : "+categoryFeature);
             String featureValue=scanner.nextLine().trim();
             categoryData.put(categoryFeature,featureValue);
         }
         //addProduct();
-    }
+    } ///
 
     private void getGeneralData(String[] data) {
-        System.out.println("please enter a productId");
-        data[0] = scanner.nextLine().trim();
         System.out.println("please enter the product name");
-        data[1] = scanner.nextLine().trim();
+        data[0] = scanner.nextLine().trim();
         System.out.println("please enter the price");
-        data[2] = scanner.nextLine().trim();
+        data[1] = scanner.nextLine().trim();
         System.out.println("please enter the product availability status (available/unavailable)");
-        data[3] = scanner.nextLine().trim();
+        data[2] = scanner.nextLine().trim();
         System.out.println("please enter the product description");
-        data[4] = scanner.nextLine().trim();
+        data[3] = scanner.nextLine().trim();
     }
 
     private void removeProduct(String productId) {
