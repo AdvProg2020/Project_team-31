@@ -48,11 +48,11 @@ return null;
 
     }
 
-    public String showAllOffs(User user){
+    public String[] showAllOffs(User user){
         return null;
     }
 
-    public String showOff(String offId){
+    public String[] showOff(String offId){
         return null;
     }
 

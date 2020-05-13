@@ -52,7 +52,7 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)show\\s+categories$", command).find())
                 showCategories();
             else if (getMatcher("^(?i)view\\s+offs$", command).find())
-                viewOffs();
+                viewAllOffs();
             else if (getMatcher("^(?i)view\\s+balance\n$", command).find())
                 viewBalance();
             else if (getMatcher("^(?i)products$", command).find())
@@ -206,15 +206,15 @@ public class MainMenu extends Menu {
 
     private void getGeneralData(String[] data) {
         System.out.println("please enter a productId");
-        data[0]=scanner.nextLine().trim();
+        data[0] = scanner.nextLine().trim();
         System.out.println("please enter the product name");
-        data[1]=scanner.nextLine().trim();
+        data[1] = scanner.nextLine().trim();
         System.out.println("please enter the price");
-        data[2]=scanner.nextLine().trim();
+        data[2] = scanner.nextLine().trim();
         System.out.println("please enter the product availability status (available/unavailable)");
-        data[3]=scanner.nextLine().trim();
+        data[3] = scanner.nextLine().trim();
         System.out.println("please enter the product description");
-        data[4]=scanner.nextLine().trim();
+        data[4] = scanner.nextLine().trim();
     }
 
     private void removeProducts(String productId) {
@@ -228,7 +228,20 @@ public class MainMenu extends Menu {
     private void showCategories() {
     }
 
-    private void viewOffs() {
+    private void viewAllOffs() {
+        String[] allOffs = sellerController.showAllOffs(user);
+        for (String off : allOffs)
+            System.out.println(off);
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher matcher=getMatcher("^(?i)view\\s+(\\S+)$",command);
+            if(matcher.find())
+                viewOff(matcher.group(1));
+
+        }
+    }
+
+    private void viewOff(String Id) {
     }
 
     private void viewBalance() {
