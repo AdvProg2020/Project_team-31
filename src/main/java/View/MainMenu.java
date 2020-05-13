@@ -113,48 +113,66 @@ public class MainMenu extends Menu {
 
     private void editPersonalInformation(int index, String[] data) {
         if (index == 0)
-            editFirstName();
-         else if (index == 1)
-            editLastName();
-         else if (index == 2)
-            editEmail();
-         else if (index == 3)
-            editPhoneNumber();
-         else if (index == 4)
-            editPassword();
-         else if (index == 5)
-            editCompanyName();
+            data[0] = editFirstName();
+        else if (index == 1)
+            data[1] = editLastName();
+        else if (index == 2)
+            data[2] = editEmail();
+        else if (index == 3)
+            data[3] = editPhoneNumber();
+        else if (index == 4)
+            data[4] = editPassword();
+        else if (index == 5)
+            data[5] = editCompanyName();
     }
-/*
- while (!password.matches("^(?=.*\\d).{4,8}$")) {
-            password = scanner.nextLine();
-            if (!password.matches("^(?=.*\\d).{4,8}$"))
-                System.out.println("unacceptable password");
-        }
-        */
+
     private String editFirstName() {
         System.out.println("please enter your first name");
         return scanner.nextLine().trim();
     }
 
-    private void editLastName() {
+    private String editLastName() {
         System.out.println("please enter your last name");
+        return scanner.nextLine().trim();
     }
 
-    private void editEmail() {
+    private String editEmail() {
         System.out.println("please enter your email address");
+        String newData = "";
+        while (!newData.matches("^(.+)@(.+)$")) {
+            newData = scanner.nextLine();
+            if (!newData.matches("^(.+)@(.+)$"))
+                System.out.println("unacceptable email address");
+        }
+        return newData;
     }
 
-    private void editPhoneNumber() {
+    private String editPhoneNumber() {
         System.out.println("please enter your phone number");
+        String newData = "";
+        while (!newData.matches("^[0-9]{6,14}$")) {
+            newData = scanner.nextLine();
+            if (!newData.matches("^[0-9]{6,14}$"))
+                System.out.println("unacceptable phone number");
+        }
+        return newData;
     }
 
-    private void editPassword() {
-        System.out.println("please enter your password");
+    private String editPassword() {
+        System.out.println("please enter your password:" +
+                "Password must be between 4 and 8 digits long and include at least one numeric digit.\n");
+        String newData = "";
+        while (!newData.matches("^(?=.*\\d).{4,8}$")) {
+            newData = scanner.nextLine();
+            if (!newData.matches("^(?=.*\\d).{4,8}$"))
+                System.out.println("unacceptable password");
+        }
+        return newData;
     }
 
-    private void editCompanyName() {
+    private String editCompanyName() {
         System.out.println("please enter your company name");
+        return scanner.nextLine().trim();
     }
 
 
