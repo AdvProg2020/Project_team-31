@@ -303,6 +303,9 @@ public class MainMenu extends Menu {
     }
 
     private void addOff() {
+        System.out.println("please enter the start time");
+        System.out.println("please enter the end time");
+        System.out.println("please enter the discount percentage (by format DD.DD for example 78.24%)");
 
     }
 

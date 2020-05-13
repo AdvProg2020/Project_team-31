@@ -29,4 +29,11 @@ public abstract class Menu {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(check);
     }
+    public String scanByRegex(String regex,String massage){
+        String check;
+        while(!(check=scanner.nextLine().trim()).matches(regex)){
+            System.out.println(massage);
+        }
+        return check;
+    }
 }
