@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 public class LoginMenu extends Menu {
     public static LoginMenu instance = null;
     boolean loginSuccessful = false;
-    LoginController loginController = LoginController.getInstance();
 
     private LoginMenu() {
     }

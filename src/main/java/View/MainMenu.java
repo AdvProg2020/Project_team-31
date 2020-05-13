@@ -2,6 +2,8 @@ package View;
 
 import Model.*;
 
+import java.util.regex.Matcher;
+
 public class MainMenu extends Menu {
     public static MainMenu instance = null;
     public static boolean end = false;
@@ -61,7 +63,52 @@ public class MainMenu extends Menu {
     }
 
     private void viewPersonalInformation() {
+        String[] information = loginController.showPersonalInformation(user);
+        System.out.println("first name : " + information[0] +
+                "last name : " + information[1] +
+                "username : " + information[2] +
+                "email address : " + information[3] +
+                "phone number : " + information[4] +
+                "password : " + information[5] +
+                "credit : " + information[6]);
+        String[] changedInfo = new String[6];
+        changedInfo[0] = information[0]; //first name
+        changedInfo[1] = information[1]; //last name
+        changedInfo[2] = information[3]; //email
+        changedInfo[3] = information[4]; // phone
+        changedInfo[4] = information[5]; //password
+        if (user instanceof Seller) {
+            changedInfo[5] = sellerController.showCompanyInformation(user);
+        }
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher matcher = getMatcher("^(?i)edit\\s+(.+)$", command);
+            if (matcher.find()) {
+                int index = findIndex(matcher.group(1));
+                if (index == 7)
+                    System.out.println("invalid command");
+                else if (index != 6) editPersonalInformation();
+            } else System.out.println("invalid command");
+        }
+    }
 
+    private int findIndex(String check) {
+        if (check.equalsIgnoreCase("first name"))
+            return 0;
+        else if (check.equalsIgnoreCase("last name"))
+            return 1;
+        else if (check.equalsIgnoreCase("email address"))
+            return 2;
+        else if (check.equalsIgnoreCase("phone number"))
+            return 3;
+        else if (check.equalsIgnoreCase("password"))
+            return 4;
+        else if (check.equalsIgnoreCase("company name")) {
+            if (user instanceof Seller)
+                return 5;
+            else System.out.println("you are not a seller!");
+            return 6;
+        } else return 7;
     }
 
     private void editPersonalInformation() {

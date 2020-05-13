@@ -33,7 +33,7 @@ public class SellerController {
     }
 
     public String getCategoryFeatures(String categoryName) {
-
+return null;
     }
 
     public void addProduct(String[] productGeneralInformation, HashMap<String, String> specialInformationRelatedToCategory) {
