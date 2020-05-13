@@ -52,11 +52,14 @@ public class ProductController {
         ArrayList<String> information = new ArrayList<>();
         information.add("name:1-" + product1.getName() + ";2-" + product2.getName());
         information.add("price:1-" + product1.getPrice() + ";2-" + product2.getPrice());
-        information.add("rate:1-" + product1.getMeanOfCustomersRate() + ";2-" + product2.getMeanOfCustomersRate());
+        information.add("rate:1-" + (product1.getSumOfCustomersRate()/product1.getCustomersWhoRated()) + ";2-" + (product2.getSumOfCustomersRate()/product2.getCustomersWhoRated()));
         return information;
     }
 
-    public String showCommentAboutProduct(String productId) {
+    public ArrayList<String> showCommentAboutProduct(String productId) {
+        Product product = getProductById(productId);
+        ArrayList<String> allComments = new ArrayList<>();
+        // naghes
         return null;
     }
 

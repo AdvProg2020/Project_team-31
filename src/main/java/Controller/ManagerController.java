@@ -54,7 +54,8 @@ public class ManagerController {
         for (String s : discountTimesForEachCustomer.keySet()) {
             timesForEachCustomer.put((Customer)(LoginController.getUserByUsername(s)), discountTimesForEachCustomer.get(s));
         }
-        DiscountCode newDiscountCode = new DiscountCode(discountCode, beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
+        DiscountCode newDiscountCode = new DiscountCode(discountCode);
+        newDiscountCode.setDiscountCode( beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
         for (Customer customer : timesForEachCustomer.keySet()) {
             customer.addDiscountCode(newDiscountCode);
         }
@@ -69,8 +70,10 @@ public class ManagerController {
         return arrayOfDiscount;
     }
 
-    public String showDiscount(String discountId) {
+    public String showDiscount(String discountId) throws Exception {
         DiscountCode discount = getDiscountById(discountId);
+        if(discount == null)
+            throw new Exception("there is not discount with this code");
         return "code:" + discount.getDiscountCode() + ", beginTime:" + discount.getBeginTime() + ", endTime:" + discount.getEndTime() + ", percent:" + discount.getDiscountPercent();
     }
 
@@ -84,7 +87,11 @@ public class ManagerController {
 
     public void editDiscountCode(String discountCode, Date beginTime, Date endTime, Double discountPercent, Double maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
         DiscountCode discount = getDiscountById(discountCode);
-        discount.setDiscountCode(beginTime, endTime, discountPercent, maximumDiscount, discountTimesForEachCustomer);
+        HashMap<Customer, Integer> timesForEachCustomer = new HashMap<>();
+        for (String s : discountTimesForEachCustomer.keySet()) {
+            timesForEachCustomer.put((Customer)(LoginController.getUserByUsername(s)), discountTimesForEachCustomer.get(s));
+        }
+        discount.setDiscountCode(beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
     }
 
     public void removeDiscountCode(String discountCode) {
@@ -115,7 +122,7 @@ public class ManagerController {
 //        } else if (request instanceof OffRequest) {
 //            ((OffRequest)request).getOff().setOffStatus(OffStatus.accepted);
 //        } else if (request instanceof ProductRequest) {
-//            ((ProductRequest)request).
+//            ((ProductRequest)request).  // ezafe be category
 //        }
 //        request.deleteRequest();
     }
