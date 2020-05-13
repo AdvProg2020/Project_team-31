@@ -55,7 +55,10 @@ public class SellerController {
         Product product = ProductController.getProductById(productId);
         if(product == null)
             throw new Exception("There is not product with this id");
-        // incomplete
+        for (Seller seller : product.getSellersOfThisProduct()) {
+            seller.removeProduct(product);
+        }
+        product.getCategory().removeProduct(product);
     }
 
     public String[] showAllOffs(User user){

@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Category;
-import Model.Manager;
-import Model.Product;
-import Model.User;
+import Model.*;
 
 import java.util.ArrayList;
 
@@ -59,12 +56,15 @@ public class ProductController {
     public ArrayList<String> showCommentAboutProduct(String productId) {
         Product product = getProductById(productId);
         ArrayList<String> allComments = new ArrayList<>();
-        // naghes
-        return null;
+        for (Comment comment : product.getAllComments()) {
+            allComments.add( "title: " + comment.getCommentTitle() + ", content: " + comment.getCommentContent() + ", customer: " + comment.getCustomer().getUsername());
+        }
+        return allComments;
     }
 
     public void addComment(User user, String productId, String title, String content) {
-        
+        new Comment((Customer)user, getProductById(productId), title, content);
+        // fekr konam ye chiz kam dare
     }
 
     public static Product getProductById(String productId) {
