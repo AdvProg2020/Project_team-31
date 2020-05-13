@@ -32,12 +32,17 @@ public class SellerController {
         return products;
     }
 
-    public String getCategoryFeatures(String categoryName) {
-return null;
+    public ArrayList<String> getCategoryFeatures(String categoryName) {
+        return ManagerController.getCategoryByName(categoryName).getSpecialProperties();
     }
 
-    public void addProduct(String[] productGeneralInformation, HashMap<String, String> specialInformationRelatedToCategory) {
+    public void addProduct(String[] productGeneralInformation,ArrayList<String> sellerOfThisProduct, HashMap<String, String> specialInformationRelatedToCategory) {
+        ArrayList<Seller> sellers = new ArrayList<>();
+        for (String s : sellerOfThisProduct) {
+            sellers.add((Seller)LoginController.getUserByUsername(s));
+        }
 
+        new ProductRequest(new Product("Product" + (Product.allProducts.size()+1) ,productGeneralInformation[0], productGeneralInformation[1], Double.parseDouble(productGeneralInformation[2]),ManagerController.getCategoryByName(productGeneralInformation[3]),productGeneralInformation[4], sellers,specialInformationRelatedToCategory));
     }
 
     public void editProduct(String[] productGeneralInformation, HashMap<String, String> specialInformationRelatedToCategory) {
