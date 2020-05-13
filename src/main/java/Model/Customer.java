@@ -41,4 +41,12 @@ public class Customer extends User {
     public void deleteCustomer(){
         allCustomers.remove(this);
     }
+
+    public void addDiscountCode(DiscountCode discountCode){
+        this.allDiscountCodes.add(discountCode);
+    }
+
+    public void removeDiscountCode(DiscountCode discountCode){
+        this.allDiscountCodes.remove(discountCode);
+    }
 }
