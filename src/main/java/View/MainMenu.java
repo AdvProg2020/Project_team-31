@@ -87,7 +87,7 @@ public class MainMenu extends Menu {
                 int index = findIndex(matcher.group(1));
                 if (index == 7)
                     System.out.println("invalid command");
-                else if (index != 6) editPersonalInformation();
+                else if (index != 6) editPersonalInformation(index, changedInfo);
             } else System.out.println("invalid command");
         }
     }
@@ -111,9 +111,52 @@ public class MainMenu extends Menu {
         } else return 7;
     }
 
-    private void editPersonalInformation() {
-
+    private void editPersonalInformation(int index, String[] data) {
+        if (index == 0)
+            editFirstName();
+         else if (index == 1)
+            editLastName();
+         else if (index == 2)
+            editEmail();
+         else if (index == 3)
+            editPhoneNumber();
+         else if (index == 4)
+            editPassword();
+         else if (index == 5)
+            editCompanyName();
     }
+/*
+ while (!password.matches("^(?=.*\\d).{4,8}$")) {
+            password = scanner.nextLine();
+            if (!password.matches("^(?=.*\\d).{4,8}$"))
+                System.out.println("unacceptable password");
+        }
+        */
+    private String editFirstName() {
+        System.out.println("please enter your first name");
+        return scanner.nextLine().trim();
+    }
+
+    private void editLastName() {
+        System.out.println("please enter your last name");
+    }
+
+    private void editEmail() {
+        System.out.println("please enter your email address");
+    }
+
+    private void editPhoneNumber() {
+        System.out.println("please enter your phone number");
+    }
+
+    private void editPassword() {
+        System.out.println("please enter your password");
+    }
+
+    private void editCompanyName() {
+        System.out.println("please enter your company name");
+    }
+
 
     private void viewCompanyInformation() {
 
