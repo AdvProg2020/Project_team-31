@@ -1,9 +1,9 @@
 package Controller;
 
-import Model.Seller;
-import Model.User;
+import Model.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SellerController {
@@ -17,23 +17,23 @@ public class SellerController {
     }
 
     public String showCompanyInformation(User user) {
+        return ((Seller)user).getCompanyName();
+    }
+
+    public ArrayList<String> showSalesHistory(User user) {
         return null;
     }
 
-    public String showSalesHistory(User user) {
-        return null;
-    }
-
-    public String showProductsOfThisSeller(User user) {
-        return null;
-    }
-
-    public String showProduct(String productId) {
-        return null;
+    public ArrayList<String> showProductsOfThisSeller(User user) {
+        ArrayList<String> products = new ArrayList<>();
+        for (Product product : ((Seller) user).getOnSaleProducts()) {
+            products.add("name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + product.getMeanOfCustomersRate());
+        }
+        return products;
     }
 
     public String getCategoryFeatures(String categoryName) {
-        return null;
+
     }
 
     public void addProduct(String[] productGeneralInformation, HashMap<String, String> specialInformationRelatedToCategory) {

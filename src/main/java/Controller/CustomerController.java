@@ -41,7 +41,8 @@ public class CustomerController {
     }
 
     public String showProduct(String productId) {
-        return null;
+        Product product = getProductById(productId);
+        return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + product.getMeanOfCustomersRate();
     }
 
     public void changeNumberOfProductInCard(User user, String productId, int changingNum) throws DoesNotHaveThisProduct {
@@ -152,12 +153,16 @@ public class CustomerController {
 
     }
 
-    public int showBalanceForCustomer(User user) {
-        return 0;
+    public Double showBalanceForCustomer(User user) {
+        return user.getCredit();
     }
 
-    public String showDiscountCodes(User user) {
-        return null;
+    public ArrayList<String> showDiscountCodes(User user) {
+        ArrayList<String> allDiscount = new ArrayList<>();
+        for (DiscountCode discountCode : ((Customer) user).getAllDiscountCodes()) {
+            allDiscount.add("Code=" + discountCode.getDiscountCode() + ", percent=" + discountCode.getDiscountPercent() + ", maximum=" + discountCode.getMaximumDiscount());
+        }
+        return allDiscount;
     }
 
 }

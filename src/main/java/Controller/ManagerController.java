@@ -149,7 +149,7 @@ public class ManagerController {
     public Category getCategoryByName(String name) {
         for (Category category : Category.getAllCategories()) {
             if(category.getName().equals(name))
-                return category
+                return category;
         }
         return null;
     }
