@@ -13,6 +13,7 @@ public abstract class Menu {
     public static Scanner scanner;
     LoginController loginController = LoginController.getInstance();
     SellerController sellerController = SellerController.getInstance();
+    ProductController productController=ProductController.getInstance();
 
     static {
         scanner = new Scanner(System.in);

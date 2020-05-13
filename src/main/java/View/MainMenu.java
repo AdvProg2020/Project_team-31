@@ -1,5 +1,6 @@
 package View;
 
+import Controller.*;
 import Model.*;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class MainMenu extends Menu {
         String command;
         while (true) {
             command = scanner.nextLine().trim();
+            Matcher matcher = getMatcher("^(?i)remove\\s+product\\s+(\\S+)$", command);
             if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
                 viewPersonalInformation();
             else if (getMatcher("^(?i)view\\s+company\\s+information$", command).find())
@@ -45,8 +47,8 @@ public class MainMenu extends Menu {
                 manageProducts();
             else if (getMatcher("^(?i)add\\s+product$", command).find())
                 addProducts();
-            else if (getMatcher("^(?i)remove\\s+product\\s+(\\S+)$", command).find())
-                removeProducts();
+            else if (matcher.find())
+                removeProducts(matcher.group(1));
             else if (getMatcher("^(?i)show\\s+categories$", command).find())
                 showCategories();
             else if (getMatcher("^(?i)view\\s+offs$", command).find())
@@ -62,6 +64,7 @@ public class MainMenu extends Menu {
             else System.out.println("invalid command");
         }
     }
+
 
     private void viewPersonalInformation() {
         String[] information = loginController.showPersonalInformation(user);
@@ -196,7 +199,12 @@ public class MainMenu extends Menu {
     private void addProducts() {
     }
 
-    private void removeProducts() {
+    private void removeProducts(String productId) {
+        try {
+            sellerController.removeProduct(productId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void showCategories() {
