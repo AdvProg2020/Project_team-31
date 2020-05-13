@@ -129,7 +129,7 @@ public class MainMenu extends Menu {
             data[4] = editPassword();
         else if (index == 5)
             data[5] = editCompanyName();
-        loginController.editPersonalInformation(user,data);
+        loginController.editPersonalInformation(user, data);
     }
 
     private String editFirstName() {
@@ -198,7 +198,23 @@ public class MainMenu extends Menu {
     }
 
     private void addProducts() {
+        String[] data = new String[10];
+        getGeneralData(data);
+        System.out.println("please enter the category name");
+        //...
+    }
 
+    private void getGeneralData(String[] data) {
+        System.out.println("please enter a productId");
+        data[0]=scanner.nextLine().trim();
+        System.out.println("please enter the product name");
+        data[1]=scanner.nextLine().trim();
+        System.out.println("please enter the price");
+        data[2]=scanner.nextLine().trim();
+        System.out.println("please enter the product availability status (available/unavailable)");
+        data[3]=scanner.nextLine().trim();
+        System.out.println("please enter the product description");
+        data[4]=scanner.nextLine().trim();
     }
 
     private void removeProducts(String productId) {
