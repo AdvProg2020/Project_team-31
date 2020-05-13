@@ -11,9 +11,9 @@ public class Product {
     private String company;
     private Double price;
     private ArrayList<Seller> sellersOfThisProduct;
-    private ArrayList<Customer> customersWhoRated;
+    private int customersWhoRated;
     private Category category;
-    private Double meanOfCustomersRate;
+    private Double sumOfCustomersRate;
     private ArrayList<Comment> allComments;
     private Boolean off;
     private int available;
@@ -58,24 +58,20 @@ public class Product {
         available -= number;
     }
 
-    public Double getMeanOfCustomersRate() {
-        return this.meanOfCustomersRate;
+    public Double getSumOfCustomersRate() {
+        return this.sumOfCustomersRate;
     }
 
-    public void setMeanOfCustomersRate(Double meanOfCustomersRate) {
-        this.meanOfCustomersRate = meanOfCustomersRate;
+    public void addSumOfCustomersRate(Double sumOfCustomersRate) {
+        this.sumOfCustomersRate += sumOfCustomersRate;
     }
 
-    public ArrayList<Customer> getCustomersWhoRated() {
+    public int getCustomersWhoRated() {
         return this.customersWhoRated;
     }
 
-    public void setCustomersWhoRated(ArrayList<Customer> customersWhoRated) {
-        this.customersWhoRated = customersWhoRated;
-    }
-
-    public void addCustomerWhoRated(Customer customer){
-        this.customersWhoRated.add(customer);
+    public void addNumberOfCustomerWhoRated(){
+        this.customersWhoRated++;
     }
 
     public void removeProduct(){

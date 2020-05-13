@@ -14,4 +14,16 @@ public class SellingLog extends Log{
         this.amountOfOff = amountOfOff;
         this.buyingProducts = buyingProducts;
     }
+
+    public Double getTotalPriceArrived() {
+        return totalPriceArrived;
+    }
+
+    public Double getAmountOfOff() {
+        return amountOfOff;
+    }
+
+    public Product getBuyingProducts() {
+        return buyingProducts;
+    }
 }

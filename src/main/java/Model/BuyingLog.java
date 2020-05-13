@@ -45,12 +45,4 @@ public class BuyingLog extends Log{
     public HashMap<Product, ProductInCard> getBuyingProducts() {
         return buyingProducts;
     }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
 }

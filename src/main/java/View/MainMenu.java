@@ -4,6 +4,7 @@ import Controller.*;
 import Model.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
@@ -48,7 +49,7 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)add\\s+product$", command).find())
                 addProducts();
             else if (matcher.find())
-                removeProducts(matcher.group(1));
+                removeProduct(matcher.group(1));
             else if (getMatcher("^(?i)show\\s+categories$", command).find())
                 showCategories();
             else if (getMatcher("^(?i)view\\s+offs$", command).find())
@@ -64,7 +65,6 @@ public class MainMenu extends Menu {
             else System.out.println("invalid command");
         }
     }
-
 
     private void viewPersonalInformation() {
         String[] information = loginController.showPersonalInformation(user);
@@ -195,13 +195,66 @@ public class MainMenu extends Menu {
     }
 
     private void manageProducts() {
+        ArrayList<String> products = sellerController.showProductsOfThisSeller(user);
+        for (String product : products) {
+            System.out.println(product);
+        }
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            Matcher viewBuyersMatcher = getMatcher("^(?i)view\\s+buyers\\s+(\\S+)$", command);
+            Matcher editMatcher = getMatcher("^(?i)edit\\s+(\\S+)$", command);
+            if (viewMatcher.find())
+                viewProduct(viewMatcher.group(1));
+            else if (viewBuyersMatcher.find())
+                viewBuyerProduct(editMatcher.group(1));
+            else if (editMatcher.find())
+                editProduct();
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void viewProduct(String productId) {
+        try {
+            //...
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void viewBuyerProduct(String group) {
+        try {
+            //...
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void editProduct() {
+        try {
+            //...
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void addProducts() {
         String[] data = new String[10];
         getGeneralData(data);
         System.out.println("please enter the category name");
-        //...
+        String categoryName = scanner.nextLine().trim();
+//        while (/* invalid category name */) {
+//            System.out.println("invalid category name");
+//            categoryName = scanner.nextLine().trim();
+//        }
+        HashMap<String, String> categoryData = new HashMap<String, String>();
+        ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(categoryName);
+        for (String categoryFeature : categoryFeatures) {
+            System.out.println("enter the value of : "+categoryFeature);
+            String featureValue=scanner.nextLine().trim();
+            categoryData.put(categoryFeature,featureValue);
+        }
+        //addProduct();
     }
 
     private void getGeneralData(String[] data) {
@@ -217,7 +270,7 @@ public class MainMenu extends Menu {
         data[4] = scanner.nextLine().trim();
     }
 
-    private void removeProducts(String productId) {
+    private void removeProduct(String productId) {
         try {
             sellerController.removeProduct(productId);
         } catch (Exception e) {
@@ -226,7 +279,7 @@ public class MainMenu extends Menu {
     }
 
     private void showCategories() {
-        ArrayList<String> categories=managerController.showAllCategories();
+        ArrayList<String> categories = managerController.showAllCategories();
         for (String category : categories) {
             System.out.println(category);
         }
@@ -239,7 +292,7 @@ public class MainMenu extends Menu {
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
-            Matcher editMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            Matcher editMatcher = getMatcher("^(?i)edit\\s+(\\S+)$", command);
             if (viewMatcher.find())
                 viewOff(viewMatcher.group(1));
             else if (editMatcher.find())
