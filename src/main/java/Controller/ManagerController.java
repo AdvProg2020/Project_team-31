@@ -122,7 +122,7 @@ public class ManagerController {
         ArrayList<Category> allCategories = Category.getAllCategories();
         ArrayList<String> information = new ArrayList<>();
         for (Category category : allCategories) {
-            information.add("name:" + category.getName() + ", specialProperties:" + category.getSpecialProperties());
+            information.add("name : " + category.getName() + ", specialProperties : " + category.getSpecialProperties());
         }
         return information;
     }

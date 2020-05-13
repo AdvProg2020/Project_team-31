@@ -226,6 +226,10 @@ public class MainMenu extends Menu {
     }
 
     private void showCategories() {
+        ArrayList<String> categories=managerController.showAllCategories();
+        for (String category : categories) {
+            System.out.println(category);
+        }
     }
 
     private void viewAllOffs() {

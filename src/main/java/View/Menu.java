@@ -14,6 +14,7 @@ public abstract class Menu {
     LoginController loginController = LoginController.getInstance();
     SellerController sellerController = SellerController.getInstance();
     ProductController productController=ProductController.getInstance();
+    ManagerController managerController=ManagerController.getInstance();
 
     static {
         scanner = new Scanner(System.in);
