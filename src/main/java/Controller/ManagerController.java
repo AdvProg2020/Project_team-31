@@ -6,6 +6,8 @@ import org.graalvm.compiler.lir.amd64.AMD64Move;
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.lang.String;
+import java.util.Date;
+import java.util.HashMap;
 
 public class ManagerController {
     private static ManagerController managerControllerInstance = new ManagerController();
@@ -47,8 +49,15 @@ public class ManagerController {
         }
     }
 
-    public void createDiscountCode(String[] information) {
-
+    public void createDiscountCode(String discountCode, Date beginTime, Date endTime, Double discountPercent, Double maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
+        HashMap<Customer, Integer> timesForEachCustomer = new HashMap<>();
+        for (String s : discountTimesForEachCustomer.keySet()) {
+            timesForEachCustomer.put((Customer)(LoginController.getUserByUsername(s)), discountTimesForEachCustomer.get(s));
+        }
+        DiscountCode newDiscountCode = new DiscountCode(discountCode, beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
+        for (Customer customer : timesForEachCustomer.keySet()) {
+            customer.addDiscountCode(newDiscountCode);
+        }
     }
 
     public ArrayList<String> showAllDiscountCodes() {
@@ -73,12 +82,17 @@ public class ManagerController {
         return null;
     }
 
-    public void editDiscountCode(String discountCode, String[] information) {
-
+    public void editDiscountCode(String discountCode, Date beginTime, Date endTime, Double discountPercent, Double maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
+        DiscountCode discount = getDiscountById(discountCode);
+        discount.setDiscountCode(beginTime, endTime, discountPercent, maximumDiscount, discountTimesForEachCustomer);
     }
 
-    public void removeDiscountCode(String DiscountCode) {
-
+    public void removeDiscountCode(String discountCode) {
+        DiscountCode discount = getDiscountById(discountCode);
+        discount.removeDiscountCode();
+        for (Customer customer : discount.getDiscountTimesForEachCustomer().keySet()) {
+            customer.removeDiscountCode(discount);
+        }
     }
 
     public ArrayList<String> showAllRequests() {
@@ -101,7 +115,7 @@ public class ManagerController {
         } else if (request instanceof OffRequest) {
             ((OffRequest)request).getOff().setOffStatus(OffStatus.accepted);
         } else if (request instanceof ProductRequest) {
-            ((ProductRequest)request).
+            // change productStatus
         }
         request.deleteRequest();
     }
@@ -139,14 +153,14 @@ public class ManagerController {
                 seller.removeProduct(product);
             }
         }
-        // remove from all categories
+        deletingCategory.deleteCategory();
     }
 
     public void editCategory(String name, ArrayList<String> newFeatures) {
-
+        getCategoryByName(name).setSpecialProperties(newFeatures);
     }
 
-    public Category getCategoryByName(String name) {
+    static Category getCategoryByName(String name) {
         for (Category category : Category.getAllCategories()) {
             if(category.getName().equals(name))
                 return category;
