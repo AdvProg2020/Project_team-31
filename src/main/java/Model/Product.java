@@ -22,14 +22,14 @@ public class Product {
     private HashMap<String , String > specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts;
 
-    public Product(String productId, String name, String company, Double price, ArrayList<Seller> sellersOfThisProduct, Category category, ProductStatus productStatus, String information, HashMap<String, String> specialPropertiesRelatedToCategory) {
+    public Product(String productId, String name, String company, Double price, Category category, String information, ArrayList<Seller> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         this.productId = productId;
         this.name = name;
         this.company = company;
         this.price = price;
         this.sellersOfThisProduct = sellersOfThisProduct;
         this.category = category;
-        this.productStatus = productStatus;
+        this.productStatus = creating;
         this.information = information;
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
     }
