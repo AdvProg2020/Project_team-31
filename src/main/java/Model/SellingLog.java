@@ -1,5 +1,9 @@
 package Model;
 
+import com.google.gson.Gson;
+
+import java.awt.*;
+import java.io.FileWriter;
 import java.util.Date;
 
 public class SellingLog extends Log{

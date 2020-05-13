@@ -46,4 +46,8 @@ public class Seller extends User {
     public ArrayList<Product> getOnSaleProducts() {
         return this.onSaleProducts;
     }
+
+    public  void  addProduct(Product product){
+        this.onSaleProducts.add(product);
+    }
 }
