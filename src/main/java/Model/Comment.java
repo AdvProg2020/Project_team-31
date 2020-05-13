@@ -22,6 +22,22 @@ public class Comment {
         this.commentStatus = CommentStatus.rejected;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public String getCommentTitle() {
+        return commentTitle;
+    }
+
+    public String getCommentContent() {
+        return commentContent;
+    }
+
 }
 
 enum CommentStatus{

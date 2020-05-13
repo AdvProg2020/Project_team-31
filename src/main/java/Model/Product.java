@@ -88,6 +88,10 @@ public class Product {
     public Category getCategory() {
         return category;
     }
+
+    public ArrayList<Comment> getAllComments() {
+        return this.allComments;
+    }
 }
 
 enum ProductStatus {
