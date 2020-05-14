@@ -427,3 +427,8 @@ public class MainMenu extends Menu {
     }
 
 }
+class WrongPercentageException extends Exception {
+    public WrongPercentageException(String message) {
+        super(message);
+    }
+}
