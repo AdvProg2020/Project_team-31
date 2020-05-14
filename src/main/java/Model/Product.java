@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import static Model.ProductStatus.*;
@@ -19,10 +20,13 @@ public class Product {
     private int available;
     private ProductStatus productStatus;
     private String information;
+    private Date date;
+    private int views;
     private HashMap<String , String > specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts;
 
     public Product(String productId, String name, String company, Double price, Category category, String information, ArrayList<Seller> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
+        views = 0;
         this.productId = productId;
         this.name = name;
         this.company = company;
@@ -32,6 +36,30 @@ public class Product {
         this.productStatus = creating;
         this.information = information;
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
+    }
+
+    public HashMap<String, String> getSpecialPropertiesRelatedToCategory() {
+        return specialPropertiesRelatedToCategory;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void addView() {
+        views ++;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getProductId() {

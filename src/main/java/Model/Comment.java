@@ -5,9 +5,11 @@ public class Comment {
     private Product product;
     private String commentTitle;
     private String commentContent;
+    private Boolean isBuyer;
     private CommentStatus commentStatus;
 
-    public Comment(Customer customer, Product product, String commentTitle, String commentContent) {
+    public Comment(Customer customer, Product product, String commentTitle, String commentContent, Boolean isBuyer) {
+        this.isBuyer = isBuyer;
         this.customer = customer;
         this.product = product;
         this.commentTitle = commentTitle;

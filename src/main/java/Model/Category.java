@@ -14,6 +14,10 @@ public class Category {
         allCategories.add(this);
     }
 
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
     public String getName() {
         return name;
     }

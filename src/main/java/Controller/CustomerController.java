@@ -39,14 +39,21 @@ public class CustomerController {
         return arrayOfProducts;
     }
 
-    public String showProduct(String productId, User user) throws Exception {
+    public String showProduct(String productId, User user) {
+        Product product = ProductController.getProductById(productId);
+        if(user instanceof Customer)
+            product.addView();
+        return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate()/product.getCustomersWhoRated());
+    }
+
+    public Boolean doesSellerHaveThisProduct (String productId, User user) {
         Product product = ProductController.getProductById(productId);
         if(user != null) {
-            if(!product.getSellersOfThisProduct().contains((Seller)user)) {
-                throw new Exception("Seller does'nt have this product");
+            if(product.getSellersOfThisProduct().contains((Seller)user)) {
+                return true;
             }
         }
-        return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate()/product.getCustomersWhoRated());
+        return false;
     }
 
     public void changeNumberOfProductInCard(User user, String productId, int changingNum) throws DoesNotHaveThisProduct {

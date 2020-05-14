@@ -1,8 +1,12 @@
 package Controller;
 
 import Model.*;
+import sun.security.timestamp.TSRequest;
 
-import java.util.ArrayList;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProductController {
     private static ProductController productControllerInstance = new ProductController();
@@ -14,34 +18,98 @@ public class ProductController {
         return productControllerInstance;
     }
 
-    public String showProducts(User user, String sorting) {
-        return null;
+    public ArrayList<String> showProducts(User user, String categoryName, String sorting) {
+        ArrayList<Product> filteredProducts = filterAndShowProducts(user, categoryName);
+        if(sorting.equalsIgnoreCase("date")) {
+            HashMap<Date, Product> sortedByDate = new HashMap<>();
+            for (Product product : filteredProducts) {
+                sortedByDate.put(product.getDate(), product);
+            }
+            filteredProducts.clear();
+            filteredProducts.addAll(sortedByDate.values());
+        } else if(sorting.equalsIgnoreCase("rate")) {
+            HashMap<Double, Product> sortedByRate = new HashMap<>();
+            for (Product product : filteredProducts) {
+                sortedByRate.put(product.getSumOfCustomersRate()/product.getCustomersWhoRated(), product);
+            }
+            filteredProducts.clear();
+            filteredProducts.addAll(sortedByRate.values());
+        } else {
+            HashMap<Integer, Product> sortedByView = new HashMap<>();
+            for (Product product : filteredProducts) {
+                sortedByView.put(product.getViews(), product);
+            }
+            filteredProducts.clear();
+            filteredProducts.addAll(sortedByView.values());
+        }
+        return (ArrayList<String>) filteredProducts.stream()
+                .map(product -> "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate()/product.getCustomersWhoRated()));
     }
 
     public ArrayList<String> showAvailableFiltersForUser(User user, String categoryName) {
         ArrayList<String> availableFilters = new ArrayList<>();
-        if(categoryName == null){
-            for (Category category : Category.getAllCategories()) {
-                availableFilters.add("category:" + category.getName());
-            }
-            return availableFilters;
-        }
-        for (String property : ManagerController.getInstance().getCategoryByName(categoryName).getSpecialProperties()) {
-            availableFilters.add(property);
-        }
+        availableFilters.addAll(ManagerController.getCategoryByName(categoryName).getSpecialProperties());
+        availableFilters.addAll(Arrays.asList("price","company", "name", "rate", "availability"));
         return availableFilters;
     }
 
-    public String filterAndShowProducts(User user, String filterKey, String filterValue) {
-        return null;
+    public void addFilterForUser(User user, String filterKey, String filterValue) {
+        if(user.getFilters().keySet().contains(filterKey))
+            user.removeFilter(filterKey);
+        user.addFilter(filterKey, filterValue);
     }
 
-    public String ShowCurrentFilters(User user) {
-        return null;
+    private ArrayList<Product> filterAndShowProducts(User user,String categoryName) {
+        Category category = ManagerController.getCategoryByName(categoryName);
+        ArrayList<Product> products = category.getProducts();
+        return (ArrayList<Product>) products.stream()
+                .filter(product -> isContainThisProduct(user.getFilters(), product, category));
     }
 
-    public void disableFilterForUser(User user, String filterKey) {
+    private Boolean isContainThisProduct(HashMap<String, String> filters, Product product , Category category) {
+        HashMap<String, String> specialPropertiesOfProduct = product.getSpecialPropertiesRelatedToCategory();
+        for (String key : filters.keySet()) {
+            if(category.getSpecialProperties().contains(key) && specialPropertiesOfProduct.keySet().contains(key)){
+                if(!doesMatchWithFilter(filters.get(key), specialPropertiesOfProduct.get(key)))
+                    return false;
+            } else if (key.equalsIgnoreCase("price") && !doesMatchWithFilter(filters.get(key),product.getPrice().toString())) {
+                return false;
+            } else if (key.equalsIgnoreCase("company") && !doesMatchWithFilter(filters.get(key), product.getCompany())) {
+                return false;
+            } else if (key.equalsIgnoreCase("name") && !doesMatchWithFilter(filters.get(key), product.getName())) {
+                return false;
+            } else if (key.equalsIgnoreCase("rate") && !doesMatchWithFilter(filters.get(key), String.valueOf(product.getSumOfCustomersRate()/product.getCustomersWhoRated()))) {
+                return false;
+            } else if (key.equalsIgnoreCase("availability") && product.getAvailable() == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
+    private Boolean doesMatchWithFilter(String filterValue, String productValue) {
+        if(!filterValue.startsWith("[") && filterValue.equalsIgnoreCase(productValue)) {
+            return true;
+        } else if(filterValue.startsWith("[")){
+            Pattern pattern = Pattern.compile("\\[(\\d+)\\-(\\d+)\\]");
+            Matcher matcher = pattern.matcher(filterValue);
+            if(!matcher.find())
+                return false;
+            if(Integer.parseInt(productValue) <= Integer.parseInt(matcher.group(2)) && Integer.parseInt(productValue) >= Integer.parseInt(matcher.group(1))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public HashMap<String, String> ShowCurrentFilters(User user) {
+        return user.getFilters();
+    }
+
+    public void disableFilterForUser(User user, String filterKey) throws Exception {
+        if(!user.getFilters().keySet().contains(filterKey))
+            throw new Exception("User does not have this filter");
+        user.removeFilter(filterKey);
     }
 
     public ArrayList<String> compareTwoProduct(Product product1, String productId2) {
@@ -63,8 +131,7 @@ public class ProductController {
     }
 
     public void addComment(User user, String productId, String title, String content) {
-        new Comment((Customer)user, getProductById(productId), title, content);
-        // fekr konam ye chiz kam dare
+        new Comment((Customer)user, getProductById(productId), title, content, ((Customer)user).getRecentShoppingProducts().contains(getProductById(productId)));
     }
 
     public static Product getProductById(String productId) {
