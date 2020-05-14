@@ -70,12 +70,12 @@ public class SellerController {
         return null;
     }
 
-    public void addOff(User user, ArrayList<String> productsId, Date beginTime, Date endTime, Double percent){
+    public void addOff(User user, ArrayList<String> productsId, Date beginTime, Date endTime, int percent){
         ArrayList<Product> products = new ArrayList<>();
         for (String s : productsId) {
             products.add(ProductController.getProductById(s));
         }
-        new OffRequest(new Off("Off"+beginTime, beginTime, endTime, percent, products));
+        new OffRequest(new Off("Off"+beginTime, beginTime, endTime, (double) percent, products));
     }
 
     public Double showBalanceOfSeller(User user){
