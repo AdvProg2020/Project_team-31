@@ -3,7 +3,10 @@ package View;
 import Controller.*;
 import Model.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
@@ -181,7 +184,6 @@ public class MainMenu extends Menu {
         return scanner.nextLine().trim();
     }
 
-
     private void viewCompanyInformation() {
         String info = sellerController.showCompanyInformation(user);
         System.out.println("company name : " + info);
@@ -207,20 +209,20 @@ public class MainMenu extends Menu {
             if (viewMatcher.find())
                 viewProduct(viewMatcher.group(1));
             else if (viewBuyersMatcher.find())
-                viewBuyerProduct(editMatcher.group(1));
+                viewBuyerProduct(viewBuyersMatcher.group(1));
             else if (editMatcher.find())
-                editProduct();
+                editProduct(editMatcher.group(1));
             else System.out.println("invalid command");
         }
     }
 
     private void viewProduct(String productId) {
         try {
-            //...
+            System.out.println(customerController.showProduct(productId, user));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    } ///
+    }
 
     private void viewBuyerProduct(String group) {
         try {
@@ -230,9 +232,24 @@ public class MainMenu extends Menu {
         }
     } ///
 
-    private void editProduct() {
+    private void editProduct(String productId) {
+        String[] data = new String[4];
+        System.out.println("please select the data number you want to change:(-1 for exit)\n" +
+                "1.name\n2.price\n3.availability status\n4.product description ");
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            if (!(command.equals("1") || command.equals("2") || command.equals("3") || command.equals("4"))) {
+                System.out.println("please enter a valid number");
+            } else {
+                System.out.println("please enter the value : ");
+                data[Integer.parseInt(command) - 1] = scanner.nextLine().trim();
+            }
+//...
+        }
+
+
         try {
-            //...
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -243,20 +260,16 @@ public class MainMenu extends Menu {
         getGeneralData(data);
         System.out.println("please enter the category name");
         String categoryName = scanner.nextLine().trim();
-//        while (/* invalid category name */) {
-//            System.out.println("invalid category name");
-//            categoryName = scanner.nextLine().trim();
-//        }
         HashMap<String, String> categoryData = new HashMap<String, String>();
         ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(categoryName);
         for (
                 String categoryFeature : categoryFeatures) {
-            System.out.println("enter the value of : "+categoryFeature);
-            String featureValue=scanner.nextLine().trim();
-            categoryData.put(categoryFeature,featureValue);
+            System.out.println("enter the value of : " + categoryFeature);
+            String featureValue = scanner.nextLine().trim();
+            categoryData.put(categoryFeature, featureValue);
         }
-        //addProduct();
-    } ///
+        sellerController.addProduct(data, user, categoryData);
+    }
 
     private void getGeneralData(String[] data) {
         System.out.println("please enter the product name");
@@ -293,25 +306,57 @@ public class MainMenu extends Menu {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
             Matcher editMatcher = getMatcher("^(?i)edit\\s+(\\S+)$", command);
             if (viewMatcher.find())
-                viewOff(viewMatcher.group(1));
+                try {
+                    viewOff(viewMatcher.group(1));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             else if (editMatcher.find())
-                editOff(editMatcher.group(1));
+                try {
+                    editOff(editMatcher.group(1));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             else if (command.trim().equalsIgnoreCase("add off"))
-                addOff();
+                try {
+                    addOff();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
             else System.out.println("invalid command");
         }
     }
 
-    private void addOff() {
-        System.out.println("please enter the start time");
+    private void addOff() throws Exception {
+        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
+        Date startDate = format.parse(dateString);
+        if (startDate.before(new Date()))
+            throw new Exception("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
         System.out.println("please enter the end time");
-        System.out.println("please enter the discount percentage (by format DD.DD for example 78.24%)");
-
+        dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
+        Date endDate = format.parse(dateString);
+        if (endDate.before(startDate))
+            throw new Exception("the end date must be after start date");
+        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
+        int percent = Integer.parseInt(percentage);
+        if (percent <= 0 || percent >= 100)
+            throw new WrongPercentageException("wrong percentage");
+        System.out.println("please enter the product IDs (-1 for exit)");
+        String productId;
+        ArrayList<String> productIds = new ArrayList<>();
+        while ((productId = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            productIds.add(productId);
+        }
+        sellerController.addOff(user, productIds, startDate, endDate, percent);
     }
 
-    private void editOff(String offId) {
+    private void editOff(String offId) throws Exception {
 
-    }
+    }///
 
     private void viewOff(String offId) {
         String[] offData = sellerController.showOff(offId);
@@ -322,7 +367,7 @@ public class MainMenu extends Menu {
     }
 
     private void viewBalance() {
-        System.out.println(sellerController.ShowBalanceOfSeller(user));
+        System.out.println(sellerController.showBalanceOfSeller(user));
     }
 
     /////////////////////////////////////////////////////////
@@ -403,15 +448,51 @@ public class MainMenu extends Menu {
     }
 
     private void viewCart() {
+        try {
+            System.out.println("//////////////////////////////////////////////");
+            ArrayList<String> products = customerController.showCard(user);
+            for (String product : products)
+                System.out.println(product);
+            System.out.println("//////////////////////////////////////////////");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void purchase() {
+
+        CompletionShop completionShop = CompletionShop.getInstance();
+        completionShop.run();
     }
 
     private void viewOrders() {
+        try {
+            System.out.println("///////////////////////////////////////////////");
+            ArrayList<String> allOrders = customerController.showAllOrders(user);
+            for (String order : allOrders)
+                System.out.println(order);
+            System.out.println("///////////////////////////////////////////////");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void viewDiscountCodesForCustomer() {
+        try {
+            System.out.println("//////////////////////////////////////////////");
+            ArrayList<String> allCodes = customerController.showDiscountCodes(user);
+            for (String code : allCodes)
+                System.out.println(code);
+            System.out.println("//////////////////////////////////////////////");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
+}
+
+class WrongPercentageException extends Exception {
+    public WrongPercentageException(String message) {
+        super(message);
+    }
 }
