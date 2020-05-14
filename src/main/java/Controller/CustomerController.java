@@ -3,10 +3,9 @@ package Controller;
 import Model.*;
 
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.lang.String;
+import java.util.stream.Collectors;
 
 public class CustomerController {
     private static CustomerController customerControllerInstance = new CustomerController();
@@ -41,18 +40,18 @@ public class CustomerController {
     }
 
     public String showProduct(String productId, User user) throws Exception {
-        Product product = getProductById(productId);
+        Product product = ProductController.getProductById(productId);
         if(user != null) {
             if(!product.getSellersOfThisProduct().contains((Seller)user)) {
                 throw new Exception("Seller does'nt have this product");
             }
         }
-        return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + product.getMeanOfCustomersRate();
+        return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate()/product.getCustomersWhoRated());
     }
 
     public void changeNumberOfProductInCard(User user, String productId, int changingNum) throws DoesNotHaveThisProduct {
         HashMap<Product, ProductInCard> products = user.getCard().getProductsInThisCard();
-        Product productToChange = getProductById(productId);
+        Product productToChange = ProductController.getProductById(productId);
 
         if (productToChange == null || !products.containsKey(productToChange))
             throw new DoesNotHaveThisProduct("This user does not have this product");
@@ -66,15 +65,6 @@ public class CustomerController {
                 products.remove(productToChange, productInCard);
             }
         }
-    }
-
-    private Product getProductById(String productId) {
-        for (Product product : Product.allProducts) {
-            if (product.getProductId().equals(productId)) {
-                return product;
-            }
-        }
-        return null;
     }
 
     public void addProductToCard(User user, Product product, String sellerUsername) throws InvalidUsername, DoesNotHaveThisProduct {
@@ -98,11 +88,11 @@ public class CustomerController {
 
     double showTotalPrice(User user) {
         HashMap<Product, ProductInCard> productsInThisCard = user.getCard().getProductsInThisCard();
-        double totalPrice = 0.0;
-        for (Product product : productsInThisCard.keySet()) {
-            totalPrice += (product.getPrice() * productsInThisCard.get(product).getNumber());
-        }
-        return totalPrice;
+        List<ProductInCard> products = new ArrayList<ProductInCard>(productsInThisCard.values());
+        return products.stream()
+                .map(product -> (product.getProduct().getPrice()*product.getNumber()))
+                .reduce((a,b) -> a+b)
+                .orElse(0.0);
     }
 
     public BuyingLog createBuyingLog(User user, String[] information) {
@@ -146,16 +136,25 @@ public class CustomerController {
         }
     }
 
-    public String showOrder(String orderId) {
+    public String showOrder(User user, String orderId) {
+        for (BuyingLog buyingLog : ((Customer) user).getAllBuyingLogs()) {
+            if(buyingLog.getLogId().equals(orderId)){
+                return "Id: " + buyingLog.getLogId() + ", Date: " + buyingLog.getDate() + ", Price: " + buyingLog.getTotalPrice();
+            }
+        }
         return null;
     }
 
-    public String showAllOrders(User user) {
-        return null;
+    public ArrayList<String> showAllOrders(User user) {
+        return (ArrayList<String>) ((Customer)user).getAllBuyingLogs().stream()
+                .map(buyingLog -> "Id: " + buyingLog.getLogId() + ", Date: " + buyingLog.getDate() + ", Price: " + buyingLog.getTotalPrice())
+                .collect(Collectors.toList());
     }
 
-    public void rateProduct(User user, String productId, int rate) {
-
+    public void rateProduct(User user, String productId, Double rate) {
+        Product product = ProductController.getProductById(productId);
+        product.addNumberOfCustomerWhoRated();
+        product.addSumOfCustomersRate(rate);
     }
 
     public Double showBalanceForCustomer(User user) {
@@ -163,11 +162,9 @@ public class CustomerController {
     }
 
     public ArrayList<String> showDiscountCodes(User user) {
-        ArrayList<String> allDiscount = new ArrayList<>();
-        for (DiscountCode discountCode : ((Customer) user).getAllDiscountCodes()) {
-            allDiscount.add("Code=" + discountCode.getDiscountCode() + ", percent=" + discountCode.getDiscountPercent() + ", maximum=" + discountCode.getMaximumDiscount());
-        }
-        return allDiscount;
+        return (ArrayList<String>) ((Customer)user).getAllDiscountCodes().stream()
+                .map(discountCode -> "Code=" + discountCode.getDiscountCode() + ", percent=" + discountCode.getDiscountPercent() + ", maximum=" + discountCode.getMaximumDiscount())
+                .collect(Collectors.toList());
     }
 
 }

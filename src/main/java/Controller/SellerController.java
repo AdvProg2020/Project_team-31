@@ -5,6 +5,7 @@ import org.graalvm.compiler.lir.LIRInstruction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class SellerController {
@@ -69,8 +70,12 @@ public class SellerController {
         return null;
     }
 
-    public void addOff(User user, String[] information){
-
+    public void addOff(User user, ArrayList<String> productsId, Date beginTime, Date endTime, Double percent){
+        ArrayList<Product> products = new ArrayList<>();
+        for (String s : productsId) {
+            products.add(ProductController.getProductById(s));
+        }
+        new OffRequest(new Off("Off"+beginTime, beginTime, endTime, percent, products));
     }
 
     public Double showBalanceOfSeller(User user){

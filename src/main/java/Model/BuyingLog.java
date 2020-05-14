@@ -12,7 +12,7 @@ public class BuyingLog extends Log{
     private String[] personalInformation;
 
     public BuyingLog(Double totalPrice, Customer customer, HashMap<Product, ProductInCard> buyingProducts, String[] personalInformation) {
-        super(null, null, customer, null);
+        super(null, null, customer);
         this.totalPrice = totalPrice;
         this.discountAmount = 0.0;
         this.customer = customer;
