@@ -219,7 +219,7 @@ public class MainMenu extends Menu {
 
     private void viewProduct(String productId) {
         try {
-            customerController.showProduct(productId,user);
+            customerController.showProduct(productId, user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -239,7 +239,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    } ///
+    }
 
     private void addProducts() {
         String[] data = new String[10];
@@ -327,8 +327,13 @@ public class MainMenu extends Menu {
         int percent = Integer.parseInt(percentage);
         if (percent <= 0 || percent >= 100)
             throw new WrongPercentageException("wrong percentage");
-///add off();
-
+        System.out.println("please enter the product IDs (-1 for exit)");
+        String productId;
+        ArrayList<String> productIds = new ArrayList<>();
+        while ((productId = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            productIds.add(productId);
+        }
+        sellerController.addOff(user, productIds, startDate, endDate, percent);
     }
 
     private void editOff(String offId) {
