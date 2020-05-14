@@ -3,7 +3,6 @@ package View;
 import Controller.*;
 import Model.*;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -98,7 +97,7 @@ public class MainMenu extends Menu {
                 else if (index != 6) editPersonalInformation(index, changedInfo);
             } else System.out.println("invalid command");
         }
-    }
+    }///
 
     private int findIndex(String check) {
         if (check.equalsIgnoreCase("first name"))
@@ -133,7 +132,7 @@ public class MainMenu extends Menu {
         else if (index == 5)
             data[5] = editCompanyName();
         loginController.editPersonalInformation(user, data);
-    }
+    }///
 
     private String editFirstName() {
         System.out.println("please enter your first name");
@@ -402,6 +401,33 @@ public class MainMenu extends Menu {
     }
 
     private void manageUsers() {
+        ArrayList<String> allUsers = managerController.showUsers();
+        for (String user : allUsers)
+            System.out.println(user);
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
+            Matcher deleteMatcher = getMatcher("^(?i)delete\\s+user\\s+(\\S+)$", command);
+            if (viewMatcher.find())
+                viewUser(viewMatcher.group(1));
+             else if (deleteMatcher.find())
+                deleteUser(deleteMatcher.group(1));
+             else if (command.equalsIgnoreCase("create manager profile"))
+                addManager();
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void viewUser(String username) {
+
+    }
+
+    private void deleteUser(String username) {
+
+    }
+
+    private void addManager() {
+
     }
 
     private void manageAllProducts() {

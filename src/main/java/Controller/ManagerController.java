@@ -58,6 +58,7 @@ public class ManagerController {
         newDiscountCode.setDiscountCode( beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
         for (Customer customer : timesForEachCustomer.keySet()) {
             customer.addDiscountCode(newDiscountCode);
+            customer.addDiscountCode(newDiscountCode);
         }
     }
 
