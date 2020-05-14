@@ -410,9 +410,9 @@ public class MainMenu extends Menu {
             Matcher deleteMatcher = getMatcher("^(?i)delete\\s+user\\s+(\\S+)$", command);
             if (viewMatcher.find())
                 viewUser(viewMatcher.group(1));
-             else if (deleteMatcher.find())
+            else if (deleteMatcher.find())
                 deleteUser(deleteMatcher.group(1));
-             else if (command.equalsIgnoreCase("create manager profile"))
+            else if (command.equalsIgnoreCase("create manager profile"))
                 addManager();
             else System.out.println("invalid command");
         }
@@ -423,7 +423,11 @@ public class MainMenu extends Menu {
     }
 
     private void deleteUser(String username) {
-
+        try {
+            managerController.deleteUser(username);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void addManager() {
