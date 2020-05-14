@@ -17,7 +17,7 @@ public class ProductRequest extends Request {
         this.isEditing = isEditing;
         allRequests.add(this);
     }
-    public void erProduct(Double price , int available , String information , HashMap<String , String> specialPropertiesRelatedToCategory){
+    public void newProductFeatures(Double price , int available , String information , HashMap<String , String> specialPropertiesRelatedToCategory){
         this.price = price;
         this.available = available;
         this.information = information;

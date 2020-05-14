@@ -60,8 +60,13 @@ public class SellerController {
         new ProductRequest(new Product("Product" + (Product.allProducts.size()+1) ,productGeneralInformation[0], productGeneralInformation[1], Double.parseDouble(productGeneralInformation[2]),ManagerController.getCategoryByName(productGeneralInformation[3]),productGeneralInformation[4], sellers,specialInformationRelatedToCategory), false);
     }
 
-    public void editProduct(String[] productGeneralInformation, User user, HashMap<String, String> specialInformationRelatedToCategory) {
-        // bayad dar request ha taghir ijad konim
+    public void editProduct(User user, String productId, double price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
+        Product product = ProductController.getProductById(productId);
+        if(product == null)
+            throw new Exception("There is'nt this Product");
+        if(product.getSellersOfThisProduct().contains((Seller)user))
+            throw new Exception("Seller does'nt have this product");
+        (new ProductRequest(product, true)).newProductFeatures(price,available,information,specialInformationRelatedToCategory);
     }
 
     public void removeProduct(String productId) throws Exception {
@@ -88,6 +93,10 @@ public class SellerController {
             products.add(ProductController.getProductById(s));
         }
         new OffRequest(new Off("Off"+beginTime, beginTime, endTime, (double) percent, products), false);
+    }
+
+    public void editOff(User user, String offId, ArrayList<String> products, Date beginTime, Date endTime, int percent) {
+        // checking seller
     }
 
     public Double showBalanceOfSeller(User user){
