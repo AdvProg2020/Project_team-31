@@ -219,7 +219,7 @@ public class MainMenu extends Menu {
 
     private void viewProduct(String productId) {
         try {
-
+            customerController.showProduct(productId,user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
