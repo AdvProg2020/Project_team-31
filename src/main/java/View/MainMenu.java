@@ -478,6 +478,15 @@ public class MainMenu extends Menu {
     }
 
     private void viewDiscountCodesForCustomer() {
+        try {
+            System.out.println("//////////////////////////////////////////////");
+            ArrayList<String> allCodes = customerController.showDiscountCodes(user);
+            for (String code : allCodes)
+                System.out.println(code);
+            System.out.println("//////////////////////////////////////////////");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
