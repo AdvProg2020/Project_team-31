@@ -57,10 +57,10 @@ public class SellerController {
     public void addProduct(String[] productGeneralInformation, User user, HashMap<String, String> specialInformationRelatedToCategory) {
         ArrayList<Seller> sellers = new ArrayList<>();
         sellers.add((Seller)user);
-        new ProductRequest(new Product("Product" + (Product.allProducts.size()+1) ,productGeneralInformation[0], productGeneralInformation[1], Double.parseDouble(productGeneralInformation[2]),ManagerController.getCategoryByName(productGeneralInformation[3]),productGeneralInformation[4], sellers,specialInformationRelatedToCategory));
+        new ProductRequest(new Product("Product" + (Product.allProducts.size()+1) ,productGeneralInformation[0], productGeneralInformation[1], Double.parseDouble(productGeneralInformation[2]),ManagerController.getCategoryByName(productGeneralInformation[3]),productGeneralInformation[4], sellers,specialInformationRelatedToCategory), false);
     }
 
-    public void editProduct(String[] productGeneralInformation, HashMap<String, String> specialInformationRelatedToCategory) {
+    public void editProduct(String[] productGeneralInformation, User user, HashMap<String, String> specialInformationRelatedToCategory) {
         // bayad dar request ha taghir ijad konim
     }
 
@@ -87,7 +87,7 @@ public class SellerController {
         for (String s : productsId) {
             products.add(ProductController.getProductById(s));
         }
-        new OffRequest(new Off("Off"+beginTime, beginTime, endTime, (double) percent, products));
+        new OffRequest(new Off("Off"+beginTime, beginTime, endTime, (double) percent, products), false);
     }
 
     public Double showBalanceOfSeller(User user){
