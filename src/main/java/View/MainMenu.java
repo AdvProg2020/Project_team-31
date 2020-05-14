@@ -210,9 +210,9 @@ public class MainMenu extends Menu {
             if (viewMatcher.find())
                 viewProduct(viewMatcher.group(1));
             else if (viewBuyersMatcher.find())
-                viewBuyerProduct(editMatcher.group(1));
+                viewBuyerProduct(viewBuyersMatcher.group(1));
             else if (editMatcher.find())
-                editProduct();
+                editProduct(editMatcher.group(1));
             else System.out.println("invalid command");
         }
     }
@@ -233,7 +233,7 @@ public class MainMenu extends Menu {
         }
     } ///
 
-    private void editProduct() {
+    private void editProduct(String productId) {
         try {
 
         } catch (Exception e) {
