@@ -448,19 +448,24 @@ public class MainMenu extends Menu {
     }
 
     private void viewCart() {
-        System.out.println("//////////////////////////////////////////////");
-        ArrayList<String> products=customerController.showCard(user);
-        for (String product : products)
-            System.out.println(product);
-        System.out.println("//////////////////////////////////////////////");
+        try {
+            System.out.println("//////////////////////////////////////////////");
+            ArrayList<String> products = customerController.showCard(user);
+            for (String product : products)
+                System.out.println(product);
+            System.out.println("//////////////////////////////////////////////");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void purchase() {
-        CompletionShop completionShop=CompletionShop.getInstance();
+        CompletionShop completionShop = CompletionShop.getInstance();
         completionShop.run();
     }
 
     private void viewOrders() {
+
     }
 
     private void viewDiscountCodesForCustomer() {
