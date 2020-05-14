@@ -184,7 +184,6 @@ public class MainMenu extends Menu {
         return scanner.nextLine().trim();
     }
 
-
     private void viewCompanyInformation() {
         String info = sellerController.showCompanyInformation(user);
         System.out.println("company name : " + info);
@@ -254,7 +253,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    } ///
 
     private void addProducts() {
         String[] data = new String[10];
@@ -449,6 +448,11 @@ public class MainMenu extends Menu {
     }
 
     private void viewCart() {
+        System.out.println("//////////////////////////////////////////////");
+        ArrayList<String> products=customerController.showCard(user);
+        for (String product : products)
+            System.out.println(product);
+        System.out.println("//////////////////////////////////////////////");
     }
 
     private void purchase() {
