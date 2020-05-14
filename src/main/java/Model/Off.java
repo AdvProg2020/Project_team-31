@@ -10,7 +10,7 @@ public class Off {
     private Date beginTime;
     private Date endTime;
     private Double offAmount;
-    private ArrayList<Product> onSaleProduct;
+    private ArrayList<Product> onSaleProducts;
     private OffStatus offStatus;
 
     public Off(String offId, Date beginTime, Date endTime, Double offAmount, ArrayList<Product> products) {
@@ -19,7 +19,7 @@ public class Off {
         this.endTime = endTime;
         this.offAmount = offAmount;
         this.offStatus = creating;
-        onSaleProduct = products;
+        onSaleProducts = products;
     }
 
     public void acceptedStatus() {
