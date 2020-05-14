@@ -242,7 +242,8 @@ public class MainMenu extends Menu {
             if (!(command.equals("1") || command.equals("2") || command.equals("3") || command.equals("4"))) {
                 System.out.println("please enter a valid number");
             } else {
-                data[Integer.parseInt(command)] = scanner.nextLine().trim();
+                System.out.println("please enter the value : ");
+                data[Integer.parseInt(command) - 1] = scanner.nextLine().trim();
             }
 //...
         }
@@ -308,7 +309,11 @@ public class MainMenu extends Menu {
             if (viewMatcher.find())
                 viewOff(viewMatcher.group(1));
             else if (editMatcher.find())
-                editOff(editMatcher.group(1));
+                try {
+                    addOff();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             else if (command.trim().equalsIgnoreCase("add off"))
                 try {
                     addOff();
@@ -322,11 +327,11 @@ public class MainMenu extends Menu {
 
     private void addOff() throws Exception {
         SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
-        System.out.println("please enter the start time");
+        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
         String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
         Date startDate = format.parse(dateString);
         if (startDate.before(new Date()))
-            throw new Exception("the start date must be after now");
+            throw new Exception("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
         System.out.println("please enter the end time");
         dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
         Date endDate = format.parse(dateString);
@@ -346,9 +351,9 @@ public class MainMenu extends Menu {
         sellerController.addOff(user, productIds, startDate, endDate, percent);
     }
 
-    private void editOff(String offId) {
+    private void editOff(String offId) throws Exception {
 
-    }
+    }///
 
     private void viewOff(String offId) {
         String[] offData = sellerController.showOff(offId);
