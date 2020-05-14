@@ -235,7 +235,7 @@ public class MainMenu extends Menu {
 
     private void editProduct() {
         try {
-            //...
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -246,10 +246,6 @@ public class MainMenu extends Menu {
         getGeneralData(data);
         System.out.println("please enter the category name");
         String categoryName = scanner.nextLine().trim();
-//        while (/* invalid category name */) {
-//            System.out.println("invalid category name");
-//            categoryName = scanner.nextLine().trim();
-//        }
         HashMap<String, String> categoryData = new HashMap<String, String>();
         ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(categoryName);
         for (
@@ -258,8 +254,8 @@ public class MainMenu extends Menu {
             String featureValue = scanner.nextLine().trim();
             categoryData.put(categoryFeature, featureValue);
         }
-        //addProduct();
-    } ///
+        sellerController.addProduct(data,user,categoryData);
+    }
 
     private void getGeneralData(String[] data) {
         System.out.println("please enter the product name");
