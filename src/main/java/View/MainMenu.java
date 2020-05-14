@@ -219,11 +219,11 @@ public class MainMenu extends Menu {
 
     private void viewProduct(String productId) {
         try {
-            //...
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    } ///
+    }
 
     private void viewBuyerProduct(String group) {
         try {
