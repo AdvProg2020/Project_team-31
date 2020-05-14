@@ -3,7 +3,10 @@ package View;
 import Controller.*;
 import Model.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
@@ -303,9 +306,18 @@ public class MainMenu extends Menu {
     }
 
     private void addOff() {
+        SimpleDateFormat format=new SimpleDateFormat("dd/mm/yyyy hh:mm");
         System.out.println("please enter the start time");
+            String dateString =scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$","invalid format");
+         //   Date startDate=format.parse(dateString);
         System.out.println("please enter the end time");
-        System.out.println("please enter the discount percentage (by format DD.DD for example 78.24%)");
+         dateString =scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$","invalid format");
+       // Date endDate=format.parse(dateString);
+        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+        String percentage=scanByRegex("^(\\d{2})%?$","invalid format");
+        int percent=Integer.parseInt(percentage);
+        if(percent<=0 || percent>=100);
+
 
     }
 
