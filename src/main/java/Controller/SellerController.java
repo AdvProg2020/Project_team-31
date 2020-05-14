@@ -30,6 +30,18 @@ public class SellerController {
         return allSellingLogs;
     }
 
+    public ArrayList<String> showBuyersOfThisProduct(User user, String productId) throws Exception {
+        ArrayList<String> allBuyers = new ArrayList<>();
+        if(!((Seller)user).getOnSaleProducts().contains(ProductController.getProductById(productId)))
+            throw  new Exception("Seller does'nt have this product");
+        for (SellingLog sellingLog : ((Seller) user).getAllSellingLogs()) {
+            Product product = sellingLog.getBuyingProducts();
+            if(product.getProductId().equals(productId))
+                allBuyers.add(sellingLog.getCustomer().getUsername());
+        }
+        return allBuyers;
+    }
+
     public ArrayList<String> showProductsOfThisSeller(User user) {
         ArrayList<String> products = new ArrayList<>();
         for (Product product : ((Seller) user).getOnSaleProducts()) {
