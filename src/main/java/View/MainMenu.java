@@ -234,6 +234,20 @@ public class MainMenu extends Menu {
     } ///
 
     private void editProduct(String productId) {
+        String[] data = new String[4];
+        System.out.println("please select the data number you want to change:(-1 for exit)\n" +
+                "1.name\n2.price\n3.availability status\n4.product description ");
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            if (!(command.equals("1") || command.equals("2") || command.equals("3") || command.equals("4"))) {
+                System.out.println("please enter a valid number");
+            } else {
+                data[Integer.parseInt(command)] = scanner.nextLine().trim();
+            }
+//...
+        }
+
+
         try {
 
         } catch (Exception e) {
@@ -254,7 +268,7 @@ public class MainMenu extends Menu {
             String featureValue = scanner.nextLine().trim();
             categoryData.put(categoryFeature, featureValue);
         }
-        sellerController.addProduct(data,user,categoryData);
+        sellerController.addProduct(data, user, categoryData);
     }
 
     private void getGeneralData(String[] data) {
