@@ -456,6 +456,8 @@ public class MainMenu extends Menu {
     }
 
     private void purchase() {
+        CompletionShop completionShop=CompletionShop.getInstance();
+        completionShop.run();
     }
 
     private void viewOrders() {
