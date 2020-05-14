@@ -307,10 +307,14 @@ public class MainMenu extends Menu {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
             Matcher editMatcher = getMatcher("^(?i)edit\\s+(\\S+)$", command);
             if (viewMatcher.find())
-                viewOff(viewMatcher.group(1));
+                try {
+                    viewOff(viewMatcher.group(1));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             else if (editMatcher.find())
                 try {
-                    addOff();
+                    editOff(editMatcher.group(1));
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
