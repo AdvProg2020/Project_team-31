@@ -151,8 +151,10 @@ public class CustomerController {
                 .collect(Collectors.toList());
     }
 
-    public void rateProduct(User user, String productId, Double rate) {
+    public void rateProduct(User user, String productId, Double rate) throws Exception {
         Product product = ProductController.getProductById(productId);
+        if(!((Customer)user).getRecentShoppingProducts().contains(product))
+            throw new Exception("Customer Does'nt buy this Product");
         product.addNumberOfCustomerWhoRated();
         product.addSumOfCustomersRate(rate);
     }

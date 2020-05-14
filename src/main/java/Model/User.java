@@ -1,18 +1,19 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class User {
     private String name;
     private String lastName;
-    private  String username;
+    private String username;
     private String emailAddress;
     private String phoneNumber;
-    private  String password;
+    private String password;
     private Double credit;
     private Card card;
+    private HashMap<String, String> filters = new HashMap<>();
     private static ArrayList<User> allUsers = new ArrayList<>();
-
 
     public User(String name, String lastName, String username, String emailAddress, String  phoneNumber, String password) {
         this.name = name;
@@ -23,6 +24,18 @@ public abstract class User {
         this.password = password;
         this.credit = 0.0;
         allUsers.add(this);
+    }
+
+    public HashMap<String, String> getFilters() {
+        return filters;
+    }
+
+    public void removeFilter(String filterKey) {
+        filters.remove(filterKey);
+    }
+
+    public void addFilter(String filterKey, String filterValue) {
+        filters.put(filterKey, filterValue);
     }
 
     public String getUsername() {
