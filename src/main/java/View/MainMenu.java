@@ -287,7 +287,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    }///
 
     private void showCategories() {
         ArrayList<String> categories = managerController.showAllCategories();
@@ -419,8 +419,7 @@ public class MainMenu extends Menu {
     }
 
     private void viewUser(String username) {
-
-    }
+    }///
 
     private void deleteUser(String username) {
         try {
@@ -435,6 +434,21 @@ public class MainMenu extends Menu {
     }
 
     private void manageAllProducts() {
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher removeMathcer = getMatcher("^(?i)remoce\\s+(\\S+)$", command);
+            if (removeMathcer.find())
+                removeProductByManager(removeMathcer.group(1));
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void removeProductByManager(String productId) {
+        try {
+//...
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void createDiscountCode() {
