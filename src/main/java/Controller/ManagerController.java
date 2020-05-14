@@ -31,12 +31,12 @@ public class ManagerController {
     public void deleteUser(String username) {
         User user = LoginController.getUserByUsername(username);
         user.deleteUser();
-        if(user instanceof Customer) {
-            ((Customer)user).deleteCustomer();
+        if (user instanceof Customer) {
+            ((Customer) user).deleteCustomer();
         } else if (user instanceof Seller) {
-            ((Seller)user).deleteSeller();
+            ((Seller) user).deleteSeller();
         } else {
-            ((Manager)user).deleteManager();
+            ((Manager) user).deleteManager();
         }
     }
 
@@ -52,11 +52,12 @@ public class ManagerController {
     public void createDiscountCode(String discountCode, Date beginTime, Date endTime, Double discountPercent, Double maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
         HashMap<Customer, Integer> timesForEachCustomer = new HashMap<>();
         for (String s : discountTimesForEachCustomer.keySet()) {
-            timesForEachCustomer.put((Customer)(LoginController.getUserByUsername(s)), discountTimesForEachCustomer.get(s));
+            timesForEachCustomer.put((Customer) (LoginController.getUserByUsername(s)), discountTimesForEachCustomer.get(s));
         }
         DiscountCode newDiscountCode = new DiscountCode(discountCode);
-        newDiscountCode.setDiscountCode( beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
+        newDiscountCode.setDiscountCode(beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
         for (Customer customer : timesForEachCustomer.keySet()) {
+            customer.addDiscountCode(newDiscountCode);
             customer.addDiscountCode(newDiscountCode);
         }
     }
@@ -72,14 +73,14 @@ public class ManagerController {
 
     public String showDiscount(String discountId) throws Exception {
         DiscountCode discount = getDiscountById(discountId);
-        if(discount == null)
+        if (discount == null)
             throw new Exception("there is not discount with this code");
         return "code:" + discount.getDiscountCode() + ", beginTime:" + discount.getBeginTime() + ", endTime:" + discount.getEndTime() + ", percent:" + discount.getDiscountPercent();
     }
 
     private DiscountCode getDiscountById(String discountId) {
         for (DiscountCode discount : DiscountCode.getAllDiscountCodes()) {
-            if(discount.getDiscountCode().equals(discountId))
+            if (discount.getDiscountCode().equals(discountId))
                 return discount;
         }
         return null;
@@ -89,7 +90,7 @@ public class ManagerController {
         DiscountCode discount = getDiscountById(discountCode);
         HashMap<Customer, Integer> timesForEachCustomer = new HashMap<>();
         for (String s : discountTimesForEachCustomer.keySet()) {
-            timesForEachCustomer.put((Customer)(LoginController.getUserByUsername(s)), discountTimesForEachCustomer.get(s));
+            timesForEachCustomer.put((Customer) (LoginController.getUserByUsername(s)), discountTimesForEachCustomer.get(s));
         }
         discount.setDiscountCode(beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
     }
@@ -133,7 +134,7 @@ public class ManagerController {
 
     private Request getRequestById(String requestId) {
         for (Request request : Request.getAllRequest()) {
-            if(request.getRequestId().equals(requestId))
+            if (request.getRequestId().equals(requestId))
                 return request;
         }
         return null;
@@ -169,10 +170,14 @@ public class ManagerController {
 
     static Category getCategoryByName(String name) {
         for (Category category : Category.getAllCategories()) {
-            if(category.getName().equals(name))
+            if (category.getName().equals(name))
                 return category;
         }
         return null;
+    }
+
+    public ArrayList<String> getCategoryFeaturesOfAProduct(String productId) {
+        return ProductController.getProductById(productId).getCategory().getSpecialProperties();
     }
 
 }
