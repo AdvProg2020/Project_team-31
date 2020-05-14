@@ -254,9 +254,9 @@ public class MainMenu extends Menu {
         ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(categoryName);
         for (
                 String categoryFeature : categoryFeatures) {
-            System.out.println("enter the value of : "+categoryFeature);
-            String featureValue=scanner.nextLine().trim();
-            categoryData.put(categoryFeature,featureValue);
+            System.out.println("enter the value of : " + categoryFeature);
+            String featureValue = scanner.nextLine().trim();
+            categoryData.put(categoryFeature, featureValue);
         }
         //addProduct();
     } ///
@@ -300,24 +300,34 @@ public class MainMenu extends Menu {
             else if (editMatcher.find())
                 editOff(editMatcher.group(1));
             else if (command.trim().equalsIgnoreCase("add off"))
-                addOff();
+                try {
+                    addOff();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
             else System.out.println("invalid command");
         }
     }
 
-    private void addOff() {
-        SimpleDateFormat format=new SimpleDateFormat("dd/mm/yyyy hh:mm");
+    private void addOff() throws Exception {
+        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
         System.out.println("please enter the start time");
-            String dateString =scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$","invalid format");
-         //   Date startDate=format.parse(dateString);
+        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
+        Date startDate = format.parse(dateString);
+        if (startDate.before(new Date()))
+            throw new Exception("the start date must be after now");
         System.out.println("please enter the end time");
-         dateString =scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$","invalid format");
-       // Date endDate=format.parse(dateString);
+        dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
+        Date endDate = format.parse(dateString);
+        if (endDate.before(startDate))
+            throw new Exception("the end date must be after start date");
         System.out.println("please enter the discount percentage (by format DD for example 78%)");
-        String percentage=scanByRegex("^(\\d{2})%?$","invalid format");
-        int percent=Integer.parseInt(percentage);
-        if(percent<=0 || percent>=100);
-
+        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
+        int percent = Integer.parseInt(percentage);
+        if (percent <= 0 || percent >= 100)
+            throw new WrongPercentageException("wrong percentage");
+///add off();
 
     }
 
@@ -427,6 +437,7 @@ public class MainMenu extends Menu {
     }
 
 }
+
 class WrongPercentageException extends Exception {
     public WrongPercentageException(String message) {
         super(message);
