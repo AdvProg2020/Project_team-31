@@ -460,12 +460,21 @@ public class MainMenu extends Menu {
     }
 
     private void purchase() {
+
         CompletionShop completionShop = CompletionShop.getInstance();
         completionShop.run();
     }
 
     private void viewOrders() {
-
+        try {
+            System.out.println("///////////////////////////////////////////////");
+            ArrayList<String> allOrders = customerController.showAllOrders(user);
+            for (String order : allOrders)
+                System.out.println(order);
+            System.out.println("///////////////////////////////////////////////");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void viewDiscountCodesForCustomer() {
