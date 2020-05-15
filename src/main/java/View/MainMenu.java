@@ -79,14 +79,14 @@ public class MainMenu extends Menu {
                 "credit : " + information[6]);
         viewCompanyInformation();
         String[] changedInfo = new String[6];
-        changedInfo[0] = information[0]; //first name
+      /*  changedInfo[0] = information[0]; //first name
         changedInfo[1] = information[1]; //last name
         changedInfo[2] = information[3]; //email
         changedInfo[3] = information[4]; // phone
         changedInfo[4] = information[5]; //password
         if (user instanceof Seller) {
             changedInfo[5] = sellerController.showCompanyInformation(user);
-        }
+        } */
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)edit\\s+(.+)$", command);
