@@ -47,6 +47,10 @@ public class Product {
         this.off = off;
     }
 
+    public void removeSeller(Seller seller) {
+        sellersOfThisProduct.remove(seller);
+    }
+
     public HashMap<String, String> getSpecialPropertiesRelatedToCategory() {
         return specialPropertiesRelatedToCategory;
     }
