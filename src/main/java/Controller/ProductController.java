@@ -149,8 +149,7 @@ public class ProductController {
         return information;
     }
 
-    public ArrayList<String> showCommentAboutProduct(String productId) {
-        Product product = getProductById(productId);
+    public ArrayList<String> showCommentAboutProduct(Product product) {
         ArrayList<String> allComments = new ArrayList<>();
         for (Comment comment : product.getAllComments()) {
             allComments.add("title: " + comment.getCommentTitle() + ", content: " + comment.getCommentContent() + ", customer: " + comment.getCustomer().getUsername());
@@ -158,8 +157,8 @@ public class ProductController {
         return allComments;
     }
 
-    public void addComment(User user, String productId, String title, String content) {
-        new Comment((Customer) user, getProductById(productId), title, content, ((Customer) user).getRecentShoppingProducts().contains(getProductById(productId)));
+    public void addComment(User user, Product product, String title, String content) {
+        new Comment((Customer) user, product, title, content, ((Customer) user).getRecentShoppingProducts().contains(product));
     }
 
     public static Product getProductById(String productId) {
