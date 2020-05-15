@@ -105,10 +105,10 @@ public class SellerController {
         return (String[]) offs.toArray();
     }
 
-    public String[] showOff(String offId) {
+    public String[] showOff(String offId) throws Exception{
         Off off = getOffById(offId);
-//        if(off == null)
-//            throw new Exception("Id is invalid");
+        if(off == null)
+            throw new Exception("Id is invalid");
         ArrayList<String> information = new ArrayList<>();
         information.add(String.valueOf(off.getBeginTime()));
         information.add(String.valueOf(off.getEndTime()));
