@@ -34,16 +34,16 @@ public class LoginController {
         return true;
     }
 
-    public User login(String username, String password) throws IncorrectPassword, ThereIsNotThisUser {
+    public User login(String username, String password) throws Exception {
         for (User user : User.getAllUsers()) {
             if (user.getUsername().equals(username)) {
                 if (user.getPassword().equals(password))
                     return user;
                 else
-                    throw new IncorrectPassword("Password is incorrect");
+                    throw new Exception("Password is incorrect");
             }
         }
-        throw new ThereIsNotThisUser("There is already a user with this username");
+        throw new Exception("There is already a user with this username");
     }
 
     public String[] showPersonalInformation(User user) {
@@ -63,19 +63,6 @@ public class LoginController {
                 return user;
         }
         return null;
-    }
-}
-
-
-class IncorrectPassword extends Exception {
-    public IncorrectPassword(String message) {
-        super(message);
-    }
-}
-
-class ThereIsNotThisUser extends Exception {
-    public ThereIsNotThisUser(String message) {
-        super(message);
     }
 }
 

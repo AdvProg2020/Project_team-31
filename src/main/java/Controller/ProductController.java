@@ -169,9 +169,3 @@ public class ProductController {
         return null;
     }
 }
-
-class CanNotFilterOnThisKey extends Exception {
-    public CanNotFilterOnThisKey(String message) {
-        super(message);
-    }
-}

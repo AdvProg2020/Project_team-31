@@ -49,16 +49,16 @@ public class CustomerController {
         return false;
     }
 
-    public void changeNumberOfProductInCard(User user, String productId, int changingNum) throws DoesNotHaveThisProduct {
+    public void changeNumberOfProductInCard(User user, String productId, int changingNum) throws Exception{
         HashMap<Product, ProductInCard> products = user.getCard().getProductsInThisCard();
         Product productToChange = ProductController.getProductById(productId);
 
         if (productToChange == null || !products.containsKey(productToChange))
-            throw new DoesNotHaveThisProduct("This user does not have this product");
+            throw new Exception("This user does not have this product");
         else {
             ProductInCard productInCard = products.get(productToChange);
             if (productToChange.getAvailable() < productInCard.getNumber() + changingNum) {
-                throw new DoesNotHaveThisProduct("Inventory of product is not enough");
+                throw new Exception("Inventory of product is not enough");
             }
             productInCard.changeNumberOfProduct(changingNum);
             if (productInCard.getNumber() == 0) {
@@ -67,7 +67,7 @@ public class CustomerController {
         }
     }
 
-    public void addProductToCard(User user, Product product, String sellerUsername) throws InvalidUsername, DoesNotHaveThisProduct {
+    public void addProductToCard(User user, Product product, String sellerUsername) throws Exception {
         Card card = user.getCard();
         if (card == null) {
             card = new Card();
@@ -78,12 +78,12 @@ public class CustomerController {
         if (seller instanceof Seller) {
             if (product.getSellersOfThisProduct().contains(seller)) {
                 if (product.getAvailable() == 0)
-                    throw new DoesNotHaveThisProduct("Inventory of product is not enough");
+                    throw new Exception("Inventory of product is not enough");
                 card.addProductToCard(new ProductInCard(product, (Seller) seller));
                 return;
             }
         }
-        throw new InvalidUsername("There is not seller with this username for this product");
+        throw new Exception("There is not seller with this username for this product");
     }
 
     double showTotalPrice(User user) {
@@ -100,7 +100,7 @@ public class CustomerController {
 
     }
 
-    public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws DiscountCodeIsInvalid {
+    public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws Exception {
         DiscountCode discount = null;
         for (DiscountCode code : ((Customer) user).getAllDiscountCodes()) {
             if (code.getDiscountCode().equals(discountCodeString)) {
@@ -108,19 +108,19 @@ public class CustomerController {
             }
         }
         if (discount == null)
-            throw new DiscountCodeIsInvalid("This user has not this discountCode");
+            throw new Exception("This user has not this discountCode");
         if (discount.getBeginTime().after(new Date()) || discount.getEndTime().before(new Date()))
-            throw new DiscountCodeIsInvalid("DiscountCode is unavailable this time");
+            throw new Exception("DiscountCode is unavailable this time");
         if (discount.getDiscountTimesForEachCustomer().get(user) == 0)
-            throw new DiscountCodeIsInvalid("User has used this code before");
+            throw new Exception("User has used this code before");
 
         buyingLog.setDiscountAmount(Math.min(buyingLog.getTotalPrice() * discount.getDiscountPercent() / 100, discount.getMaximumDiscount()));
         discount.decreaseDiscountTimesForEachCustomer((Customer) user);
     }
 
-    public void payMoney(User user, BuyingLog buyingLog) throws CannotPayMoney {
+    public void payMoney(User user, BuyingLog buyingLog) throws Exception {
         if (buyingLog.getTotalPrice() - buyingLog.getDiscountAmount() > user.getCredit())
-            throw new CannotPayMoney("Credit of money is not enough");
+            throw new Exception("Credit of money is not enough");
         buyingLog.finishBuying("BuyingLog" + BuyingLog.getAllBuyingLog().size() + 1, new Date());
         user.payMoney(buyingLog.getTotalPrice() - buyingLog.getDiscountAmount());
         ((Customer) user).addBuyingLog(buyingLog);
@@ -169,30 +169,6 @@ public class CustomerController {
                 .collect(Collectors.toList());
     }
 
-}
-
-class CannotPayMoney extends Exception {
-    public CannotPayMoney(String message) {
-        super(message);
-    }
-}
-
-class DiscountCodeIsInvalid extends Exception {
-    public DiscountCodeIsInvalid(String message) {
-        super(message);
-    }
-}
-
-class DoesNotHaveThisProduct extends Exception {
-    public DoesNotHaveThisProduct(String message) {
-        super(message);
-    }
-}
-
-class InvalidUsername extends Exception {
-    public InvalidUsername(String message) {
-        super(message);
-    }
 }
 
 

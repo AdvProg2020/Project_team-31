@@ -180,9 +180,3 @@ public class ManagerController {
 
 }
 
-class IsThereDiscountCodeWithThisName extends Exception {
-    public IsThereDiscountCodeWithThisName(String message) {
-        super(message);
-    }
-}
-
