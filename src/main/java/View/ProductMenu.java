@@ -7,11 +7,13 @@ import Model.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 
 public class ProductMenu extends Menu {
     public static ProductMenu instance = null;
     ShowProductMenu showProductMenu = ShowProductMenu.getInstance();
+    String category = null;
     String sort = null;
 
     private ProductMenu() {
@@ -26,6 +28,7 @@ public class ProductMenu extends Menu {
 
     @Override
     public void run() {
+        category = null;
         String command;
         sort = null;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
@@ -82,6 +85,7 @@ public class ProductMenu extends Menu {
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             if (ManagerController.getCategoryByName(command) != null) {
                 availableFilters = productController.showAvailableFiltersForUser(user, null);
+                category = command;
                 break;
             } else System.out.println("invalid category name!");
         }
@@ -142,7 +146,7 @@ public class ProductMenu extends Menu {
 
     }
 
-    private void sort(String sort) {
+    private void sort(String newSort) {
 
     }
 
@@ -155,6 +159,19 @@ public class ProductMenu extends Menu {
     }
 
     private void showProducts() {
+        ArrayList<String> products = null;
+        try {
+            products = productController.showProducts(user, category, sort);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        if (products == null) {
+            System.out.println("there is nothing to show!");
+            return;
+        }
+        for (String product : products) {
+            System.out.println(product);
+        }
     }
 
     private void showProduct(String productId) {
