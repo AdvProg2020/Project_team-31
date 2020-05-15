@@ -25,7 +25,12 @@ public class CompletionShop extends Menu {
     }
 
     private void getInformation() {
-
+        String[] data=new String[2];
+        System.out.println("please enter your address : ");
+        data[0]=scanner.nextLine();
+        System.out.println("please enter your phone number : ");
+        data[1]=scanner.nextLine();
+        customerController.createBuyingLog(user,data);
     }
 
     private void discountCode() {
