@@ -166,7 +166,7 @@ public class ManagerController {
         getCategoryByName(name).setSpecialProperties(newFeatures);
     }
 
-    static Category getCategoryByName(String name) {
+    public static Category getCategoryByName(String name) {
         for (Category category : Category.getAllCategories()) {
             if (category.getName().equals(name))
                 return category;

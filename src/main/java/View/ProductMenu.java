@@ -1,5 +1,6 @@
 package View;
 
+import Controller.ManagerController;
 import Controller.ProductController;
 import Model.Product;
 
@@ -25,7 +26,6 @@ public class ProductMenu extends Menu {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
-            command = scanner.nextLine().trim();
             if (getMatcher("^(?i)view\\s+categories$", command).find())
                 viewAllCategories();
             else if (getMatcher("^(?i)filtering$", command).find())
@@ -54,6 +54,50 @@ public class ProductMenu extends Menu {
     }
 
     private void filtering() {
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher addFilter = getMatcher("^(?i)filter\\s+(\\S+)$", command);
+            Matcher disableFilter = getMatcher("^(?i)disable\\s+filter\\s+(\\S+)$", command);
+            if (getMatcher("^(?i)show\\s+available\\s+filters$", command).find())
+                showAvailableFilters();
+            else if (addFilter.find())
+                addFilter(addFilter.group(1));
+            else if (getMatcher("^(?i)current\\s+filters$", command).find())
+                showCurrentFilters();
+            else if (disableFilter.find())
+                disableFilter(disableFilter.group(1));
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void showAvailableFilters() {
+        String command;
+        ArrayList<String> availableFilters = null;
+        System.out.println("please select your category  : (-1 for escape)");
+        viewAllCategories();
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            if (ManagerController.getCategoryByName(command) != null) {
+                availableFilters = productController.showAvailableFiltersForUser(user, null);
+                break;
+            } else System.out.println("invalid category name!");
+        }
+        if (availableFilters == null)
+            availableFilters = productController.showAvailableFiltersForUser(user, null);
+        System.out.println("other filters : ");
+        for (String filter : availableFilters) {
+            System.out.println(filter);
+        }
+    }
+
+    private void addFilter(String filter) {
+    }
+
+    private void showCurrentFilters() {
+
+    }
+
+    private void disableFilter(String filter) {
+
     }
 
     private void sorting() {
