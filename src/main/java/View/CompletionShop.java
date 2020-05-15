@@ -1,5 +1,7 @@
 package View;
 
+import Model.BuyingLog;
+
 public class CompletionShop extends Menu {
     public static CompletionShop instance = null;
 
@@ -15,29 +17,37 @@ public class CompletionShop extends Menu {
 
     @Override
     public void run() {
+        BuyingLog buyingLog;
         try {
-            getInformation();
-            discountCode();
-            payment();
+            buyingLog = getInformation();
+            discountCode(buyingLog);
+            payment(buyingLog);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private void getInformation() {
-        String[] data=new String[2];
+    private BuyingLog getInformation() {
+        String[] data = new String[2];
         System.out.println("please enter your address : ");
-        data[0]=scanner.nextLine();
+        data[0] = scanner.nextLine();
         System.out.println("please enter your phone number : ");
-        data[1]=scanner.nextLine();
-        customerController.createBuyingLog(user,data);
+        data[1] = scanner.nextLine();
+        return customerController.createBuyingLog(user, data);
     }
 
-    private void discountCode() {
+    private void discountCode(BuyingLog buyingLog) {
+        System.out.println("please enter your discount code : ");
+        String discountCode = scanner.nextLine();
+        try {
+            customerController.putDiscount(user, buyingLog, discountCode);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
 
+        }
     }
 
-    private void payment() {
+    private void payment(BuyingLog buyingLog) {
 
     }
 }
