@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import static Model.ProductStatus.*;
-
 public class Product {
     private String productId;
     private String name;
@@ -18,7 +16,7 @@ public class Product {
     private ArrayList<Comment> allComments;
     private Off off;
     private int available;
-    private ProductStatus productStatus;
+    private ProductAndOffStatus productStatus;
     private String information;
     private Date date;
     private int views;
@@ -34,9 +32,10 @@ public class Product {
         this.price = price;
         this.sellersOfThisProduct = sellersOfThisProduct;
         this.category = category;
-        this.productStatus = creating;
+        this.productStatus = ProductAndOffStatus.creating;
         this.information = information;
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
+        allProducts.add(this);
     }
 
     public String getInformation() {
@@ -125,11 +124,12 @@ public class Product {
         allProducts.remove(this);
     }
 
-    public void acceptedStatus() {
-        this.productStatus = accepted;
+    public ProductAndOffStatus getProductStatus() {
+        return productStatus;
     }
-    public void editingStatus(){
-        this.productStatus = editing;
+
+    public void setProductStatus(ProductAndOffStatus productStatus) {
+        this.productStatus = productStatus;
     }
 
     public Category getCategory() {
@@ -139,9 +139,5 @@ public class Product {
     public ArrayList<Comment> getAllComments() {
         return this.allComments;
     }
-}
-
-enum ProductStatus {
-    accepted, creating, editing
 }
 
