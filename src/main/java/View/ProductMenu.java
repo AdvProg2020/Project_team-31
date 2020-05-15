@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 public class ProductMenu extends Menu {
     public static ProductMenu instance = null;
     ShowProductMenu showProductMenu = ShowProductMenu.getInstance();
+    String sort = null;
 
     private ProductMenu() {
         super();
@@ -26,6 +27,7 @@ public class ProductMenu extends Menu {
     @Override
     public void run() {
         String command;
+        sort = null;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
             if (getMatcher("^(?i)view\\s+categories$", command).find())
@@ -149,7 +151,7 @@ public class ProductMenu extends Menu {
     }
 
     private void disableSort() {
-
+        sort = null;
     }
 
     private void showProducts() {
