@@ -73,6 +73,9 @@ public class CustomerController {
             card = new Card();
             user.setCard(card);
         }
+        if(product.getProductStatus() == ProductAndOffStatus.creating)
+            throw new Exception("Product is creating yet!");
+
         User seller = LoginController.getUserByUsername(sellerUsername);
 
         if (seller instanceof Seller) {

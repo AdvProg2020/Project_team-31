@@ -114,20 +114,51 @@ public class ManagerController {
     }
 
     public void acceptRequest(String requestId) {
-//        Request request = getRequestById(requestId);
-//        if (request instanceof SellerRequest) {
-//            String[] information = ((SellerRequest) request).getInformation();
-//            new Seller(information[0], information[1], ((SellerRequest)request).getUsername(), information[2], information[3], information[4], information[5])
-//        } else if (request instanceof OffRequest) {
-//            ((OffRequest)request).getOff().setOffStatus(OffStatus.accepted);
-//        } else if (request instanceof ProductRequest) {
-//            ((ProductRequest)request).  // ezafe be category
-//        }
-//        request.deleteRequest();
+        Request request = getRequestById(requestId);
+        if (request instanceof SellerRequest) {
+            String[] information = ((SellerRequest) request).getInformation();
+            new Seller(information[0], information[1], ((SellerRequest)request).getUsername(), information[2], information[3], information[4], information[5]);
+        } else if (request instanceof OffRequest) {
+            ((OffRequest)request).getOff().setOffStatus(ProductAndOffStatus.accepted);
+            if(((OffRequest) request).getIsEditing()) {
+                completeEditingOff((OffRequest)request);
+            }
+        } else if (request instanceof ProductRequest) {
+            ((ProductRequest)request).getProduct().setProductStatus(ProductAndOffStatus.accepted);
+            if(((ProductRequest) request).isEditing()) {
+                completeEditingProduct((ProductRequest)request);
+            }
+        }
+        request.deleteRequest();
+    }
+
+    private void completeEditingOff(OffRequest offRequest) {
+        Off off = offRequest.getOff();
+
+    }
+
+    private void completeEditingProduct(ProductRequest productRequest) {
+        Product product = productRequest.getProduct();
     }
 
     public void declineRequest(String requestId) {
-        getRequestById(requestId).deleteRequest();
+        Request request = getRequestById(requestId);
+        if(request instanceof OffRequest) {
+            if(!((OffRequest) request).getIsEditing()) {
+                ((OffRequest) request).getOff().getSeller().removeOffFromThisSeller(((OffRequest) request).getOff());
+                ((OffRequest) request).getOff().removeOff();
+            }
+        } else if(request instanceof ProductRequest) {
+            if (! ((ProductRequest) request).isEditing()) {
+                Product product = ((ProductRequest) request).getProduct();
+                product.removeProduct();
+                product.getCategory().removeProduct(product);
+                for (Seller seller : product.getSellersOfThisProduct()) {
+                    seller.removeProduct(product);
+                }
+            }
+        }
+        request.deleteRequest();
     }
 
     private Request getRequestById(String requestId) {

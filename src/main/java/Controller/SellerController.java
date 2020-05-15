@@ -83,6 +83,7 @@ public class SellerController {
             throw new Exception("There is'nt this Product");
         if (product.getSellersOfThisProduct().contains((Seller) user))
             throw new Exception("Seller does'nt have this product");
+        product.setProductStatus(ProductAndOffStatus.editing);
         (new ProductRequest(product, true)).newProductFeatures(price, available, information, specialInformationRelatedToCategory);
     }
 
@@ -110,6 +111,7 @@ public class SellerController {
         if(off == null)
             throw new Exception("Id is invalid");
         ArrayList<String> information = new ArrayList<>();
+        information.add(String.valueOf(off.getOffStatus()));
         information.add(String.valueOf(off.getBeginTime()));
         information.add(String.valueOf(off.getEndTime()));
         information.add(String.valueOf(off.getOffAmount()));
@@ -137,13 +139,13 @@ public class SellerController {
     public void checkTimeOfOffs() {
         ArrayList<Off> allOffs = Off.getAllOffs();
         for (Off off : allOffs) {
-            if(off.getEndTime().before(new Date())) {
+            if(off.getEndTime().before(new Date()) && off.getOffStatus() != ProductAndOffStatus.creating) {
                 off.removeOff();
                 off.getSeller().removeOffFromThisSeller(off);
                 for (Product product : off.getOnSaleProducts()) {
                     product.setOff(null);
                 }
-            } else if (off.getBeginTime().before(new Date())) {
+            } else if (off.getBeginTime().before(new Date()) && off.getOffStatus() != ProductAndOffStatus.creating) {
                 for (Product product : off.getOnSaleProducts()) {
                     product.setOff(off);
                 }
@@ -158,6 +160,7 @@ public class SellerController {
         }
         ArrayList<Product> newProducts = (ArrayList<Product>) products.stream()
                 .map(product -> ProductController.getProductById(product));
+        off.setOffStatus(ProductAndOffStatus.editing);
         (new OffRequest(off, true)).setOff(beginTime, endTime, percent, newProducts);
     }
 

@@ -53,6 +53,7 @@ public class ProductController {
     public ArrayList<String> showAttributesOfProduct(Product product) {
         SellerController.getInstance().checkTimeOfOffs();
         ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("status: " + product.getProductStatus());
         attributes.add("information: " + product.getInformation());
         attributes.add("price: " + String.valueOf(product.getPrice()));
         attributes.add("category: " + product.getCategory().getName());
