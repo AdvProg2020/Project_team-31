@@ -147,6 +147,9 @@ public class ProductMenu extends Menu {
     }
 
     private void sort(String newSort) {
+        if (newSort.equals("price") || newSort.equals("rate") || newSort.equals("date")) {
+            sort = newSort;
+        } else System.out.println("invalid sort");
 
     }
 
