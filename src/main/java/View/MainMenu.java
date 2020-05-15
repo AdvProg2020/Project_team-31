@@ -221,7 +221,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }///
+    }
 
     private void viewBuyerProduct(String productId) {
         try {
@@ -289,7 +289,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }///
+    }
 
     private void showCategories() {
         ArrayList<String> categories = managerController.showAllCategories();
@@ -455,11 +455,11 @@ public class MainMenu extends Menu {
 
     private void removeProductByManager(String productId) {
         try {
-//...
+            managerController.removeProduct(productId);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }///
+    }
 
     private void createDiscountCode() /*throws Exception*/ {
 //        System.out.println("please enter the discount code (must not contain space)");
