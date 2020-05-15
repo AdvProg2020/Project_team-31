@@ -97,6 +97,7 @@ public class SellerController {
     }
 
     public String[] showAllOffs(User user) {
+        checkTimeOfOffs();
         ArrayList<String> offs = new ArrayList<>();
         for (Off sellerOff : ((Seller) user).getSellerOffs()) {
             offs.add("id: " + sellerOff.getOffId() + ", beginTime: " + sellerOff.getBeginTime() + ",endTime: " + sellerOff.getEndTime() + ", offAmount: " + sellerOff.getOffAmount());
@@ -119,6 +120,7 @@ public class SellerController {
     }
 
     public void addOff(User user, ArrayList<String> productsId, Date beginTime, Date endTime, int percent) throws Exception {
+        checkTimeOfOffs();
         ArrayList<Product> products = new ArrayList<>();
         for (String s : productsId) {
             products.add(ProductController.getProductById(s));
@@ -133,6 +135,20 @@ public class SellerController {
     }
 
     private void checkTimeOfOffs() {
+        ArrayList<Off> allOffs = Off.getAllOffs();
+        for (Off off : allOffs) {
+            if(off.getEndTime().before(new Date())) {
+                off.removeOff();
+                off.getSeller().removeOffFromThisSeller(off);
+                for (Product product : off.getOnSaleProducts()) {
+                    product.setOff(null);
+                }
+            } else if (off.getBeginTime().before(new Date())) {
+                for (Product product : off.getOnSaleProducts()) {
+                    product.setOff(off);
+                }
+            }
+        }
     }
 
     public void editOff(User user, String offId, ArrayList<String> products, Date beginTime, Date endTime, Double percent) throws Exception {
