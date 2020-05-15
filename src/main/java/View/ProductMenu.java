@@ -1,7 +1,14 @@
 package View;
 
+import Controller.ProductController;
+import Model.Product;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+
 public class ProductMenu extends Menu {
     public static ProductMenu instance = null;
+    ShowProductMenu showProductMenu = ShowProductMenu.getInstance();
 
     private ProductMenu() {
         super();
@@ -16,7 +23,8 @@ public class ProductMenu extends Menu {
     @Override
     public void run() {
         String command;
-        while (true) {
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
             command = scanner.nextLine().trim();
             if (getMatcher("^(?i)view\\s+categories$", command).find())
                 viewAllCategories();
@@ -26,19 +34,23 @@ public class ProductMenu extends Menu {
                 sorting();
             else if (getMatcher("^(?i)show\\s+products$", command).find())
                 showAllProducts();
-            else if (getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command).find())
-                showProduct();
-            else if (getMatcher("^(?i)back$", command).find())
-                break;
+            else if (matcher.find())
+                showProduct(matcher.group(1));
             else System.out.println("invalid command");
 
         }
     }
 
     private void viewAllCategories() {
-    }
-
-    private void viewCategory() {
+        ArrayList<String> allCategories = managerController.showAllCategories();
+        if (allCategories.size() == 0)
+            System.out.println("there is not any categoty!");
+        else {
+            System.out.println("///////////////////////////////////////////");
+            for (String category : allCategories)
+                System.out.println(category);
+            System.out.println("///////////////////////////////////////////");
+        }
     }
 
     private void filtering() {
@@ -50,9 +62,14 @@ public class ProductMenu extends Menu {
     private void showAllProducts() {
     }
 
-    private void showProduct() {
-        //run the showproduct
-        //set the product in ShowProductMenu class
+    private void showProduct(String productId) {
+        Product product = ProductController.getProductById(productId);
+        if (product == null) {
+            System.out.println("there is not any product with this ID!");
+        } else {
+            showProductMenu.setProduct(product);
+            showProductMenu.run();
+        }
     }
 
 }

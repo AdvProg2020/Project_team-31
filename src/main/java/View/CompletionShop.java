@@ -54,9 +54,16 @@ public class CompletionShop extends Menu {
 
     private void payment(BuyingLog buyingLog) throws Exception {
         System.out.println("are you sure about your purchase? (yes/no)");
-        String command = scanner.nextLine().trim();
-        if (command.equalsIgnoreCase("no") || command.equalsIgnoreCase("back"))
-            throw new Exception("canceled!");
-        customerController.payMoney(user, buyingLog);
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            if (command.equalsIgnoreCase("no"))
+                throw new Exception("canceled!");
+            else if (command.equalsIgnoreCase("yes")) {
+                customerController.payMoney(user, buyingLog);
+                return;
+            }
+        }
+
+
     }
 }

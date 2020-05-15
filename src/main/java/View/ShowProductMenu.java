@@ -4,6 +4,7 @@ import Model.Product;
 
 public class ShowProductMenu extends Menu {
     public static ShowProductMenu instance = null;
+    private Product product = null;
 
     private ShowProductMenu() {
         super();
@@ -15,7 +16,9 @@ public class ShowProductMenu extends Menu {
         return instance;
     }
 
-    public Product product;
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     @Override
     public void run() {

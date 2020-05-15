@@ -59,7 +59,7 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)view\\s+balance\n$", command).find())
                 viewBalance();
             else if (getMatcher("^(?i)products$", command).find())
-                System.out.println();
+                productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
                 System.out.println();
             else if (getMatcher("^(?i)end$", command).find())
@@ -391,7 +391,7 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)manage\\s+categories$", command).find())
                 manageCategories();
             else if (getMatcher("^(?i)products$", command).find())
-                System.out.println();
+                productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
                 System.out.println();
             else if (getMatcher("^(?i)end$", command).find())
@@ -421,7 +421,15 @@ public class MainMenu extends Menu {
     }
 
     private void viewUser(String username) {
-    }///
+        User showingUser = LoginController.getUserByUsername(username);
+        if (showingUser == null) {
+            System.out.println("there isn't any user with this username!");
+            return;
+        }
+        String[] datas = loginController.showPersonalInformation(showingUser);
+        for (String data : datas)
+            System.out.println(data);
+    }
 
     private void deleteUser(String username) {
         try {
@@ -524,12 +532,11 @@ public class MainMenu extends Menu {
     }
 
     private void productMenu() {
-        ProductMenu productMenu=ProductMenu.getInstance();
-        productMenu.run();
+        ProductMenu.getInstance().run();
     }
 
     private void offsMenu() {
-        OffMenu offMenu=OffMenu.getInstance();
+        OffMenu offMenu = OffMenu.getInstance();
         offMenu.run();
     }
 
