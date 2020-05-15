@@ -44,8 +44,7 @@ public class ProductController {
                 .map(product -> "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
     }
 
-    public String showDigestOfProduct(String productId, User user) {
-        Product product = ProductController.getProductById(productId);
+    public String showDigestOfProduct(Product product, User user) {
         if(user instanceof Customer)
             product.addView();
         return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate()/product.getCustomersWhoRated());
