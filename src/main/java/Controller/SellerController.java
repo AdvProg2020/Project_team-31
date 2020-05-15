@@ -88,10 +88,10 @@ public class SellerController {
         return (String[]) offs.toArray();
     }
 
-    public String[] showOff(String offId) throws Exception{
+    public String[] showOff(String offId) {
         Off off = getOffById(offId);
-        if(off == null)
-            throw new Exception("Id is invalid");
+//        if(off == null)
+//            throw new Exception("Id is invalid");
         ArrayList<String> information = new ArrayList<>();
         information.add(String.valueOf(off.getBeginTime()));
         information.add(String.valueOf(off.getEndTime()));
@@ -102,14 +102,21 @@ public class SellerController {
         return (String[]) information.toArray();
     }
 
-    public void addOff(User user, ArrayList<String> productsId, Date beginTime, Date endTime, int percent){
+    public void addOff(User user, ArrayList<String> productsId, Date beginTime, Date endTime, int percent) throws Exception {
         ArrayList<Product> products = new ArrayList<>();
         for (String s : productsId) {
             products.add(ProductController.getProductById(s));
         }
+        for (Product product : products) {
+            if(product.getOff() != null)
+                throw new Exception("some products are in another off list");
+        }
         Off newOff = new Off((Seller)user ,"Off"+beginTime, beginTime, endTime, (double) percent, products);
         new OffRequest(newOff, false);
         ((Seller)user).addOffToThisSeller(newOff);
+    }
+
+    private void checkTimeOfOffs() {
     }
 
     public void editOff(User user, String offId, ArrayList<String> products, Date beginTime, Date endTime, Double percent) throws Exception {

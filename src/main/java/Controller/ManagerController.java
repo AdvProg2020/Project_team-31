@@ -21,7 +21,7 @@ public class ManagerController {
         ArrayList<String> information = new ArrayList<>();
         for (User user : User.getAllUsers()) {
             String[] personalInformation = user.getPersonalInformation();
-            information.add("firstName:" + personalInformation[0] + ", lastName:" + personalInformation[1] + ", emailAddress:" + personalInformation[3] + ", phoneNumber:" + personalInformation[4]);
+            information.add("userName: " + user.getUsername() + ", firstName:" + personalInformation[0] + ", lastName:" + personalInformation[1] );
         }
         return information;
     }

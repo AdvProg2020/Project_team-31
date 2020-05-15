@@ -16,7 +16,7 @@ public class Product {
     private Category category;
     private Double sumOfCustomersRate;
     private ArrayList<Comment> allComments;
-    private Boolean off;
+    private Off off;
     private int available;
     private ProductStatus productStatus;
     private String information;
@@ -27,6 +27,7 @@ public class Product {
 
     public Product(String productId, String name, String company, Double price, Category category, String information, ArrayList<Seller> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
+        off = null;
         this.productId = productId;
         this.name = name;
         this.company = company;
@@ -36,6 +37,14 @@ public class Product {
         this.productStatus = creating;
         this.information = information;
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
+    }
+
+    public Off getOff() {
+        return off;
+    }
+
+    public void setOff(Off off) {
+        this.off = off;
     }
 
     public HashMap<String, String> getSpecialPropertiesRelatedToCategory() {
