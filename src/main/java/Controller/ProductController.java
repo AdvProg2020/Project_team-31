@@ -44,6 +44,32 @@ public class ProductController {
                 .map(product -> "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
     }
 
+    public String showDigestOfProduct(String productId, User user) {
+        Product product = ProductController.getProductById(productId);
+        if(user instanceof Customer)
+            product.addView();
+        return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate()/product.getCustomersWhoRated());
+    }
+
+    public ArrayList<String> showAttributesOfProduct(Product product) {
+        SellerController.getInstance().checkTimeOfOffs();
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("information: " + product.getInformation());
+        attributes.add("price: " + String.valueOf(product.getPrice()));
+        attributes.add("category: " + product.getCategory().getName());
+        attributes.add("rate:" + product.getSumOfCustomersRate()/product.getCustomersWhoRated());
+        attributes.add("available:" + product.getAvailable());
+        attributes.add("views:" + product.getViews());
+        for (String s : product.getSpecialPropertiesRelatedToCategory().keySet()) {
+            attributes.add(s + ":" + product.getSpecialPropertiesRelatedToCategory().get(s));
+        }
+        attributes.add("sellers: " + product.getSellersOfThisProduct().stream().map(Seller -> Seller.getUsername()).toString());
+        if(product.getOff() != null) {
+            attributes.add("off: seller=" + product.getOff().getSeller().getUsername() + ", offAmount=" + product.getOff().getOffAmount());
+        }
+        return attributes;
+    }
+
     public String[] showAvailableSorts() {
         return (new String[]{"date", "rate", "view"});
     }

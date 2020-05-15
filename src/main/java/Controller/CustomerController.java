@@ -39,13 +39,6 @@ public class CustomerController {
         return arrayOfProducts;
     }
 
-    public String showProduct(String productId, User user) {
-        Product product = ProductController.getProductById(productId);
-        if(user instanceof Customer)
-            product.addView();
-        return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate()/product.getCustomersWhoRated());
-    }
-
     public Boolean doesSellerHaveThisProduct (String productId, User user) {
         Product product = ProductController.getProductById(productId);
         if(user != null) {

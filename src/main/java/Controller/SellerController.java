@@ -134,7 +134,7 @@ public class SellerController {
         ((Seller) user).addOffToThisSeller(newOff);
     }
 
-    private void checkTimeOfOffs() {
+    public void checkTimeOfOffs() {
         ArrayList<Off> allOffs = Off.getAllOffs();
         for (Off off : allOffs) {
             if(off.getEndTime().before(new Date())) {

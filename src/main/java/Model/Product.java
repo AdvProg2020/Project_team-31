@@ -39,6 +39,10 @@ public class Product {
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
     }
 
+    public String getInformation() {
+        return information;
+    }
+
     public Off getOff() {
         return off;
     }
