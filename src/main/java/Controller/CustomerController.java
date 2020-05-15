@@ -39,17 +39,17 @@ public class CustomerController {
         return arrayOfProducts;
     }
 
-    public Boolean doesSellerHaveThisProduct (String productId, User user) {
+    public Boolean doesSellerHaveThisProduct(String productId, User user) {
         Product product = ProductController.getProductById(productId);
-        if(user != null) {
-            if(product.getSellersOfThisProduct().contains((Seller)user)) {
+        if (user != null) {
+            if (product.getSellersOfThisProduct().contains((Seller) user)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void changeNumberOfProductInCard(User user, String productId, int changingNum) throws Exception{
+    public void changeNumberOfProductInCard(User user, String productId, int changingNum) throws Exception {
         HashMap<Product, ProductInCard> products = user.getCard().getProductsInThisCard();
         Product productToChange = ProductController.getProductById(productId);
 
@@ -87,12 +87,21 @@ public class CustomerController {
     }
 
     double showTotalPrice(User user) {
+        SellerController.getInstance().checkTimeOfOffs();
         HashMap<Product, ProductInCard> productsInThisCard = user.getCard().getProductsInThisCard();
-        List<ProductInCard> products = new ArrayList<ProductInCard>(productsInThisCard.values());
-        return products.stream()
-                .map(product -> (product.getProduct().getPrice()*product.getNumber()))
-                .reduce((a,b) -> a+b)
-                .orElse(0.0);
+        List<ProductInCard> products = new ArrayList<>(productsInThisCard.values());
+        Double totalPrice = 0.0;
+        for (ProductInCard product : products) {
+            Off off = product.getProduct().getOff();
+            Double percent = 100.0;
+            if (off != null) {
+                if (off.getSeller().equals((Seller) user)) {
+                    percent -= off.getOffAmount();
+                }
+            }
+            totalPrice += (product.getProduct().getPrice() * product.getNumber() * percent/100);
+        }
+        return totalPrice;
     }
 
     public BuyingLog createBuyingLog(User user, String[] information) {
@@ -138,7 +147,7 @@ public class CustomerController {
 
     public String showOrder(User user, String orderId) {
         for (BuyingLog buyingLog : ((Customer) user).getAllBuyingLogs()) {
-            if(buyingLog.getLogId().equals(orderId)){
+            if (buyingLog.getLogId().equals(orderId)) {
                 return "Id: " + buyingLog.getLogId() + ", Date: " + buyingLog.getDate() + ", Price: " + buyingLog.getTotalPrice();
             }
         }
@@ -146,14 +155,14 @@ public class CustomerController {
     }
 
     public ArrayList<String> showAllOrders(User user) {
-        return (ArrayList<String>) ((Customer)user).getAllBuyingLogs().stream()
+        return (ArrayList<String>) ((Customer) user).getAllBuyingLogs().stream()
                 .map(buyingLog -> "Id: " + buyingLog.getLogId() + ", Date: " + buyingLog.getDate() + ", Price: " + buyingLog.getTotalPrice())
                 .collect(Collectors.toList());
     }
 
     public void rateProduct(User user, String productId, Double rate) throws Exception {
         Product product = ProductController.getProductById(productId);
-        if(!((Customer)user).getRecentShoppingProducts().contains(product))
+        if (!((Customer) user).getRecentShoppingProducts().contains(product))
             throw new Exception("Customer Does'nt buy this Product");
         product.addNumberOfCustomerWhoRated();
         product.addSumOfCustomersRate(rate);
@@ -164,7 +173,7 @@ public class CustomerController {
     }
 
     public ArrayList<String> showDiscountCodes(User user) {
-        return (ArrayList<String>) ((Customer)user).getAllDiscountCodes().stream()
+        return (ArrayList<String>) ((Customer) user).getAllDiscountCodes().stream()
                 .map(discountCode -> "Code=" + discountCode.getDiscountCode() + ", percent=" + discountCode.getDiscountPercent() + ", maximum=" + discountCode.getMaximumDiscount())
                 .collect(Collectors.toList());
     }
