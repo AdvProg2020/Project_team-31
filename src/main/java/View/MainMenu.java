@@ -79,14 +79,14 @@ public class MainMenu extends Menu {
                 "credit : " + information[6]);
         viewCompanyInformation();
         String[] changedInfo = new String[6];
-        changedInfo[0] = information[0]; //first name
+      /*  changedInfo[0] = information[0]; //first name
         changedInfo[1] = information[1]; //last name
         changedInfo[2] = information[3]; //email
         changedInfo[3] = information[4]; // phone
         changedInfo[4] = information[5]; //password
         if (user instanceof Seller) {
             changedInfo[5] = sellerController.showCompanyInformation(user);
-        }
+        } */
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)edit\\s+(.+)$", command);
@@ -97,7 +97,7 @@ public class MainMenu extends Menu {
                 else if (index != 6) editPersonalInformation(index, changedInfo);
             } else System.out.println("invalid command");
         }
-    }///
+    }
 
     private int findIndex(String check) {
         if (check.equalsIgnoreCase("first name"))
@@ -132,7 +132,7 @@ public class MainMenu extends Menu {
         else if (index == 5)
             data[5] = editCompanyName();
         loginController.editPersonalInformation(user, data);
-    }///
+    }
 
     private String editFirstName() {
         System.out.println("please enter your first name");
@@ -221,15 +221,17 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    }///
 
-    private void viewBuyerProduct(String group) {
+    private void viewBuyerProduct(String productId) {
         try {
-            //...
+            ArrayList<String> buyersInfo = sellerController.showBuyersOfThisProduct(user, productId);
+            for (String buyerInfo : buyersInfo)
+                System.out.println(buyerInfo);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    } ///
+    }
 
     private void editProduct(String productId) {
         String[] data = new String[4];
@@ -449,10 +451,39 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    }///
 
-    private void createDiscountCode() {
-    }
+    private void createDiscountCode() /*throws Exception*/ {
+//        System.out.println("please enter the discount code (must not contain space)");
+//        String discountCode=scanByRegex("^\\S+$","invalid format");
+//        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+//        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+//        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
+//        Date startDate = format.parse(dateString);
+//        if (startDate.before(new Date()))
+//            throw new Exception("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+//        System.out.println("please enter the end time");
+//        dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
+//        Date endDate = format.parse(dateString);
+//        if (endDate.before(startDate))
+//            throw new Exception("the end date must be after start date");
+//        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+//        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
+//        int percent = Integer.parseInt(percentage);
+//        if (percent <= 0 || percent >= 100)
+//            throw new WrongPercentageException("wrong percentage");
+//        System.out.println("please enter the maximum discount : ");
+//        String maxDiscount = scanByRegex("^(\\d+)$", "invalid format");
+//        int maximumDiscount = Integer.parseInt(percentage);
+//        if (maximumDiscount<= 0 )
+//            throw new WrongPercentageException("wrong value for maximum discount");
+//        System.out.println("please enter the username of customers and the number of validity of each of them\n" +
+//                "in format (ali.mohammady 5) -1 for exit");
+//        String command;
+//        while (!(command=scanner.nextLine().trim()).equalsIgnoreCase("-1")){
+//            //...
+//        }
+    }///
 
     private void viewDiscountCodesForManager() {
     }
@@ -463,6 +494,7 @@ public class MainMenu extends Menu {
     private void manageCategories() {
     }
 
+    /////////////////////////////////////////////////////////////////////
     private void customerMenu() {
         String command;
         while (true) {
@@ -480,15 +512,25 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
                 viewDiscountCodesForCustomer();
             else if (getMatcher("^(?i)products$", command).find())
-                System.out.println();
+                productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
-                System.out.println();
+                offsMenu();
             else if (getMatcher("^(?i)end$", command).find())
                 break;
             else System.out.println("invalid command");
 
 
         }
+    }
+
+    private void productMenu() {
+        ProductMenu productMenu=ProductMenu.getInstance();
+        productMenu.run();
+    }
+
+    private void offsMenu() {
+        OffMenu offMenu=OffMenu.getInstance();
+        offMenu.run();
     }
 
     private void viewCart() {
@@ -504,7 +546,6 @@ public class MainMenu extends Menu {
     }
 
     private void purchase() {
-
         CompletionShop completionShop = CompletionShop.getInstance();
         completionShop.run();
     }
