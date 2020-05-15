@@ -43,6 +43,8 @@ public class Product {
         return information;
     }
 
+
+
     public Off getOff() {
         return off;
     }

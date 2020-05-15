@@ -45,9 +45,9 @@ public class ProductController {
     }
 
     public String showDigestOfProduct(Product product, User user) {
-        if(user instanceof Customer)
+        if (user instanceof Customer)
             product.addView();
-        return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate()/product.getCustomersWhoRated());
+        return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated());
     }
 
     public ArrayList<String> showAttributesOfProduct(Product product) {
@@ -56,14 +56,14 @@ public class ProductController {
         attributes.add("information: " + product.getInformation());
         attributes.add("price: " + String.valueOf(product.getPrice()));
         attributes.add("category: " + product.getCategory().getName());
-        attributes.add("rate:" + product.getSumOfCustomersRate()/product.getCustomersWhoRated());
+        attributes.add("rate:" + product.getSumOfCustomersRate() / product.getCustomersWhoRated());
         attributes.add("available:" + product.getAvailable());
         attributes.add("views:" + product.getViews());
         for (String s : product.getSpecialPropertiesRelatedToCategory().keySet()) {
             attributes.add(s + ":" + product.getSpecialPropertiesRelatedToCategory().get(s));
         }
         attributes.add("sellers: " + product.getSellersOfThisProduct().stream().map(Seller -> Seller.getUsername()).toString());
-        if(product.getOff() != null) {
+        if (product.getOff() != null) {
             attributes.add("off: seller=" + product.getOff().getSeller().getUsername() + ", offAmount=" + product.getOff().getOffAmount());
         }
         return attributes;
@@ -87,8 +87,15 @@ public class ProductController {
     }
 
     private ArrayList<Product> filterAndShowProducts(User user, String categoryName) {
-        Category category = ManagerController.getCategoryByName(categoryName);
-        ArrayList<Product> products = category.getProducts();
+        ArrayList<Product> products;
+        Category category;
+        if (categoryName == null) {
+            products = Product.allProducts;
+            category = null;
+        } else {
+            category = ManagerController.getCategoryByName(categoryName);
+            products = category.getProducts();
+        }
         return (ArrayList<Product>) products.stream()
                 .filter(product -> isContainThisProduct(user.getFilters(), product, category));
     }
@@ -96,9 +103,11 @@ public class ProductController {
     private Boolean isContainThisProduct(HashMap<String, String> filters, Product product, Category category) {
         HashMap<String, String> specialPropertiesOfProduct = product.getSpecialPropertiesRelatedToCategory();
         for (String key : filters.keySet()) {
-            if (category.getSpecialProperties().contains(key) && specialPropertiesOfProduct.keySet().contains(key)) {
-                if (!doesMatchWithFilter(filters.get(key), specialPropertiesOfProduct.get(key)))
-                    return false;
+            if (category != null) {
+                if (category.getSpecialProperties().contains(key) && specialPropertiesOfProduct.keySet().contains(key)) {
+                    if (!doesMatchWithFilter(filters.get(key), specialPropertiesOfProduct.get(key)))
+                        return false;
+                }
             } else if (key.equalsIgnoreCase("price") && !doesMatchWithFilter(filters.get(key), product.getPrice().toString())) {
                 return false;
             } else if (key.equalsIgnoreCase("company") && !doesMatchWithFilter(filters.get(key), product.getCompany())) {
