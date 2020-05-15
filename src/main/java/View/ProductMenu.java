@@ -5,6 +5,8 @@ import Controller.ProductController;
 import Model.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 public class ProductMenu extends Menu {
@@ -33,7 +35,7 @@ public class ProductMenu extends Menu {
             else if (getMatcher("^(?i)sorting$", command).find())
                 sorting();
             else if (getMatcher("^(?i)show\\s+products$", command).find())
-                showAllProducts();
+                showProducts();
             else if (matcher.find())
                 showProduct(matcher.group(1));
             else System.out.println("invalid command");
@@ -92,26 +94,36 @@ public class ProductMenu extends Menu {
     private void addFilter(String filter) {
         System.out.println("please enter you filter value\n" +
                 "(for range filter use format [number-number] for example [2-100]");
-        String filterValue=scanner.nextLine().trim();
+        String filterValue = scanner.nextLine().trim();
         try {
             productController.addFilterForUser(user, filter, filterValue);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     private void showCurrentFilters() {
+        HashMap<String, String> filters = productController.ShowCurrentFilters(user);
+        System.out.println("current filters : ");
+        for (Map.Entry<String, String> entry : filters.entrySet()) {
+            System.out.println(entry.getKey() + "      " + entry.getValue());
+        }
 
     }
 
     private void disableFilter(String filter) {
-
+        try {
+            productController.disableFilterForUser(user, filter);
+            System.out.println("disabled successfully!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void sorting() {
     }
 
-    private void showAllProducts() {
+    private void showProducts() {
     }
 
     private void showProduct(String productId) {
