@@ -63,4 +63,20 @@ public class Off {
     public void setOffStatus(ProductAndOffStatus offStatus) {
         this.offStatus = offStatus;
     }
+
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setOffAmount(Double offAmount) {
+        this.offAmount = offAmount;
+    }
+
+    public void setOnSaleProducts(ArrayList<Product> onSaleProducts) {
+        this.onSaleProducts = onSaleProducts;
+    }
 }
