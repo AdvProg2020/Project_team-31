@@ -63,6 +63,4 @@ public class ShowProductMenu extends Menu {
 
     private void comments() {
     }
-
-
 }
