@@ -73,8 +73,8 @@ public class ProductMenu extends Menu {
     private void showAvailableFilters() {
         String command;
         ArrayList<String> availableFilters = null;
-        System.out.println("please select your category  : (-1 for escape)");
         viewAllCategories();
+        System.out.println("please select your category  : (-1 for escape)");
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             if (ManagerController.getCategoryByName(command) != null) {
                 availableFilters = productController.showAvailableFiltersForUser(user, null);
@@ -90,6 +90,14 @@ public class ProductMenu extends Menu {
     }
 
     private void addFilter(String filter) {
+        System.out.println("please enter you filter value\n" +
+                "(for range filter use format [number-number] for example [2-100]");
+        String filterValue=scanner.nextLine().trim();
+        try {
+            productController.addFilterForUser(user, filter, filterValue);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private void showCurrentFilters() {
