@@ -42,6 +42,10 @@ public class Off {
         return onSaleProducts;
     }
 
+    public void removeOff() {
+        allOffs.remove(this);
+    }
+
     public void acceptedStatus() {
         this.offStatus = accepted;
     }
