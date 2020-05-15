@@ -3,8 +3,6 @@ package Model;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static Model.OffStatus.*;
-
 public class Off {
     private String offId;
     private Date beginTime;
@@ -12,7 +10,7 @@ public class Off {
     private Double offAmount;
     private ArrayList<Product> onSaleProducts;
     private Seller seller;
-    private OffStatus offStatus;
+    private ProductAndOffStatus offStatus;
     private static ArrayList<Off> allOffs;
 
     public Off(Seller seller, String offId, Date beginTime, Date endTime, Double offAmount, ArrayList<Product> products) {
@@ -21,7 +19,7 @@ public class Off {
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.offAmount = offAmount;
-        this.offStatus = creating;
+        this.offStatus = ProductAndOffStatus.creating;
         onSaleProducts = products;
         allOffs.add(this);
     }
@@ -46,12 +44,6 @@ public class Off {
         allOffs.remove(this);
     }
 
-    public void acceptedStatus() {
-        this.offStatus = accepted;
-    }
-
-    public void editingStatus(){this.offStatus = editing;}
-
     public String getOffId() {
         return offId;
     }
@@ -63,7 +55,12 @@ public class Off {
     public static ArrayList<Off> getAllOffs() {
         return allOffs;
     }
-}
-enum OffStatus {
-    accepted, creating, editing
+
+    public ProductAndOffStatus getOffStatus() {
+        return offStatus;
+    }
+
+    public void setOffStatus(ProductAndOffStatus offStatus) {
+        this.offStatus = offStatus;
+    }
 }
