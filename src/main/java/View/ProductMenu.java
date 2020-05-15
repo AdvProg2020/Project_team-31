@@ -4,10 +4,7 @@ import Controller.ManagerController;
 import Controller.ProductController;
 import Model.Product;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class ProductMenu extends Menu {

@@ -211,7 +211,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    }///
 
     private void viewBuyerProduct(String productId) {
         try {
@@ -238,8 +238,8 @@ public class MainMenu extends Menu {
 
 //...
         System.out.println("please enter the price : ");
-        String priceStr=scanByRegex("^\\d+$","the price must be numbers (example 10000)(-1 for scape)");
-        int price=Integer.parseInt(priceStr);
+        String priceStr = scanByRegex("^\\d+$", "the price must be numbers (example 10000)(-1 for scape)");
+        int price = Integer.parseInt(priceStr);
 
         System.out.println("please enter the avail");
     } ///
@@ -348,11 +348,15 @@ public class MainMenu extends Menu {
     }///
 
     private void viewOff(String offId) {
-        String[] offData = sellerController.showOff(offId);
-        System.out.println("////////////////////////////////////////////////");
-        for (String data : offData)
-            System.out.println(data);
-        System.out.println("////////////////////////////////////////////////");
+        try {
+            String[] offData = sellerController.showOff(offId);
+            System.out.println("////////////////////////////////////////////////");
+            for (String data : offData)
+                System.out.println(data);
+            System.out.println("////////////////////////////////////////////////");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void viewBalance() {

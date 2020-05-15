@@ -2,6 +2,9 @@ package View;
 
 import Model.Product;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+
 public class ShowProductMenu extends Menu {
     public static ShowProductMenu instance = null;
     private Product product = null;
@@ -23,30 +26,39 @@ public class ShowProductMenu extends Menu {
     @Override
     public void run() {
         String command;
-        while (true) {
-            command = scanner.nextLine().trim();
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher matcher = getMatcher("^(?i)compare\\s+(\\S+)$", command);
             if (getMatcher("^(?i)digest$", command).find())
                 digest();
             else if (getMatcher("^(?i)attributes$", command).find())
                 attributes();
-            else if (getMatcher("^(?i)compare\\s+(\\S+)$", command).find())
-                compare();
+            else if (matcher.find())
+                compare(matcher.group(1));
             else if (getMatcher("^(?i)Comments$", command).find())
                 comments();
-            else if (getMatcher("^(?i)back$", command).find())
-                break;
             else System.out.println("invalid command");
 
         }
     }
 
     private void digest() {
+
     }
 
     private void attributes() {
     }
 
-    private void compare() {
+    private void compare(String secondProduct) {
+        System.out.println("/////////////////////////////////////////////");
+        try {
+            ArrayList<String> fields = productController.compareTwoProduct(product, secondProduct);
+            for (String field : fields) {
+                System.out.println(field);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("/////////////////////////////////////////////");
     }
 
     private void comments() {
