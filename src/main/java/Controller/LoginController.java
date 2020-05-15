@@ -57,7 +57,7 @@ public class LoginController {
         }
     }
 
-    static User getUserByUsername(String username) {
+   public static User getUserByUsername(String username) {
         for (User user : User.getAllUsers()) {
             if (user.getUsername().equals(username))
                 return user;
