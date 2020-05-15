@@ -224,26 +224,24 @@ public class MainMenu extends Menu {
     }
 
     private void editProduct(String productId) {
-        String[] data = new String[4];
-        System.out.println("please select the data number you want to change:(-1 for exit)\n" +
-                "1.name\n2.price\n3.availability status\n4.product description ");
-        String command;
-        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
-            if (!(command.equals("1") || command.equals("2") || command.equals("3") || command.equals("4"))) {
-                System.out.println("please enter a valid number");
-            } else {
-                System.out.println("please enter the value : ");
-                data[Integer.parseInt(command) - 1] = scanner.nextLine().trim();
-            }
+//        String[] data = new String[4];
+//        System.out.println("please select the data number you want to change:(-1 for exit)\n" +
+//                "1.name\n2.price\n3.availability status\n4.product description ");
+//        String command;
+//        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+//            if (!(command.equals("1") || command.equals("2") || command.equals("3") || command.equals("4"))) {
+//                System.out.println("please enter a valid number");
+//            } else {
+//                System.out.println("please enter the value : ");
+//                data[Integer.parseInt(command) - 1] = scanner.nextLine().trim();
+//            }
+
 //...
-        }
+        System.out.println("please enter the price : ");
+        String priceStr=scanByRegex("^\\d+$","the price must be numbers (example 10000)(-1 for scape)");
+        int price=Integer.parseInt(priceStr);
 
-
-        try {
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        System.out.println("please enter the avail");
     } ///
 
     private void addProducts() {
