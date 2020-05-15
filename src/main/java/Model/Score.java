@@ -9,6 +9,6 @@ public class Score {
         this.customer = customer;
         this.score = score;
         this.product = product;
-        this.product.addCustomerWhoRated(this.customer);
+        //this.product.addCustomerWhoRated(this.customer);
     }
 }

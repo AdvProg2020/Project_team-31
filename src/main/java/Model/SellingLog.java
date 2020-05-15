@@ -1,9 +1,5 @@
 package Model;
 
-import com.google.gson.Gson;
-
-import java.awt.*;
-import java.io.FileWriter;
 import java.util.Date;
 
 public class SellingLog extends Log{
@@ -13,7 +9,7 @@ public class SellingLog extends Log{
     private static int numberOfSellingLog;
 
     public SellingLog(Date date, Double totalPriceArrived, Double amountOfOff, Product buyingProducts, Customer customer) {
-        super("SellingLog" + numberOfSellingLog++, date, customer, null );
+        super("SellingLog" + numberOfSellingLog++, date, customer);
         this.totalPriceArrived = totalPriceArrived;
         this.amountOfOff = amountOfOff;
         this.buyingProducts = buyingProducts;
