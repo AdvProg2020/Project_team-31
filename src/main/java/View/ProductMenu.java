@@ -1,5 +1,7 @@
 package View;
 
+import java.util.ArrayList;
+
 public class ProductMenu extends Menu {
     public static ProductMenu instance = null;
 
@@ -36,6 +38,15 @@ public class ProductMenu extends Menu {
     }
 
     private void viewAllCategories() {
+        ArrayList<String> allCategories = managerController.showAllCategories();
+        if (allCategories.size() == 0)
+            System.out.println("there is not any categoty!");
+        else {
+            System.out.println("///////////////////////////////////////////");
+            for (String category : allCategories)
+                System.out.println(category);
+            System.out.println("///////////////////////////////////////////");
+        }
     }
 
     private void viewCategory() {
