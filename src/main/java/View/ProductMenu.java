@@ -121,6 +121,35 @@ public class ProductMenu extends Menu {
     }
 
     private void sorting() {
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher sort = getMatcher("^(?i)sort\\s+(\\S+)$", command);
+            if (sort.find())
+                sort(sort.group(1));
+            else if (getMatcher("^(?i)show\\s+available\\s+sorts", command).find())
+                showAvailableSorts();
+            else if (getMatcher("^(?i)current\\s+sort", command).find())
+                showCurrentSort();
+            else if (getMatcher("^(?i)disable\\s+filter$", command).find())
+                disableSort();
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void showAvailableSorts() {
+
+    }
+
+    private void sort(String sort) {
+
+    }
+
+    private void showCurrentSort() {
+
+    }
+
+    private void disableSort() {
+
     }
 
     private void showProducts() {
