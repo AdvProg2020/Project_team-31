@@ -154,14 +154,14 @@ public class ManagerController {
     }
 
     public void removeCategory(String name) {
-//        Category deletingCategory = getCategoryByName(name);
-//        for (Product product : deletingCategory.getProducts()) {
-//            product.removeProduct();
-//            for (Seller seller : product.getSellersOfThisProduct()) {
-//                seller.removeProduct(product);
-//            }
-//        }
-//        // remove from all categories
+        Category deletingCategory = getCategoryByName(name);
+        for (Product product : deletingCategory.getProducts()) {
+            product.removeProduct();
+            for (Seller seller : product.getSellersOfThisProduct()) {
+                seller.removeProduct(product);
+            }
+        }
+        deletingCategory.deleteCategory();
     }
 
     public void editCategory(String name, ArrayList<String> newFeatures) {

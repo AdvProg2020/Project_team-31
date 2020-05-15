@@ -6,6 +6,7 @@ public class Seller extends User {
     private String companyName;
     private ArrayList<SellingLog> allSellingLogs;
     private ArrayList<Product> onSaleProducts;
+    private ArrayList<Off> sellerOffs;
     private static ArrayList<Seller> allSellers = new ArrayList<>();
 
     public Seller(String name, String lastName, String username, String emailAddress, String  phoneNumber, String password, String companyName) {
@@ -13,6 +14,18 @@ public class Seller extends User {
         this.companyName = companyName;
         this.allSellingLogs = new ArrayList<>();
         this.onSaleProducts = new ArrayList<>();
+    }
+
+    public ArrayList<Off> getSellerOffs() {
+        return sellerOffs;
+    }
+
+    public void addOffToThisSeller(Off newOff) {
+        sellerOffs.add(newOff);
+    }
+
+    public void removeOffFromThisSeller(Off removingOff) {
+        sellerOffs.remove(removingOff);
     }
 
     public void setCompanyName(String companyName) {

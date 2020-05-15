@@ -57,7 +57,10 @@ public class SellerController {
     public void addProduct(String[] productGeneralInformation, User user, HashMap<String, String> specialInformationRelatedToCategory) {
         ArrayList<Seller> sellers = new ArrayList<>();
         sellers.add((Seller)user);
-        new ProductRequest(new Product("Product" + (Product.allProducts.size()+1) ,productGeneralInformation[0], productGeneralInformation[1], Double.parseDouble(productGeneralInformation[2]),ManagerController.getCategoryByName(productGeneralInformation[3]),productGeneralInformation[4], sellers,specialInformationRelatedToCategory), false);
+        Product newProduct = new Product("Product" + (Product.allProducts.size()+1) ,productGeneralInformation[0], productGeneralInformation[1], Double.parseDouble(productGeneralInformation[2]),ManagerController.getCategoryByName(productGeneralInformation[3]),productGeneralInformation[4], sellers,specialInformationRelatedToCategory);
+        new ProductRequest(newProduct, false);
+        ManagerController.getCategoryByName(productGeneralInformation[3]).addProduct(newProduct);
+        ((Seller)user).addProduct(newProduct);
     }
 
     public void editProduct(User user, String productId, double price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
@@ -80,11 +83,25 @@ public class SellerController {
     }
 
     public String[] showAllOffs(User user){
-        return null;
+        ArrayList<String> offs = new ArrayList<>();
+        for (Off sellerOff : ((Seller) user).getSellerOffs()) {
+            offs.add("id: " + sellerOff.getOffId() + ", beginTime: " + sellerOff.getBeginTime() + ",endTime: " + sellerOff.getEndTime() + ", offAmount: " + sellerOff.getOffAmount());
+        }
+        return (String[]) offs.toArray();
     }
 
-    public String[] showOff(String offId){
-        return null;
+    public String[] showOff(String offId) throws Exception{
+        Off off = getOffById(offId);
+        if(off == null)
+            throw new Exception("Id is invalid");
+        ArrayList<String> information = new ArrayList<>();
+        information.add(String.valueOf(off.getBeginTime()));
+        information.add(String.valueOf(off.getEndTime()));
+        information.add(String.valueOf(off.getOffAmount()));
+        ArrayList<String> products = (ArrayList<String>) off.getOnSaleProducts().stream()
+                .map(product -> "id: " + product.getProductId() + ", name: " + product.getName());
+        information.add(String.valueOf(products.toArray()));
+        return (String[]) information.toArray();
     }
 
     public void addOff(User user, ArrayList<String> productsId, Date beginTime, Date endTime, int percent){
@@ -92,11 +109,28 @@ public class SellerController {
         for (String s : productsId) {
             products.add(ProductController.getProductById(s));
         }
-        new OffRequest(new Off("Off"+beginTime, beginTime, endTime, (double) percent, products), false);
+        Off newOff = new Off((Seller)user ,"Off"+beginTime, beginTime, endTime, (double) percent, products);
+        new OffRequest(newOff, false);
+        ((Seller)user).addOffToThisSeller(newOff);
     }
 
-    public void editOff(User user, String offId, ArrayList<String> products, Date beginTime, Date endTime, int percent) {
-        // checking seller
+    public void editOff(User user, String offId, ArrayList<String> products, Date beginTime, Date endTime, Double percent) throws Exception {
+        Off off = getOffById(offId);
+        if(!off.getSeller().equals((Seller)user)) {
+            throw new Exception("Seller Does'nt have this off");
+        }
+        ArrayList<Product> newProducts = (ArrayList<Product>) products.stream()
+                .map(product -> ProductController.getProductById(product));
+        (new OffRequest(off, true)).setOff(beginTime,endTime,percent, newProducts);
+    }
+
+    private Off getOffById(String id) {
+        for (Off off : Off.getAllOffs()) {
+            if(off.getOffId().equalsIgnoreCase(id)) {
+                return off;
+            }
+        }
+        return null;
     }
 
     public Double showBalanceOfSeller(User user){
