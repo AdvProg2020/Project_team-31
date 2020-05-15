@@ -221,7 +221,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    }///
 
     private void viewBuyerProduct(String productId) {
         try {
@@ -494,6 +494,7 @@ public class MainMenu extends Menu {
     private void manageCategories() {
     }
 
+    /////////////////////////////////////////////////////////////////////
     private void customerMenu() {
         String command;
         while (true) {
@@ -511,15 +512,25 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
                 viewDiscountCodesForCustomer();
             else if (getMatcher("^(?i)products$", command).find())
-                System.out.println();
+                productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
-                System.out.println();
+                offsMenu();
             else if (getMatcher("^(?i)end$", command).find())
                 break;
             else System.out.println("invalid command");
 
 
         }
+    }
+
+    private void productMenu() {
+        ProductMenu productMenu=ProductMenu.getInstance();
+        productMenu.run();
+    }
+
+    private void offsMenu() {
+        OffMenu offMenu=OffMenu.getInstance();
+        offMenu.run();
     }
 
     private void viewCart() {
@@ -535,7 +546,6 @@ public class MainMenu extends Menu {
     }
 
     private void purchase() {
-
         CompletionShop completionShop = CompletionShop.getInstance();
         completionShop.run();
     }
