@@ -119,7 +119,7 @@ public class ManagerController {
 //            String[] information = ((SellerRequest) request).getInformation();
 //            new Seller(information[0], information[1], ((SellerRequest)request).getUsername(), information[2], information[3], information[4], information[5])
 //        } else if (request instanceof OffRequest) {
-//            ((OffRequest)request).getOff().setOffStatus(OffStatus.accepted);
+//            ((OffRequest)request).getOff().acceptedStatus();
 //        } else if (request instanceof ProductRequest) {
 //            ((ProductRequest)request).  // ezafe be category
 //        }
@@ -127,7 +127,23 @@ public class ManagerController {
     }
 
     public void declineRequest(String requestId) {
-        getRequestById(requestId).deleteRequest();
+        Request request = getRequestById(requestId);
+        if(request instanceof OffRequest) {
+            if(!((OffRequest) request).getIsEditing()) {
+                ((OffRequest) request).getOff().getSeller().removeOffFromThisSeller(((OffRequest) request).getOff());
+                ((OffRequest) request).getOff().removeOff();
+            }
+        } else if(request instanceof ProductRequest) {
+            if (! ((ProductRequest) request).isEditing()) {
+                Product product = ((ProductRequest) request).getProduct();
+                product.removeProduct();
+                product.getCategory().removeProduct(product);
+                for (Seller seller : product.getSellersOfThisProduct()) {
+                    seller.removeProduct(product);
+                }
+            }
+        }
+        request.deleteRequest();
     }
 
     private Request getRequestById(String requestId) {
