@@ -79,22 +79,12 @@ public class MainMenu extends Menu {
                 "credit : " + information[6]);
         viewCompanyInformation();
         String[] changedInfo = new String[6];
-      /*  changedInfo[0] = information[0]; //first name
-        changedInfo[1] = information[1]; //last name
-        changedInfo[2] = information[3]; //email
-        changedInfo[3] = information[4]; // phone
-        changedInfo[4] = information[5]; //password
-        if (user instanceof Seller) {
-            changedInfo[5] = sellerController.showCompanyInformation(user);
-        } */
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)edit\\s+(.+)$", command);
             if (matcher.find()) {
                 int index = findIndex(matcher.group(1));
-                if (index == 7)
-                    System.out.println("invalid command");
-                else if (index != 6) editPersonalInformation(index, changedInfo);
+                if (index != 6 && index != 7) editPersonalInformation(index, changedInfo);
             } else System.out.println("invalid command");
         }
     }
@@ -494,13 +484,13 @@ public class MainMenu extends Menu {
     }///
 
     private void viewDiscountCodesForManager() {
-    }
+    }///
 
     private void manageRequests() {
-    }
+    }///
 
     private void manageCategories() {
-    }
+    }///
 
     /////////////////////////////////////////////////////////////////////
     private void customerMenu() {
