@@ -143,7 +143,7 @@ public class ProductMenu extends Menu {
     }
 
     private void showAvailableSorts() {
-
+        System.out.println("available sorts : \"price\"     \"rate\"    \"price\"");
     }
 
     private void sort(String newSort) {
