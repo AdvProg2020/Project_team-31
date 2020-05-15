@@ -147,7 +147,7 @@ public class ProductMenu extends Menu {
     }
 
     private void showCurrentSort() {
-
+        System.out.println("your current sort is : " + sort);
     }
 
     private void disableSort() {
