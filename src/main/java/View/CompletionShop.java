@@ -15,6 +15,24 @@ public class CompletionShop extends Menu {
 
     @Override
     public void run() {
+        try {
+            getInformation();
+            discountCode();
+            payment();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void getInformation() {
+
+    }
+
+    private void discountCode() {
+
+    }
+
+    private void payment() {
 
     }
 }

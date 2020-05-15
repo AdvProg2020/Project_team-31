@@ -481,7 +481,7 @@ public class MainMenu extends Menu {
 //        while (!(command=scanner.nextLine().trim()).equalsIgnoreCase("-1")){
 //            //...
 //        }
-    }
+    }///
 
     private void viewDiscountCodesForManager() {
     }
