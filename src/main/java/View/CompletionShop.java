@@ -27,12 +27,16 @@ public class CompletionShop extends Menu {
         }
     }
 
-    private BuyingLog getInformation() {
+    private BuyingLog getInformation() throws Exception {
         String[] data = new String[2];
         System.out.println("please enter your address : ");
         data[0] = scanner.nextLine();
+        if(data[0].equalsIgnoreCase("back"))
+            throw new Exception("cancel");
         System.out.println("please enter your phone number : ");
         data[1] = scanner.nextLine();
+        if(data[0].equalsIgnoreCase("back"))
+            throw new Exception("cancel");
         return customerController.createBuyingLog(user, data);
     }
 
@@ -48,6 +52,7 @@ public class CompletionShop extends Menu {
     }
 
     private void payment(BuyingLog buyingLog) {
+
 
     }
 }
