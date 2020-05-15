@@ -97,7 +97,7 @@ public class MainMenu extends Menu {
                 else if (index != 6) editPersonalInformation(index, changedInfo);
             } else System.out.println("invalid command");
         }
-    }///
+    }
 
     private int findIndex(String check) {
         if (check.equalsIgnoreCase("first name"))
@@ -132,7 +132,7 @@ public class MainMenu extends Menu {
         else if (index == 5)
             data[5] = editCompanyName();
         loginController.editPersonalInformation(user, data);
-    }///
+    }
 
     private String editFirstName() {
         System.out.println("please enter your first name");
@@ -223,13 +223,15 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewBuyerProduct(String group) {
+    private void viewBuyerProduct(String productId) {
         try {
-            //...
+            ArrayList<String> buyersInfo = sellerController.showBuyersOfThisProduct(user, productId);
+            for (String buyerInfo : buyersInfo)
+                System.out.println(buyerInfo);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    } ///
+    }
 
     private void editProduct(String productId) {
         String[] data = new String[4];
