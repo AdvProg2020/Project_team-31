@@ -70,5 +70,19 @@ public class ShowProductMenu extends Menu {
         ArrayList<String> information = productController.showCommentAboutProduct(product);
         for (String line : information)
             System.out.println(line);
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            if (command.equalsIgnoreCase("add comment")) {
+                addComment();
+            } else System.out.println("invalid command");
+        }
+    }
+
+    private void addComment() {
+        System.out.println("Title : ");
+        String title = scanner.nextLine().trim();
+        System.out.println("Content : ");
+        String content = scanner.nextLine().trim();
+        productController.addComment(user, product, title, content);
     }
 }
