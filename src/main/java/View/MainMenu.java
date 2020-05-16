@@ -206,12 +206,16 @@ public class MainMenu extends Menu {
     }
 
     private void viewProduct(String productId) {
-//        try {
-//            System.out.println(customerController.showProduct(productId, user));
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-    }///
+        ArrayList<String> data;
+        try {
+            Product product = ProductController.getProductById(productId);
+            data = productController.showAttributesOfProduct(product);
+            for (String line : data)
+                System.out.println(line);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private void viewBuyerProduct(String productId) {
         try {
