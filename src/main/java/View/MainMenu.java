@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
@@ -671,6 +672,7 @@ public class MainMenu extends Menu {
 
     private void editCategory(String name) {
         ArrayList<String> features = null;
+        HashMap<String, String> changedFields = new HashMap<>();
         try {
             sellerController.getCategoryFeatures(name);
         } catch (Exception e) {
@@ -681,6 +683,16 @@ public class MainMenu extends Menu {
             return;
         }
         String command;
+        System.out.println("please enter the features you want to change(example previousName-changedName) : (-1 for exit)");
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            Matcher matcher = getMatcher(command, "^(.+)-(.+)$");
+            if (matcher.find())
+                changedFields.put(matcher.group(1), matcher.group(2));
+        }
+//managerController.changeFeatureOfCategory(changedFields);
+        for (Map.Entry<String, String> entry : changedFields.entrySet()) {
+            features.add(entry.getValue());
+        }
         System.out.println("please enter the features you want to add : (-1 for exit)");
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             features.add(command);
@@ -689,6 +701,7 @@ public class MainMenu extends Menu {
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             features.remove(command);
         }
+
     }
 
     private void addCategory(String name) {
@@ -716,31 +729,31 @@ public class MainMenu extends Menu {
     /////////////////////////////////////////////////////////////////////
     private void customerMenu() {
         String command;
-        try{
-        while (true) {
-            command = scanner.nextLine().trim();
-            if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
-                viewPersonalInformation();
-            else if (getMatcher("^(?i)view\\s+cart$", command).find())
-                viewCart();
-            else if (getMatcher("^(?i)purchase$", command).find())
-                purchase();
-            else if (getMatcher("^(?i)view\\s+orders$", command).find())
-                viewOrders();
-            else if (getMatcher("^(?i)view\\s+balance$", command).find())
-                viewBalance();
-            else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
-                viewDiscountCodesForCustomer();
-            else if (getMatcher("^(?i)products$", command).find())
-                productMenu();
-            else if (getMatcher("^(?i)offs$", command).find())
-                offsMenu();
-            else if (getMatcher("^(?i)end$", command).find())
-                break;
-            else System.out.println("invalid command");
-        }
+        try {
+            while (true) {
+                command = scanner.nextLine().trim();
+                if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
+                    viewPersonalInformation();
+                else if (getMatcher("^(?i)view\\s+cart$", command).find())
+                    viewCart();
+                else if (getMatcher("^(?i)purchase$", command).find())
+                    purchase();
+                else if (getMatcher("^(?i)view\\s+orders$", command).find())
+                    viewOrders();
+                else if (getMatcher("^(?i)view\\s+balance$", command).find())
+                    viewBalance();
+                else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
+                    viewDiscountCodesForCustomer();
+                else if (getMatcher("^(?i)products$", command).find())
+                    productMenu();
+                else if (getMatcher("^(?i)offs$", command).find())
+                    offsMenu();
+                else if (getMatcher("^(?i)end$", command).find())
+                    break;
+                else System.out.println("invalid command");
+            }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("you have to login!");
 
         }
