@@ -55,6 +55,10 @@ public class ShowProductMenu extends Menu {
     }
 
     private void addToCard() {
+        if(user==null){
+            System.out.println("you have to login.");
+            LoginMenu.getInstance().run();
+        }
         System.out.println("please select your seller");
         String seller = scanner.nextLine().trim();
         try {
