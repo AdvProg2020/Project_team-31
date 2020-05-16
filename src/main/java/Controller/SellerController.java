@@ -87,7 +87,7 @@ public class SellerController {
         if (!product.getSellersOfThisProduct().keySet().contains((Seller) user))
             throw new Exception("Seller does'nt have this product");
         product.setProductStatus(ProductAndOffStatus.editing);
-        (new ProductRequest(product, true)).newProductFeatures(price, available, information, specialInformationRelatedToCategory);
+        (new ProductRequest(product, true)).newProductFeatures((Seller)user ,price, available, information, specialInformationRelatedToCategory);
     }
 
     public void removeProduct(String productId) throws Exception {
@@ -167,7 +167,7 @@ public class SellerController {
         ArrayList<Product> newProducts = (ArrayList<Product>) products.stream()
                 .map(product -> ProductController.getProductById(product));
         off.setOffStatus(ProductAndOffStatus.editing);
-        (new OffRequest(off, true)).setOff(beginTime, endTime,(double) percent, newProducts);
+        (new OffRequest(off, true)).setOff(beginTime, endTime, percent, newProducts);
     }
 
     public Off getOffById(String id) {
