@@ -362,8 +362,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
-
+    }///
 
     private void editOff(String offId) throws Exception {
         if (sellerController.getOffById(offId) == null) {
@@ -406,7 +405,7 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    }///
 
     private void viewOff(String offId) {
         try {
@@ -517,36 +516,7 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void createDiscountCode() /*throws Exception*/ {
-//        System.out.println("please enter the discount code (must not contain space)");
-//        String discountCode=scanByRegex("^\\S+$","invalid format");
-//        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
-//        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
-//        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-//        Date startDate = format.parse(dateString);
-//        if (startDate.before(new Date()))
-//            throw new Exception("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
-//        System.out.println("please enter the end time");
-//        dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-//        Date endDate = format.parse(dateString);
-//        if (endDate.before(startDate))
-//            throw new Exception("the end date must be after start date");
-//        System.out.println("please enter the discount percentage (by format DD for example 78%)");
-//        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
-//        int percent = Integer.parseInt(percentage);
-//        if (percent <= 0 || percent >= 100)
-//            throw new WrongPercentageException("wrong percentage");
-//        System.out.println("please enter the maximum discount : ");
-//        String maxDiscount = scanByRegex("^(\\d+)$", "invalid format");
-//        int maximumDiscount = Integer.parseInt(percentage);
-//        if (maximumDiscount<= 0 )
-//            throw new WrongPercentageException("wrong value for maximum discount");
-//        System.out.println("please enter the username of customers and the number of validity of each of them\n" +
-//                "in format (ali.mohammady 5) -1 for exit");
-//        String command;
-//        while (!(command=scanner.nextLine().trim()).equalsIgnoreCase("-1")){
-//            //...
-//        }
+    private void createDiscountCode() {
     }///
 
     private void viewDiscountCodesForManager() {
@@ -591,7 +561,7 @@ public class MainMenu extends Menu {
 
     private void editDiscountCode(String code) {
 
-    }
+    }///
 
     private void removeDiscountCode(String code) {
         try {
@@ -603,7 +573,32 @@ public class MainMenu extends Menu {
     }
 
     private void manageRequests() {
-    }///
+        showAllRequests();
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher viewMatcher = getMatcher("^(?i)view\\s+discount\\s+codes\\s+(.+)$", command);
+            Matcher editMathcer = getMatcher("^(?i)edit\\s+discount\\s+codes\\s+(.+)$", command);
+            Matcher removeMatcher = getMatcher("^(?i)remove\\s+discount\\s+codes\\s+(.+)$", command);
+            if (viewMatcher.find())
+                viewDiscountCode(viewMatcher.group(1));
+            else if (editMathcer.find())
+                editDiscountCode(editMathcer.group(1));
+            else if (removeMatcher.find())
+                removeDiscountCode(removeMatcher.group(1));
+            else System.out.println("invalid command");
+
+        }
+    }
+
+    private void showAllRequests() {
+        try {
+            ArrayList<String> allRequests = managerController.showAllRequests();
+            for (String request : allRequests)
+                System.out.println(request);
+        } catch (Exception e) {
+            System.out.println("there isn't any request!");
+        }
+    }
 
     private void manageCategories() {
     }///
