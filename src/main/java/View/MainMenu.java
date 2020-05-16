@@ -3,12 +3,8 @@ package View;
 import Controller.*;
 import Model.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.*;;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
@@ -64,6 +60,10 @@ public class MainMenu extends Menu {
                 productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
                 showOffs();
+            else if (getMatcher("^(?i)login$", command).find())
+                loginAndLogOut(true);
+            else if (getMatcher("^(?i)logout$", command).find())
+                loginAndLogOut(false);
             else if (getMatcher("^(?i)end$", command).find())
                 break;
             else System.out.println("invalid command");
@@ -464,6 +464,10 @@ public class MainMenu extends Menu {
                 manageCategories();
             else if (getMatcher("^(?i)products$", command).find())
                 productMenu();
+            else if (getMatcher("^(?i)login$", command).find())
+                loginAndLogOut(true);
+            else if (getMatcher("^(?i)logout$", command).find())
+                loginAndLogOut(false);
             else if (getMatcher("^(?i)offs$", command).find())
                 showOffs();
             else if (getMatcher("^(?i)end$", command).find())
@@ -831,6 +835,10 @@ public class MainMenu extends Menu {
                     viewDiscountCodesForCustomer();
                 else if (getMatcher("^(?i)products$", command).find())
                     productMenu();
+                else if (getMatcher("^(?i)login$", command).find())
+                    loginAndLogOut(true);
+                else if (getMatcher("^(?i)logout$", command).find())
+                    loginAndLogOut(false);
                 else if (getMatcher("^(?i)offs$", command).find())
                     offsMenu();
                 else if (getMatcher("^(?i)end$", command).find())

@@ -34,6 +34,10 @@ public class ShowProductMenu extends Menu {
                 attributes();
             else if (matcher.find())
                 compare(matcher.group(1));
+            else if (getMatcher("^(?i)login$", command).find())
+                loginAndLogOut(true);
+            else if (getMatcher("^(?i)logout$", command).find())
+                loginAndLogOut(false);
             else if (getMatcher("^(?i)Comments$", command).find())
                 comments();
             else System.out.println("invalid command");
@@ -42,10 +46,36 @@ public class ShowProductMenu extends Menu {
     }
 
     private void digest() {
+        ArrayList<String> information = productController.showDigestOfProduct(product, user);
+        for (String line : information)
+            System.out.println(line);
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            if (command.equalsIgnoreCase("add to card"))
+                addToCard();
+            else System.out.println("invalid command");
+        }
 
     }
 
+    private void addToCard() {
+        if(user==null){
+            System.out.println("you have to login.");
+            LoginMenu.getInstance().run();
+        }
+        System.out.println("please select your seller");
+        String seller = scanner.nextLine().trim();
+        try {
+            customerController.addProductToCard(user, product, seller);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private void attributes() {
+        ArrayList<String> information = productController.showAttributesOfProduct(product);
+        for (String line : information)
+            System.out.println(line);
     }
 
     private void compare(String secondProduct) {
@@ -62,5 +92,22 @@ public class ShowProductMenu extends Menu {
     }
 
     private void comments() {
+        ArrayList<String> information = productController.showCommentAboutProduct(product);
+        for (String line : information)
+            System.out.println(line);
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            if (command.equalsIgnoreCase("add comment")) {
+                addComment();
+            } else System.out.println("invalid command");
+        }
+    }
+
+    private void addComment() {
+        System.out.println("Title : ");
+        String title = scanner.nextLine().trim();
+        System.out.println("Content : ");
+        String content = scanner.nextLine().trim();
+        productController.addComment(user, product, title, content);
     }
 }

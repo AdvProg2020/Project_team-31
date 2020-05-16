@@ -25,6 +25,10 @@ public class OffMenu extends Menu {
                 sorting();
             else if (getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command).find())
                 showProduct();
+            else if (getMatcher("^(?i)login$", command).find())
+                loginAndLogOut(true);
+            else if (getMatcher("^(?i)logout$", command).find())
+                loginAndLogOut(false);
             else if (getMatcher("^(?i)back$", command).find())
                 break;
             else System.out.println("invalid command");
