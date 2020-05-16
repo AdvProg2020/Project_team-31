@@ -594,7 +594,12 @@ public class MainMenu extends Menu {
     }
 
     private void removeDiscountCode(String code) {
-
+        try {
+            managerController.removeDiscountCode(code);
+            System.out.println("removed successfully.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void manageRequests() {
