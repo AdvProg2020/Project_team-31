@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
@@ -62,7 +63,7 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)products$", command).find())
                 productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
-                System.out.println();
+                showOffs();
             else if (getMatcher("^(?i)end$", command).find())
                 break;
             else System.out.println("invalid command");
@@ -343,7 +344,7 @@ public class MainMenu extends Menu {
             return;
         System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
         Date endDate = scanDate();
-        if (startDate == null)
+        if (endDate == null)
             return;
         System.out.println("please enter the discount percentage (by format DD for example 78%)");
         String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
@@ -371,7 +372,7 @@ public class MainMenu extends Menu {
             return;
         System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
         Date endDate = scanDate();
-        if (startDate == null)
+        if (endDate == null)
             return;
         System.out.println("please enter the discount percentage (by format DD for example 78%)");
         String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
@@ -434,6 +435,10 @@ public class MainMenu extends Menu {
         System.out.println(sellerController.showBalanceOfSeller(user));
     }
 
+    private void showOffs() {
+        OffMenu.getInstance().run();
+    }
+
     /////////////////////////////////////////////////////////
     private void managerMenu() {
         String command;
@@ -445,9 +450,13 @@ public class MainMenu extends Menu {
                 manageUsers();
             else if (getMatcher("^(?i)manage\\s+all\\s+products$", command).find())
                 manageAllProducts();
-            else if (getMatcher("^(?i)create\\s+discount\\s+code$", command).find())
-                createDiscountCode();
-            else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
+            else if (getMatcher("^(?i)create\\s+discount\\s+code$", command).find()) {
+                try {
+                    createDiscountCode();
+                } catch (Exception e) {
+                    System.out.println("invalid date format!");
+                }
+            } else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
                 viewDiscountCodesForManager();
             else if (getMatcher("^(?i)manage\\s+requests$", command).find())
                 manageRequests();
@@ -456,7 +465,7 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)products$", command).find())
                 productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
-                System.out.println();
+                showOffs();
             else if (getMatcher("^(?i)end$", command).find())
                 break;
             else System.out.println("invalid command");
@@ -527,8 +536,46 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void createDiscountCode() {
-    }///
+    private void createDiscountCode() throws Exception {
+        System.out.println("please enter the code : ");
+        String code = scanner.nextLine().trim();
+        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+        Date startDate = scanDate();
+        if (startDate == null)
+            return;
+        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        Date endDate = scanDate();
+        if (endDate == null)
+            return;
+        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
+        int percent = Integer.parseInt(percentage);
+        if (percent >= 100 || percent <= 0) {
+            System.out.println("invalid number!");
+            return;
+        }
+        System.out.println("please enter the maximum price");
+        String price = scanByRegex("^\\d+$", "invalid format");
+        if (Integer.parseInt(price) <= 0) {
+            throw new Exception("invalid price!");
+        }
+        String command;
+        HashMap<String, Integer> data = new HashMap<>();
+        System.out.println("please enter the customers and the number of uses (for example reza-2)");
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            Matcher matcher = getMatcher("(.+)-(\\d+)", command);
+            if (matcher.find()) {
+                data.put(matcher.group(1), Integer.parseInt(matcher.group(2)));
+            } else {
+                System.out.println("invalid format");
+            }
+        }
+        try {
+            managerController.createDiscountCode(code, startDate, endDate, percent, Integer.parseInt(price), data);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private void viewDiscountCodesForManager() {
         viewAllDiscountCodes();
@@ -539,9 +586,13 @@ public class MainMenu extends Menu {
             Matcher removeMatcher = getMatcher("^(?i)remove\\s+discount\\s+codes\\s+(.+)$", command);
             if (viewMatcher.find())
                 viewDiscountCode(viewMatcher.group(1));
-            else if (editMathcer.find())
-                editDiscountCode(editMathcer.group(1));
-            else if (removeMatcher.find())
+            else if (editMathcer.find()) {
+                try {
+                    editDiscountCode(editMathcer.group(1));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            } else if (removeMatcher.find())
                 removeDiscountCode(removeMatcher.group(1));
             else System.out.println("invalid command");
 
@@ -570,9 +621,44 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void editDiscountCode(String code) {
-
-    }///
+    private void editDiscountCode(String code) throws Exception {
+        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+        Date startDate = scanDate();
+        if (startDate == null)
+            return;
+        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        Date endDate = scanDate();
+        if (endDate == null)
+            return;
+        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
+        int percent = Integer.parseInt(percentage);
+        if (percent >= 100 || percent <= 0) {
+            System.out.println("invalid number!");
+            return;
+        }
+        System.out.println("please enter the maximum price");
+        String price = scanByRegex("^\\d+$", "invalid format");
+        if (Integer.parseInt(price) <= 0) {
+            throw new Exception("invalid price!");
+        }
+        String command;
+        HashMap<String, Integer> data = new HashMap<>();
+        System.out.println("please enter the customers and the number of uses (for example reza-2)");
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            Matcher matcher = getMatcher("(.+)-(\\d+)", command);
+            if (matcher.find()) {
+                data.put(matcher.group(1), Integer.parseInt(matcher.group(2)));
+            } else {
+                System.out.println("invalid format");
+            }
+        }
+        try {
+            managerController.editDiscountCode(code, startDate, endDate, percent, Integer.parseInt(price), data);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private void removeDiscountCode(String code) {
         try {
@@ -671,8 +757,9 @@ public class MainMenu extends Menu {
 
     private void editCategory(String name) {
         ArrayList<String> features = null;
+        HashMap<String, String> changedFields = new HashMap<>();
         try {
-            sellerController.getCategoryFeatures(name);
+            features = sellerController.getCategoryFeatures(name);
         } catch (Exception e) {
             System.out.println("there isn't any category with this name");
         }
@@ -681,6 +768,16 @@ public class MainMenu extends Menu {
             return;
         }
         String command;
+        System.out.println("please enter the features you want to change(example previousName-changedName) : (-1 for exit)");
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            Matcher matcher = getMatcher(command, "^(.+)-(.+)$");
+            if (matcher.find())
+                changedFields.put(matcher.group(1), matcher.group(2));
+        }
+        managerController.changeFeatureOfCategory(name, changedFields);
+        for (Map.Entry<String, String> entry : changedFields.entrySet()) {
+            features.add(entry.getValue());
+        }
         System.out.println("please enter the features you want to add : (-1 for exit)");
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             features.add(command);
@@ -689,6 +786,7 @@ public class MainMenu extends Menu {
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             features.remove(command);
         }
+
     }
 
     private void addCategory(String name) {
@@ -716,28 +814,32 @@ public class MainMenu extends Menu {
     /////////////////////////////////////////////////////////////////////
     private void customerMenu() {
         String command;
-        while (true) {
-            command = scanner.nextLine().trim();
-            if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
-                viewPersonalInformation();
-            else if (getMatcher("^(?i)view\\s+cart$", command).find())
-                viewCart();
-            else if (getMatcher("^(?i)purchase$", command).find())
-                purchase();
-            else if (getMatcher("^(?i)view\\s+orders$", command).find())
-                viewOrders();
-            else if (getMatcher("^(?i)view\\s+balance$", command).find())
-                viewBalance();
-            else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
-                viewDiscountCodesForCustomer();
-            else if (getMatcher("^(?i)products$", command).find())
-                productMenu();
-            else if (getMatcher("^(?i)offs$", command).find())
-                offsMenu();
-            else if (getMatcher("^(?i)end$", command).find())
-                break;
-            else System.out.println("invalid command");
+        try {
+            while (true) {
+                command = scanner.nextLine().trim();
+                if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
+                    viewPersonalInformation();
+                else if (getMatcher("^(?i)view\\s+cart$", command).find())
+                    viewCart();
+                else if (getMatcher("^(?i)purchase$", command).find())
+                    purchase();
+                else if (getMatcher("^(?i)view\\s+orders$", command).find())
+                    viewOrders();
+                else if (getMatcher("^(?i)view\\s+balance$", command).find())
+                    viewBalance();
+                else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
+                    viewDiscountCodesForCustomer();
+                else if (getMatcher("^(?i)products$", command).find())
+                    productMenu();
+                else if (getMatcher("^(?i)offs$", command).find())
+                    offsMenu();
+                else if (getMatcher("^(?i)end$", command).find())
+                    break;
+                else System.out.println("invalid command");
+            }
 
+        } catch (Exception e) {
+            System.out.println("you have to login!");
 
         }
     }
