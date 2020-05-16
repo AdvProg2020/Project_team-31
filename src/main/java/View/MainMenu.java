@@ -708,7 +708,7 @@ public class MainMenu extends Menu {
             if (matcher.find())
                 changedFields.put(matcher.group(1), matcher.group(2));
         }
-//managerController.changeFeatureOfCategory(changedFields);
+        managerController.changeFeatureOfCategory(name, changedFields);
         for (Map.Entry<String, String> entry : changedFields.entrySet()) {
             features.add(entry.getValue());
         }
