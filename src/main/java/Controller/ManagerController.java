@@ -194,11 +194,34 @@ public class ManagerController {
     }
 
     public void editCategory(String name, ArrayList<String> newFeatures) {
-        getCategoryByName(name).setSpecialProperties(newFeatures);
+        Category category = getCategoryByName(name);
+        category.setSpecialProperties(newFeatures);
+        for (Product product : category.getProducts()) {
+            for (String s : product.getSpecialPropertiesRelatedToCategory().keySet()) {
+                if(!newFeatures.contains(s)) {
+                    product.removeSpecialFeature(s);
+                }
+            }
+        }
     }
 
-    public void changeFeatureOfCategory(HashMap<String, String> changedFeatured) {
-
+    public void changeFeatureOfCategory(String categoryName, HashMap<String, String> changedFeatured) {
+        Category category = getCategoryByName(categoryName);
+        ArrayList<String> features = category.getSpecialProperties();
+        for (String old : changedFeatured.keySet()) {
+            features.remove(old);
+            features.add(changedFeatured.get(old));
+        }
+        category.setSpecialProperties(features);
+        for (Product product : category.getProducts()) {
+            for (String oldName : changedFeatured.keySet()) {
+                if(product.getSpecialPropertiesRelatedToCategory().keySet().contains(oldName)) {
+                    String value = product.getSpecialPropertiesRelatedToCategory().get(oldName);
+                    product.removeSpecialFeature(oldName);
+                    product.addSpecialFeature(changedFeatured.get(oldName),value);
+                }
+            }
+        }
     }
 
     public static Category getCategoryByName(String name) {
