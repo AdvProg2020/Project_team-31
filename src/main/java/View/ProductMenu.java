@@ -36,6 +36,10 @@ public class ProductMenu extends Menu {
                 filtering();
             else if (getMatcher("^(?i)sorting$", command).find())
                 sorting();
+            else if (getMatcher("^(?i)login$", command).find())
+                loginAndLogOut(true);
+            else if (getMatcher("^(?i)logout$", command).find())
+                loginAndLogOut(false);
             else if (getMatcher("^(?i)show\\s+products$", command).find())
                 showProducts();
             else if (matcher.find())
