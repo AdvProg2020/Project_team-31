@@ -668,6 +668,12 @@ public class MainMenu extends Menu {
     }
 
     private void removeCategory(String name) {
+        try {
+            managerController.removeCategory(name);
+            System.out.println("category removed successfully");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
