@@ -3,6 +3,7 @@ package View;
 import Controller.*;
 import Model.*;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -203,9 +204,13 @@ public class MainMenu extends Menu {
                 viewProduct(viewMatcher.group(1));
             else if (viewBuyersMatcher.find())
                 viewBuyerProduct(viewBuyersMatcher.group(1));
-            else if (editMatcher.find())
-                editProduct(editMatcher.group(1));
-            else System.out.println("invalid command");
+            else if (editMatcher.find()) {
+                try {
+                    editProduct(editMatcher.group(1));
+                } catch (Exception e) {
+                    System.out.println("wrong format!");
+                }
+            } else System.out.println("invalid command");
         }
     }
 
@@ -332,31 +337,26 @@ public class MainMenu extends Menu {
     }
 
     private void addOff() throws Exception {
-        Date startDate = null, endDate = null;
-        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
         System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
-        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-        try {
-            startDate = format.parse(dateString);
-        } catch (Exception e) {
-            System.out.println("invalid format!");
-        }
+        Date startDate = scanDate();
+        if (startDate == null)
+            return;
         System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
-        dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-        try {
-            endDate = format.parse(dateString);
-        } catch (Exception e) {
-            System.out.println("invalid format!");
-        }
+        Date endDate = scanDate();
+        if (startDate == null)
+            return;
         System.out.println("please enter the discount percentage (by format DD for example 78%)");
         String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
         int percent = Integer.parseInt(percentage);
+        if (percent >= 100 || percent <= 0) {
+            System.out.println("invalid number!");
+            return;
+        }
         System.out.println("please enter the product IDs (-1 for exit)");
         String productId;
         ArrayList<String> productIds = new ArrayList<>();
-        while ((productId = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
             productIds.add(productId);
-        }
         try {
             sellerController.addOff(user, productIds, startDate, endDate, percent);
         } catch (Exception e) {
@@ -364,48 +364,58 @@ public class MainMenu extends Menu {
         }
     }
 
-
     private void editOff(String offId) throws Exception {
-        if (sellerController.getOffById(offId) == null) {
-            throw new Exception("there isn't any off with this ID!");
-        }
-        Date startDate = null, endDate = null;
-        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
-        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")(-1 for escape)");
-        String dateString = scanner.nextLine().trim();
-        if (!dateString.equals("-1"))
-            try {
-                startDate = format.parse(dateString);
-            } catch (Exception e) {
-                System.out.println("invalid format!");
-            }
-        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\") (-1 for escape)");
-        dateString = scanner.nextLine().trim();
-        if (!dateString.equals("-1"))
-            try {
-                endDate = format.parse(dateString);
-            } catch (Exception e) {
-                System.out.println("invalid format!");
-            }
-        System.out.println("please enter the discount percentage (by format DD for example 78%)(-1 for escape)");
-        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format(-1 for escape)");
+        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+        Date startDate = scanDate();
+        if (startDate == null)
+            return;
+        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        Date endDate = scanDate();
+        if (startDate == null)
+            return;
+        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
         int percent = Integer.parseInt(percentage);
+        if (percent >= 100 || percent <= 0) {
+            System.out.println("invalid number!");
+            return;
+        }
         String productId;
-        ArrayList<String> oldProductIds = sellerController.getOffProducts(offId);
-        ArrayList<String> newProductIds = new ArrayList<>(oldProductIds);
-        System.out.println("please enter the product IDs you want to add : (-1 for exit)");
-        while ((productId = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
-            newProductIds.add(productId);
-        }
-        System.out.println("please enter the product IDs you want to exclude : (-1 for exit)");
-        while ((productId = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
-            newProductIds.remove(productId);
-        }
+        ArrayList<String> productIds = null;
         try {
-            sellerController.editOff(user, offId, newProductIds, startDate, endDate, percent);
+            productIds = sellerController.getOffProducts(offId);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        System.out.println("please enter the product IDs you want to add (-1 for exit)");
+        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
+            productIds.add(productId);
+        System.out.println("please enter the product IDs you want to exclude (-1 for exit)");
+        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
+            productIds.remove(productId);
+        try {
+            sellerController.editOff(user, offId, productIds, startDate, endDate, percent);
+            System.out.println("off edited successfully!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private Date scanDate() throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+        String dateString = null;
+        try {
+            while (!(dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid date format")).equalsIgnoreCase("back")) {
+                try {
+                    return format.parse(dateString);
+                } catch (Exception e) {
+                    System.out.println("invalid format");
+                }
+            }
+        } catch (NullPointerException e) {
+            return null;
+        }
+        return null;
     }
 
     private void viewOff(String offId) {
@@ -502,7 +512,7 @@ public class MainMenu extends Menu {
     private void manageAllProducts() {
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
-            Matcher removeMathcer = getMatcher("^(?i)remoce\\s+(\\S+)$", command);
+            Matcher removeMathcer = getMatcher("^(?i)remove\\s+(\\S+)$", command);
             if (removeMathcer.find())
                 removeProductByManager(removeMathcer.group(1));
             else System.out.println("invalid command");
@@ -517,46 +527,191 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void createDiscountCode() /*throws Exception*/ {
-//        System.out.println("please enter the discount code (must not contain space)");
-//        String discountCode=scanByRegex("^\\S+$","invalid format");
-//        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
-//        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
-//        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-//        Date startDate = format.parse(dateString);
-//        if (startDate.before(new Date()))
-//            throw new Exception("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
-//        System.out.println("please enter the end time");
-//        dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-//        Date endDate = format.parse(dateString);
-//        if (endDate.before(startDate))
-//            throw new Exception("the end date must be after start date");
-//        System.out.println("please enter the discount percentage (by format DD for example 78%)");
-//        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
-//        int percent = Integer.parseInt(percentage);
-//        if (percent <= 0 || percent >= 100)
-//            throw new WrongPercentageException("wrong percentage");
-//        System.out.println("please enter the maximum discount : ");
-//        String maxDiscount = scanByRegex("^(\\d+)$", "invalid format");
-//        int maximumDiscount = Integer.parseInt(percentage);
-//        if (maximumDiscount<= 0 )
-//            throw new WrongPercentageException("wrong value for maximum discount");
-//        System.out.println("please enter the username of customers and the number of validity of each of them\n" +
-//                "in format (ali.mohammady 5) -1 for exit");
-//        String command;
-//        while (!(command=scanner.nextLine().trim()).equalsIgnoreCase("-1")){
-//            //...
-//        }
+    private void createDiscountCode() {
     }///
 
     private void viewDiscountCodesForManager() {
+        viewAllDiscountCodes();
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher viewMatcher = getMatcher("^(?i)view\\s+discount\\s+codes\\s+(.+)$", command);
+            Matcher editMathcer = getMatcher("^(?i)edit\\s+discount\\s+codes\\s+(.+)$", command);
+            Matcher removeMatcher = getMatcher("^(?i)remove\\s+discount\\s+codes\\s+(.+)$", command);
+            if (viewMatcher.find())
+                viewDiscountCode(viewMatcher.group(1));
+            else if (editMathcer.find())
+                editDiscountCode(editMathcer.group(1));
+            else if (removeMatcher.find())
+                removeDiscountCode(removeMatcher.group(1));
+            else System.out.println("invalid command");
+
+
+        }
+    }
+
+    private void viewAllDiscountCodes() {
+        System.out.println("/////////////////////////////////////////////");
+        ArrayList<String> allCodes = null;
+        try {
+            allCodes = managerController.showAllDiscountCodes();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        for (String code : allCodes)
+            System.out.println(code);
+        System.out.println("/////////////////////////////////////////////");
+    }
+
+    private void viewDiscountCode(String code) {
+        try {
+            System.out.println(managerController.showDiscount(code));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void editDiscountCode(String code) {
+
     }///
+
+    private void removeDiscountCode(String code) {
+        try {
+            managerController.removeDiscountCode(code);
+            System.out.println("removed successfully.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private void manageRequests() {
-    }///
+        showAllRequests();
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher matcher = getMatcher("^(?i)detail\\s+(.+)$", command);
+            if (matcher.find())
+                detailRequest(matcher.group(1));
+            else System.out.println("invalid command");
+
+        }
+    }
+
+    private void detailRequest(String requestId) {
+        try {
+            viewRequest(requestId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher accept = getMatcher("^(?i)accept$", command);
+            Matcher decline = getMatcher("^(?i)decline$", command);
+            if (accept.find())
+                if (accept.find())
+                    acceptRequest(requestId);
+                else if (decline.find())
+                    declineRequest(requestId);
+                else System.out.println("invalid command");
+
+        }
+    }
+
+    private void acceptRequest(String requestId) {
+        try {
+            managerController.acceptRequest(requestId);
+            System.out.println("request accepted successfully");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    private void declineRequest(String requestId) {
+        try {
+            managerController.declineRequest(requestId);
+            System.out.println("request declined successfully");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void viewRequest(String requestId) {
+        try {
+            System.out.println(managerController.showRequestDetails(requestId));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void showAllRequests() {
+        try {
+            ArrayList<String> allRequests = managerController.showAllRequests();
+            for (String request : allRequests)
+                System.out.println(request);
+        } catch (Exception e) {
+            System.out.println("there isn't any request!");
+        }
+    }
 
     private void manageCategories() {
-    }///
+        viewAllDiscountCodes();
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher edit = getMatcher("^(?i)edit\\s+(.+)$", command);
+            Matcher add = getMatcher("^(?i)add\\s+(.+)$", command);
+            Matcher remove = getMatcher("^(?i)remove\\s+(.+)$", command);
+            if (edit.find())
+                editCategory(edit.group(1));
+            else if (add.find())
+                addCategory(add.group(1));
+            else if (remove.find())
+                removeCategory(remove.group(1));
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void editCategory(String name) {
+        ArrayList<String> features = null;
+        try {
+            sellerController.getCategoryFeatures(name);
+        } catch (Exception e) {
+            System.out.println("there isn't any category with this name");
+        }
+        if (features == null) {
+            System.out.println("there isn't any category with this name");
+            return;
+        }
+        String command;
+        System.out.println("please enter the features you want to add : (-1 for exit)");
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            features.add(command);
+        }
+        System.out.println("please enter the product IDs you want to exclude : (-1 for exit)");
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            features.remove(command);
+        }
+    }
+
+    private void addCategory(String name) {
+        if (ManagerController.getCategoryByName(name) != null) {
+            System.out.println("there is another category with this name");
+            return;
+        }
+        System.out.println("please enter the category features (-1 for exit)");
+        String command;
+        ArrayList<String> features = new ArrayList<>();
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
+            features.add(command);
+    }
+
+    private void removeCategory(String name) {
+        try {
+            managerController.removeCategory(name);
+            System.out.println("category removed successfully");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 
     /////////////////////////////////////////////////////////////////////
     private void customerMenu() {
