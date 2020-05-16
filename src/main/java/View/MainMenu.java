@@ -63,7 +63,7 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)products$", command).find())
                 productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
-                System.out.println();
+                showOffs();
             else if (getMatcher("^(?i)end$", command).find())
                 break;
             else System.out.println("invalid command");
@@ -465,7 +465,7 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)products$", command).find())
                 productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
-                System.out.println();
+                showOffs();
             else if (getMatcher("^(?i)end$", command).find())
                 break;
             else System.out.println("invalid command");
