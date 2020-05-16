@@ -2,8 +2,8 @@ package View;
 
 import Controller.*;
 import Model.*;
-import sun.tools.attach.AttachProviderImpl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -406,6 +406,18 @@ public class MainMenu extends Menu {
             System.out.println(e.getMessage());
         }
     }///
+
+    private Date scanDate() throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid date format");
+        while (true) {
+            try {
+                return format.parse(dateString);
+            } catch (Exception e) {
+                System.out.println("invalid format");
+            }
+        }
+    }
 
     private void viewOff(String offId) {
         try {
