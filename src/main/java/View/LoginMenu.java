@@ -1,7 +1,5 @@
 package View;
 
-import Controller.*;
-
 import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
@@ -24,7 +22,7 @@ public class LoginMenu extends Menu {
             command = scanner.nextLine().trim();
             Matcher matcher = getMatcher("^(?i)create\\s+account\\s+(customer|seller|manager)\\s+(\\S+)$", command);
             if (matcher.find())
-                register(matcher.group(1), matcher.group(2),false);
+                register(matcher.group(1), matcher.group(2), false);
             else if (getMatcher("^(?i)login\\s+(\\S+)$", command).find())
                 login(matcher.group(1));
             else if (getMatcher("^(?i)back$", command).find())
@@ -34,7 +32,7 @@ public class LoginMenu extends Menu {
     }
 
     public void register(String type, String username, boolean managerCommand) {
-        if(!typeCheck(type)){
+        if (!typeCheck(type)) {
             System.out.println("please enter a valid role");
             return;
         }
@@ -98,5 +96,9 @@ public class LoginMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void logout() {
+        user = null;
     }
 }
