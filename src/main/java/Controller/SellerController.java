@@ -5,6 +5,7 @@ import Model.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.function.BiPredicate;
 
 public class SellerController {
     private static SellerController sellerControllerInstance = new SellerController();
@@ -59,29 +60,31 @@ public class SellerController {
     public ArrayList<String> showProductsOfThisSeller(User user) {
         ArrayList<String> products = new ArrayList<>();
         for (Product product : ((Seller) user).getOnSaleProducts()) {
-            products.add("name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
+            products.add("name=" + product.getName() + ", price=" + product.getSellersOfThisProduct().get((Seller)user) + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
         }
         return products;
     }
 
-    public ArrayList<String> getCategoryFeatures(String categoryName) {
-        return ManagerController.getCategoryByName(categoryName).getSpecialProperties();
+    public ArrayList<String> getCategoryFeatures(String productId) {
+        return ProductController.getProductById(productId).getCategory().getSpecialProperties();
     }
 
+
     public void addProduct(String[] productGeneralInformation, User user, HashMap<String, String> specialInformationRelatedToCategory) {
-        ArrayList<Seller> sellers = new ArrayList<>();
-        sellers.add((Seller) user);
-        Product newProduct = new Product("Product" + (Product.allProducts.size() + 1), productGeneralInformation[0], productGeneralInformation[1], Double.parseDouble(productGeneralInformation[2]), ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4], sellers, specialInformationRelatedToCategory);
+        HashMap<Seller, Integer> sellers = new HashMap<>();
+        sellers.put((Seller) user, Integer.parseInt(productGeneralInformation[2]));
+        Product newProduct = new Product("Product" + (Product.allProducts.size() + 1), productGeneralInformation[0], productGeneralInformation[1], ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4], sellers, specialInformationRelatedToCategory);
+        newProduct.setMinimumPrice(Integer.parseInt(productGeneralInformation[2]));
         new ProductRequest(newProduct, false);
         ManagerController.getCategoryByName(productGeneralInformation[3]).addProduct(newProduct);
         ((Seller) user).addProduct(newProduct);
     }
 
-    public void editProduct(User user, String productId, double price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
+    public void editProduct(User user, String productId, int price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
         Product product = ProductController.getProductById(productId);
         if (product == null)
             throw new Exception("There is'nt this Product");
-        if (product.getSellersOfThisProduct().contains((Seller) user))
+        if (!product.getSellersOfThisProduct().keySet().contains((Seller) user))
             throw new Exception("Seller does'nt have this product");
         product.setProductStatus(ProductAndOffStatus.editing);
         (new ProductRequest(product, true)).newProductFeatures(price, available, information, specialInformationRelatedToCategory);
@@ -91,7 +94,7 @@ public class SellerController {
         Product product = ProductController.getProductById(productId);
         if (product == null)
             throw new Exception("There is not product with this id");
-        for (Seller seller : product.getSellersOfThisProduct()) {
+        for (Seller seller : product.getSellersOfThisProduct().keySet()) {
             seller.removeProduct(product);
         }
         product.getCategory().removeProduct(product);
@@ -123,31 +126,33 @@ public class SellerController {
 
     public void addOff(User user, ArrayList<String> productsId, Date beginTime, Date endTime, int percent) throws Exception {
         checkTimeOfOffs();
-        ArrayList<Product> products = new ArrayList<>();
-        for (String s : productsId) {
-            products.add(ProductController.getProductById(s));
-        }
+        ArrayList<Product> products = (ArrayList<Product>) productsId.stream()
+                .map(productId -> ProductController.getProductById(productId));
         for (Product product : products) {
-            if (product.getOff() != null)
-                throw new Exception("some products are in another off list");
+            for (Off off : product.getOffs()) {
+                if (off.getSeller().equals((Seller) user)) {
+                    throw new Exception("some products are in another off list");
+                }
+            }
         }
-        Off newOff = new Off((Seller) user, "Off" + beginTime, beginTime, endTime, (double) percent, products);
+        Off newOff = new Off((Seller) user, "Off" + beginTime, beginTime, endTime, percent, products);
         new OffRequest(newOff, false);
         ((Seller) user).addOffToThisSeller(newOff);
     }
 
     public void checkTimeOfOffs() {
         ArrayList<Off> allOffs = Off.getAllOffs();
+        Date timeNow = new Date();
         for (Off off : allOffs) {
-            if(off.getEndTime().before(new Date()) && off.getOffStatus() != ProductAndOffStatus.creating) {
+            if(off.getEndTime().before(timeNow) && off.getOffStatus() != ProductAndOffStatus.creating) {
                 off.removeOff();
                 off.getSeller().removeOffFromThisSeller(off);
                 for (Product product : off.getOnSaleProducts()) {
-                    product.setOff(null);
+                    product.removeOff(off);
                 }
-            } else if (off.getBeginTime().before(new Date()) && off.getOffStatus() != ProductAndOffStatus.creating) {
+            } else if (off.getBeginTime().before(timeNow) && off.getOffStatus() != ProductAndOffStatus.creating) {
                 for (Product product : off.getOnSaleProducts()) {
-                    product.setOff(off);
+                    product.addOff(off);
                 }
             }
         }
@@ -173,7 +178,7 @@ public class SellerController {
         return null;
     }
 
-    public Double showBalanceOfSeller(User user) {
+    public int showBalanceOfSeller(User user) {
         return user.getCredit();
     }
 

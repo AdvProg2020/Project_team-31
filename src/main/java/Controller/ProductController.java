@@ -18,13 +18,13 @@ public class ProductController {
 
     public ArrayList<String> showProducts(User user, String categoryName, String sorting) {
         ArrayList<Product> filteredProducts = filterAndShowProducts(user, categoryName);
-        if (sorting.equalsIgnoreCase("date")) {
-            HashMap<Date, Product> sortedByDate = new HashMap<>();
+        if (sorting.equalsIgnoreCase("price")) {
+            HashMap<Integer, Product> sortedByPrice = new HashMap<>();
             for (Product product : filteredProducts) {
-                sortedByDate.put(product.getDate(), product);
+                sortedByPrice.put(product.getMinimumPrice(), product);
             }
             filteredProducts.clear();
-            filteredProducts.addAll(sortedByDate.values());
+            filteredProducts.addAll(sortedByPrice.values());
         } else if (sorting.equalsIgnoreCase("rate")) {
             HashMap<Double, Product> sortedByRate = new HashMap<>();
             for (Product product : filteredProducts) {
@@ -41,13 +41,19 @@ public class ProductController {
             filteredProducts.addAll(sortedByView.values());
         }
         return (ArrayList<String>) filteredProducts.stream()
-                .map(product -> "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
+                .map(product -> "name=" + product.getName() + ", price=" + product.getMinimumPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
     }
 
-    public String showDigestOfProduct(Product product, User user) {
+    public ArrayList<String> showDigestOfProduct(Product product, User user) {
+        ArrayList<String> digestOfProduct = new ArrayList<>();
         if (user instanceof Customer)
             product.addView();
-        return "name=" + product.getName() + ", price=" + product.getPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated());
+        digestOfProduct.add("name=" + product.getName());
+        digestOfProduct.add("rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
+        for (Seller seller : product.getSellersOfThisProduct().keySet()) {
+            digestOfProduct.add("seller: " + seller + ", price: " + product.getSellersOfThisProduct().get(seller));
+        }
+        return digestOfProduct;
     }
 
     public ArrayList<String> showAttributesOfProduct(Product product) {
@@ -55,29 +61,31 @@ public class ProductController {
         ArrayList<String> attributes = new ArrayList<>();
         attributes.add("status: " + product.getProductStatus());
         attributes.add("information: " + product.getInformation());
-        attributes.add("price: " + String.valueOf(product.getPrice()));
+        attributes.add("minimumPrice: " + String.valueOf(product.getMinimumPrice()));
         attributes.add("category: " + product.getCategory().getName());
         attributes.add("rate:" + product.getSumOfCustomersRate() / product.getCustomersWhoRated());
         attributes.add("available:" + product.getAvailable());
         attributes.add("views:" + product.getViews());
         for (String s : product.getSpecialPropertiesRelatedToCategory().keySet()) {
-            attributes.add(s + ":" + product.getSpecialPropertiesRelatedToCategory().get(s));
+            attributes.add(s + ": " + product.getSpecialPropertiesRelatedToCategory().get(s));
         }
-        attributes.add("sellers: " + product.getSellersOfThisProduct().stream().map(Seller -> Seller.getUsername()).toString());
-        if (product.getOff() != null) {
-            attributes.add("off: seller=" + product.getOff().getSeller().getUsername() + ", offAmount=" + product.getOff().getOffAmount());
+        for (Seller seller : product.getSellersOfThisProduct().keySet()) {
+            attributes.add("seller: " + seller.getUsername() + ", price: " + product.getSellersOfThisProduct().get(seller));
+        }
+        for (Off off : product.getOffs()) {
+            attributes.add("seller: " + off.getSeller().getUsername() + ", id: " + off.getOffId() + ", amount: " + off.getOffAmount());
         }
         return attributes;
     }
 
     public String[] showAvailableSorts() {
-        return (new String[]{"date", "rate", "view"});
+        return (new String[]{"price", "rate", "view"});
     }
 
     public ArrayList<String> showAvailableFiltersForUser(User user, String categoryName) {
         ArrayList<String> availableFilters = new ArrayList<>();
         availableFilters.addAll(ManagerController.getCategoryByName(categoryName).getSpecialProperties());
-        availableFilters.addAll(Arrays.asList("price", "company", "name", "rate", "availability"));
+        availableFilters.addAll(Arrays.asList("minimumPrice", "company", "name", "rate", "availability"));
         return availableFilters;
     }
 
@@ -109,7 +117,7 @@ public class ProductController {
                     if (!doesMatchWithFilter(filters.get(key), specialPropertiesOfProduct.get(key)))
                         return false;
                 }
-            } else if (key.equalsIgnoreCase("price") && !doesMatchWithFilter(filters.get(key), product.getPrice().toString())) {
+            } else if (key.equalsIgnoreCase("minimumPrice") && !doesMatchWithFilter(filters.get(key), String.valueOf(product.getMinimumPrice()))) {
                 return false;
             } else if (key.equalsIgnoreCase("company") && !doesMatchWithFilter(filters.get(key), product.getCompany())) {
                 return false;
@@ -153,7 +161,7 @@ public class ProductController {
         Product product2 = getProductById(productId2);
         ArrayList<String> information = new ArrayList<>();
         information.add("name:1-" + product1.getName() + ";2-" + product2.getName());
-        information.add("price:1-" + product1.getPrice() + ";2-" + product2.getPrice());
+        information.add("minimumPrice:1-" + product1.getMinimumPrice() + ";2-" + product2.getMinimumPrice());
         information.add("rate:1-" + (product1.getSumOfCustomersRate() / product1.getCustomersWhoRated()) + ";2-" + (product2.getSumOfCustomersRate() / product2.getCustomersWhoRated()));
         return information;
     }

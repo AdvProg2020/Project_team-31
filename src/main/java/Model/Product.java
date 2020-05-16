@@ -9,11 +9,12 @@ public class Product {
     private String name;
     private String company;
     private HashMap<Seller, Integer> sellersOfThisProduct;
+    private int minimumPrice;
     private int customersWhoRated;
     private Category category;
     private Double sumOfCustomersRate;
     private ArrayList<Comment> allComments;
-    private Off off;
+    private ArrayList<Off> offs;
     private int available;
     private ProductAndOffStatus productStatus;
     private String information;
@@ -24,7 +25,7 @@ public class Product {
 
     public Product(String productId, String name, String company, Category category, String information, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
-        off = null;
+        offs = null;
         this.productId = productId;
         this.name = name;
         this.company = company;
@@ -36,18 +37,29 @@ public class Product {
         allProducts.add(this);
     }
 
+    public int getMinimumPrice() {
+        return minimumPrice;
+    }
+
+    public void setMinimumPrice(int minimumPrice) {
+        this.minimumPrice = minimumPrice;
+    }
+
     public String getInformation() {
         return information;
     }
 
 
-
-    public Off getOff() {
-        return off;
+    public ArrayList<Off> getOffs() {
+        return offs;
     }
 
-    public void setOff(Off off) {
-        this.off = off;
+    public void addOff(Off off) {
+        offs.add(off);
+    }
+
+    public void removeOff(Off off) {
+        offs.remove(off);
     }
 
     public void removeSeller(Seller seller) {

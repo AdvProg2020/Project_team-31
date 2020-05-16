@@ -5,16 +5,16 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class BuyingLog extends Log{
-    private Double totalPrice;
-    private Double discountAmount;
+    private int totalPrice;
+    private int discountAmount;
     private HashMap<Product, ProductInCard> buyingProducts;
     private static ArrayList<BuyingLog> allBuyingLog;
     private String[] personalInformation;
 
-    public BuyingLog(Double totalPrice, Customer customer, HashMap<Product, ProductInCard> buyingProducts, String[] personalInformation) {
+    public BuyingLog(int totalPrice, Customer customer, HashMap<Product, ProductInCard> buyingProducts, String[] personalInformation) {
         super(null, null, customer);
         this.totalPrice = totalPrice;
-        this.discountAmount = 0.0;
+        this.discountAmount = 0;
         this.customer = customer;
         this.buyingProducts = buyingProducts;
         this.personalInformation = personalInformation;
@@ -30,15 +30,15 @@ public class BuyingLog extends Log{
         allBuyingLog.add(this);
     }
 
-    public void setDiscountAmount(Double discountAmount) {
+    public void setDiscountAmount(int discountAmount) {
         this.discountAmount = discountAmount;
     }
 
-    public Double getTotalPrice() {
+    public int getTotalPrice() {
         return totalPrice;
     }
 
-    public Double getDiscountAmount() {
+    public int getDiscountAmount() {
         return discountAmount;
     }
 

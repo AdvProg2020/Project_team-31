@@ -20,8 +20,9 @@ public class CustomerController {
     public ArrayList<String> showCard(User user) {
         Card card = user.getCard();
         ArrayList<String> arrayOfInformation = new ArrayList<>();
-        for (Product productInThisCard : card.getProductsInThisCard().keySet()) {
-            String productInformation = "productId: " + productInThisCard.getProductId() + " name: " + productInThisCard.getName() + " price: " + productInThisCard.getPrice() + " numberOfProduct: " + card.getProductsInThisCard().get(productInThisCard).getNumber();
+        for (Product product : card.getProductsInThisCard().keySet()) {
+            ProductInCard productInCard = card.getProductsInThisCard().get(product);
+            String productInformation = "productId: " + product.getProductId() + " name: " + product.getName() + " price: " + product.getSellersOfThisProduct().get(productInCard.getSeller()) + " numberOfProduct: " + productInCard.getNumber();
             arrayOfInformation.add(productInformation);
         }
         arrayOfInformation.add(String.valueOf(showTotalPrice(user)));
@@ -29,12 +30,12 @@ public class CustomerController {
         return arrayOfInformation;
     }
 
-    public String[] showProductInCard(User user) {
+    public ArrayList<String> showProductInCard(User user) {
         HashMap<Product, ProductInCard> products = user.getCard().getProductsInThisCard();
-        String[] arrayOfProducts = new String[products.size()];
+        ArrayList<String> arrayOfProducts = new ArrayList<>();
         int i = 0;
         for (Product product : products.keySet()) {
-            arrayOfProducts[i++] = i + 1 + ". productId: " + product.getProductId() + " ,nameOfProduct: " + product.getName() + " ,number: " + products.get(product).getNumber() + " ,sellerUsername: " + products.get(product).getSeller().getUsername();
+            arrayOfProducts.add( (++i) + ". productId: " + product.getProductId() + " ,nameOfProduct: " + product.getName() + " ,number: " + products.get(product).getNumber() + " ,sellerUsername: " + products.get(product).getSeller().getUsername());
         }
         return arrayOfProducts;
     }
@@ -42,7 +43,7 @@ public class CustomerController {
     public Boolean doesSellerHaveThisProduct(String productId, User user) {
         Product product = ProductController.getProductById(productId);
         if (user != null) {
-            if (product.getSellersOfThisProduct().contains((Seller) user)) {
+            if (product.getSellersOfThisProduct().keySet().contains((Seller) user)) {
                 return true;
             }
         }
@@ -73,13 +74,13 @@ public class CustomerController {
             card = new Card();
             user.setCard(card);
         }
-        if(product.getProductStatus() == ProductAndOffStatus.creating)
+        if (product.getProductStatus() == ProductAndOffStatus.creating)
             throw new Exception("Product is creating yet!");
 
         User seller = LoginController.getUserByUsername(sellerUsername);
 
         if (seller instanceof Seller) {
-            if (product.getSellersOfThisProduct().contains(seller)) {
+            if (product.getSellersOfThisProduct().keySet().contains(seller)) {
                 if (product.getAvailable() == 0)
                     throw new Exception("Inventory of product is not enough");
                 card.addProductToCard(new ProductInCard(product, (Seller) seller));
@@ -89,27 +90,27 @@ public class CustomerController {
         throw new Exception("There is not seller with this username for this product");
     }
 
-    double showTotalPrice(User user) {
+    int showTotalPrice(User user) {
         SellerController.getInstance().checkTimeOfOffs();
         HashMap<Product, ProductInCard> productsInThisCard = user.getCard().getProductsInThisCard();
         List<ProductInCard> products = new ArrayList<>(productsInThisCard.values());
-        Double totalPrice = 0.0;
+        int totalPrice = 0;
         for (ProductInCard product : products) {
-            Off off = product.getProduct().getOff();
-            Double percent = 100.0;
-            if (off != null) {
+            ArrayList<Off> offs = product.getProduct().getOffs();
+            int percent = 100;
+            for (Off off : offs) {
                 if (off.getSeller().equals((Seller) user)) {
                     percent -= off.getOffAmount();
+                    break;
                 }
             }
-            totalPrice += (product.getProduct().getPrice() * product.getNumber() * percent/100);
+            totalPrice += (product.getProduct().getSellersOfThisProduct().get((Seller) user) * product.getNumber() * percent / 100);
         }
         return totalPrice;
     }
 
     public BuyingLog createBuyingLog(User user, String[] information) {
         return new BuyingLog(customerControllerInstance.showTotalPrice(user), (Customer) user, user.getCard().getProductsInThisCard(), information);
-
     }
 
     public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws Exception {
@@ -126,7 +127,7 @@ public class CustomerController {
         if (discount.getDiscountTimesForEachCustomer().get(user) == 0)
             throw new Exception("User has used this code before");
 
-        buyingLog.setDiscountAmount(Math.min(buyingLog.getTotalPrice() * discount.getDiscountPercent() / 100, discount.getMaximumDiscount()));
+        buyingLog.setDiscountAmount(Math.min(buyingLog.getTotalPrice(), discount.getMaximumDiscount()) * discount.getDiscountPercent() / 100);
         discount.decreaseDiscountTimesForEachCustomer((Customer) user);
     }
 
@@ -142,9 +143,22 @@ public class CustomerController {
 
     private void createSellingLog(BuyingLog buyingLog) {
         ArrayList<ProductInCard> products = new ArrayList<>(buyingLog.getBuyingProducts().values());
-        for (ProductInCard product : products) {
-            product.getSeller().addSellingLog(new SellingLog(buyingLog.getDate(), buyingLog.getTotalPrice(), 0.0, product.getProduct(), buyingLog.getCustomer()));
-            product.getProduct().decreaseNumberOfProduct(product.getNumber());
+        for (ProductInCard productInCard : products) {
+            Seller seller = productInCard.getSeller();
+            Product product = productInCard.getProduct();
+            ArrayList<Off> offs = product.getOffs();
+            int percent = 0;
+            for (Off off : offs) {
+                if (off.getSeller().equals(seller)) {
+                    percent = off.getOffAmount();
+                    break;
+                }
+            }
+            int originalPrice = product.getSellersOfThisProduct().get(seller) * productInCard.getNumber();
+            int offAmount = originalPrice * percent / 100;
+            seller.getMoney(originalPrice - offAmount);
+            seller.addSellingLog(new SellingLog(buyingLog.getDate(),originalPrice - offAmount ,offAmount, product, buyingLog.getCustomer()));
+            product.decreaseNumberOfProduct(productInCard.getNumber());
         }
     }
 
@@ -171,7 +185,7 @@ public class CustomerController {
         product.addSumOfCustomersRate(rate);
     }
 
-    public Double showBalanceForCustomer(User user) {
+    public int showBalanceForCustomer(User user) {
         return user.getCredit();
     }
 

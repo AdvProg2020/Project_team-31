@@ -9,8 +9,8 @@ public class DiscountCode {
     private String discountCode;
     private Date beginTime;
     private Date endTime;
-    private Double discountPercent;
-    private Double maximumDiscount;
+    private int discountPercent;
+    private int maximumDiscount;
     private HashMap<Customer , Integer> discountTimesForEachCustomer;
 
     public DiscountCode(String discountCode) {
@@ -30,11 +30,11 @@ public class DiscountCode {
         return endTime;
     }
 
-    public Double getDiscountPercent() {
+    public int getDiscountPercent() {
         return discountPercent;
     }
 
-    public Double getMaximumDiscount() {
+    public int getMaximumDiscount() {
         return maximumDiscount;
     }
 
@@ -56,7 +56,7 @@ public class DiscountCode {
         allDiscountCodes.remove(this);
     }
 
-    public void setDiscountCode(Date beginTime, Date endTime, Double discountPercent, Double maximumDiscount, HashMap<Customer, Integer> discountTimesForEachCustomer){
+    public void setDiscountCode(Date beginTime, Date endTime, int discountPercent, int maximumDiscount, HashMap<Customer, Integer> discountTimesForEachCustomer){
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.discountPercent = discountPercent;
