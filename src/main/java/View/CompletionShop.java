@@ -20,10 +20,24 @@ public class CompletionShop extends Menu {
         BuyingLog buyingLog;
         try {
             buyingLog = getInformation();
+            loginMassage();
             discountCode(buyingLog);
+            loginMassage();
             payment(buyingLog);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void loginMassage() {
+        if (user == null) {
+            String command;
+            System.out.println("do you want to log in?(yes/no)");
+            while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("no")) {
+                if (command.equalsIgnoreCase("yes"))
+                    loginAndLogOut(true);
+                else System.out.println("invalid command");
+            }
         }
     }
 
