@@ -359,7 +359,7 @@ public class MainMenu extends Menu {
 
     private void editOff(String offId) throws Exception {
 
-    }///
+    }
 
     private void viewOff(String offId) {
         try {
@@ -447,7 +447,7 @@ public class MainMenu extends Menu {
 
     private void addManager() {
 
-    }
+    }///
 
     private void manageAllProducts() {
         String command;
