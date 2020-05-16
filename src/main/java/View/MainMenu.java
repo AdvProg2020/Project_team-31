@@ -664,7 +664,15 @@ public class MainMenu extends Menu {
     }
 
     private void addCategory(String name) {
-
+        if (ManagerController.getCategoryByName(name) != null) {
+            System.out.println("there is another category with this name");
+            return;
+        }
+        System.out.println("please enter the category features (-1 for exit)");
+        String command;
+        ArrayList<String> features = new ArrayList<>();
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
+            features.add(command);
     }
 
     private void removeCategory(String name) {
