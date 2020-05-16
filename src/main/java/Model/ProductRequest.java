@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class ProductRequest extends Request {
     private Product product;
-    private Double price;
+    private int price;
     private int available;
     private String information;
     private HashMap<String , String > specialPropertiesRelatedToCategory;
@@ -17,14 +17,14 @@ public class ProductRequest extends Request {
         this.isEditing = isEditing;
         allRequests.add(this);
     }
-    public void newProductFeatures(Double price , int available , String information , HashMap<String , String> specialPropertiesRelatedToCategory){
+    public void newProductFeatures(int price , int available , String information , HashMap<String , String> specialPropertiesRelatedToCategory){
         this.price = price;
         this.available = available;
         this.information = information;
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
     }
 
-    public Double getPrice() {
+    public int getPrice() {
         return price;
     }
 

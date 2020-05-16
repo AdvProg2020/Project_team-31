@@ -8,13 +8,13 @@ public class Product {
     private String productId;
     private String name;
     private String company;
-    private Double price;
-    private ArrayList<Seller> sellersOfThisProduct;
+    private HashMap<Seller, Integer> sellersOfThisProduct;
+    private int minimumPrice;
     private int customersWhoRated;
     private Category category;
     private Double sumOfCustomersRate;
     private ArrayList<Comment> allComments;
-    private Off off;
+    private ArrayList<Off> offs;
     private int available;
     private ProductAndOffStatus productStatus;
     private String information;
@@ -23,13 +23,12 @@ public class Product {
     private HashMap<String , String > specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts;
 
-    public Product(String productId, String name, String company, Double price, Category category, String information, ArrayList<Seller> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
+    public Product(String productId, String name, String company, Category category, String information, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
-        off = null;
+        offs = null;
         this.productId = productId;
         this.name = name;
         this.company = company;
-        this.price = price;
         this.sellersOfThisProduct = sellersOfThisProduct;
         this.category = category;
         this.productStatus = ProductAndOffStatus.creating;
@@ -38,18 +37,29 @@ public class Product {
         allProducts.add(this);
     }
 
+    public int getMinimumPrice() {
+        return minimumPrice;
+    }
+
+    public void setMinimumPrice(int minimumPrice) {
+        this.minimumPrice = minimumPrice;
+    }
+
     public String getInformation() {
         return information;
     }
 
 
-
-    public Off getOff() {
-        return off;
+    public ArrayList<Off> getOffs() {
+        return offs;
     }
 
-    public void setOff(Off off) {
-        this.off = off;
+    public void addOff(Off off) {
+        offs.add(off);
+    }
+
+    public void removeOff(Off off) {
+        offs.remove(off);
     }
 
     public void removeSeller(Seller seller) {
@@ -88,11 +98,7 @@ public class Product {
         return name;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public ArrayList<Seller> getSellersOfThisProduct() {
+    public HashMap<Seller, Integer> getSellersOfThisProduct() {
         return sellersOfThisProduct;
     }
 

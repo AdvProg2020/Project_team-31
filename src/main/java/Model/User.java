@@ -10,7 +10,7 @@ public abstract class User {
     private String emailAddress;
     private String phoneNumber;
     private String password;
-    private Double credit;
+    private int credit;
     private Card card;
     private HashMap<String, String> filters = new HashMap<>();
     private static ArrayList<User> allUsers = new ArrayList<>();
@@ -22,7 +22,7 @@ public abstract class User {
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
         this.password = password;
-        this.credit = 0.0;
+        this.credit = 0;
         allUsers.add(this);
     }
 
@@ -54,7 +54,7 @@ public abstract class User {
         arrayOfInformation[3] = emailAddress;
         arrayOfInformation[4] = phoneNumber;
         arrayOfInformation[5] = password;
-        arrayOfInformation[6] = credit.toString();
+        arrayOfInformation[6] = String.valueOf(credit);
         return arrayOfInformation;
     }
 
@@ -74,12 +74,16 @@ public abstract class User {
         this.card = card;
     }
 
-    public Double getCredit() {
+    public int getCredit() {
         return credit;
     }
 
-    public void payMoney(double payedMoney) {
+    public void payMoney(int payedMoney) {
         credit -= payedMoney;
+    }
+
+    public void getMoney(int getMoney) {
+        credit += getMoney;
     }
 
     public static ArrayList<User> getAllUsers() {

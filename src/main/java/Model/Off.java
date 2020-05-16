@@ -7,13 +7,13 @@ public class Off {
     private String offId;
     private Date beginTime;
     private Date endTime;
-    private Double offAmount;
+    private int offAmount;
     private ArrayList<Product> onSaleProducts;
     private Seller seller;
     private ProductAndOffStatus offStatus;
     private static ArrayList<Off> allOffs;
 
-    public Off(Seller seller, String offId, Date beginTime, Date endTime, Double offAmount, ArrayList<Product> products) {
+    public Off(Seller seller, String offId, Date beginTime, Date endTime, int offAmount, ArrayList<Product> products) {
         this.seller = seller;
         this.offId = offId;
         this.beginTime = beginTime;
@@ -32,7 +32,7 @@ public class Off {
         return endTime;
     }
 
-    public Double getOffAmount() {
+    public int getOffAmount() {
         return offAmount;
     }
 
