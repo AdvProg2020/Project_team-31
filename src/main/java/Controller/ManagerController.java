@@ -38,15 +38,6 @@ public class ManagerController {
         }
     }
 
-    public void removeProduct(String productId) {
-        Product deletingProduct = ProductController.getProductById(productId);
-        ArrayList<Seller> sellers = (ArrayList<Seller>) deletingProduct.getSellersOfThisProduct().keySet();
-        deletingProduct.removeProduct();
-        for (Seller seller : sellers) {
-            seller.removeProduct(deletingProduct);
-        }
-    }
-
     public void createDiscountCode(String discountCode, Date beginTime, Date endTime, int discountPercent, int maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
         HashMap<Customer, Integer> timesForEachCustomer = new HashMap<>();
         for (String s : discountTimesForEachCustomer.keySet()) {
