@@ -493,8 +493,11 @@ public class MainMenu extends Menu {
     }
 
     private void addManager() {
-
-    }///
+        LoginMenu loginMenu = LoginMenu.getInstance();
+        System.out.println("please enter the username : ");
+        String username = scanner.nextLine().trim();
+        loginMenu.register("manager", username, true);
+    }
 
     private void manageAllProducts() {
         String command;

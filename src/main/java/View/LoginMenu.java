@@ -24,7 +24,7 @@ public class LoginMenu extends Menu {
             command = scanner.nextLine().trim();
             Matcher matcher = getMatcher("^(?i)create\\s+account\\s+(customer|seller|manager)\\s+(\\S+)$", command);
             if (matcher.find())
-                register(matcher.group(1), matcher.group(2));
+                register(matcher.group(1), matcher.group(2),false);
             else if (getMatcher("^(?i)login\\s+(\\S+)$", command).find())
                 login(matcher.group(1));
             else if (getMatcher("^(?i)back$", command).find())
@@ -33,12 +33,12 @@ public class LoginMenu extends Menu {
         }
     }
 
-    public void register(String type, String username) {
+    public void register(String type, String username, boolean managerCommand) {
         if(!typeCheck(type)){
             System.out.println("please enter a valid role");
             return;
         }
-        if (loginController.isThereAnyManager()) {
+        if (loginController.isThereAnyManager() && !managerCommand) {
             System.out.println("there is already a manager!");
             return;
         } else if (!loginController.IsUsernameFree(username)) {
