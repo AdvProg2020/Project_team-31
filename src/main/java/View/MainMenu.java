@@ -3,12 +3,10 @@ package View;
 import Controller.*;
 import Model.*;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
@@ -80,13 +78,12 @@ public class MainMenu extends Menu {
                 "password : " + information[5] +
                 "credit : " + information[6]);
         viewCompanyInformation();
-        String[] changedInfo = new String[6];
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)edit\\s+(.+)$", command);
             if (matcher.find()) {
                 int index = findIndex(matcher.group(1));
-                if (index != 6 && index != 7) editPersonalInformation(index, changedInfo);
+                if (index != 7 && index != 8) editPersonalInformation(index, information);
             } else System.out.println("invalid command");
         }
     }
@@ -97,33 +94,38 @@ public class MainMenu extends Menu {
         else if (check.equalsIgnoreCase("last name"))
             return 1;
         else if (check.equalsIgnoreCase("email address"))
-            return 2;
-        else if (check.equalsIgnoreCase("phone number"))
             return 3;
-        else if (check.equalsIgnoreCase("password"))
+        else if (check.equalsIgnoreCase("phone number"))
             return 4;
+        else if (check.equalsIgnoreCase("password"))
+            return 5;
         else if (check.equalsIgnoreCase("company name")) {
             if (user instanceof Seller)
-                return 5;
+                return 6;
             else System.out.println("you are not a seller!");
-            return 6;
-        } else return 7;
+            return 7;
+        } else return 8;
     }
 
     private void editPersonalInformation(int index, String[] data) {
+        String[] newData = new String[7];
+        for (int i = 0; i <= 5; i++)
+            newData[i] = data[i];
+        newData[6] = sellerController.showCompanyInformation(user);
         if (index == 0)
-            data[0] = editFirstName();
+            newData[0] = editFirstName();
         else if (index == 1)
-            data[1] = editLastName();
-        else if (index == 2)
-            data[2] = editEmail();
+            newData[1] = editLastName();
         else if (index == 3)
-            data[3] = editPhoneNumber();
+            newData[3] = editEmail();
         else if (index == 4)
-            data[4] = editPassword();
+            newData[4] = editPhoneNumber();
         else if (index == 5)
-            data[5] = editCompanyName();
-        loginController.editPersonalInformation(user, data);
+            newData[5] = editPassword();
+        else if (index == 6)
+            newData[6] = editCompanyName();
+
+        loginController.editPersonalInformation(user, newData);
     }
 
     private String editFirstName() {
