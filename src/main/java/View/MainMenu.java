@@ -716,6 +716,7 @@ public class MainMenu extends Menu {
     /////////////////////////////////////////////////////////////////////
     private void customerMenu() {
         String command;
+        try{
         while (true) {
             command = scanner.nextLine().trim();
             if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
@@ -737,7 +738,10 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)end$", command).find())
                 break;
             else System.out.println("invalid command");
+        }
 
+        }catch (Exception e){
+            System.out.println("you have to login!");
 
         }
     }
