@@ -48,6 +48,9 @@ public class ShowProductMenu extends Menu {
     }
 
     private void attributes() {
+        ArrayList<String> information = productController.showAttributesOfProduct(product);
+        for (String line : information)
+            System.out.println(line);
     }
 
     private void compare(String secondProduct) {
