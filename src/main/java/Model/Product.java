@@ -12,7 +12,7 @@ public class Product {
     private int minimumPrice;
     private int customersWhoRated;
     private Category category;
-    private Double sumOfCustomersRate;
+    private int sumOfCustomersRate;
     private ArrayList<Comment> allComments;
     private ArrayList<Off> offs;
     private int available;
@@ -70,6 +70,14 @@ public class Product {
         return specialPropertiesRelatedToCategory;
     }
 
+    public void removeSpecialFeature(String key) {
+        specialPropertiesRelatedToCategory.remove(key);
+    }
+
+    public void addSpecialFeature(String key, String  value) {
+        specialPropertiesRelatedToCategory.put(key, value);
+    }
+
     public String getCompany() {
         return company;
     }
@@ -110,7 +118,7 @@ public class Product {
         available -= number;
     }
 
-    public Double getSumOfCustomersRate() {
+    public int getSumOfCustomersRate() {
         return this.sumOfCustomersRate;
     }
 
@@ -146,10 +154,6 @@ public class Product {
         return this.allComments;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
     public void setAvailable(int available) {
         this.available = available;
     }
@@ -158,8 +162,5 @@ public class Product {
         this.information = information;
     }
 
-    public void setSpecialPropertiesRelatedToCategory(HashMap<String, String> specialPropertiesRelatedToCategory) {
-        this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
-    }
 }
 
