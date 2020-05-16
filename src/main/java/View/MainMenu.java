@@ -337,44 +337,32 @@ public class MainMenu extends Menu {
     }
 
     private void addOff() throws Exception {
-//        Date startDate = null, endDate = null;
-//        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
-//        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
-//        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-//        try {
-//            startDate = format.parse(dateString);
-//        } catch (Exception e) {
-//            System.out.println("invalid format!");
-//        }
-//        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
-//        dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-//        try {
-//            endDate = format.parse(dateString);
-//        } catch (Exception e) {
-//            System.out.println("invalid format!");
-//        }
-//        System.out.println("please enter the discount percentage (by format DD for example 78%)");
-//        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
-//        int percent = Integer.parseInt(percentage);
-//        System.out.println("please enter the product IDs (-1 for exit)");
-//        String productId;
-//        ArrayList<String> productIds = new ArrayList<>();
-//        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
-//            productIds.add(productId);
-//        try {
-//            sellerController.addOff(user, productIds, startDate, endDate, percent);
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
         System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
-        Date startdate = scanDate();
-        if (startdate == null)
+        Date startDate = scanDate();
+        if (startDate == null)
             return;
         System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
         Date endDate = scanDate();
-        if (startdate == null)
+        if (startDate == null)
             return;
-    }///
+        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
+        int percent = Integer.parseInt(percentage);
+        if (percent >= 100 || percent <= 0) {
+            System.out.println("invalid number!");
+            return;
+        }
+        System.out.println("please enter the product IDs (-1 for exit)");
+        String productId;
+        ArrayList<String> productIds = new ArrayList<>();
+        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
+            productIds.add(productId);
+        try {
+            sellerController.addOff(user, productIds, startDate, endDate, percent);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private void editOff(String offId) throws Exception {
         if (sellerController.getOffById(offId) == null) {
