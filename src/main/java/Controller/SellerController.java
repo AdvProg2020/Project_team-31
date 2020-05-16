@@ -158,7 +158,7 @@ public class SellerController {
         }
     }
 
-    public void editOff(User user, String offId, ArrayList<String> products, Date beginTime, Date endTime, Double percent) throws Exception {
+    public void editOff(User user, String offId, ArrayList<String> products, Date beginTime, Date endTime, int percent) throws Exception {
         Off off = getOffById(offId);
         if (!off.getSeller().equals((Seller) user)) {
             throw new Exception("Seller Does'nt have this off");
@@ -166,7 +166,7 @@ public class SellerController {
         ArrayList<Product> newProducts = (ArrayList<Product>) products.stream()
                 .map(product -> ProductController.getProductById(product));
         off.setOffStatus(ProductAndOffStatus.editing);
-        (new OffRequest(off, true)).setOff(beginTime, endTime, percent, newProducts);
+        (new OffRequest(off, true)).setOff(beginTime, endTime,(double) percent, newProducts);
     }
 
     public Off getOffById(String id) {
