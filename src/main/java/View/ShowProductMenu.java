@@ -45,6 +45,17 @@ public class ShowProductMenu extends Menu {
         ArrayList<String> information = productController.showDigestOfProduct(product, user);
         for (String line : information)
             System.out.println(line);
+        String command;
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            if (command.equalsIgnoreCase("add to card"))
+                addToCard();
+            else System.out.println("invalid command");
+        }
+
+    }
+
+    private void addToCard() {
+
     }
 
     private void attributes() {
