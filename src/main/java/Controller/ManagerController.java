@@ -40,14 +40,14 @@ public class ManagerController {
 
     public void removeProduct(String productId) {
         Product deletingProduct = ProductController.getProductById(productId);
-        ArrayList<Seller> sellers = deletingProduct.getSellersOfThisProduct();
+        ArrayList<Seller> sellers = (ArrayList<Seller>) deletingProduct.getSellersOfThisProduct().keySet();
         deletingProduct.removeProduct();
         for (Seller seller : sellers) {
             seller.removeProduct(deletingProduct);
         }
     }
 
-    public void createDiscountCode(String discountCode, Date beginTime, Date endTime, Double discountPercent, Double maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
+    public void createDiscountCode(String discountCode, Date beginTime, Date endTime, int discountPercent, int maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
         HashMap<Customer, Integer> timesForEachCustomer = new HashMap<>();
         for (String s : discountTimesForEachCustomer.keySet()) {
             timesForEachCustomer.put((Customer) (LoginController.getUserByUsername(s)), discountTimesForEachCustomer.get(s));
@@ -84,7 +84,7 @@ public class ManagerController {
         return null;
     }
 
-    public void editDiscountCode(String discountCode, Date beginTime, Date endTime, Double discountPercent, Double maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
+    public void editDiscountCode(String discountCode, Date beginTime, Date endTime, int discountPercent, int maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
         DiscountCode discount = getDiscountById(discountCode);
         HashMap<Customer, Integer> timesForEachCustomer = new HashMap<>();
         for (String s : discountTimesForEachCustomer.keySet()) {
@@ -153,7 +153,7 @@ public class ManagerController {
                 Product product = ((ProductRequest) request).getProduct();
                 product.removeProduct();
                 product.getCategory().removeProduct(product);
-                for (Seller seller : product.getSellersOfThisProduct()) {
+                for (Seller seller : product.getSellersOfThisProduct().keySet()) {
                     seller.removeProduct(product);
                 }
             }
@@ -186,7 +186,7 @@ public class ManagerController {
         Category deletingCategory = getCategoryByName(name);
         for (Product product : deletingCategory.getProducts()) {
             product.removeProduct();
-            for (Seller seller : product.getSellersOfThisProduct()) {
+            for (Seller seller : product.getSellersOfThisProduct().keySet()) {
                 seller.removeProduct(product);
             }
         }
