@@ -67,5 +67,8 @@ public class ShowProductMenu extends Menu {
     }
 
     private void comments() {
+        ArrayList<String> information = productController.showCommentAboutProduct(product);
+        for (String line : information)
+            System.out.println(line);
     }
 }
