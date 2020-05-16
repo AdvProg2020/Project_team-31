@@ -72,7 +72,7 @@ public class Off {
         this.endTime = endTime;
     }
 
-    public void setOffAmount(Double offAmount) {
+    public void setOffAmount(int offAmount) {
         this.offAmount = offAmount;
     }
 

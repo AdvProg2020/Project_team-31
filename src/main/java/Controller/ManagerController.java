@@ -134,11 +134,22 @@ public class ManagerController {
 
     private void completeEditingOff(OffRequest offRequest) {
         Off off = offRequest.getOff();
-
+        off.setBeginTime(offRequest.getBeginTime());
+        off.setEndTime(off.getEndTime());
+        off.setOffAmount(offRequest.getOffAmount());
+        off.setOnSaleProducts(offRequest.getOnSaleProducts());
     }
 
     private void completeEditingProduct(ProductRequest productRequest) {
         Product product = productRequest.getProduct();
+        product.setAvailable(productRequest.getAvailable());
+        product.setInformation(productRequest.getInformation());
+        product.setSpecialPropertiesRelatedToCategory(productRequest.getSpecialPropertiesRelatedToCategory());
+        product.removeSeller(productRequest.getSeller());
+        product.addSeller(productRequest.getSeller(), productRequest.getPrice());
+        if(productRequest.getPrice() < product.getMinimumPrice()) {
+            product.setMinimumPrice(productRequest.getPrice());
+        }
     }
 
     public void declineRequest(String requestId) {
@@ -147,6 +158,8 @@ public class ManagerController {
             if(!((OffRequest) request).getIsEditing()) {
                 ((OffRequest) request).getOff().getSeller().removeOffFromThisSeller(((OffRequest) request).getOff());
                 ((OffRequest) request).getOff().removeOff();
+            } else {
+                ((OffRequest)request).getOff().setOffStatus(ProductAndOffStatus.accepted);
             }
         } else if(request instanceof ProductRequest) {
             if (! ((ProductRequest) request).isEditing()) {
@@ -156,6 +169,8 @@ public class ManagerController {
                 for (Seller seller : product.getSellersOfThisProduct().keySet()) {
                     seller.removeProduct(product);
                 }
+            } else {
+                ((ProductRequest)request).getProduct().setProductStatus(ProductAndOffStatus.accepted);
             }
         }
         request.deleteRequest();

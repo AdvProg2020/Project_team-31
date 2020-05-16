@@ -18,7 +18,6 @@ public class Product {
     private int available;
     private ProductAndOffStatus productStatus;
     private String information;
-    private Date date;
     private int views;
     private HashMap<String , String > specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts;
@@ -66,6 +65,10 @@ public class Product {
         sellersOfThisProduct.remove(seller);
     }
 
+    public void addSeller(Seller seller, int price) {
+        sellersOfThisProduct.put(seller, price);
+    }
+
     public HashMap<String, String> getSpecialPropertiesRelatedToCategory() {
         return specialPropertiesRelatedToCategory;
     }
@@ -88,14 +91,6 @@ public class Product {
 
     public void addView() {
         views ++;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public String getProductId() {
@@ -162,5 +157,8 @@ public class Product {
         this.information = information;
     }
 
+    public void setSpecialPropertiesRelatedToCategory(HashMap<String, String> specialPropertiesRelatedToCategory) {
+        this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
+    }
 }
 
