@@ -52,15 +52,15 @@ public class SellerController {
         if (product.getSellersOfThisProduct().size() == 1) {
             ManagerController.getInstance().removeProduct(productId);
         } else {
-            ((Seller)user).removeProduct(product);
-            product.removeSeller((Seller)user);
+            ((Seller) user).removeProduct(product);
+            product.removeSeller((Seller) user);
         }
     }
 
     public ArrayList<String> showProductsOfThisSeller(User user) {
         ArrayList<String> products = new ArrayList<>();
         for (Product product : ((Seller) user).getOnSaleProducts()) {
-            products.add("name=" + product.getName() + ", price=" + product.getSellersOfThisProduct().get((Seller)user) + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
+            products.add("name=" + product.getName() + ", price=" + product.getSellersOfThisProduct().get((Seller) user) + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
         }
         return products;
     }
@@ -109,9 +109,9 @@ public class SellerController {
         return (String[]) offs.toArray();
     }
 
-    public String[] showOff(String offId) throws Exception{
+    public String[] showOff(String offId) throws Exception {
         Off off = getOffById(offId);
-        if(off == null)
+        if (off == null)
             throw new Exception("Id is invalid");
         ArrayList<String> information = new ArrayList<>();
         information.add(String.valueOf(off.getOffStatus()));
@@ -145,7 +145,7 @@ public class SellerController {
         ArrayList<Off> allOffs = Off.getAllOffs();
         Date timeNow = new Date();
         for (Off off : allOffs) {
-            if(off.getEndTime().before(timeNow) && off.getOffStatus() != ProductAndOffStatus.creating) {
+            if (off.getEndTime().before(timeNow) && off.getOffStatus() != ProductAndOffStatus.creating) {
                 off.removeOff();
                 off.getSeller().removeOffFromThisSeller(off);
                 for (Product product : off.getOnSaleProducts()) {
@@ -159,7 +159,7 @@ public class SellerController {
         }
     }
 
-    public void editOff(User user, String offId, ArrayList<String> products, Date beginTime, Date endTime, Double percent) throws Exception {
+    public void editOff(User user, String offId, ArrayList<String> products, Date beginTime, Date endTime, int percent) throws Exception {
         Off off = getOffById(offId);
         if (!off.getSeller().equals((Seller) user)) {
             throw new Exception("Seller Does'nt have this off");
@@ -167,10 +167,10 @@ public class SellerController {
         ArrayList<Product> newProducts = (ArrayList<Product>) products.stream()
                 .map(product -> ProductController.getProductById(product));
         off.setOffStatus(ProductAndOffStatus.editing);
-        (new OffRequest(off, true)).setOff(beginTime, endTime, percent, newProducts);
+        (new OffRequest(off, true)).setOff(beginTime, endTime,(double) percent, newProducts);
     }
 
-    private Off getOffById(String id) {
+    public Off getOffById(String id) {
         for (Off off : Off.getAllOffs()) {
             if (off.getOffId().equalsIgnoreCase(id)) {
                 return off;
@@ -181,6 +181,16 @@ public class SellerController {
 
     public int showBalanceOfSeller(User user) {
         return user.getCredit();
+    }
+
+    public ArrayList<String> getOffProducts(String offId) throws Exception {
+        Off off = getOffById(offId);
+        if (off == null)
+            throw new Exception("there isn'n any off with this Id!");
+        ArrayList<String> productId = new ArrayList<String>();
+        for (Product product : off.getOnSaleProducts())
+            productId.add(product.getProductId());
+        return productId;
     }
 
 }

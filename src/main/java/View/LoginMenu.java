@@ -24,7 +24,7 @@ public class LoginMenu extends Menu {
             command = scanner.nextLine().trim();
             Matcher matcher = getMatcher("^(?i)create\\s+account\\s+(customer|seller|manager)\\s+(\\S+)$", command);
             if (matcher.find())
-                register(matcher.group(1), matcher.group(2));
+                register(matcher.group(1), matcher.group(2),false);
             else if (getMatcher("^(?i)login\\s+(\\S+)$", command).find())
                 login(matcher.group(1));
             else if (getMatcher("^(?i)back$", command).find())
@@ -33,9 +33,18 @@ public class LoginMenu extends Menu {
         }
     }
 
-    public void register(String type, String username) {
-        if (loginController.isThereAnyManager() || !loginController.IsUsernameFree(username))
+    public void register(String type, String username, boolean managerCommand) {
+        if(!typeCheck(type)){
+            System.out.println("please enter a valid role");
             return;
+        }
+        if (loginController.isThereAnyManager() && !managerCommand) {
+            System.out.println("there is already a manager!");
+            return;
+        } else if (!loginController.IsUsernameFree(username)) {
+            System.out.println("this username have been taken!");
+            return;
+        }
         String password = "";
         System.out.println("please enter your password:" +
                 "Password must be between 4 and 8 digits long and include at least one numeric digit.\n");
@@ -66,7 +75,19 @@ public class LoginMenu extends Menu {
             System.out.println("please enter your company name:");
             information[5] = scanner.nextLine().trim();
         }
-        loginController.register(username, password, information);
+        try {
+            loginController.register(username, type, information);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private boolean typeCheck(String type) {
+        if (!type.equalsIgnoreCase("manager"))
+            if (!type.equalsIgnoreCase("seller"))
+                if (!type.equalsIgnoreCase("customer"))
+                    return false;
+        return true;
     }
 
     public void login(String username) {
