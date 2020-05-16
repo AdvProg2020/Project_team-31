@@ -355,9 +355,8 @@ public class MainMenu extends Menu {
         System.out.println("please enter the product IDs (-1 for exit)");
         String productId;
         ArrayList<String> productIds = new ArrayList<>();
-        while ((productId = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
             productIds.add(productId);
-        }
         try {
             sellerController.addOff(user, productIds, startDate, endDate, percent);
         } catch (Exception e) {
@@ -660,7 +659,25 @@ public class MainMenu extends Menu {
     }
 
     private void editCategory(String name) {
-
+        ArrayList<String> features = null;
+        try {
+            sellerController.getCategoryFeatures(name);
+        } catch (Exception e) {
+            System.out.println("there isn't any category with this name");
+        }
+        if (features == null) {
+            System.out.println("there isn't any category with this name");
+            return;
+        }
+        String command;
+        System.out.println("please enter the features you want to add : (-1 for exit)");
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            features.add(command);
+        }
+        System.out.println("please enter the product IDs you want to exclude : (-1 for exit)");
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            features.remove(command);
+        }
     }
 
     private void addCategory(String name) {
@@ -671,7 +688,7 @@ public class MainMenu extends Menu {
         System.out.println("please enter the category features (-1 for exit)");
         String command;
         ArrayList<String> features = new ArrayList<>();
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
             features.add(command);
     }
 
