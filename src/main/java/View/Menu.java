@@ -41,4 +41,14 @@ public abstract class Menu {
         }
         return check;
     }
+
+    public void loginAndLogOut(boolean type) {
+        if (user == null)
+            if (type)
+                LoginMenu.getInstance().run();
+            else System.out.println("you aren't logged in!");
+        else if (type)
+            System.out.println("you already have logged in!");
+        else LoginMenu.getInstance().logout();
+    }
 }
