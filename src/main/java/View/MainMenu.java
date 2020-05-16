@@ -582,7 +582,11 @@ public class MainMenu extends Menu {
     }
 
     private void viewDiscountCode(String code) {
-//        managerController.showDiscount()
+        try {
+            System.out.println(managerController.showDiscount(code));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void editDiscountCode(String code) {
