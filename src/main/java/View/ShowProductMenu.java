@@ -55,7 +55,13 @@ public class ShowProductMenu extends Menu {
     }
 
     private void addToCard() {
-
+        System.out.println("please select your seller");
+        String seller = scanner.nextLine().trim();
+        try {
+            customerController.addProductToCard(user, product, seller);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void attributes() {
