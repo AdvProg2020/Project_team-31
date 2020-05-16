@@ -77,14 +77,14 @@ public class SellerController {
         ((Seller) user).addProduct(newProduct);
     }
 
-    public void editProduct(User user, String productId, double price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
+    public void editProduct(User user, String productId, int price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
         Product product = ProductController.getProductById(productId);
         if (product == null)
             throw new Exception("There is'nt this Product");
-        if (product.getSellersOfThisProduct().contains((Seller) user))
+        if (!product.getSellersOfThisProduct().contains((Seller) user))
             throw new Exception("Seller does'nt have this product");
         product.setProductStatus(ProductAndOffStatus.editing);
-        (new ProductRequest(product, true)).newProductFeatures(price, available, information, specialInformationRelatedToCategory);
+        (new ProductRequest(product, true)).newProductFeatures((double)price, available, information, specialInformationRelatedToCategory);
     }
 
     public void removeProduct(String productId) throws Exception {
