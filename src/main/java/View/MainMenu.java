@@ -582,8 +582,13 @@ public class MainMenu extends Menu {
             Matcher removeMatcher = getMatcher("^(?i)remove\\s+discount\\s+codes\\s+(.+)$", command);
             if (viewMatcher.find())
                 viewDiscountCode(viewMatcher.group(1));
-            else if (editMathcer.find())
-                editDiscountCode(editMathcer.group(1));
+            else if (editMathcer.find()) {
+                try {
+                    editDiscountCode(editMathcer.group(1));
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
+            }
             else if (removeMatcher.find())
                 removeDiscountCode(removeMatcher.group(1));
             else System.out.println("invalid command");
@@ -613,9 +618,44 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void editDiscountCode(String code) {
-
-    }///
+    private void editDiscountCode(String code) throws Exception {
+        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+        Date startDate = scanDate();
+        if (startDate == null)
+            return;
+        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        Date endDate = scanDate();
+        if (endDate == null)
+            return;
+        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
+        int percent = Integer.parseInt(percentage);
+        if (percent >= 100 || percent <= 0) {
+            System.out.println("invalid number!");
+            return;
+        }
+        System.out.println("please enter the maximum price");
+        String price = scanByRegex("^\\d+$", "invalid format");
+        if (Integer.parseInt(price) <= 0) {
+            throw new Exception("invalid price!");
+        }
+        String command;
+        HashMap<String, Integer> data = new HashMap<>();
+        System.out.println("please enter the customers and the number of uses (for example reza-2)");
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            Matcher matcher = getMatcher("(.+)-(\\d+)", command);
+            if (matcher.find()) {
+                data.put(matcher.group(1), Integer.parseInt(matcher.group(2)));
+            } else {
+                System.out.println("invalid format");
+            }
+        }
+        try {
+            managerController.editDiscountCode(code, startDate, endDate, percent, Integer.parseInt(price), data);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private void removeDiscountCode(String code) {
         try {
