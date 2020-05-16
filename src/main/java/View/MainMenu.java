@@ -608,6 +608,7 @@ public class MainMenu extends Menu {
     private void acceptRequest(String requestId) {
         try {
             managerController.acceptRequest(requestId);
+            System.out.println("request accepted successfully");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -615,7 +616,12 @@ public class MainMenu extends Menu {
     }
 
     private void declineRequest(String requestId) {
-
+        try {
+            managerController.declineRequest(requestId);
+            System.out.println("request declined successfully");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void viewRequest(String requestId) {
