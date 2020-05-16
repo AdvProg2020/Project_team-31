@@ -446,9 +446,13 @@ public class MainMenu extends Menu {
                 manageUsers();
             else if (getMatcher("^(?i)manage\\s+all\\s+products$", command).find())
                 manageAllProducts();
-            else if (getMatcher("^(?i)create\\s+discount\\s+code$", command).find())
-                createDiscountCode();
-            else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
+            else if (getMatcher("^(?i)create\\s+discount\\s+code$", command).find()) {
+                try {
+                    createDiscountCode();
+                } catch (Exception e) {
+                    System.out.println("invalid date format!");
+                }
+            } else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
                 viewDiscountCodesForManager();
             else if (getMatcher("^(?i)manage\\s+requests$", command).find())
                 manageRequests();
@@ -528,8 +532,23 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void createDiscountCode() {
-    }///
+    private void createDiscountCode() throws Exception {
+        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+        Date startDate = scanDate();
+        if (startDate == null)
+            return;
+        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        Date endDate = scanDate();
+        if (startDate == null)
+            return;
+        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
+        int percent = Integer.parseInt(percentage);
+        if (percent >= 100 || percent <= 0) {
+            System.out.println("invalid number!");
+            return;
+        }
+    }
 
     private void viewDiscountCodesForManager() {
         viewAllDiscountCodes();
