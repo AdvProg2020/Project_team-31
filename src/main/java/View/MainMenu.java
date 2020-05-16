@@ -550,6 +550,7 @@ public class MainMenu extends Menu {
     }///
 
     private void viewDiscountCodesForManager() {
+        viewAllDiscountCodes();
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+discount\\s+codes\\s+(.+)$", command);
@@ -567,8 +568,21 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewDiscountCode(String code) {
+    private void viewAllDiscountCodes() {
+        System.out.println("/////////////////////////////////////////////");
+        ArrayList<String> allCodes = null;
+        try {
+            allCodes = managerController.showAllDiscountCodes();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        for (String code : allCodes)
+            System.out.println(code);
+        System.out.println("/////////////////////////////////////////////");
+    }
 
+    private void viewDiscountCode(String code) {
+//        managerController.showDiscount()
     }
 
     private void editDiscountCode(String code) {
