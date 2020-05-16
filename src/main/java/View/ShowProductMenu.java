@@ -34,6 +34,10 @@ public class ShowProductMenu extends Menu {
                 attributes();
             else if (matcher.find())
                 compare(matcher.group(1));
+            else if (getMatcher("^(?i)login$", command).find())
+                loginAndLogOut(true);
+            else if (getMatcher("^(?i)logout$", command).find())
+                loginAndLogOut(false);
             else if (getMatcher("^(?i)Comments$", command).find())
                 comments();
             else System.out.println("invalid command");
