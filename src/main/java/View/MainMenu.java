@@ -2,6 +2,7 @@ package View;
 
 import Controller.*;
 import Model.*;
+import sun.tools.attach.AttachProviderImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -586,9 +587,8 @@ public class MainMenu extends Menu {
 
     private void detailRequest(String requestId) {
         try {
-
             viewRequest(requestId);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         String command;
@@ -606,6 +606,11 @@ public class MainMenu extends Menu {
     }
 
     private void acceptRequest(String requestId) {
+        try {
+            managerController.acceptRequest(requestId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
@@ -615,7 +620,7 @@ public class MainMenu extends Menu {
 
     private void viewRequest(String requestId) {
         try {
-            managerController.showRequestDetails(requestId);
+            System.out.println(managerController.showRequestDetails(requestId));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
