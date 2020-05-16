@@ -17,7 +17,22 @@ public class ProductController {
     }
 
     public ArrayList<String> showProducts(User user, String categoryName, String sorting) {
-        ArrayList<Product> filteredProducts = filterAndShowProducts(user, categoryName);
+        ArrayList<Product> products;
+        Category category;
+        if (categoryName == null) {
+            products = Product.allProducts;
+            category = null;
+        } else {
+            category = ManagerController.getCategoryByName(categoryName);
+            products = category.getProducts();
+        }
+        ArrayList<Product> filteredProducts = (ArrayList<Product>) products.stream()
+                .filter(product -> isContainThisProduct(user.getFilters(), product, category));
+
+        return sortProduct(filteredProducts, sorting);
+    }
+
+    private ArrayList<String> sortProduct(ArrayList<Product> filteredProducts, String sorting) {
         if (sorting.equalsIgnoreCase("price")) {
             HashMap<Integer, Product> sortedByPrice = new HashMap<>();
             for (Product product : filteredProducts) {
@@ -28,7 +43,7 @@ public class ProductController {
         } else if (sorting.equalsIgnoreCase("rate")) {
             HashMap<Double, Product> sortedByRate = new HashMap<>();
             for (Product product : filteredProducts) {
-                sortedByRate.put(product.getSumOfCustomersRate() / product.getCustomersWhoRated(), product);
+                sortedByRate.put((double) (product.getSumOfCustomersRate() / product.getCustomersWhoRated()), product);
             }
             filteredProducts.clear();
             filteredProducts.addAll(sortedByRate.values());
@@ -40,6 +55,7 @@ public class ProductController {
             filteredProducts.clear();
             filteredProducts.addAll(sortedByView.values());
         }
+
         return (ArrayList<String>) filteredProducts.stream()
                 .map(product -> "name=" + product.getName() + ", price=" + product.getMinimumPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
     }
@@ -95,18 +111,17 @@ public class ProductController {
         user.addFilter(filterKey, filterValue);
     }
 
-    private ArrayList<Product> filterAndShowProducts(User user, String categoryName) {
-        ArrayList<Product> products;
-        Category category;
-        if (categoryName == null) {
-            products = Product.allProducts;
-            category = null;
-        } else {
-            category = ManagerController.getCategoryByName(categoryName);
-            products = category.getProducts();
+    private ArrayList<String> showOffProduct(User user, String sorting) {
+        ArrayList<Product> offedProduct = new ArrayList<>();
+        Date date = new Date();
+        for (Off off : Off.getAllOffs()) {
+            if(off.getBeginTime().before(date) && off.getEndTime().after(date) && off.getOffStatus().equals(ProductAndOffStatus.accepted)) {
+                offedProduct.addAll(off.getOnSaleProducts());
+            }
         }
-        return (ArrayList<Product>) products.stream()
-                .filter(product -> isContainThisProduct(user.getFilters(), product, category));
+        offedProduct.stream()
+                .filter(product -> isContainThisProduct(user.getFilters(), product, null));
+        return sortProduct(offedProduct, sorting);
     }
 
     private Boolean isContainThisProduct(HashMap<String, String> filters, Product product, Category category) {
@@ -145,6 +160,12 @@ public class ProductController {
             }
         }
         return false;
+    }
+
+    public void clearFilters(User user) {
+        for (String s : user.getFilters().keySet()) {
+            user.removeFilter(s);
+        }
     }
 
     public HashMap<String, String> ShowCurrentFilters(User user) {
