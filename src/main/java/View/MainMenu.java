@@ -332,33 +332,77 @@ public class MainMenu extends Menu {
     }
 
     private void addOff() throws Exception {
+        Date startDate = null, endDate = null;
         SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
         System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
         String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-        Date startDate = format.parse(dateString);
-        if (startDate.before(new Date()))
-            throw new Exception("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
-        System.out.println("please enter the end time");
+        try {
+            startDate = format.parse(dateString);
+        } catch (Exception e) {
+            System.out.println("invalid format!");
+        }
+        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
         dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-        Date endDate = format.parse(dateString);
-        if (endDate.before(startDate))
-            throw new Exception("the end date must be after start date");
+        try {
+            endDate = format.parse(dateString);
+        } catch (Exception e) {
+            System.out.println("invalid format!");
+        }
         System.out.println("please enter the discount percentage (by format DD for example 78%)");
         String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
         int percent = Integer.parseInt(percentage);
-        if (percent <= 0 || percent >= 100)
-            throw new WrongPercentageException("wrong percentage");
         System.out.println("please enter the product IDs (-1 for exit)");
         String productId;
         ArrayList<String> productIds = new ArrayList<>();
         while ((productId = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             productIds.add(productId);
         }
-        sellerController.addOff(user, productIds, startDate, endDate, percent);
+        try {
+            sellerController.addOff(user, productIds, startDate, endDate, percent);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    private void editOff(String offId) throws Exception {
 
+    private void editOff(String offId) throws Exception {
+        Date startDate = null, endDate = null;
+        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\") (-1 for escape)");
+        String dateString = scanner.nextLine().trim();
+        if (dateString.equals("-1")) {
+            startDate = null;
+        } else {
+            try {
+                startDate = format.parse(dateString);
+            } catch (Exception e) {
+                System.out.println("invalid format");
+            }
+        }
+        if (startDate.before(new Date()))
+            throw new Exception("the start time must be after now");
+        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        dateString = scanner.nextLine().trim();
+        if (dateString.equals("-1")) {
+            startDate = null;
+        } else {
+            try {
+                startDate = format.parse(dateString);
+            } catch (Exception e) {
+                System.out.println("invalid format");
+            }
+        }
+        if (endDate.before(startDate))
+            throw new Exception("the end date must be after start date");
+        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+        String percentage = scanner.nextLine().trim();
+        int percent = Integer.parseInt(percentage);
+        System.out.println("please enter the product IDs (-1 for exit)");
+        String productId;
+        ArrayList<String> productIds = new ArrayList<>();
+        while ((productId = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            productIds.add(productId);
+        }
     }
 
     private void viewOff(String offId) {
@@ -587,10 +631,4 @@ public class MainMenu extends Menu {
         }
     }
 
-}
-
-class WrongPercentageException extends Exception {
-    public WrongPercentageException(String message) {
-        super(message);
-    }
 }
