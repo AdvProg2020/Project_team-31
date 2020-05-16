@@ -421,7 +421,7 @@ public class MainMenu extends Menu {
 
     private void viewOff(String offId) {
         try {
-            String[] offData = sellerController.showOff(offId);
+            String[] offData = sellerController.showOff(user, offId);
             System.out.println("////////////////////////////////////////////////");
             for (String data : offData)
                 System.out.println(data);
@@ -534,7 +534,7 @@ public class MainMenu extends Menu {
 
     private void removeProductByManager(String productId) {
         try {
-            managerController.removeProduct(productId);
+            sellerController.removeProduct(productId);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

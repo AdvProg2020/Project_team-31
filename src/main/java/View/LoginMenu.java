@@ -62,7 +62,7 @@ public class LoginMenu extends Menu {
             if (!information[2].matches("^(.+)@(.+)$"))
                 System.out.println("incorrect email address");
         }
-        while (information[3] == null || !information[2].matches("^[0-9]{6,14}$")) {
+        while (information[3] == null || !information[3].matches("^[0-9]{6,14}$")) {
             System.out.println("please enter your phone number:");
             information[3] = scanner.nextLine().trim();
             if (!information[3].matches("^[0-9]{6,14}$"))
