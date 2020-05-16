@@ -75,7 +75,9 @@ public class CustomerController {
             user.setCard(card);
         }
         if (product.getProductStatus() == ProductAndOffStatus.creating)
-            throw new Exception("Product is creating yet!");
+            throw new Exception("Product is in creating progress yet!");
+        if(product.getProductStatus() == ProductAndOffStatus.editing)
+            throw new Exception("product is in editing progress!");
 
         User seller = LoginController.getUserByUsername(sellerUsername);
 
@@ -109,7 +111,11 @@ public class CustomerController {
         return totalPrice;
     }
 
-    public BuyingLog createBuyingLog(User user, String[] information) {
+    public BuyingLog createBuyingLog(User user, String[] information) throws Exception {
+        for (Product product : user.getCard().getProductsInThisCard().keySet()) {
+            if(product.getAvailable() < user.getCard().getProductsInThisCard().get(product).getNumber())
+                throw new Exception("number of " + product.getName() + "is more than it's availability.");
+        }
         return new BuyingLog(customerControllerInstance.showTotalPrice(user), (Customer) user, user.getCard().getProductsInThisCard(), information);
     }
 
