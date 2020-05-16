@@ -42,7 +42,9 @@ public class ShowProductMenu extends Menu {
     }
 
     private void digest() {
-
+        ArrayList<String> information = productController.showDigestOfProduct(product, user);
+        for (String line : information)
+            System.out.println(line);
     }
 
     private void attributes() {
