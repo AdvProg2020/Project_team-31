@@ -576,17 +576,43 @@ public class MainMenu extends Menu {
         showAllRequests();
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
-            Matcher viewMatcher = getMatcher("^(?i)view\\s+discount\\s+codes\\s+(.+)$", command);
-            Matcher editMathcer = getMatcher("^(?i)edit\\s+discount\\s+codes\\s+(.+)$", command);
-            Matcher removeMatcher = getMatcher("^(?i)remove\\s+discount\\s+codes\\s+(.+)$", command);
-            if (viewMatcher.find())
-                viewDiscountCode(viewMatcher.group(1));
-            else if (editMathcer.find())
-                editDiscountCode(editMathcer.group(1));
-            else if (removeMatcher.find())
-                removeDiscountCode(removeMatcher.group(1));
+            Matcher matcher = getMatcher("^(?i)detail\\s+(.+)$", command);
+            if (matcher.find())
+                detailRequest(matcher.group(1));
             else System.out.println("invalid command");
 
+        }
+    }
+
+    private void detailRequest(String requestId) {
+        viewRequest(requestId);
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher accept = getMatcher("^(?i)accept\\s+(.+)$", command);
+            Matcher decline = getMatcher("^(?i)decline\\s+(.+)$", command);
+            if (accept.find())
+                if (accept.find())
+                    acceptRequest(accept.group(1));
+                else if (decline.find())
+                    declineRequest(decline.group(1));
+                else System.out.println("invalid command");
+
+        }
+    }
+
+    private void acceptRequest(String requestId) {
+
+    }
+
+    private void declineRequest(String requestId) {
+
+    }
+
+    private void viewRequest(String requestId) {
+        try {
+            managerController.showRequestDetails(requestId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
