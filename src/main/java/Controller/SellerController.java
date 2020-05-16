@@ -128,6 +128,7 @@ public class SellerController {
         checkTimeOfOffs();
         ArrayList<Product> products = (ArrayList<Product>) productsId.stream()
                 .map(productId -> ProductController.getProductById(productId));
+        // if an Off does not start and its time is similar to new off it doesn't check
         for (Product product : products) {
             for (Off off : product.getOffs()) {
                 if (off.getSeller().equals((Seller) user)) {

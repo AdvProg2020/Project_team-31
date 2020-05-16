@@ -13,13 +13,15 @@ public class LoginController {
         return loginControllerInstance;
     }
 
-    public void register(String username, String role, String[] information) {
+    public void register(String username, String role, String[] information) throws Exception {
         if (role.equals("customer")) {
             new Customer(information[0], information[1], username, information[2], information[3], information[4]);
         } else if (role.equals("seller")) {
             new SellerRequest(username, information);
-        } else {
+        } else if (role.equals("manager")){
             new Manager(information[0], information[1], username, information[2], information[3], information[4]);
+        } else {
+            throw new Exception("role is invalid");
         }
     }
 
@@ -43,7 +45,7 @@ public class LoginController {
                     throw new Exception("Password is incorrect");
             }
         }
-        throw new Exception("There is already a user with this username");
+        throw new Exception("There is not user with this username");
     }
 
     public String[] showPersonalInformation(User user) {
