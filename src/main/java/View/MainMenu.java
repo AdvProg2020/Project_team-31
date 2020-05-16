@@ -502,7 +502,7 @@ public class MainMenu extends Menu {
     private void manageAllProducts() {
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
-            Matcher removeMathcer = getMatcher("^(?i)remoce\\s+(\\S+)$", command);
+            Matcher removeMathcer = getMatcher("^(?i)remove\\s+(\\S+)$", command);
             if (removeMathcer.find())
                 removeProductByManager(removeMathcer.group(1));
             else System.out.println("invalid command");
@@ -550,7 +550,34 @@ public class MainMenu extends Menu {
     }///
 
     private void viewDiscountCodesForManager() {
-    }///
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher viewMatcher = getMatcher("^(?i)view\\s+discount\\s+codes\\s+(.+)$", command);
+            Matcher editMathcer = getMatcher("^(?i)edit\\s+discount\\s+codes\\s+(.+)$", command);
+            Matcher removeMatcher = getMatcher("^(?i)remove\\s+discount\\s+codes\\s+(.+)$", command);
+            if (viewMatcher.find())
+                viewDiscountCode(viewMatcher.group(1));
+            else if (editMathcer.find())
+                editDiscountCode(editMathcer.group(1));
+            else if (removeMatcher.find())
+                removeDiscountCode(removeMatcher.group(1));
+            else System.out.println("invalid command");
+
+
+        }
+    }
+
+    private void viewDiscountCode(String code) {
+
+    }
+
+    private void editDiscountCode(String code) {
+
+    }
+
+    private void removeDiscountCode(String code) {
+
+    }
 
     private void manageRequests() {
     }///
