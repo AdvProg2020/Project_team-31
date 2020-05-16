@@ -197,6 +197,10 @@ public class ManagerController {
         getCategoryByName(name).setSpecialProperties(newFeatures);
     }
 
+    public void changeFeatureOfCategory(HashMap<String, String> changedFeatured) {
+
+    }
+
     public static Category getCategoryByName(String name) {
         for (Category category : Category.getAllCategories()) {
             if (category.getName().equals(name))
