@@ -643,7 +643,33 @@ public class MainMenu extends Menu {
     }
 
     private void manageCategories() {
-    }///
+        viewAllDiscountCodes();
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher edit = getMatcher("^(?i)edit\\s+(.+)$", command);
+            Matcher add = getMatcher("^(?i)add\\s+(.+)$", command);
+            Matcher remove = getMatcher("^(?i)remove\\s+(.+)$", command);
+            if (edit.find())
+                editCategory(edit.group(1));
+            else if (add.find())
+                addCategory(add.group(1));
+            else if (remove.find())
+                removeCategory(remove.group(1));
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void editCategory(String name) {
+
+    }
+
+    private void addCategory(String name) {
+
+    }
+
+    private void removeCategory(String name) {
+
+    }
 
     /////////////////////////////////////////////////////////////////////
     private void customerMenu() {
