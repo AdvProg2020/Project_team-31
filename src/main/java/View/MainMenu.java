@@ -585,16 +585,21 @@ public class MainMenu extends Menu {
     }
 
     private void detailRequest(String requestId) {
-        viewRequest(requestId);
+        try {
+
+            viewRequest(requestId);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
-            Matcher accept = getMatcher("^(?i)accept\\s+(.+)$", command);
-            Matcher decline = getMatcher("^(?i)decline\\s+(.+)$", command);
+            Matcher accept = getMatcher("^(?i)accept$", command);
+            Matcher decline = getMatcher("^(?i)decline$", command);
             if (accept.find())
                 if (accept.find())
-                    acceptRequest(accept.group(1));
+                    acceptRequest(requestId);
                 else if (decline.find())
-                    declineRequest(decline.group(1));
+                    declineRequest(requestId);
                 else System.out.println("invalid command");
 
         }
