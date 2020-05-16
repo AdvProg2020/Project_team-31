@@ -366,42 +366,45 @@ public class MainMenu extends Menu {
 
 
     private void editOff(String offId) throws Exception {
+        if (sellerController.getOffById(offId) == null) {
+            throw new Exception("there isn't any off with this ID!");
+        }
         Date startDate = null, endDate = null;
         SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
-        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\") (-1 for escape)");
+        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")(-1 for escape)");
         String dateString = scanner.nextLine().trim();
-        if (dateString.equals("-1")) {
-            startDate = null;
-        } else {
+        if (!dateString.equals("-1"))
             try {
                 startDate = format.parse(dateString);
             } catch (Exception e) {
-                System.out.println("invalid format");
+                System.out.println("invalid format!");
             }
-        }
-        if (startDate.before(new Date()))
-            throw new Exception("the start time must be after now");
-        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\") (-1 for escape)");
         dateString = scanner.nextLine().trim();
-        if (dateString.equals("-1")) {
-            startDate = null;
-        } else {
+        if (!dateString.equals("-1"))
             try {
-                startDate = format.parse(dateString);
+                endDate = format.parse(dateString);
             } catch (Exception e) {
-                System.out.println("invalid format");
+                System.out.println("invalid format!");
             }
-        }
-        if (endDate.before(startDate))
-            throw new Exception("the end date must be after start date");
-        System.out.println("please enter the discount percentage (by format DD for example 78%)");
-        String percentage = scanner.nextLine().trim();
+        System.out.println("please enter the discount percentage (by format DD for example 78%)(-1 for escape)");
+        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format(-1 for escape)");
         int percent = Integer.parseInt(percentage);
-        System.out.println("please enter the product IDs (-1 for exit)");
         String productId;
-        ArrayList<String> productIds = new ArrayList<>();
+        ArrayList<String> oldProductIds = sellerController.getOffProducts(offId);
+        ArrayList<String> newProductIds = new ArrayList<>(oldProductIds);
+        System.out.println("please enter the product IDs you want to add : (-1 for exit)");
         while ((productId = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
-            productIds.add(productId);
+            newProductIds.add(productId);
+        }
+        System.out.println("please enter the product IDs you want to exclude : (-1 for exit)");
+        while ((productId = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+            newProductIds.remove(productId);
+        }
+        try {
+            sellerController.editOff(user, offId, newProductIds, startDate, endDate, percent);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 

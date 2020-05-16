@@ -174,7 +174,7 @@ public class SellerController {
         (new OffRequest(off, true)).setOff(beginTime, endTime, (double) percent, newProducts);
     }
 
-    private Off getOffById(String id) {
+    public Off getOffById(String id) {
         for (Off off : Off.getAllOffs()) {
             if (off.getOffId().equalsIgnoreCase(id)) {
                 return off;
