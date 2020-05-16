@@ -117,7 +117,7 @@ public class Product {
         return this.sumOfCustomersRate;
     }
 
-    public void addSumOfCustomersRate(Double sumOfCustomersRate) {
+    public void addSumOfCustomersRate(int sumOfCustomersRate) {
         this.sumOfCustomersRate += sumOfCustomersRate;
     }
 
