@@ -693,7 +693,7 @@ public class MainMenu extends Menu {
         ArrayList<String> features = null;
         HashMap<String, String> changedFields = new HashMap<>();
         try {
-            sellerController.getCategoryFeatures(name);
+            features=sellerController.getCategoryFeatures(name);
         } catch (Exception e) {
             System.out.println("there isn't any category with this name");
         }
