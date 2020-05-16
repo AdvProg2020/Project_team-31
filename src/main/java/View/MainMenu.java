@@ -78,13 +78,12 @@ public class MainMenu extends Menu {
                 "password : " + information[5] +
                 "credit : " + information[6]);
         viewCompanyInformation();
-        String[] changedInfo = new String[6];
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)edit\\s+(.+)$", command);
             if (matcher.find()) {
                 int index = findIndex(matcher.group(1));
-                if (index != 6 && index != 7) editPersonalInformation(index, changedInfo);
+                if (index != 7 && index != 8) editPersonalInformation(index, information);
             } else System.out.println("invalid command");
         }
     }
@@ -95,33 +94,38 @@ public class MainMenu extends Menu {
         else if (check.equalsIgnoreCase("last name"))
             return 1;
         else if (check.equalsIgnoreCase("email address"))
-            return 2;
-        else if (check.equalsIgnoreCase("phone number"))
             return 3;
-        else if (check.equalsIgnoreCase("password"))
+        else if (check.equalsIgnoreCase("phone number"))
             return 4;
+        else if (check.equalsIgnoreCase("password"))
+            return 5;
         else if (check.equalsIgnoreCase("company name")) {
             if (user instanceof Seller)
-                return 5;
+                return 6;
             else System.out.println("you are not a seller!");
-            return 6;
-        } else return 7;
+            return 7;
+        } else return 8;
     }
 
     private void editPersonalInformation(int index, String[] data) {
+        String[] newData = new String[7];
+        for (int i = 0; i <= 5; i++)
+            newData[i] = data[i];
+        newData[6] = sellerController.showCompanyInformation(user);
         if (index == 0)
-            data[0] = editFirstName();
+            newData[0] = editFirstName();
         else if (index == 1)
-            data[1] = editLastName();
-        else if (index == 2)
-            data[2] = editEmail();
+            newData[1] = editLastName();
         else if (index == 3)
-            data[3] = editPhoneNumber();
+            newData[3] = editEmail();
         else if (index == 4)
-            data[4] = editPassword();
+            newData[4] = editPhoneNumber();
         else if (index == 5)
-            data[5] = editCompanyName();
-        loginController.editPersonalInformation(user, data);
+            newData[5] = editPassword();
+        else if (index == 6)
+            newData[6] = editCompanyName();
+
+        loginController.editPersonalInformation(user, newData);
     }
 
     private String editFirstName() {
@@ -206,12 +210,16 @@ public class MainMenu extends Menu {
     }
 
     private void viewProduct(String productId) {
-//        try {
-//            System.out.println(customerController.showProduct(productId, user));
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-    }///
+        ArrayList<String> data;
+        try {
+            Product product = ProductController.getProductById(productId);
+            data = productController.showAttributesOfProduct(product);
+            for (String line : data)
+                System.out.println(line);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private void viewBuyerProduct(String productId) {
         try {
@@ -224,25 +232,31 @@ public class MainMenu extends Menu {
     }
 
     private void editProduct(String productId) {
-//        String[] data = new String[4];
-//        System.out.println("please select the data number you want to change:(-1 for exit)\n" +
-//                "1.name\n2.price\n3.availability status\n4.product description ");
-//        String command;
-//        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
-//            if (!(command.equals("1") || command.equals("2") || command.equals("3") || command.equals("4"))) {
-//                System.out.println("please enter a valid number");
-//            } else {
-//                System.out.println("please enter the value : ");
-//                data[Integer.parseInt(command) - 1] = scanner.nextLine().trim();
-//            }
-
-//...
-        System.out.println("please enter the price : ");
-        String priceStr = scanByRegex("^\\d+$", "the price must be numbers (example 10000)(-1 for scape)");
-        int price = Integer.parseInt(priceStr);
-
-        System.out.println("please enter the avail");
-    } ///
+        int price, available;
+        String description, command;
+        System.out.println("please enter your new price (-1 for escape)");
+        price = Integer.parseInt(scanByRegex("^\\d+$", "invalid format"));
+        System.out.println("please enter your available number (-1 for escape)");
+        available = Integer.parseInt(scanByRegex("^\\d+$", "invalid format"));
+        System.out.println("please enter the description");
+        description = scanner.nextLine().trim();
+        HashMap<String, String> data = new HashMap<>();
+        ArrayList<String> features = managerController.getCategoryFeaturesOfAProduct(productId);
+        for (String feature : features) {
+            System.out.println("please enter the value of " + feature + " (-1 for escape) : ");
+            command = scanner.nextLine().trim();
+            if (command.equals("-1")) {
+                data.put(feature, null);
+            } else {
+                data.put(feature, command);
+            }
+        }
+        try {
+            sellerController.editProduct(user, productId, price, available, description, data);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private void addProducts() {
         String[] data = new String[10];
@@ -265,7 +279,7 @@ public class MainMenu extends Menu {
         data[0] = scanner.nextLine().trim();
         System.out.println("please enter the price");
         data[1] = scanner.nextLine().trim();
-        System.out.println("please enter the product availability status (available/unavailable)");
+        System.out.println("please enter the product available number");
         data[2] = scanner.nextLine().trim();
         System.out.println("please enter the product description");
         data[3] = scanner.nextLine().trim();

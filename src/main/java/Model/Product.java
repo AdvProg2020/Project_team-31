@@ -145,5 +145,21 @@ public class Product {
     public ArrayList<Comment> getAllComments() {
         return this.allComments;
     }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public void setSpecialPropertiesRelatedToCategory(HashMap<String, String> specialPropertiesRelatedToCategory) {
+        this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
+    }
 }
 
