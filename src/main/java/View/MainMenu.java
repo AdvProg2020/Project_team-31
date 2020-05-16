@@ -435,6 +435,10 @@ public class MainMenu extends Menu {
         System.out.println(sellerController.showBalanceOfSeller(user));
     }
 
+    private void showOffs() {
+        OffMenu.getInstance().run();
+    }
+
     /////////////////////////////////////////////////////////
     private void managerMenu() {
         String command;
@@ -585,11 +589,10 @@ public class MainMenu extends Menu {
             else if (editMathcer.find()) {
                 try {
                     editDiscountCode(editMathcer.group(1));
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-            }
-            else if (removeMatcher.find())
+            } else if (removeMatcher.find())
                 removeDiscountCode(removeMatcher.group(1));
             else System.out.println("invalid command");
 
