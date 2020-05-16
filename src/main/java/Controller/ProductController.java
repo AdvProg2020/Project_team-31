@@ -66,6 +66,7 @@ public class ProductController {
             product.addView();
         digestOfProduct.add("name=" + product.getName());
         digestOfProduct.add("rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
+        digestOfProduct.add("status=" + product.getProductStatus());
         for (Seller seller : product.getSellersOfThisProduct().keySet()) {
             digestOfProduct.add("seller: " + seller + ", price: " + product.getSellersOfThisProduct().get(seller));
         }
@@ -100,7 +101,8 @@ public class ProductController {
 
     public ArrayList<String> showAvailableFiltersForUser(User user, String categoryName) {
         ArrayList<String> availableFilters = new ArrayList<>();
-        availableFilters.addAll(ManagerController.getCategoryByName(categoryName).getSpecialProperties());
+        if (categoryName != null)
+            availableFilters.addAll(ManagerController.getCategoryByName(categoryName).getSpecialProperties());
         availableFilters.addAll(Arrays.asList("minimumPrice", "company", "name", "rate", "availability"));
         return availableFilters;
     }
@@ -115,7 +117,7 @@ public class ProductController {
         ArrayList<Product> offedProduct = new ArrayList<>();
         Date date = new Date();
         for (Off off : Off.getAllOffs()) {
-            if(off.getBeginTime().before(date) && off.getEndTime().after(date) && off.getOffStatus().equals(ProductAndOffStatus.accepted)) {
+            if (off.getBeginTime().before(date) && off.getEndTime().after(date) && off.getOffStatus().equals(ProductAndOffStatus.accepted)) {
                 offedProduct.addAll(off.getOnSaleProducts());
             }
         }
@@ -178,25 +180,34 @@ public class ProductController {
         user.removeFilter(filterKey);
     }
 
-    public ArrayList<String> compareTwoProduct(Product product1, String productId2) {
+    public ArrayList<String> compareTwoProduct(Product product1, String productId2) throws Exception{
         Product product2 = getProductById(productId2);
+        if(product2 == null) {
+            throw new Exception("second product doesn't exist");
+        }
         ArrayList<String> information = new ArrayList<>();
         information.add("name:1-" + product1.getName() + ";2-" + product2.getName());
         information.add("minimumPrice:1-" + product1.getMinimumPrice() + ";2-" + product2.getMinimumPrice());
-        information.add("rate:1-" + (product1.getSumOfCustomersRate() / product1.getCustomersWhoRated()) + ";2-" + (product2.getSumOfCustomersRate() / product2.getCustomersWhoRated()));
+        information.add("rate:1-" + (1.0 * product1.getSumOfCustomersRate() / product1.getCustomersWhoRated()) + ";2-" + (1.0 * product2.getSumOfCustomersRate() / product2.getCustomersWhoRated()));
+        information.add("views:1-" + product1.getViews() + ";2-" + product2.getViews());
+        for (String s : product1.getSpecialPropertiesRelatedToCategory().keySet()) {
+            if(product2.getSpecialPropertiesRelatedToCategory().keySet().contains(s)) {
+                information.add(s + ":1-" + product1.getSpecialPropertiesRelatedToCategory().get(s) + ";2-" + product2.getSpecialPropertiesRelatedToCategory().get(s));
+            }
+        }
         return information;
     }
 
     public ArrayList<String> showCommentAboutProduct(Product product) {
         ArrayList<String> allComments = new ArrayList<>();
         for (Comment comment : product.getAllComments()) {
-            allComments.add("title: " + comment.getCommentTitle() + ", content: " + comment.getCommentContent() + ", customer: " + comment.getCustomer().getUsername());
+            allComments.add("title: " + comment.getCommentTitle() + ", content: " + comment.getCommentContent() + ", customer: " + comment.getCustomer().getUsername() + ", is buyer: " + comment.getIsBuyer());
         }
         return allComments;
     }
 
     public void addComment(User user, Product product, String title, String content) {
-        new Comment((Customer) user, product, title, content, ((Customer) user).getRecentShoppingProducts().contains(product));
+        product.addComment(new Comment((Customer) user, product, title, content, ((Customer) user).getRecentShoppingProducts().contains(product)));
     }
 
     public static Product getProductById(String productId) {

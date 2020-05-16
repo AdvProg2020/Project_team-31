@@ -145,6 +145,10 @@ public class Product {
         return category;
     }
 
+    public void addComment(Comment comment) {
+        allComments.add(comment);
+    }
+
     public ArrayList<Comment> getAllComments() {
         return this.allComments;
     }

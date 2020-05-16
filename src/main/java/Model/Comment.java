@@ -36,6 +36,10 @@ public class Comment {
         return commentTitle;
     }
 
+    public Boolean getIsBuyer() {
+        return isBuyer;
+    }
+
     public String getCommentContent() {
         return commentContent;
     }
