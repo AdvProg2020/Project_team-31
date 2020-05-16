@@ -204,9 +204,13 @@ public class MainMenu extends Menu {
                 viewProduct(viewMatcher.group(1));
             else if (viewBuyersMatcher.find())
                 viewBuyerProduct(viewBuyersMatcher.group(1));
-            else if (editMatcher.find())
-                editProduct(editMatcher.group(1));
-            else System.out.println("invalid command");
+            else if (editMatcher.find()) {
+                try {
+                    editProduct(editMatcher.group(1));
+                } catch (Exception e) {
+                    System.out.println("wrong format!");
+                }
+            } else System.out.println("invalid command");
         }
     }
 
@@ -333,35 +337,43 @@ public class MainMenu extends Menu {
     }
 
     private void addOff() throws Exception {
-        Date startDate = null, endDate = null;
-        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+//        Date startDate = null, endDate = null;
+//        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+//        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+//        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
+//        try {
+//            startDate = format.parse(dateString);
+//        } catch (Exception e) {
+//            System.out.println("invalid format!");
+//        }
+//        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+//        dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
+//        try {
+//            endDate = format.parse(dateString);
+//        } catch (Exception e) {
+//            System.out.println("invalid format!");
+//        }
+//        System.out.println("please enter the discount percentage (by format DD for example 78%)");
+//        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
+//        int percent = Integer.parseInt(percentage);
+//        System.out.println("please enter the product IDs (-1 for exit)");
+//        String productId;
+//        ArrayList<String> productIds = new ArrayList<>();
+//        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
+//            productIds.add(productId);
+//        try {
+//            sellerController.addOff(user, productIds, startDate, endDate, percent);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
         System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
-        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-        try {
-            startDate = format.parse(dateString);
-        } catch (Exception e) {
-            System.out.println("invalid format!");
-        }
+        Date startdate = scanDate();
+        if (startdate == null)
+            return;
         System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
-        dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid format");
-        try {
-            endDate = format.parse(dateString);
-        } catch (Exception e) {
-            System.out.println("invalid format!");
-        }
-        System.out.println("please enter the discount percentage (by format DD for example 78%)");
-        String percentage = scanByRegex("^(\\d{2})%?$", "invalid format");
-        int percent = Integer.parseInt(percentage);
-        System.out.println("please enter the product IDs (-1 for exit)");
-        String productId;
-        ArrayList<String> productIds = new ArrayList<>();
-        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
-            productIds.add(productId);
-        try {
-            sellerController.addOff(user, productIds, startDate, endDate, percent);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        Date endDate = scanDate();
+        if (startdate == null)
+            return;
     }///
 
     private void editOff(String offId) throws Exception {
@@ -409,13 +421,17 @@ public class MainMenu extends Menu {
 
     private Date scanDate() throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
-        String dateString =null;
-        while (!(dateString=scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid date format")).equalsIgnoreCase("back")) {
-            try {
-                return format.parse(dateString);
-            } catch (Exception e) {
-                System.out.println("invalid format");
+        String dateString = null;
+        try {
+            while (!(dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid date format")).equalsIgnoreCase("back")) {
+                try {
+                    return format.parse(dateString);
+                } catch (Exception e) {
+                    System.out.println("invalid format");
+                }
             }
+        } catch (NullPointerException e) {
+            return null;
         }
         return null;
     }
