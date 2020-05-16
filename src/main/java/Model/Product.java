@@ -8,8 +8,7 @@ public class Product {
     private String productId;
     private String name;
     private String company;
-    private Double price;
-    private ArrayList<Seller> sellersOfThisProduct;
+    private HashMap<Seller, Integer> sellersOfThisProduct;
     private int customersWhoRated;
     private Category category;
     private Double sumOfCustomersRate;
@@ -23,13 +22,12 @@ public class Product {
     private HashMap<String , String > specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts;
 
-    public Product(String productId, String name, String company, Double price, Category category, String information, ArrayList<Seller> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
+    public Product(String productId, String name, String company, Category category, String information, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
         off = null;
         this.productId = productId;
         this.name = name;
         this.company = company;
-        this.price = price;
         this.sellersOfThisProduct = sellersOfThisProduct;
         this.category = category;
         this.productStatus = ProductAndOffStatus.creating;
@@ -88,11 +86,7 @@ public class Product {
         return name;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public ArrayList<Seller> getSellersOfThisProduct() {
+    public HashMap<Seller, Integer> getSellersOfThisProduct() {
         return sellersOfThisProduct;
     }
 
