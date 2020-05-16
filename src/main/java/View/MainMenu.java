@@ -409,14 +409,15 @@ public class MainMenu extends Menu {
 
     private Date scanDate() throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
-        String dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid date format");
-        while (true) {
+        String dateString =null;
+        while (!(dateString=scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid date format")).equalsIgnoreCase("back")) {
             try {
                 return format.parse(dateString);
             } catch (Exception e) {
                 System.out.println("invalid format");
             }
         }
+        return null;
     }
 
     private void viewOff(String offId) {
