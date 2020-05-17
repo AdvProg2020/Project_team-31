@@ -126,7 +126,7 @@ public class ProductController {
         user.addFilter(filterKey, filterValue);
     }
 
-    private ArrayList<String> showOffProduct(User user, String sorting) {
+    public ArrayList<String> showOffProduct(User user, String sorting) {
         ArrayList<Product> offedProduct = new ArrayList<>();
         Date date = new Date();
         for (Off off : Off.getAllOffs()) {
