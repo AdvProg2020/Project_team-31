@@ -1,13 +1,11 @@
 package View;
 
-import Controller.ProductController;
-import Model.Manager;
-import Model.Product;
 
 import java.util.regex.Matcher;
 
 public class OffMenu extends Menu {
     public static OffMenu instance = null;
+    public static ProductMenu productMenu = ProductMenu.getInstance();
 
     private OffMenu() {
         super();
@@ -50,13 +48,7 @@ public class OffMenu extends Menu {
     }
 
     private void showProduct(String productId) {
-        Product product = ProductController.getProductById(productId);
-        if (product == null) {
-            System.out.println("there is not any product with this ID!");
-        } else {
-            ShowProductMenu.getInstance().setProduct(product);
-            ShowProductMenu.getInstance().run();
-        }
+        productMenu.showProduct(productId);
     }
 
 }

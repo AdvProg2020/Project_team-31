@@ -178,7 +178,7 @@ public class ProductMenu extends Menu {
         }
     }
 
-    public static void showProduct(String productId) {
+    public  void showProduct(String productId) {
         Product product = ProductController.getProductById(productId);
         if (product == null) {
             System.out.println("there is not any product with this ID!");
