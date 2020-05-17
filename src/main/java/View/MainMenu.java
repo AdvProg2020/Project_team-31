@@ -440,7 +440,11 @@ public class MainMenu extends Menu {
     }
 
     private void viewBalanceForCustomer() {
-        System.out.println(customerController.showBalanceForCustomer(user));
+        try {
+            System.out.println(customerController.showBalanceForCustomer(user));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void showOffs() {
