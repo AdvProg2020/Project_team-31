@@ -866,7 +866,7 @@ public class MainMenu extends Menu {
     private void viewCart() {
         try {
             System.out.println("//////////////////////////////////////////////");
-            ArrayList<String> products = customerController.showCard(user);
+            ArrayList<String> products = customerController.showCard(user,card);
             for (String product : products)
                 System.out.println(product);
             System.out.println("//////////////////////////////////////////////");
