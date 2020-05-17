@@ -66,9 +66,10 @@ public class MainMenu extends Menu {
                 loginAndLogOut(false);
             else if (getMatcher("^(?i)help", command).find())
                 sellerHelp();
-            else if (getMatcher("^(?i)end$", command).find())
+            else if (getMatcher("^(?i)end$", command).find()) {
+                end = true;
                 break;
-            else System.out.println("invalid command");
+            } else System.out.println("invalid command");
         }
     }
 
@@ -484,9 +485,10 @@ public class MainMenu extends Menu {
                 loginAndLogOut(false);
             else if (getMatcher("^(?i)offs$", command).find())
                 showOffs();
-            else if (getMatcher("^(?i)end$", command).find())
+            else if (getMatcher("^(?i)end$", command).find()) {
+                end = true;
                 break;
-            else System.out.println("invalid command");
+            } else System.out.println("invalid command");
 
 
         }
@@ -504,6 +506,8 @@ public class MainMenu extends Menu {
                 viewUser(viewMatcher.group(1));
             else if (deleteMatcher.find())
                 deleteUser(deleteMatcher.group(1));
+            else if (getMatcher("^(?i)help$", command).find())
+                managerHelp();
             else if (command.equalsIgnoreCase("create manager profile"))
                 addManager();
             else System.out.println("invalid command");
