@@ -131,7 +131,7 @@ public class ProductMenu extends Menu {
         }
     }
 
-    private void sorting() {
+    public void sorting() {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher sort = getMatcher("^(?i)sort\\s+(\\S+)$", command);

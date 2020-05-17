@@ -43,7 +43,8 @@ public class OffMenu extends Menu {
     }
 
     private void sorting() {
-        productMenu.
+        productMenu.resetSort();
+        productMenu.sorting();
     }
 
     private void showOffProducts() {
