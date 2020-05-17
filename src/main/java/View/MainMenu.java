@@ -919,7 +919,8 @@ public class MainMenu extends Menu {
     }
 
     private void showTotalPrice() {
-
+        int price = customerController.showTotalPrice(card);
+        System.out.println("the total price of your cart is : " + price);
     }
 
     private void increase(String productId) {

@@ -106,7 +106,7 @@ public class CustomerController {
         throw new Exception("There is not seller with this username for this product");
     }
 
-    int showTotalPrice(Card card) {
+    public int showTotalPrice(Card card) {
         SellerController.getInstance().checkTimeOfOffs();
         HashMap<Product, ProductInCard> productsInThisCard = card.getProductsInThisCard();
         List<ProductInCard> products = new ArrayList<>(productsInThisCard.values());
