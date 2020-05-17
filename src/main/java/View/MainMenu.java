@@ -860,6 +860,8 @@ public class MainMenu extends Menu {
                     loginAndLogOut(false);
                 else if (getMatcher("^(?i)offs$", command).find())
                     offsMenu();
+                else if (getMatcher("^(?i)help$", command).find())
+                    customerHelp();
                 else if (getMatcher("^(?i)end$", command).find())
                     break;
                 else System.out.println("invalid command");
