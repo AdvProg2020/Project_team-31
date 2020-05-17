@@ -21,10 +21,6 @@ public abstract class Request {
         return allRequests;
     }
 
-    public String showDetail() {
-        return null;
-    }
-
     public void deleteRequest() {
         allRequests.remove(this);
     }

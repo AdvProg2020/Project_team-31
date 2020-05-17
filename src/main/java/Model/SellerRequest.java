@@ -13,11 +13,6 @@ public class SellerRequest extends Request {
         allRequests.add(this);
     }
 
-    @Override
-    public String showDetail() {
-        return "request to register a seller with username: " + username + " ,name: " + information[0] + " ,lastName: " + information[1];
-    }
-
     public String getUsername() {
         return username;
     }

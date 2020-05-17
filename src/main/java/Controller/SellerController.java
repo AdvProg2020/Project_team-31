@@ -20,15 +20,15 @@ public class SellerController {
         return ((Seller) user).getCompanyName();
     }
 
-    public void addSellerToProduct(User user, String productId, int price) throws Exception{
+    public void addSellerToProduct(User user, String productId, int price) throws Exception {
         Product product = ProductController.getProductById(productId);
-        if(product == null) {
+        if (product == null) {
             throw new Exception("productId is invalid");
         }
-        if(product.getSellersOfThisProduct().containsKey(user)) {
+        if (product.getSellersOfThisProduct().containsKey(user)) {
             throw new Exception("seller has product");
         }
-        new SellerOfProductRequest("SellerOfProductRequest",(Seller)user,product,price);
+        new SellerOfProductRequest("SellerOfProductRequest", (Seller) user, product, price);
     }
 
     public ArrayList<String> showSalesHistory(User user) {
@@ -158,7 +158,7 @@ public class SellerController {
                 }
             }
         }
-        Off newOff = new Off((Seller) user, "Off" + (Off.getNumberOfOffsCreated() +1), beginTime, endTime, percent, products);
+        Off newOff = new Off((Seller) user, "Off" + (Off.getNumberOfOffsCreated() + 1), beginTime, endTime, percent, products);
         new OffRequest("OffRequest" + (Request.getNumberOfRequestCreated() + 1), newOff, false);
         ((Seller) user).addOffToThisSeller(newOff);
     }
@@ -176,7 +176,15 @@ public class SellerController {
                 }
             } else if (off.getBeginTime().before(timeNow) && off.getOffStatus().equals(ProductAndOffStatus.accepted)) {
                 for (Product product : off.getOnSaleProducts()) {
-                    product.addOff(off);
+                    boolean canAdd = true;
+                    for (Off productOff : product.getOffs()) {
+                        if (productOff.getSeller().equals(off.getSeller())) {
+                            canAdd = false;
+                            break;
+                        }
+                    }
+                    if (canAdd)
+                        product.addOff(off);
                 }
             }
         }
@@ -184,7 +192,7 @@ public class SellerController {
 
     public void editOff(User user, String offId, ArrayList<String> products, Date beginTime, Date endTime, int percent) throws Exception {
         Off off = getOffById(offId);
-        if(off == null) {
+        if (off == null) {
             throw new Exception("Off doesn't exist");
         }
         if (!off.getSeller().equals((Seller) user)) {
@@ -193,7 +201,7 @@ public class SellerController {
         ArrayList<Product> newProducts = (ArrayList<Product>) products.stream()
                 .map(product -> ProductController.getProductById(product));
         off.setOffStatus(ProductAndOffStatus.editing);
-        (new OffRequest("OffRequest" + (Request.getNumberOfRequestCreated() +1), off, true)).setOff(beginTime, endTime, percent, newProducts);
+        (new OffRequest("OffRequest" + (Request.getNumberOfRequestCreated() + 1), off, true)).setOff(beginTime, endTime, percent, newProducts);
     }
 
     public Off getOffById(String id) {

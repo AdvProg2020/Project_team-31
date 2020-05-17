@@ -105,16 +105,28 @@ public class ManagerController {
         }
     }
 
-    public ArrayList<String> showAllRequests() {
+    public ArrayList<String> showAllRequests() throws Exception{
         ArrayList<String> arrayOfRequest = new ArrayList<>();
         for (Request request : Request.getAllRequest()) {
-            arrayOfRequest.add(request.showDetail());
+            arrayOfRequest.add("RequestId: " + request.getRequestId() + ", " + showRequestDetails(request.getRequestId()));
         }
         return arrayOfRequest;
     }
 
-    public String showRequestDetails(String requestId) {
-        return getRequestById(requestId).showDetail();
+    public String showRequestDetails(String requestId) throws Exception{
+        Request request = getRequestById(requestId);
+        if(request == null) {
+            throw new Exception("invalid requestId");
+        }
+        if(request instanceof SellerRequest) {
+            return "request to register a seller with username: " + ((SellerRequest) request).getUsername() + ", firstName: " + ((SellerRequest) request).getInformation()[0] + ", lastName: " + ((SellerRequest) request).getInformation()[1] + "phoneNumber: " + ((SellerRequest) request).getInformation()[3];
+        } else if(request instanceof ProductRequest) {
+            return "request to create or edit product with id: " + ((ProductRequest) request).getProduct().getProductId() + ", isEditing: " + ((ProductRequest) request).isEditing() + ", seller: " + ((ProductRequest) request).getSeller().getUsername() + ", newPrice: " + ((ProductRequest) request).getPrice();
+        } else if(request instanceof OffRequest) {
+            return "request to create or edit off with id: " + ((OffRequest) request).getOff().getOffId() + ", isEditing: " + ((OffRequest) request).getIsEditing() + ", newOffPercent: " + ((OffRequest) request).getOffPercent();
+        } else {
+            return "request to add a seller to a product with id: " + ((SellerOfProductRequest) request).getProduct().getProductId() + ", seller: " + ((SellerOfProductRequest) request).getSeller().getUsername() + ", price: " + ((SellerOfProductRequest) request).getPrice();
+        }
     }
 
     public void acceptRequest(String requestId) {
