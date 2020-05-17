@@ -55,7 +55,7 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)view\\s+offs$", command).find())
                 viewAllOffs();
             else if (getMatcher("^(?i)view\\s+balance\n$", command).find())
-                viewBalance();
+                viewBalanceForSeller();
             else if (getMatcher("^(?i)products$", command).find())
                 productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
@@ -431,8 +431,20 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewBalance() {
-        System.out.println(sellerController.showBalanceOfSeller(user));
+    private void viewBalanceForSeller() {
+        try {
+            System.out.println(sellerController.showBalanceOfSeller(user));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void viewBalanceForCustomer() {
+        try {
+            System.out.println(customerController.showBalanceForCustomer(user));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void showOffs() {
@@ -817,6 +829,7 @@ public class MainMenu extends Menu {
 
     /////////////////////////////////////////////////////////////////////
     private void customerMenu() {
+        card = customerController.createCard();
         String command;
         try {
             while (true) {
@@ -824,13 +837,13 @@ public class MainMenu extends Menu {
                 if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
                     viewPersonalInformation();
                 else if (getMatcher("^(?i)view\\s+cart$", command).find())
-                    viewCart();
+                    cart();
                 else if (getMatcher("^(?i)purchase$", command).find())
                     purchase();
                 else if (getMatcher("^(?i)view\\s+orders$", command).find())
                     viewOrders();
                 else if (getMatcher("^(?i)view\\s+balance$", command).find())
-                    viewBalance();
+                    viewBalanceForCustomer();
                 else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
                     viewDiscountCodesForCustomer();
                 else if (getMatcher("^(?i)products$", command).find())
@@ -853,18 +866,19 @@ public class MainMenu extends Menu {
     }
 
     private void productMenu() {
+        productController.clearFilters(user);
         ProductMenu.getInstance().run();
     }
 
     private void offsMenu() {
-        OffMenu offMenu = OffMenu.getInstance();
-        offMenu.run();
+        productController.clearFilters(user);
+        OffMenu.getInstance().run();
     }
 
     private void viewCart() {
         try {
             System.out.println("//////////////////////////////////////////////");
-            ArrayList<String> products = customerController.showCard(user);
+            ArrayList<String> products = customerController.showCard(user, card);
             for (String product : products)
                 System.out.println(product);
             System.out.println("//////////////////////////////////////////////");
@@ -873,9 +887,67 @@ public class MainMenu extends Menu {
         }
     }
 
+    private void cart() {
+        String command;
+        try {
+            while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+                Matcher view = getMatcher("^(?i)view\\s+(\\S+)$", command);
+                Matcher increase = getMatcher("^(?i)increase\\s+(\\S+)$", command);
+                Matcher decrease = getMatcher("^(?i)decrease\\s+(\\S+)$", command);
+                if (getMatcher("^(?i)show\\s+products$", command).find())
+                    viewCart();
+                else if (view.find())
+                    ProductMenu.showProduct(view.group(1));
+                else if (increase.find())
+                    increase(increase.group(1));
+                else if (decrease.find())
+                    decrease(decrease.group(1));
+                else if (getMatcher("^(?i)show\\s+total\\s+price", command).find())
+                    showTotalPrice();
+                else if (getMatcher("^(?i)purchase$", command).find())
+                    purchase();
+                else if (getMatcher("^(?i)login$", command).find())
+                    loginAndLogOut(true);
+                else if (getMatcher("^(?i)logout$", command).find())
+                    loginAndLogOut(false);
+                else System.out.println("invalid command");
+            }
+
+        } catch (Exception e) {
+            System.out.println("you have to login!");
+
+        }
+    }
+
+    private void showTotalPrice() {
+        int price = customerController.showTotalPrice(card);
+        System.out.println("the total price of your cart is : " + price);
+    }
+
+    private void increase(String productId) {
+        System.out.println("please enter the increase number (for example 5)");
+        String number = scanByRegex("^\\d+$", "invalid command");
+        int num = Integer.parseInt(number);
+        try {
+            customerController.changeNumberOfProductInCard(user, card, productId, num);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void decrease(String productId) {
+        System.out.println("please enter the decrease number (for example 5)");
+        String number = scanByRegex("^\\d+$", "invalid command");
+        int num = Integer.parseInt(number) * (-1);
+        try {
+            customerController.changeNumberOfProductInCard(user, card, productId, num);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private void purchase() {
-        CompletionShop completionShop = CompletionShop.getInstance();
-        completionShop.run();
+        CompletionShop.getInstance().run();
     }
 
     private void viewOrders() {
@@ -885,6 +957,32 @@ public class MainMenu extends Menu {
             for (String order : allOrders)
                 System.out.println(order);
             System.out.println("///////////////////////////////////////////////");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher showOrder = getMatcher("^(?i)show\\s+order\\s+(\\S+)$", command);
+            Matcher rate = getMatcher("^(?i)rate\\s+(\\S+)\\s+([12345])$", command);
+            if (showOrder.find())
+                showOrder(showOrder.group(1));
+            else if (rate.find())
+                rate(rate.group(1), rate.group(2));
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void showOrder(String orderId) {
+        try {
+            customerController.showOrder(user, orderId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void rate(String productId, String rate) {
+        try {
+            customerController.rateProduct(user, productId, Integer.parseInt(rate));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

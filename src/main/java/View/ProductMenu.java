@@ -178,13 +178,13 @@ public class ProductMenu extends Menu {
         }
     }
 
-    private void showProduct(String productId) {
+    public static void showProduct(String productId) {
         Product product = ProductController.getProductById(productId);
         if (product == null) {
             System.out.println("there is not any product with this ID!");
         } else {
-            showProductMenu.setProduct(product);
-            showProductMenu.run();
+            ShowProductMenu.getInstance().setProduct(product);
+            ShowProductMenu.getInstance().run();
         }
     }
 

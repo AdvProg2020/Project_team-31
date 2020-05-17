@@ -59,14 +59,14 @@ public class ShowProductMenu extends Menu {
     }
 
     private void addToCard() {
-        if(user==null){
+        if (user == null) {
             System.out.println("you have to login.");
             LoginMenu.getInstance().run();
         }
         System.out.println("please select your seller");
         String seller = scanner.nextLine().trim();
         try {
-            customerController.addProductToCard(user, product, seller);
+            customerController.addProductToCard(user, card, product, seller);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

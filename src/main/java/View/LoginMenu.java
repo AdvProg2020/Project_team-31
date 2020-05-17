@@ -92,7 +92,7 @@ public class LoginMenu extends Menu {
         System.out.println("please enter your password:");
         String password = scanner.nextLine();
         try {
-            loginController.login(username, password);
+            loginController.login(username, password,card);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -100,6 +100,7 @@ public class LoginMenu extends Menu {
 
     public void logout() {
         user = null;
+        card=null;
         System.out.println("you logged out successfully.");
     }
 
