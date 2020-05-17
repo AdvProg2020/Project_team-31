@@ -16,4 +16,8 @@ public class Card {
     public HashMap<Product, ProductInCard> getProductsInThisCard() {
         return productsInThisCard;
     }
+
+    public void removeProductFromCard(Product product) {
+        productsInThisCard.remove(product);
+    }
 }

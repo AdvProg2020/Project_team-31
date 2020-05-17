@@ -7,7 +7,7 @@ public class OffRequest extends Request {
     private Off off;
     private Date beginTime;
     private Date endTime;
-    private int offAmount;
+    private int offPercent;
     private ArrayList<Product> onSaleProducts;
     private boolean isEditing;
 
@@ -22,10 +22,10 @@ public class OffRequest extends Request {
         return off;
     }
 
-    public void setOff(Date beginTime , Date endTime , int offAmount , ArrayList<Product> onSaleProducts){
+    public void setOff(Date beginTime , Date endTime , int offPercent , ArrayList<Product> onSaleProducts){
         this.beginTime = beginTime;
         this.endTime = endTime;
-        this.offAmount = offAmount;
+        this.offPercent = offPercent;
         this.onSaleProducts = onSaleProducts;
     }
 
@@ -37,8 +37,8 @@ public class OffRequest extends Request {
         return endTime;
     }
 
-    public int getOffAmount() {
-        return offAmount;
+    public int getOffPercent() {
+        return offPercent;
     }
 
     public ArrayList<Product> getOnSaleProducts() {

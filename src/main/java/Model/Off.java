@@ -7,7 +7,7 @@ public class Off {
     private String offId;
     private Date beginTime;
     private Date endTime;
-    private int offAmount;
+    private int offPercent;
     private ArrayList<Product> onSaleProducts;
     private Seller seller;
     private ProductAndOffStatus offStatus;
@@ -18,7 +18,7 @@ public class Off {
         this.offId = offId;
         this.beginTime = beginTime;
         this.endTime = endTime;
-        this.offAmount = offAmount;
+        this.offPercent = offAmount;
         this.offStatus = ProductAndOffStatus.creating;
         onSaleProducts = products;
         allOffs.add(this);
@@ -32,8 +32,8 @@ public class Off {
         return endTime;
     }
 
-    public int getOffAmount() {
-        return offAmount;
+    public int getOffPercent() {
+        return offPercent;
     }
 
     public ArrayList<Product> getOnSaleProducts() {
@@ -72,8 +72,8 @@ public class Off {
         this.endTime = endTime;
     }
 
-    public void setOffAmount(int offAmount) {
-        this.offAmount = offAmount;
+    public void setOffPercent(int offAmount) {
+        this.offPercent = offAmount;
     }
 
     public void setOnSaleProducts(ArrayList<Product> onSaleProducts) {

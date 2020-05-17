@@ -36,11 +36,17 @@ public class LoginController {
         return true;
     }
 
-    public User login(String username, String password) throws Exception {
+    public User login(String username, String password, Card card) throws Exception {
         for (User user : User.getAllUsers()) {
             if (user.getUsername().equals(username)) {
-                if (user.getPassword().equals(password))
+                if (user.getPassword().equals(password)){
+                    if(card.getProductsInThisCard().size() > 0) {
+                        user.setCard(card);
+                    } else if(user.getCard() == null) {
+                        user.setCard(new Card());
+                    }
                     return user;
+                }
                 else
                     throw new Exception("Password is incorrect");
             }

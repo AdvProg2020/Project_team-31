@@ -21,7 +21,7 @@ public class ManagerController {
         ArrayList<String> information = new ArrayList<>();
         for (User user : User.getAllUsers()) {
             String[] personalInformation = user.getPersonalInformation();
-            information.add("userName: " + user.getUsername() + ", firstName:" + personalInformation[0] + ", lastName:" + personalInformation[1] );
+            information.add("userName: " + user.getUsername() + ", firstName:" + personalInformation[0] + ", lastName:" + personalInformation[1]);
         }
         return information;
     }
@@ -38,17 +38,29 @@ public class ManagerController {
         }
     }
 
-    public void createDiscountCode(String discountCode, Date beginTime, Date endTime, int discountPercent, int maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
-        HashMap<Customer, Integer> timesForEachCustomer = new HashMap<>();
-        for (String s : discountTimesForEachCustomer.keySet()) {
-            timesForEachCustomer.put((Customer) (LoginController.getUserByUsername(s)), discountTimesForEachCustomer.get(s));
-        }
+    public void createDiscountCode(String discountCode, Date beginTime, Date endTime, int discountPercent, int maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) throws Exception {
+        HashMap<Customer, Integer> timesForEachCustomer = changeNameToCustomer(discountTimesForEachCustomer);
         DiscountCode newDiscountCode = new DiscountCode(discountCode);
         newDiscountCode.setDiscountCode(beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
-        for (Customer customer : timesForEachCustomer.keySet()) {
-            customer.addDiscountCode(newDiscountCode);
+        for (Customer customer : newDiscountCode.getDiscountTimesForEachCustomer().keySet()) {
             customer.addDiscountCode(newDiscountCode);
         }
+    }
+
+    private HashMap<Customer, Integer> changeNameToCustomer(HashMap<String, Integer> discountTimesForEachCustomer) throws Exception {
+        HashMap<Customer, Integer> timesForEachCustomer = new HashMap<>();
+        for (String s : discountTimesForEachCustomer.keySet()) {
+            User user = LoginController.getUserByUsername(s);
+            if (user == null) {
+                throw new Exception("User with userName \"" + s + "\" doesn't exist");
+            }
+            if (user instanceof Customer) {
+                timesForEachCustomer.put((Customer) user, discountTimesForEachCustomer.get(s));
+            } else {
+                throw new Exception("User with userName \"" + s + "\" isn't customer");
+            }
+        }
+        return timesForEachCustomer;
     }
 
     public ArrayList<String> showAllDiscountCodes() {
@@ -67,7 +79,7 @@ public class ManagerController {
         return "code:" + discount.getDiscountCode() + ", beginTime:" + discount.getBeginTime() + ", endTime:" + discount.getEndTime() + ", percent:" + discount.getDiscountPercent();
     }
 
-    private DiscountCode getDiscountById(String discountId) {
+    public DiscountCode getDiscountById(String discountId) {
         for (DiscountCode discount : DiscountCode.getAllDiscountCodes()) {
             if (discount.getDiscountCode().equals(discountId))
                 return discount;
@@ -75,12 +87,12 @@ public class ManagerController {
         return null;
     }
 
-    public void editDiscountCode(String discountCode, Date beginTime, Date endTime, int discountPercent, int maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) {
+    public void editDiscountCode(String discountCode, Date beginTime, Date endTime, int discountPercent, int maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) throws Exception {
         DiscountCode discount = getDiscountById(discountCode);
-        HashMap<Customer, Integer> timesForEachCustomer = new HashMap<>();
-        for (String s : discountTimesForEachCustomer.keySet()) {
-            timesForEachCustomer.put((Customer) (LoginController.getUserByUsername(s)), discountTimesForEachCustomer.get(s));
+        if (discount == null) {
+            throw new Exception("There is not discount with this code");
         }
+        HashMap<Customer, Integer> timesForEachCustomer = changeNameToCustomer(discountTimesForEachCustomer);
         discount.setDiscountCode(beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
     }
 
@@ -88,7 +100,8 @@ public class ManagerController {
         DiscountCode discount = getDiscountById(discountCode);
         discount.removeDiscountCode();
         for (Customer customer : discount.getDiscountTimesForEachCustomer().keySet()) {
-            customer.removeDiscountCode(discount);
+            if (customer.getAllDiscountCodes().contains(discount))
+                customer.removeDiscountCode(discount);
         }
     }
 
@@ -108,16 +121,16 @@ public class ManagerController {
         Request request = getRequestById(requestId);
         if (request instanceof SellerRequest) {
             String[] information = ((SellerRequest) request).getInformation();
-            new Seller(information[0], information[1], ((SellerRequest)request).getUsername(), information[2], information[3], information[4], information[5]);
+            new Seller(information[0], information[1], ((SellerRequest) request).getUsername(), information[2], information[3], information[4], information[5]);
         } else if (request instanceof OffRequest) {
-            ((OffRequest)request).getOff().setOffStatus(ProductAndOffStatus.accepted);
-            if(((OffRequest) request).getIsEditing()) {
-                completeEditingOff((OffRequest)request);
+            ((OffRequest) request).getOff().setOffStatus(ProductAndOffStatus.accepted);
+            if (((OffRequest) request).getIsEditing()) {
+                completeEditingOff((OffRequest) request);
             }
         } else if (request instanceof ProductRequest) {
-            ((ProductRequest)request).getProduct().setProductStatus(ProductAndOffStatus.accepted);
-            if(((ProductRequest) request).isEditing()) {
-                completeEditingProduct((ProductRequest)request);
+            ((ProductRequest) request).getProduct().setProductStatus(ProductAndOffStatus.accepted);
+            if (((ProductRequest) request).isEditing()) {
+                completeEditingProduct((ProductRequest) request);
             }
         }
         request.deleteRequest();
@@ -126,8 +139,8 @@ public class ManagerController {
     private void completeEditingOff(OffRequest offRequest) {
         Off off = offRequest.getOff();
         off.setBeginTime(offRequest.getBeginTime());
-        off.setEndTime(off.getEndTime());
-        off.setOffAmount(offRequest.getOffAmount());
+        off.setEndTime(offRequest.getEndTime());
+        off.setOffPercent(offRequest.getOffPercent());
         off.setOnSaleProducts(offRequest.getOnSaleProducts());
     }
 
@@ -138,22 +151,22 @@ public class ManagerController {
         product.setSpecialPropertiesRelatedToCategory(productRequest.getSpecialPropertiesRelatedToCategory());
         product.removeSeller(productRequest.getSeller());
         product.addSeller(productRequest.getSeller(), productRequest.getPrice());
-        if(productRequest.getPrice() < product.getMinimumPrice()) {
+        if (productRequest.getPrice() < product.getMinimumPrice()) {
             product.setMinimumPrice(productRequest.getPrice());
         }
     }
 
     public void declineRequest(String requestId) {
         Request request = getRequestById(requestId);
-        if(request instanceof OffRequest) {
-            if(!((OffRequest) request).getIsEditing()) {
+        if (request instanceof OffRequest) {
+            if (!((OffRequest) request).getIsEditing()) {
                 ((OffRequest) request).getOff().getSeller().removeOffFromThisSeller(((OffRequest) request).getOff());
                 ((OffRequest) request).getOff().removeOff();
             } else {
-                ((OffRequest)request).getOff().setOffStatus(ProductAndOffStatus.accepted);
+                ((OffRequest) request).getOff().setOffStatus(ProductAndOffStatus.accepted);
             }
-        } else if(request instanceof ProductRequest) {
-            if (! ((ProductRequest) request).isEditing()) {
+        } else if (request instanceof ProductRequest) {
+            if (!((ProductRequest) request).isEditing()) {
                 Product product = ((ProductRequest) request).getProduct();
                 product.removeProduct();
                 product.getCategory().removeProduct(product);
@@ -161,7 +174,7 @@ public class ManagerController {
                     seller.removeProduct(product);
                 }
             } else {
-                ((ProductRequest)request).getProduct().setProductStatus(ProductAndOffStatus.accepted);
+                ((ProductRequest) request).getProduct().setProductStatus(ProductAndOffStatus.accepted);
             }
         }
         request.deleteRequest();
@@ -204,7 +217,7 @@ public class ManagerController {
         category.setSpecialProperties(newFeatures);
         for (Product product : category.getProducts()) {
             for (String s : product.getSpecialPropertiesRelatedToCategory().keySet()) {
-                if(!newFeatures.contains(s)) {
+                if (!newFeatures.contains(s)) {
                     product.removeSpecialFeature(s);
                 }
             }
@@ -221,10 +234,10 @@ public class ManagerController {
         category.setSpecialProperties(features);
         for (Product product : category.getProducts()) {
             for (String oldName : changedFeatured.keySet()) {
-                if(product.getSpecialPropertiesRelatedToCategory().keySet().contains(oldName)) {
+                if (product.getSpecialPropertiesRelatedToCategory().keySet().contains(oldName)) {
                     String value = product.getSpecialPropertiesRelatedToCategory().get(oldName);
                     product.removeSpecialFeature(oldName);
-                    product.addSpecialFeature(changedFeatured.get(oldName),value);
+                    product.addSpecialFeature(changedFeatured.get(oldName), value);
                 }
             }
         }

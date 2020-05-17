@@ -1,8 +1,6 @@
 package Controller;
 
 import Model.*;
-
-
 import java.util.*;
 import java.lang.String;
 import java.util.stream.Collectors;
@@ -17,72 +15,88 @@ public class CustomerController {
         return customerControllerInstance;
     }
 
-    public ArrayList<String> showCard(User user) {
-        Card card = user.getCard();
+    private Card createCard() {
+        return (new Card());
+    }
+
+    public ArrayList<String> showCard(User user, Card savedCard) {
+        Card card = savedCard;
+        if(user != null) {
+            card = user.getCard();
+        }
         ArrayList<String> arrayOfInformation = new ArrayList<>();
         for (Product product : card.getProductsInThisCard().keySet()) {
             ProductInCard productInCard = card.getProductsInThisCard().get(product);
             String productInformation = "productId: " + product.getProductId() + " name: " + product.getName() + " price: " + product.getSellersOfThisProduct().get(productInCard.getSeller()) + " numberOfProduct: " + productInCard.getNumber();
             arrayOfInformation.add(productInformation);
         }
-        arrayOfInformation.add(String.valueOf(showTotalPrice(user)));
+        arrayOfInformation.add(String.valueOf(showTotalPrice(card)));
 
         return arrayOfInformation;
     }
 
-    public ArrayList<String> showProductInCard(User user) {
-        HashMap<Product, ProductInCard> products = user.getCard().getProductsInThisCard();
+    public ArrayList<String> showProductInCard(User user, Card card) {
+        HashMap<Product, ProductInCard> products;
+        if(user == null) {
+            products = card.getProductsInThisCard();
+        } else {
+            products = user.getCard().getProductsInThisCard();
+        }
         ArrayList<String> arrayOfProducts = new ArrayList<>();
         int i = 0;
         for (Product product : products.keySet()) {
-            arrayOfProducts.add( (++i) + ". productId: " + product.getProductId() + " ,nameOfProduct: " + product.getName() + " ,number: " + products.get(product).getNumber() + " ,sellerUsername: " + products.get(product).getSeller().getUsername());
+            arrayOfProducts.add((++i) + ". productId: " + product.getProductId() + " ,nameOfProduct: " + product.getName() + " ,number: " + products.get(product).getNumber() + " ,sellerUsername: " + products.get(product).getSeller().getUsername());
         }
         return arrayOfProducts;
     }
 
-    public Boolean doesSellerHaveThisProduct(String productId, User user) {
-        Product product = ProductController.getProductById(productId);
+    public void changeNumberOfProductInCard(User user, Card card, String productId, int changingNum) throws Exception {
+        Card newCard = card;
         if (user != null) {
-            if (product.getSellersOfThisProduct().keySet().contains((Seller) user)) {
-                return true;
-            }
+            newCard = user.getCard();
         }
-        return false;
-    }
+        HashMap<Product, ProductInCard> products = newCard.getProductsInThisCard();
 
-    public void changeNumberOfProductInCard(User user, String productId, int changingNum) throws Exception {
-        HashMap<Product, ProductInCard> products = user.getCard().getProductsInThisCard();
         Product productToChange = ProductController.getProductById(productId);
-
-        if (productToChange == null || !products.containsKey(productToChange))
-            throw new Exception("This user does not have this product");
-        else {
-            ProductInCard productInCard = products.get(productToChange);
-            if (productToChange.getAvailable() < productInCard.getNumber() + changingNum) {
-                throw new Exception("Inventory of product is not enough");
-            }
-            productInCard.changeNumberOfProduct(changingNum);
-            if (productInCard.getNumber() == 0) {
-                products.remove(productToChange, productInCard);
-            }
+        if (productToChange == null) {
+            throw new Exception("There is not any product with this id");
+        }
+        if (!products.containsKey(productToChange)) {
+            throw new Exception("customer doesn't add this product to card yet");
+        }
+        ProductInCard productInCard = products.get(productToChange);
+        if (productToChange.getAvailable() < productInCard.getNumber() + changingNum) {
+            throw new Exception("Inventory of product is not enough");
+        }
+        if (productInCard.getNumber() + changingNum < 0) {
+            throw new Exception("number has entered is invalid");
+        }
+        productInCard.changeNumberOfProduct(changingNum);
+        if (productInCard.getNumber() == 0) {
+            newCard.removeProductFromCard(productToChange);
         }
     }
 
-    public void addProductToCard(User user, Product product, String sellerUsername) throws Exception {
-        Card card = user.getCard();
-        if (card == null) {
-            card = new Card();
-            user.setCard(card);
+    public void addProductToCard(User user,Card savedCard, Product product, String sellerUsername) throws Exception {
+        Card card = savedCard;
+        if(user != null) {
+            card = user.getCard();
         }
+
         if (product.getProductStatus() == ProductAndOffStatus.creating)
             throw new Exception("Product is in creating progress yet!");
-        if(product.getProductStatus() == ProductAndOffStatus.editing)
+        if (product.getProductStatus() == ProductAndOffStatus.editing)
             throw new Exception("product is in editing progress!");
+        if (card.getProductsInThisCard().containsKey(product)) {
+            throw new Exception("You have add this product to card before!");
+        }
 
         User seller = LoginController.getUserByUsername(sellerUsername);
-
+        if (seller == null) {
+            throw new Exception("There is not Seller with this userName");
+        }
         if (seller instanceof Seller) {
-            if (product.getSellersOfThisProduct().keySet().contains(seller)) {
+            if (product.getSellersOfThisProduct().containsKey(seller)) {
                 if (product.getAvailable() == 0)
                     throw new Exception("Inventory of product is not enough");
                 card.addProductToCard(new ProductInCard(product, (Seller) seller));
@@ -92,40 +106,35 @@ public class CustomerController {
         throw new Exception("There is not seller with this username for this product");
     }
 
-    int showTotalPrice(User user) {
+    int showTotalPrice(Card card) {
         SellerController.getInstance().checkTimeOfOffs();
-        HashMap<Product, ProductInCard> productsInThisCard = user.getCard().getProductsInThisCard();
+        HashMap<Product, ProductInCard> productsInThisCard = card.getProductsInThisCard();
         List<ProductInCard> products = new ArrayList<>(productsInThisCard.values());
         int totalPrice = 0;
         for (ProductInCard product : products) {
             ArrayList<Off> offs = product.getProduct().getOffs();
             int percent = 100;
             for (Off off : offs) {
-                if (off.getSeller().equals((Seller) user)) {
-                    percent -= off.getOffAmount();
+                if (off.getSeller().equals(product.getSeller())) {
+                    percent -= off.getOffPercent();
                     break;
                 }
             }
-            totalPrice += (product.getProduct().getSellersOfThisProduct().get((Seller) user) * product.getNumber() * percent / 100);
+            totalPrice += (product.getProduct().getSellersOfThisProduct().get(product.getSeller()) * product.getNumber() * percent / 100);
         }
         return totalPrice;
     }
 
     public BuyingLog createBuyingLog(User user, String[] information) throws Exception {
         for (Product product : user.getCard().getProductsInThisCard().keySet()) {
-            if(product.getAvailable() < user.getCard().getProductsInThisCard().get(product).getNumber())
+            if (product.getAvailable() < user.getCard().getProductsInThisCard().get(product).getNumber())
                 throw new Exception("number of " + product.getName() + "is more than it's availability.");
         }
-        return new BuyingLog(customerControllerInstance.showTotalPrice(user), (Customer) user, user.getCard().getProductsInThisCard(), information);
+        return new BuyingLog(showTotalPrice(user.getCard()), (Customer) user, user.getCard().getProductsInThisCard(), information);
     }
 
     public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws Exception {
-        DiscountCode discount = null;
-        for (DiscountCode code : ((Customer) user).getAllDiscountCodes()) {
-            if (code.getDiscountCode().equals(discountCodeString)) {
-                discount = code;
-            }
-        }
+        DiscountCode discount = ManagerController.getInstance().getDiscountById(discountCodeString);
         if (discount == null)
             throw new Exception("This user has not this discountCode");
         if (discount.getBeginTime().after(new Date()) || discount.getEndTime().before(new Date()))
@@ -145,6 +154,7 @@ public class CustomerController {
         ((Customer) user).addBuyingLog(buyingLog);
         ((Customer) user).addRecentShoppingProducts(buyingLog.getBuyingProducts().keySet());
         createSellingLog(buyingLog);
+        user.setCard(new Card());
     }
 
     private void createSellingLog(BuyingLog buyingLog) {
@@ -156,25 +166,25 @@ public class CustomerController {
             int percent = 0;
             for (Off off : offs) {
                 if (off.getSeller().equals(seller)) {
-                    percent = off.getOffAmount();
+                    percent = off.getOffPercent();
                     break;
                 }
             }
             int originalPrice = product.getSellersOfThisProduct().get(seller) * productInCard.getNumber();
             int offAmount = originalPrice * percent / 100;
             seller.getMoney(originalPrice - offAmount);
-            seller.addSellingLog(new SellingLog(buyingLog.getDate(),originalPrice - offAmount ,offAmount, product, buyingLog.getCustomer()));
+            seller.addSellingLog(new SellingLog(buyingLog.getDate(), originalPrice - offAmount, offAmount, product, buyingLog.getCustomer()));
             product.decreaseNumberOfProduct(productInCard.getNumber());
         }
     }
 
-    public String showOrder(User user, String orderId) {
+    public String showOrder(User user, String orderId) throws Exception {
         for (BuyingLog buyingLog : ((Customer) user).getAllBuyingLogs()) {
             if (buyingLog.getLogId().equals(orderId)) {
-                return "Id: " + buyingLog.getLogId() + ", Date: " + buyingLog.getDate() + ", Price: " + buyingLog.getTotalPrice();
+                return "Id: " + buyingLog.getLogId() + ", Date: " + buyingLog.getDate() + ", Price: " + buyingLog.getTotalPrice() + ", Products: " + buyingLog.getBuyingProducts().keySet();
             }
         }
-        return null;
+        throw new Exception("There is not order with this id!");
     }
 
     public ArrayList<String> showAllOrders(User user) {
@@ -185,6 +195,9 @@ public class CustomerController {
 
     public void rateProduct(User user, String productId, int rate) throws Exception {
         Product product = ProductController.getProductById(productId);
+        if(product == null) {
+            throw new Exception("There is not product with this id");
+        }
         if (!((Customer) user).getRecentShoppingProducts().contains(product))
             throw new Exception("Customer Does'nt buy this Product");
         product.addNumberOfCustomerWhoRated();
@@ -197,7 +210,7 @@ public class CustomerController {
 
     public ArrayList<String> showDiscountCodes(User user) {
         return (ArrayList<String>) ((Customer) user).getAllDiscountCodes().stream()
-                .map(discountCode -> "Code=" + discountCode.getDiscountCode() + ", percent=" + discountCode.getDiscountPercent() + ", maximum=" + discountCode.getMaximumDiscount())
+                .map(discountCode -> "Code=" + discountCode.getDiscountCode() + ", percent=" + discountCode.getDiscountPercent() + ", maximum=" + discountCode.getMaximumDiscount() + ", BeginTime=" + discountCode.getBeginTime() + ", EndTime=" + discountCode.getEndTime())
                 .collect(Collectors.toList());
     }
 
