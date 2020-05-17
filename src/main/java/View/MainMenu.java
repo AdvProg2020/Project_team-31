@@ -866,6 +866,7 @@ public class MainMenu extends Menu {
     }
 
     private void productMenu() {
+        productController.clearFilters(user);
         ProductMenu.getInstance().run();
     }
 
