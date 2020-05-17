@@ -897,7 +897,7 @@ public class MainMenu extends Menu {
                 if (getMatcher("^(?i)show\\s+products$", command).find())
                     viewCart();
                 else if (view.find())
-                    ProductMenu.showProduct(view.group(1));
+                    ProductMenu.getInstance().showProduct(view.group(1));
                 else if (increase.find())
                     increase(increase.group(1));
                 else if (decrease.find())
