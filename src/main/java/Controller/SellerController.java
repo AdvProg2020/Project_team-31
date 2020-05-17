@@ -89,7 +89,7 @@ public class SellerController {
         sellers.put((Seller) user, Integer.parseInt(productGeneralInformation[2]));
         Product newProduct = new Product("Product" + (Product.allProducts.size() + 1), productGeneralInformation[0], productGeneralInformation[1], ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4], sellers, specialInformationRelatedToCategory);
         newProduct.setMinimumPrice(Integer.parseInt(productGeneralInformation[2]));
-        new ProductRequest(newProduct, false);
+        new ProductRequest("ProductRequest" + (Request.getNumberOfRequestCreated() + 1), newProduct, false);
         ManagerController.getCategoryByName(productGeneralInformation[3]).addProduct(newProduct);
         ((Seller) user).addProduct(newProduct);
     }
@@ -101,7 +101,7 @@ public class SellerController {
         if (!product.getSellersOfThisProduct().keySet().contains((Seller) user))
             throw new Exception("Seller does'nt have this product");
         product.setProductStatus(ProductAndOffStatus.editing);
-        (new ProductRequest(product, true)).newProductFeatures((Seller) user, price, available, information, specialInformationRelatedToCategory);
+        (new ProductRequest("ProductRequest" + (Request.getNumberOfRequestCreated() + 1), product, true)).newProductFeatures((Seller) user, price, available, information, specialInformationRelatedToCategory);
     }
 
     public void removeProduct(String productId) throws Exception {
@@ -160,7 +160,7 @@ public class SellerController {
             }
         }
         Off newOff = new Off((Seller) user, "Off" + beginTime, beginTime, endTime, percent, products);
-        new OffRequest(newOff, false);
+        new OffRequest("OffRequest" + (Request.getNumberOfRequestCreated() + 1), newOff, false);
         ((Seller) user).addOffToThisSeller(newOff);
     }
 
@@ -194,7 +194,7 @@ public class SellerController {
         ArrayList<Product> newProducts = (ArrayList<Product>) products.stream()
                 .map(product -> ProductController.getProductById(product));
         off.setOffStatus(ProductAndOffStatus.editing);
-        (new OffRequest(off, true)).setOff(beginTime, endTime, percent, newProducts);
+        (new OffRequest("OffRequest" + (Request.getNumberOfRequestCreated() +1), off, true)).setOff(beginTime, endTime, percent, newProducts);
     }
 
     public Off getOffById(String id) {

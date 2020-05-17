@@ -90,7 +90,7 @@ public class ProductController {
             attributes.add("seller: " + seller.getUsername() + ", price: " + product.getSellersOfThisProduct().get(seller));
         }
         for (Off off : product.getOffs()) {
-            attributes.add("seller: " + off.getSeller().getUsername() + ", id: " + off.getOffId() + ", amount: " + off.getOffAmount());
+            attributes.add("seller: " + off.getSeller().getUsername() + ", id: " + off.getOffId() + ", percent: " + off.getOffPercent());
         }
         return attributes;
     }

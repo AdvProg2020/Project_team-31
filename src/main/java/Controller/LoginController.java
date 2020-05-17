@@ -17,7 +17,7 @@ public class LoginController {
         if (role.equals("customer")) {
             new Customer(information[0], information[1], username, information[2], information[3], information[4]);
         } else if (role.equals("seller")) {
-            new SellerRequest(username, information);
+            new SellerRequest("SellerRequest" + (Request.getNumberOfRequestCreated() +1), username, information);
         } else if (role.equals("manager")){
             new Manager(information[0], information[1], username, information[2], information[3], information[4]);
         } else {
