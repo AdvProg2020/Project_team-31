@@ -884,6 +884,11 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        additionalCommands();
+    }
+
+    private void additionalCommands() {
+
     }
 
     private void purchase() {
