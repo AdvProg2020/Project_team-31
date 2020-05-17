@@ -132,6 +132,12 @@ public class ManagerController {
             if (((ProductRequest) request).isEditing()) {
                 completeEditingProduct((ProductRequest) request);
             }
+        } else if (request instanceof  SellerOfProductRequest) {
+            ((SellerOfProductRequest) request).getProduct().addSeller(((SellerOfProductRequest) request).getSeller(), ((SellerOfProductRequest) request).getPrice());
+            ((SellerOfProductRequest) request).getSeller().addProduct(((SellerOfProductRequest) request).getProduct());
+            if(((SellerOfProductRequest) request).getProduct().getMinimumPrice() > ((SellerOfProductRequest) request).getPrice()) {
+                ((SellerOfProductRequest) request).getProduct().setMinimumPrice(((SellerOfProductRequest) request).getPrice());
+            }
         }
         request.deleteRequest();
     }

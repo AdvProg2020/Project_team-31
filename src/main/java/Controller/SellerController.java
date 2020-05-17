@@ -21,6 +21,17 @@ public class SellerController {
         return ((Seller) user).getCompanyName();
     }
 
+    public void addSellerToProduct(User user, String productId, int price) throws Exception{
+        Product product = ProductController.getProductById(productId);
+        if(product == null) {
+            throw new Exception("productId is invalid");
+        }
+        if(product.getSellersOfThisProduct().containsKey(user)) {
+            throw new Exception("seller has product");
+        }
+        new SellerOfProductRequest("SellerOfProductRequest",(Seller)user,product,price);
+    }
+
     public ArrayList<String> showSalesHistory(User user) {
         ArrayList<String> allSellingLogs = new ArrayList<>();
         for (SellingLog log : ((Seller) user).getAllSellingLogs()) {
@@ -108,7 +119,7 @@ public class SellerController {
         checkTimeOfOffs();
         ArrayList<String> offs = new ArrayList<>();
         for (Off sellerOff : ((Seller) user).getSellerOffs()) {
-            offs.add("id: " + sellerOff.getOffId() + ", beginTime: " + sellerOff.getBeginTime() + ",endTime: " + sellerOff.getEndTime() + ", offAmount: " + sellerOff.getOffAmount() + ", status: " + sellerOff.getOffStatus());
+            offs.add("id: " + sellerOff.getOffId() + ", beginTime: " + sellerOff.getBeginTime() + ",endTime: " + sellerOff.getEndTime() + ", offPercent: " + sellerOff.getOffPercent() + ", status: " + sellerOff.getOffStatus());
         }
         return (String[]) offs.toArray();
     }
@@ -124,7 +135,7 @@ public class SellerController {
         information.add(String.valueOf(off.getOffStatus()));
         information.add(String.valueOf(off.getBeginTime()));
         information.add(String.valueOf(off.getEndTime()));
-        information.add(String.valueOf(off.getOffAmount()));
+        information.add(String.valueOf(off.getOffPercent()));
         ArrayList<String> products = (ArrayList<String>) off.getOnSaleProducts().stream()
                 .map(product -> "id: " + product.getProductId() + ", name: " + product.getName());
         information.add(String.valueOf(products.toArray()));
