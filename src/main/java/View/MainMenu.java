@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 public class MainMenu extends Menu {
     public static MainMenu instance = null;
     public static boolean end = false;
+    public static Card card = null;
 
     public static MainMenu getInstance() {
         if (instance == null)
@@ -817,6 +818,7 @@ public class MainMenu extends Menu {
 
     /////////////////////////////////////////////////////////////////////
     private void customerMenu() {
+        card = customerController.createCard();
         String command;
         try {
             while (true) {

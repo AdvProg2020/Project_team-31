@@ -15,7 +15,7 @@ public class CustomerController {
         return customerControllerInstance;
     }
 
-    private Card createCard() {
+    public Card createCard() {
         return (new Card());
     }
 
