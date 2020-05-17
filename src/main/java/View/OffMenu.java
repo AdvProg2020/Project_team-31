@@ -39,6 +39,7 @@ public class OffMenu extends Menu {
     }
 
     private void filtering() {
+        productMenu.filtering();
     }
 
     private void sorting() {

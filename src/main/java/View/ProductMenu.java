@@ -61,7 +61,7 @@ public class ProductMenu extends Menu {
         }
     }
 
-    private void filtering() {
+    public void filtering() {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher addFilter = getMatcher("^(?i)filter\\s+(\\S+)$", command);
