@@ -871,8 +871,8 @@ public class MainMenu extends Menu {
     }
 
     private void offsMenu() {
-        OffMenu offMenu = OffMenu.getInstance();
-        offMenu.run();
+        productController.clearFilters(user);
+        OffMenu.getInstance().run();
     }
 
     private void viewCart() {
