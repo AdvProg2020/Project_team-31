@@ -49,6 +49,10 @@ public class ProductMenu extends Menu {
         }
     }
 
+    public void resetSort() {
+        sort = null;
+    }
+
     private void viewAllCategories() {
         ArrayList<String> allCategories = managerController.showAllCategories();
         if (allCategories.size() == 0)
@@ -178,7 +182,7 @@ public class ProductMenu extends Menu {
         }
     }
 
-    public  void showProduct(String productId) {
+    public void showProduct(String productId) {
         Product product = ProductController.getProductById(productId);
         if (product == null) {
             System.out.println("there is not any product with this ID!");
