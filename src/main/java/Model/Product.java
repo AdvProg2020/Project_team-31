@@ -21,6 +21,7 @@ public class Product {
     private int views;
     private HashMap<String , String > specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts;
+    private static int numberOfProductCreated;
 
     public Product(String productId, String name, String company, Category category, String information, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
@@ -34,6 +35,10 @@ public class Product {
         this.information = information;
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
         allProducts.add(this);
+    }
+
+    public static int getNumberOfProductCreated() {
+        return numberOfProductCreated;
     }
 
     public int getMinimumPrice() {

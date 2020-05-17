@@ -5,7 +5,6 @@ import Model.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.function.BiPredicate;
 
 public class SellerController {
     private static SellerController sellerControllerInstance = new SellerController();
@@ -87,7 +86,7 @@ public class SellerController {
     public void addProduct(String[] productGeneralInformation, User user, HashMap<String, String> specialInformationRelatedToCategory) {
         HashMap<Seller, Integer> sellers = new HashMap<>();
         sellers.put((Seller) user, Integer.parseInt(productGeneralInformation[2]));
-        Product newProduct = new Product("Product" + (Product.allProducts.size() + 1), productGeneralInformation[0], productGeneralInformation[1], ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4], sellers, specialInformationRelatedToCategory);
+        Product newProduct = new Product("Product" + (Product.getNumberOfProductCreated() + 1), productGeneralInformation[0], productGeneralInformation[1], ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4], sellers, specialInformationRelatedToCategory);
         newProduct.setMinimumPrice(Integer.parseInt(productGeneralInformation[2]));
         new ProductRequest("ProductRequest" + (Request.getNumberOfRequestCreated() + 1), newProduct, false);
         ManagerController.getCategoryByName(productGeneralInformation[3]).addProduct(newProduct);
@@ -159,7 +158,7 @@ public class SellerController {
                 }
             }
         }
-        Off newOff = new Off((Seller) user, "Off" + beginTime, beginTime, endTime, percent, products);
+        Off newOff = new Off((Seller) user, "Off" + (Off.getNumberOfOffsCreated() +1), beginTime, endTime, percent, products);
         new OffRequest("OffRequest" + (Request.getNumberOfRequestCreated() + 1), newOff, false);
         ((Seller) user).addOffToThisSeller(newOff);
     }

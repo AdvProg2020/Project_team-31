@@ -12,8 +12,10 @@ public class Off {
     private Seller seller;
     private ProductAndOffStatus offStatus;
     private static ArrayList<Off> allOffs;
+    private static int numberOfOffsCreated;
 
     public Off(Seller seller, String offId, Date beginTime, Date endTime, int offAmount, ArrayList<Product> products) {
+        numberOfOffsCreated++;
         this.seller = seller;
         this.offId = offId;
         this.beginTime = beginTime;
@@ -22,6 +24,10 @@ public class Off {
         this.offStatus = ProductAndOffStatus.creating;
         onSaleProducts = products;
         allOffs.add(this);
+    }
+
+    public static int getNumberOfOffsCreated() {
+        return numberOfOffsCreated;
     }
 
     public Date getBeginTime() {
