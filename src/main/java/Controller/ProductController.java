@@ -33,31 +33,44 @@ public class ProductController {
     }
 
     private ArrayList<String> sortProduct(ArrayList<Product> filteredProducts, String sorting) {
+        ArrayList<Product> sortedProducts =  new ArrayList<>();
         if (sorting.equalsIgnoreCase("price")) {
-            HashMap<Integer, Product> sortedByPrice = new HashMap<>();
+            HashMap<Product, Double> sortedByPrice = new HashMap<>();
             for (Product product : filteredProducts) {
-                sortedByPrice.put(product.getMinimumPrice(), product);
+                sortedByPrice.put(product, (double) product.getMinimumPrice());
             }
-            filteredProducts.clear();
-            filteredProducts.addAll(sortedByPrice.values());
+            sortedProducts.addAll(Arrays.asList(sortProductsByValues(sortedByPrice)));
         } else if (sorting.equalsIgnoreCase("rate")) {
-            HashMap<Double, Product> sortedByRate = new HashMap<>();
+            HashMap<Product, Double> sortedByRate = new HashMap<>();
             for (Product product : filteredProducts) {
-                sortedByRate.put((double) (product.getSumOfCustomersRate() / product.getCustomersWhoRated()), product);
+                sortedByRate.put(product, (double) (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
             }
-            filteredProducts.clear();
-            filteredProducts.addAll(sortedByRate.values());
+            sortedProducts.addAll(Arrays.asList(sortProductsByValues(sortedByRate)));
         } else {
-            HashMap<Integer, Product> sortedByView = new HashMap<>();
+            HashMap<Product, Double> sortedByView = new HashMap<>();
             for (Product product : filteredProducts) {
-                sortedByView.put(product.getViews(), product);
+                sortedByView.put(product, (double) product.getViews());
             }
-            filteredProducts.clear();
-            filteredProducts.addAll(sortedByView.values());
+            sortedProducts.addAll(Arrays.asList(sortProductsByValues(sortedByView)));
         }
 
-        return (ArrayList<String>) filteredProducts.stream()
+        return (ArrayList<String>) sortedProducts.stream()
                 .map(product -> "name=" + product.getName() + ", price=" + product.getMinimumPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
+    }
+
+    private Product[] sortProductsByValues(HashMap<Product, Double> products) {
+        Product[] productsArray = new Product[products.keySet().size()];
+        productsArray = products.keySet().toArray(productsArray);
+        for (int first = 0; first < productsArray.length; first++) {
+            for (int second = first +1 ; second < productsArray.length; second++) {
+                if(products.get(productsArray[first]) < products.get(productsArray[second])) {
+                    Product newProduct = productsArray[second];
+                    productsArray[second] = productsArray[first];
+                    productsArray[first] = newProduct;
+                }
+            }
+        }
+        return productsArray;
     }
 
     public ArrayList<String> showDigestOfProduct(Product product, User user) {
