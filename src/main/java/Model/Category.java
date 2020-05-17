@@ -6,7 +6,7 @@ public class Category {
     private static ArrayList<Category> allCategories = new ArrayList<>();
     private String name;
     private ArrayList<String> specialProperties;
-    private ArrayList<Product> products;
+    private ArrayList<Product> products = new ArrayList<>();
 
     public Category(String name, ArrayList<String> specialProperties) {
         this.name = name;

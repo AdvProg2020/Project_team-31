@@ -7,7 +7,7 @@ public class Customer extends User {
     private ArrayList<DiscountCode> allDiscountCodes;
     private ArrayList<BuyingLog> allBuyingLogs;
     private ArrayList<Product> recentShoppingProducts;
-    private static ArrayList<Customer> allCustomers;
+    private static ArrayList<Customer> allCustomers = new ArrayList<>();
 
     public Customer(String name, String lastName, String username, String emailAddress, String phoneNumber, String password) {
         super(name, lastName, username, emailAddress, phoneNumber, password);

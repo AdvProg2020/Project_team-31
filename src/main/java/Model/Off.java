@@ -11,7 +11,7 @@ public class Off {
     private ArrayList<Product> onSaleProducts;
     private Seller seller;
     private ProductAndOffStatus offStatus;
-    private static ArrayList<Off> allOffs;
+    private static ArrayList<Off> allOffs = new ArrayList<>();
     private static int numberOfOffsCreated;
 
     public Off(Seller seller, String offId, Date beginTime, Date endTime, int offAmount, ArrayList<Product> products) {

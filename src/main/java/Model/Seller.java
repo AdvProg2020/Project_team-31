@@ -14,6 +14,7 @@ public class Seller extends User {
         this.companyName = companyName;
         this.allSellingLogs = new ArrayList<>();
         this.onSaleProducts = new ArrayList<>();
+        this.sellerOffs = new ArrayList<>();
     }
 
     public ArrayList<Off> getSellerOffs() {

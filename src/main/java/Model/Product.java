@@ -13,14 +13,14 @@ public class Product {
     private int customersWhoRated;
     private Category category;
     private int sumOfCustomersRate;
-    private ArrayList<Comment> allComments;
-    private ArrayList<Off> offs;
+    private ArrayList<Comment> allComments = new ArrayList<>();
+    private ArrayList<Off> offs = new ArrayList<>();
     private int available;
     private ProductAndOffStatus productStatus;
     private String information;
     private int views;
     private HashMap<String , String > specialPropertiesRelatedToCategory;
-    public static ArrayList<Product> allProducts;
+    public static ArrayList<Product> allProducts = new ArrayList<>();
     private static int numberOfProductCreated;
 
     public Product(String productId, String name, String company, Category category, String information, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
