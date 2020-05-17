@@ -901,6 +901,10 @@ public class MainMenu extends Menu {
                     increase(increase.group(1));
                 else if (decrease.find())
                     decrease(decrease.group(1));
+                else if (getMatcher("^(?i)show\\s+total\\s+price", command).find())
+                    showTotalPrice();
+                else if (getMatcher("^(?i)purchase$", command).find())
+                    purchase();
                 else if (getMatcher("^(?i)login$", command).find())
                     loginAndLogOut(true);
                 else if (getMatcher("^(?i)logout$", command).find())
@@ -912,6 +916,10 @@ public class MainMenu extends Menu {
             System.out.println("you have to login!");
 
         }
+    }
+
+    private void showTotalPrice() {
+
     }
 
     private void increase(String productId) {
