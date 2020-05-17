@@ -12,8 +12,8 @@ public class ProductRequest extends Request {
     private boolean isEditing;
 
 
-    public ProductRequest(Product product , boolean isEditing) {
-        super("productRequest" + allRequests.size()+1);
+    public ProductRequest(String id, Product product , boolean isEditing) {
+        super(id);
         this.product = product;
         this.isEditing = isEditing;
         allRequests.add(this);

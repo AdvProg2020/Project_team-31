@@ -11,8 +11,8 @@ public class OffRequest extends Request {
     private ArrayList<Product> onSaleProducts;
     private boolean isEditing;
 
-    public OffRequest(Off off , boolean isEditing) {
-        super("offRequest" + allRequests.size()+1);
+    public OffRequest(String id, Off off , boolean isEditing) {
+        super(id);
         this.off = off;
         this.isEditing = isEditing;
         allRequests.add(this);
