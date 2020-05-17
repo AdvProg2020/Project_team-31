@@ -1,10 +1,11 @@
 package View;
 
+import Model.Card;
 import Model.Seller;
 import Model.User;
 import Controller.*;
 
-import java.text.SimpleDateFormat;
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 public abstract class Menu {
     public static User user;
     public static Scanner scanner;
+    public static Card card = null;
     LoginController loginController = LoginController.getInstance();
     SellerController sellerController = SellerController.getInstance();
     ProductController productController = ProductController.getInstance();

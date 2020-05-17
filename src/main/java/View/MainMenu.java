@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 public class MainMenu extends Menu {
     public static MainMenu instance = null;
     public static boolean end = false;
-    public static Card card = null;
 
     public static MainMenu getInstance() {
         if (instance == null)
