@@ -1,7 +1,11 @@
 package View;
 
+
+import java.util.regex.Matcher;
+
 public class OffMenu extends Menu {
     public static OffMenu instance = null;
+    public static ProductMenu productMenu = ProductMenu.getInstance();
 
     private OffMenu() {
         super();
@@ -17,36 +21,37 @@ public class OffMenu extends Menu {
     public void run() {
         showOffProducts();
         String command;
-        while (true) {
-            command = scanner.nextLine().trim();
+        while ((command = scanner.nextLine().trim().trim()).equalsIgnoreCase("back")) {
+            Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
             if (getMatcher("^(?i)filtering$", command).find())
                 filtering();
             else if (getMatcher("^(?i)sorting$", command).find())
                 sorting();
-            else if (getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command).find())
-                showProduct();
+            else if (matcher.find())
+                showProduct(matcher.group(1));
             else if (getMatcher("^(?i)login$", command).find())
                 loginAndLogOut(true);
             else if (getMatcher("^(?i)logout$", command).find())
                 loginAndLogOut(false);
-            else if (getMatcher("^(?i)back$", command).find())
-                break;
             else System.out.println("invalid command");
 
         }
     }
 
     private void filtering() {
+        productMenu.filtering();
     }
 
     private void sorting() {
+        productMenu.resetSort();
+        productMenu.sorting();
     }
 
     private void showOffProducts() {
-
     }
 
-    private void showProduct() {
+    private void showProduct(String productId) {
+        productMenu.showProduct(productId);
     }
 
 }

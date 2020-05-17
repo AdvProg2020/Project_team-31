@@ -49,6 +49,10 @@ public class ProductMenu extends Menu {
         }
     }
 
+    public void resetSort() {
+        sort = null;
+    }
+
     private void viewAllCategories() {
         ArrayList<String> allCategories = managerController.showAllCategories();
         if (allCategories.size() == 0)
@@ -61,7 +65,7 @@ public class ProductMenu extends Menu {
         }
     }
 
-    private void filtering() {
+    public void filtering() {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher addFilter = getMatcher("^(?i)filter\\s+(\\S+)$", command);
@@ -127,7 +131,7 @@ public class ProductMenu extends Menu {
         }
     }
 
-    private void sorting() {
+    public void sorting() {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher sort = getMatcher("^(?i)sort\\s+(\\S+)$", command);
@@ -144,11 +148,11 @@ public class ProductMenu extends Menu {
     }
 
     private void showAvailableSorts() {
-        System.out.println("available sorts : \"price\"     \"rate\"    \"price\"");
+        System.out.println("available sorts : \"price\"     \"rate\"    \"view\"");
     }
 
     private void sort(String newSort) {
-        if (newSort.equals("price") || newSort.equals("rate") || newSort.equals("date")) {
+        if (newSort.equals("price") || newSort.equals("rate") || newSort.equals("view")) {
             sort = newSort;
         } else System.out.println("invalid sort");
 
@@ -178,7 +182,7 @@ public class ProductMenu extends Menu {
         }
     }
 
-    public static void showProduct(String productId) {
+    public void showProduct(String productId) {
         Product product = ProductController.getProductById(productId);
         if (product == null) {
             System.out.println("there is not any product with this ID!");
