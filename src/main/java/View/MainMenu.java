@@ -902,14 +902,19 @@ public class MainMenu extends Menu {
     }
 
     private void showOrder(String orderId) {
-        try{
-            customerController.showOrder(user,orderId);
-        }catch (Exception e){
+        try {
+            customerController.showOrder(user, orderId);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     private void rate(String productId, String rate) {
+        try {
+            customerController.rateProduct(user,productId,Integer.parseInt(rate));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void viewDiscountCodesForCustomer() {
