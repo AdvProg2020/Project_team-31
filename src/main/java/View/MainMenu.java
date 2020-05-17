@@ -1044,4 +1044,21 @@ public class MainMenu extends Menu {
         System.out.println("///////////////////////help////////////////////");
     }
 
+    private void customerHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("view personal info");
+        System.out.println("view cart");
+        System.out.println("purchase");
+        System.out.println("view orders");
+        System.out.println("view balance");
+        System.out.println("view discount codes");
+        System.out.println("products");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("offs");
+        System.out.println("help");
+        System.out.println("end");
+        System.out.println("///////////////////////help////////////////////");
+    }
+
 }
