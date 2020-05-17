@@ -431,8 +431,16 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewBalance() {
-        System.out.println(sellerController.showBalanceOfSeller(user));
+    private void viewBalanceForSeller() {
+        try {
+            System.out.println(sellerController.showBalanceOfSeller(user));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void viewBalanceForCustomer() {
+        System.out.println(customerController.showBalanceForCustomer(user));
     }
 
     private void showOffs() {
@@ -911,7 +919,7 @@ public class MainMenu extends Menu {
 
     private void rate(String productId, String rate) {
         try {
-            customerController.rateProduct(user,productId,Integer.parseInt(rate));
+            customerController.rateProduct(user, productId, Integer.parseInt(rate));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
