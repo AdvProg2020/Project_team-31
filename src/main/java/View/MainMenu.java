@@ -926,7 +926,14 @@ public class MainMenu extends Menu {
     }
 
     private void decrease(String productId) {
-
+        System.out.println("please enter the decrease number (for example 5)");
+        String number = scanByRegex("^\\d+$", "invalid command");
+        int num = Integer.parseInt(number)*(-1);
+        try {
+            customerController.changeNumberOfProductInCard(user, card, productId, num);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private void purchase() {
