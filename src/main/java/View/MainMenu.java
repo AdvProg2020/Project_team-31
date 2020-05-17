@@ -896,12 +896,17 @@ public class MainMenu extends Menu {
             if (showOrder.find())
                 showOrder(showOrder.group(1));
             else if (rate.find())
-                rate(rate.group(1), rate.group(2))
+                rate(rate.group(1), rate.group(2));
             else System.out.println("invalid command");
         }
     }
 
     private void showOrder(String orderId) {
+        try{
+            customerController.showOrder(user,orderId);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private void rate(String productId, String rate) {
