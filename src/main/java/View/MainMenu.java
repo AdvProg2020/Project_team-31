@@ -837,7 +837,7 @@ public class MainMenu extends Menu {
                 if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
                     viewPersonalInformation();
                 else if (getMatcher("^(?i)view\\s+cart$", command).find())
-                    viewCart();
+                    cart();
                 else if (getMatcher("^(?i)purchase$", command).find())
                     purchase();
                 else if (getMatcher("^(?i)view\\s+orders$", command).find())
@@ -884,11 +884,34 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        additionalCommands();
     }
 
-    private void additionalCommands() {
+    private void cart() {
+        String command;
+        try {
+            while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+                Matcher view = getMatcher("^(?i)view\\s+(\\S+)$", command);
+                Matcher increase = getMatcher("^(?i)increase\\s+(\\S+)$", command);
+                Matcher decrease = getMatcher("^(?i)decrease\\s+(\\S+)$", command);
+                if (getMatcher("^(?i)show\\s+products$", command).find())
+                    viewCart();
+                else if (view.find())
+                    ProductMenu.showProduct(view.group(1));
+                else if (increase.find())
+                    increase(increase.group(1));
+                else if (decrease.find())
+                    decrease(decrease.group(1));
+                else if (getMatcher("^(?i)login$", command).find())
+                    loginAndLogOut(true);
+                else if (getMatcher("^(?i)logout$", command).find())
+                    loginAndLogOut(false);
+                else System.out.println("invalid command");
+            }
 
+        } catch (Exception e) {
+            System.out.println("you have to login!");
+
+        }
     }
 
     private void purchase() {
