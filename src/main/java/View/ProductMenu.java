@@ -144,11 +144,11 @@ public class ProductMenu extends Menu {
     }
 
     private void showAvailableSorts() {
-        System.out.println("available sorts : \"price\"     \"rate\"    \"price\"");
+        System.out.println("available sorts : \"price\"     \"rate\"    \"view\"");
     }
 
     private void sort(String newSort) {
-        if (newSort.equals("price") || newSort.equals("rate") || newSort.equals("date")) {
+        if (newSort.equals("price") || newSort.equals("rate") || newSort.equals("view")) {
             sort = newSort;
         } else System.out.println("invalid sort");
 
