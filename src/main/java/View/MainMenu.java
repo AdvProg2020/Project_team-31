@@ -914,6 +914,21 @@ public class MainMenu extends Menu {
         }
     }
 
+    private void increase(String productId) {
+        System.out.println("please enter the increase number (for example 5)");
+        String number = scanByRegex("^\\d+$", "invalid command");
+        int num = Integer.parseInt(number);
+        try {
+            customerController.changeNumberOfProductInCard(user, card, productId, num);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void decrease(String productId) {
+
+    }
+
     private void purchase() {
         CompletionShop completionShop = CompletionShop.getInstance();
         completionShop.run();
