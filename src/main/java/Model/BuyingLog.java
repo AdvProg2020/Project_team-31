@@ -8,11 +8,10 @@ public class BuyingLog extends Log{
     private int totalPrice;
     private int discountAmount;
     private HashMap<Product, ProductInCard> buyingProducts;
-    private static ArrayList<BuyingLog> allBuyingLog;
     private String[] personalInformation;
 
-    public BuyingLog(int totalPrice, Customer customer, HashMap<Product, ProductInCard> buyingProducts, String[] personalInformation) {
-        super(null, null, customer);
+    public BuyingLog(String id, int totalPrice, Customer customer, HashMap<Product, ProductInCard> buyingProducts, String[] personalInformation) {
+        super(id, null, customer);
         this.totalPrice = totalPrice;
         this.discountAmount = 0;
         this.customer = customer;
@@ -20,14 +19,8 @@ public class BuyingLog extends Log{
         this.personalInformation = personalInformation;
     }
 
-    public static ArrayList<BuyingLog> getAllBuyingLog() {
-        return allBuyingLog;
-    }
-
-    public void finishBuying(String logId, Date date) {
-        this.logId = logId;
+    public void finishBuying(Date date) {
         this.date = date;
-        allBuyingLog.add(this);
     }
 
     public void setDiscountAmount(int discountAmount) {

@@ -6,10 +6,9 @@ public class SellingLog extends Log{
     private int totalPriceArrived;
     private int amountOfOff;
     private Product buyingProducts;
-    private static int numberOfSellingLog;
 
-    public SellingLog(Date date, int totalPriceArrived, int amountOfOff, Product buyingProducts, Customer customer) {
-        super("SellingLog" + numberOfSellingLog++, date, customer);
+    public SellingLog(String id, Date date, int totalPriceArrived, int amountOfOff, Product buyingProducts, Customer customer) {
+        super(id, date, customer);
         this.totalPriceArrived = totalPriceArrived;
         this.amountOfOff = amountOfOff;
         this.buyingProducts = buyingProducts;

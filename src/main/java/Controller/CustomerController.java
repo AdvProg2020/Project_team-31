@@ -130,7 +130,7 @@ public class CustomerController {
             if (product.getAvailable() < user.getCard().getProductsInThisCard().get(product).getNumber())
                 throw new Exception("number of " + product.getName() + "is more than it's availability.");
         }
-        return new BuyingLog(showTotalPrice(user.getCard()), (Customer) user, user.getCard().getProductsInThisCard(), information);
+        return new BuyingLog("BuyingLog" + (Log.getNumberOfLogCreated() +1) , showTotalPrice(user.getCard()), (Customer) user, user.getCard().getProductsInThisCard(), information);
     }
 
     public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws Exception {
@@ -149,7 +149,7 @@ public class CustomerController {
     public void payMoney(User user, BuyingLog buyingLog) throws Exception {
         if (buyingLog.getTotalPrice() - buyingLog.getDiscountAmount() > user.getCredit())
             throw new Exception("Credit of money is not enough");
-        buyingLog.finishBuying("BuyingLog" + BuyingLog.getAllBuyingLog().size() + 1, new Date());
+        buyingLog.finishBuying(new Date());
         user.payMoney(buyingLog.getTotalPrice() - buyingLog.getDiscountAmount());
         ((Customer) user).addBuyingLog(buyingLog);
         ((Customer) user).addRecentShoppingProducts(buyingLog.getBuyingProducts().keySet());
@@ -173,7 +173,7 @@ public class CustomerController {
             int originalPrice = product.getSellersOfThisProduct().get(seller) * productInCard.getNumber();
             int offAmount = originalPrice * percent / 100;
             seller.getMoney(originalPrice - offAmount);
-            seller.addSellingLog(new SellingLog(buyingLog.getDate(), originalPrice - offAmount, offAmount, product, buyingLog.getCustomer()));
+            seller.addSellingLog(new SellingLog("SellingLog" + (Log.getNumberOfLogCreated() +1), buyingLog.getDate() ,originalPrice - offAmount, offAmount, product, buyingLog.getCustomer()));
             product.decreaseNumberOfProduct(productInCard.getNumber());
         }
     }
