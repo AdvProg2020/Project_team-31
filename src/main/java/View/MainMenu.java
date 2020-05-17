@@ -55,7 +55,7 @@ public class MainMenu extends Menu {
             else if (getMatcher("^(?i)view\\s+offs$", command).find())
                 viewAllOffs();
             else if (getMatcher("^(?i)view\\s+balance\n$", command).find())
-                viewBalance();
+                viewBalanceForSeller();
             else if (getMatcher("^(?i)products$", command).find())
                 productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
