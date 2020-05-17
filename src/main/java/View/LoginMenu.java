@@ -100,6 +100,7 @@ public class LoginMenu extends Menu {
 
     public void logout() {
         user = null;
+        card=null;
         System.out.println("you logged out successfully.");
     }
 
