@@ -25,10 +25,18 @@ public class LoginMenu extends Menu {
                 register(matcher.group(1), matcher.group(2), false);
             else if (getMatcher("^(?i)login\\s+(\\S+)$", command).find())
                 login(matcher.group(1));
+            else if (getMatcher("^(?i)help$", command).find())
+                help();
             else if (getMatcher("^(?i)back$", command).find())
                 break;
             else System.out.println("invalid command");
         }
+    }
+
+    private void help() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("create account (customer or seller or manager)\nlogin\nhelp\nback\n");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     public void register(String type, String username, boolean managerCommand) {
@@ -83,8 +91,7 @@ public class LoginMenu extends Menu {
     private boolean typeCheck(String type) {
         if (!type.equalsIgnoreCase("manager"))
             if (!type.equalsIgnoreCase("seller"))
-                if (!type.equalsIgnoreCase("customer"))
-                    return false;
+                return type.equalsIgnoreCase("customer");
         return true;
     }
 
@@ -92,7 +99,7 @@ public class LoginMenu extends Menu {
         System.out.println("please enter your password:");
         String password = scanner.nextLine();
         try {
-            loginController.login(username, password,card);
+            loginController.login(username, password, card);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -100,7 +107,7 @@ public class LoginMenu extends Menu {
 
     public void logout() {
         user = null;
-        card=null;
+        card = null;
         System.out.println("you logged out successfully.");
     }
 

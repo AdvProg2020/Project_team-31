@@ -1,8 +1,5 @@
 package View;
 
-
-import Model.Product;
-
 import java.util.regex.Matcher;
 
 public class OffMenu extends Menu {
