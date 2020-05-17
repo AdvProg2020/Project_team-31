@@ -1017,7 +1017,24 @@ public class MainMenu extends Menu {
         System.out.println("offs");
         System.out.println("login");
         System.out.println("logout");
-        System.out.println("back");
+        System.out.println("help");
+        System.out.println("end");
+        System.out.println("///////////////////////help////////////////////");
+    }
+
+    private void managerHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("manage users");
+        System.out.println("view personal info");
+        System.out.println("manage all products");
+        System.out.println("create discount code");
+        System.out.println("view discount codes");
+        System.out.println("manage requests");
+        System.out.println("manage categories");
+        System.out.println("products");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("offs");
         System.out.println("help");
         System.out.println("end");
         System.out.println("///////////////////////help////////////////////");
