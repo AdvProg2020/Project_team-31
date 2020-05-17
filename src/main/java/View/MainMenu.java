@@ -64,6 +64,8 @@ public class MainMenu extends Menu {
                 loginAndLogOut(true);
             else if (getMatcher("^(?i)logout$", command).find())
                 loginAndLogOut(false);
+            else if (getMatcher("^(?i)help", command).find())
+                sellerHelp();
             else if (getMatcher("^(?i)end$", command).find())
                 break;
             else System.out.println("invalid command");
