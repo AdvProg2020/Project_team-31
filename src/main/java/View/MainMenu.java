@@ -843,7 +843,7 @@ public class MainMenu extends Menu {
                 else if (getMatcher("^(?i)view\\s+orders$", command).find())
                     viewOrders();
                 else if (getMatcher("^(?i)view\\s+balance$", command).find())
-                    viewBalance();
+                    viewBalanceForCustomer();
                 else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
                     viewDiscountCodesForCustomer();
                 else if (getMatcher("^(?i)products$", command).find())
