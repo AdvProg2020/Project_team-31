@@ -865,7 +865,7 @@ public class MainMenu extends Menu {
     private void viewCart() {
         try {
             System.out.println("//////////////////////////////////////////////");
-            ArrayList<String> products = customerController.showCard(user,card);
+            ArrayList<String> products = customerController.showCard(user, card);
             for (String product : products)
                 System.out.println(product);
             System.out.println("//////////////////////////////////////////////");
@@ -889,6 +889,22 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        String command;
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            Matcher showOrder = getMatcher("^(?i)show\\s+order\\s+(\\S+)$", command);
+            Matcher rate = getMatcher("^(?i)rate\\s+(\\S+)\\s+([12345])$", command);
+            if (showOrder.find())
+                showOrder(showOrder.group(1));
+            else if (rate.find())
+                rate(rate.group(1), rate.group(2))
+            else System.out.println("invalid command");
+        }
+    }
+
+    private void showOrder(String orderId) {
+    }
+
+    private void rate(String productId, String rate) {
     }
 
     private void viewDiscountCodesForCustomer() {
