@@ -1000,4 +1000,25 @@ public class MainMenu extends Menu {
         }
     }
 
+    private void sellerHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("remove product [productId]");
+        System.out.println("view personal info");
+        System.out.println("view company info");
+        System.out.println("view sales history");
+        System.out.println("manage products");
+        System.out.println("add product");
+        System.out.println("show categories");
+        System.out.println("view offs");
+        System.out.println("view balance");
+        System.out.println("products");
+        System.out.println("offs");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("back");
+        System.out.println("help");
+        System.out.println("end");
+        System.out.println("///////////////////////help////////////////////");
+    }
+
 }
