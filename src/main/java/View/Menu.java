@@ -30,6 +30,10 @@ public abstract class Menu {
     public abstract void run();
 
     public Matcher getMatcher(String regex, String check) {
+        if (check.equalsIgnoreCase("login"))
+            loginAndLogOut(true);
+        else if (check.equalsIgnoreCase("logout"))
+            loginAndLogOut(false);
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(check);
     }
