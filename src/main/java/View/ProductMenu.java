@@ -49,7 +49,8 @@ public class ProductMenu extends Menu {
     public void resetValues() {
         sort = null;
         category = null;
-        productController.clearFilters(user);
+        if (user != null)
+            productController.clearFilters(user);
         productController.clearFilters(tempUser);
     }
 

@@ -356,7 +356,7 @@ public class MainMenu extends Menu {
 
     private void removeProduct(String productId) {
         try {
-            sellerController.removeProduct(productId);
+            sellerController.removeProductFromUser(user, productId);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -919,7 +919,7 @@ public class MainMenu extends Menu {
         try {
             features = sellerController.getCategoryFeatures(name);
         } catch (Exception e) {
-            System.out.println("there isn't any category with this name");
+            System.out.println(e.getMessage());
         }
         if (features == null) {
             System.out.println("there isn't any category with this name");
@@ -927,12 +927,16 @@ public class MainMenu extends Menu {
         }
         String command;
         System.out.println("please enter the features you want to change(example previousName-changedName) : (-1 for exit)");
-        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+        while (!(command = scanner.nextLine().trim()).equals("-1")) {
             Matcher matcher = getMatcher(command, "^(.+)-(.+)$");
             if (matcher.find())
                 changedFields.put(matcher.group(1), matcher.group(2));
         }
-        managerController.changeFeatureOfCategory(name, changedFields);
+        try {
+            managerController.changeFeatureOfCategory(name, changedFields);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         for (Map.Entry<String, String> entry : changedFields.entrySet()) {
             features.add(entry.getValue());
         }
@@ -944,7 +948,11 @@ public class MainMenu extends Menu {
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             features.remove(command);
         }
-
+        try {
+            managerController.editCategory(name, features);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void addCategory(String name) {
@@ -1088,6 +1096,7 @@ public class MainMenu extends Menu {
         System.out.println("view [productId]");
         System.out.println("increase [productId]");
         System.out.println("decrease [productId]");
+        System.out.println("show products");
         System.out.println("show total price");
         System.out.println("purchase");
         System.out.println("login");
