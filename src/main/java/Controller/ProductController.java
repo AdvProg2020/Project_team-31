@@ -112,10 +112,6 @@ public class ProductController {
         return attributes;
     }
 
-    public String[] showAvailableSorts() {
-        return (new String[]{"price", "rate", "view"});
-    }
-
     public ArrayList<String> showAvailableFiltersForUser(User user, String categoryName) {
         ArrayList<String> availableFilters = new ArrayList<>();
         if (categoryName != null)

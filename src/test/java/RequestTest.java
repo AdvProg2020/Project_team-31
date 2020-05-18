@@ -73,7 +73,12 @@ public class RequestTest {
         HashMap<String , Integer> discountForUsers = new HashMap<>();
         discountForUsers.put("buyer",2);
         managerController.createDiscountCode("myDiscount", date, new Date(date.getTime() + 60 * 60 * 1000), 20, 10000, discountForUsers);
-        Assert.assertEquals("code:" + "myDiscount" + ", beginTime:" + date + ", endTime:" + (date.getTime() + 60 * 60* 1000) + ", percent:" + "20", managerController.showAllDiscountCodes().get(0));
+        Assert.assertEquals("code:" + "myDiscount" + ", beginTime:" + date + ", endTime:" + new Date(date.getTime() + 60 * 60* 1000) + ", percent:" + "20", managerController.showAllDiscountCodes().get(0));
+        Assert.assertEquals("code:" + "myDiscount" + ", beginTime:" + date + ", endTime:" + new Date(date.getTime() + 60 * 60* 1000) + ", percent:" + "20", managerController.showDiscount("myDiscount"));
+    }
+
+    public void  editAndRemoveDiscount() throws Exception {
+
     }
 
 

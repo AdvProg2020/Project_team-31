@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class Customer extends User {
-    private ArrayList<DiscountCode> allDiscountCodes;
-    private ArrayList<BuyingLog> allBuyingLogs;
-    private ArrayList<Product> recentShoppingProducts;
+    private ArrayList<DiscountCode> allDiscountCodes = new ArrayList<>();
+    private ArrayList<BuyingLog> allBuyingLogs = new ArrayList<>();
+    private ArrayList<Product> recentShoppingProducts = new ArrayList<>();
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
 
     public Customer(String name, String lastName, String username, String emailAddress, String phoneNumber, String password) {

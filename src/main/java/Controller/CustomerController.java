@@ -30,29 +30,15 @@ public class CustomerController {
             card = user.getCard();
         }
         ArrayList<String> arrayOfInformation = new ArrayList<>();
+        int i = 0;
         for (Product product : card.getProductsInThisCard().keySet()) {
             ProductInCard productInCard = card.getProductsInThisCard().get(product);
-            String productInformation = "productId: " + product.getProductId() + " name: " + product.getName() + " price: " + product.getSellersOfThisProduct().get(productInCard.getSeller()) + " numberOfProduct: " + productInCard.getNumber();
+            String productInformation = (++i) + "productId: " + product.getProductId() + ", name: " + product.getName() + ", price: " + product.getSellersOfThisProduct().get(productInCard.getSeller()) + ", numberOfProduct: " + productInCard.getNumber() + ", seller" + productInCard.getSeller().getUsername();
             arrayOfInformation.add(productInformation);
         }
-        arrayOfInformation.add(String.valueOf(showTotalPrice(card)));
+        arrayOfInformation.add("totalPrice: " + showTotalPrice(card));
 
         return arrayOfInformation;
-    }
-
-    public ArrayList<String> showProductInCard(User user, Card card) {
-        HashMap<Product, ProductInCard> products;
-        if(user == null) {
-            products = card.getProductsInThisCard();
-        } else {
-            products = user.getCard().getProductsInThisCard();
-        }
-        ArrayList<String> arrayOfProducts = new ArrayList<>();
-        int i = 0;
-        for (Product product : products.keySet()) {
-            arrayOfProducts.add((++i) + ". productId: " + product.getProductId() + " ,nameOfProduct: " + product.getName() + " ,number: " + products.get(product).getNumber() + " ,sellerUsername: " + products.get(product).getSeller().getUsername());
-        }
-        return arrayOfProducts;
     }
 
     public void changeNumberOfProductInCard(User user, Card card, String productId, int changingNum) throws Exception {
