@@ -169,10 +169,25 @@ public class ProductMenu extends Menu {
                 showAvailableSorts();
             else if (getMatcher("^(?i)current\\s+sort", command).find())
                 showCurrentSort();
-            else if (getMatcher("^(?i)disable\\s+filter$", command).find())
+            else if (getMatcher("^(?i)help", command).find())
+                sortHelp();
+            else if (getMatcher("^(?i)disable\\s+sort$", command).find())
                 disableSort();
             else System.out.println("invalid command");
         }
+    }
+
+    private void sortHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("sort [sort name]");
+        System.out.println("disable sort");
+        System.out.println("show available sorts");
+        System.out.println("current filters");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void showAvailableSorts() {
