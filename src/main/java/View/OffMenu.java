@@ -1,6 +1,5 @@
 package View;
 
-
 import java.util.regex.Matcher;
 
 public class OffMenu extends Menu {
@@ -48,6 +47,11 @@ public class OffMenu extends Menu {
     }
 
     private void showOffProducts() {
+        try {
+            productController.showOffProduct(user, productMenu.sort);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void showProduct(String productId) {

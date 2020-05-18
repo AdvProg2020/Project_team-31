@@ -64,9 +64,12 @@ public class MainMenu extends Menu {
                 loginAndLogOut(true);
             else if (getMatcher("^(?i)logout$", command).find())
                 loginAndLogOut(false);
-            else if (getMatcher("^(?i)end$", command).find())
+            else if (getMatcher("^(?i)help", command).find())
+                sellerHelp();
+            else if (getMatcher("^(?i)end$", command).find()) {
+                end = true;
                 break;
-            else System.out.println("invalid command");
+            } else System.out.println("invalid command");
         }
     }
 
@@ -482,9 +485,10 @@ public class MainMenu extends Menu {
                 loginAndLogOut(false);
             else if (getMatcher("^(?i)offs$", command).find())
                 showOffs();
-            else if (getMatcher("^(?i)end$", command).find())
+            else if (getMatcher("^(?i)end$", command).find()) {
+                end = true;
                 break;
-            else System.out.println("invalid command");
+            } else System.out.println("invalid command");
 
 
         }
@@ -502,6 +506,8 @@ public class MainMenu extends Menu {
                 viewUser(viewMatcher.group(1));
             else if (deleteMatcher.find())
                 deleteUser(deleteMatcher.group(1));
+            else if (getMatcher("^(?i)help$", command).find())
+                managerHelp();
             else if (command.equalsIgnoreCase("create manager profile"))
                 addManager();
             else System.out.println("invalid command");
@@ -854,6 +860,8 @@ public class MainMenu extends Menu {
                     loginAndLogOut(false);
                 else if (getMatcher("^(?i)offs$", command).find())
                     offsMenu();
+                else if (getMatcher("^(?i)help$", command).find())
+                    customerHelp();
                 else if (getMatcher("^(?i)end$", command).find())
                     break;
                 else System.out.println("invalid command");
@@ -998,6 +1006,61 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void sellerHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("remove product [productId]");
+        System.out.println("view personal info");
+        System.out.println("view company info");
+        System.out.println("view sales history");
+        System.out.println("manage products");
+        System.out.println("add product");
+        System.out.println("show categories");
+        System.out.println("view offs");
+        System.out.println("view balance");
+        System.out.println("products");
+        System.out.println("offs");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("end");
+        System.out.println("///////////////////////help////////////////////");
+    }
+
+    private void managerHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("manage users");
+        System.out.println("view personal info");
+        System.out.println("manage all products");
+        System.out.println("create discount code");
+        System.out.println("view discount codes");
+        System.out.println("manage requests");
+        System.out.println("manage categories");
+        System.out.println("products");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("offs");
+        System.out.println("help");
+        System.out.println("end");
+        System.out.println("///////////////////////help////////////////////");
+    }
+
+    private void customerHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("view personal info");
+        System.out.println("view cart");
+        System.out.println("purchase");
+        System.out.println("view orders");
+        System.out.println("view balance");
+        System.out.println("view discount codes");
+        System.out.println("products");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("offs");
+        System.out.println("help");
+        System.out.println("end");
+        System.out.println("///////////////////////help////////////////////");
     }
 
 }
