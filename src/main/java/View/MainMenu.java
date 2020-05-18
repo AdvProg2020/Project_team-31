@@ -573,7 +573,7 @@ public class MainMenu extends Menu {
     private void manageUsersHelp() {
         System.out.println("///////////////////////help////////////////////");
         System.out.println("view [username]");
-        System.out.println("view user [username]");
+        System.out.println("delete user [username]");
         System.out.println("create manager profile");
         System.out.println("login");
         System.out.println("logout");
