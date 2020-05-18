@@ -226,6 +226,8 @@ public class MainMenu extends Menu {
                 viewProduct(viewMatcher.group(1));
             else if (viewBuyersMatcher.find())
                 viewBuyerProduct(viewBuyersMatcher.group(1));
+            else if (command.equalsIgnoreCase("help"))
+                manageProductsHelp();
             else if (editMatcher.find()) {
                 try {
                     editProduct(editMatcher.group(1));
@@ -234,6 +236,16 @@ public class MainMenu extends Menu {
                 }
             } else System.out.println("invalid command");
         }
+    }
+
+    private void manageProductsHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("view [productId]");
+        System.out.println("view buyers [productId]");
+        System.out.println("edit [productId]");
+        System.out.println("back");
+        System.out.println("help");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void viewProduct(String productId) {
