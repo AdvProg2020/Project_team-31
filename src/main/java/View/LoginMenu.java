@@ -101,6 +101,7 @@ public class LoginMenu extends Menu {
         String password = scanner.nextLine();
         try {
             loginController.login(username, password, card);
+            System.out.println("you logged in successfully!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
