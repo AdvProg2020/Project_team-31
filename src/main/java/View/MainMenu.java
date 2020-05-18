@@ -539,6 +539,8 @@ public class MainMenu extends Menu {
                 loginAndLogOut(false);
             else if (getMatcher("^(?i)offs$", command).find())
                 showOffs();
+            else if (getMatcher("^(?i)help$", command).find())
+                managerHelp();
             else if (getMatcher("^(?i)end$", command).find()) {
                 end = true;
                 break;
@@ -560,12 +562,24 @@ public class MainMenu extends Menu {
                 viewUser(viewMatcher.group(1));
             else if (deleteMatcher.find())
                 deleteUser(deleteMatcher.group(1));
-            else if (getMatcher("^(?i)help$", command).find())
-                managerHelp();
+            else if (command.equalsIgnoreCase("help"))
+                manageUsersHelp();
             else if (command.equalsIgnoreCase("create manager profile"))
                 addManager();
             else System.out.println("invalid command");
         }
+    }
+
+    private void manageUsersHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("view [username]");
+        System.out.println("view user [username]");
+        System.out.println("create manager profile");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("end");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void viewUser(String username) {
