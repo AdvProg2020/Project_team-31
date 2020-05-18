@@ -35,7 +35,7 @@ public class LoginMenu extends Menu {
 
     private void help() {
         System.out.println("///////////////////////help////////////////////");
-        System.out.println("create account (customer or seller or manager)\nlogin\nhelp\nback\n");
+        System.out.println("create account (customer or seller or manager) [username]\nlogin\nhelp\nback\n");
         System.out.println("///////////////////////help////////////////////");
     }
 
@@ -83,6 +83,7 @@ public class LoginMenu extends Menu {
         }
         try {
             loginController.register(username, type, information);
+            System.out.println("you registered successfully!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
