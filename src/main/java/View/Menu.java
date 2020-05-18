@@ -37,6 +37,7 @@ public abstract class Menu {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(check);
     }
+
     public Matcher safeGetMatcher(String regex, String check) {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(check);
@@ -64,5 +65,10 @@ public abstract class Menu {
         else if (type)
             System.out.println("you already have logged in!");
         else LoginMenu.getInstance().logout();
+    }
+
+    void mustLoginAccess() throws Exception {
+        if (user == null)
+            throw new Exception("you have to login!");
     }
 }
