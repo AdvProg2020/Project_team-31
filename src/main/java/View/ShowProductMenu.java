@@ -28,21 +28,32 @@ public class ShowProductMenu extends Menu {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)compare\\s+(\\S+)$", command);
-            if (getMatcher("^(?i)digest$", command).find())
+            if (safeGetMatcher("^(?i)digest$", command).find())
                 digest();
-            else if (getMatcher("^(?i)attributes$", command).find())
+            else if (safeGetMatcher("^(?i)attributes$", command).find())
                 attributes();
             else if (matcher.find())
                 compare(matcher.group(1));
-            else if (getMatcher("^(?i)login$", command).find())
-                loginAndLogOut(true);
-            else if (getMatcher("^(?i)logout$", command).find())
-                loginAndLogOut(false);
-            else if (getMatcher("^(?i)Comments$", command).find())
+            else if (safeGetMatcher("^(?i)help$", command).find())
+                showProductMenuHelp();
+            else if (safeGetMatcher("^(?i)Comments$", command).find())
                 comments();
             else System.out.println("invalid command");
 
         }
+    }
+
+    private void showProductMenuHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("compare [productId]");
+        System.out.println("digest");
+        System.out.println("attributes");
+        System.out.println("comments");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void digest() {
@@ -53,9 +64,21 @@ public class ShowProductMenu extends Menu {
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             if (command.equalsIgnoreCase("add to card"))
                 addToCard();
+            else if (getMatcher("^help$", command).find())
+                digestHelp();
             else System.out.println("invalid command");
         }
 
+    }
+
+    private void digestHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("add to card");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void addToCard() {
@@ -97,10 +120,22 @@ public class ShowProductMenu extends Menu {
             System.out.println(line);
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
-            if (command.equalsIgnoreCase("add comment")) {
+            if (command.equalsIgnoreCase("add comment"))
                 addComment();
-            } else System.out.println("invalid command");
+            else if (getMatcher("^help$", command).find())
+                commentsHelp();
+            else System.out.println("invalid command");
         }
+    }
+
+    private void commentsHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("add comment");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void addComment() {

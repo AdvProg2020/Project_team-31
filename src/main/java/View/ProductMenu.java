@@ -30,17 +30,15 @@ public class ProductMenu extends Menu {
         sort = null;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
-            if (getMatcher("^(?i)view\\s+categories$", command).find())
+            if (safeGetMatcher("^(?i)view\\s+categories$", command).find())
                 viewAllCategories();
-            else if (getMatcher("^(?i)filtering$", command).find())
+            else if (safeGetMatcher("^(?i)filtering$", command).find())
                 filtering();
-            else if (getMatcher("^(?i)sorting$", command).find())
+            else if (safeGetMatcher("^(?i)sorting$", command).find())
                 sorting();
-            else if (getMatcher("^(?i)login$", command).find())
-                loginAndLogOut(true);
-            else if (getMatcher("^(?i)logout$", command).find())
-                loginAndLogOut(false);
-            else if (getMatcher("^(?i)show\\s+products$", command).find())
+            else if (safeGetMatcher("^(?i)help$", command).find())
+                productMenuHelp();
+            else if (safeGetMatcher("^(?i)show\\s+products$", command).find())
                 showProducts();
             else if (matcher.find())
                 showProduct(matcher.group(1));
@@ -48,6 +46,21 @@ public class ProductMenu extends Menu {
 
         }
     }
+
+    private void productMenuHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("show product [productId]");
+        System.out.println("view categories");
+        System.out.println("filtering");
+        System.out.println("sorting");
+        System.out.println("show products");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
+    }
+
 
     public void resetSort() {
         sort = null;
@@ -69,17 +82,32 @@ public class ProductMenu extends Menu {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher addFilter = getMatcher("^(?i)filter\\s+(\\S+)$", command);
-            Matcher disableFilter = getMatcher("^(?i)disable\\s+filter\\s+(\\S+)$", command);
-            if (getMatcher("^(?i)show\\s+available\\s+filters$", command).find())
+            Matcher disableFilter = safeGetMatcher("^(?i)disable\\s+filter\\s+(\\S+)$", command);
+            if (safeGetMatcher("^(?i)show\\s+available\\s+filters$", command).find())
                 showAvailableFilters();
             else if (addFilter.find())
                 addFilter(addFilter.group(1));
-            else if (getMatcher("^(?i)current\\s+filters$", command).find())
+            else if (command.equalsIgnoreCase("help"))
+                filteringHelp();
+            else if (safeGetMatcher("^(?i)current\\s+filters$", command).find())
                 showCurrentFilters();
             else if (disableFilter.find())
                 disableFilter(disableFilter.group(1));
             else System.out.println("invalid command");
         }
+    }
+
+    private void filteringHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("filer [filter name]");
+        System.out.println("disable filter [filter name]");
+        System.out.println("show available filters");
+        System.out.println("current filters");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void showAvailableFilters() {
@@ -137,14 +165,29 @@ public class ProductMenu extends Menu {
             Matcher sort = getMatcher("^(?i)sort\\s+(\\S+)$", command);
             if (sort.find())
                 sort(sort.group(1));
-            else if (getMatcher("^(?i)show\\s+available\\s+sorts", command).find())
+            else if (safeGetMatcher("^(?i)show\\s+available\\s+sorts", command).find())
                 showAvailableSorts();
-            else if (getMatcher("^(?i)current\\s+sort", command).find())
+            else if (safeGetMatcher("^(?i)current\\s+sort", command).find())
                 showCurrentSort();
-            else if (getMatcher("^(?i)disable\\s+filter$", command).find())
+            else if (safeGetMatcher("^(?i)help", command).find())
+                sortHelp();
+            else if (safeGetMatcher("^(?i)disable\\s+sort$", command).find())
                 disableSort();
             else System.out.println("invalid command");
         }
+    }
+
+    private void sortHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("sort [sort name]");
+        System.out.println("disable sort");
+        System.out.println("show available sorts");
+        System.out.println("current filters");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void showAvailableSorts() {

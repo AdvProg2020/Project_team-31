@@ -30,6 +30,14 @@ public abstract class Menu {
     public abstract void run();
 
     public Matcher getMatcher(String regex, String check) {
+        if (check.equalsIgnoreCase("login"))
+            loginAndLogOut(true);
+        else if (check.equalsIgnoreCase("logout"))
+            loginAndLogOut(false);
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(check);
+    }
+    public Matcher safeGetMatcher(String regex, String check) {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(check);
     }
@@ -37,7 +45,11 @@ public abstract class Menu {
     public String scanByRegex(String regex, String massage) {
         String check;
         while (!(check = scanner.nextLine().trim()).matches(regex)) {
-            if (check.equalsIgnoreCase("back"))
+            if (check.equalsIgnoreCase("login")) {
+                loginAndLogOut(true);
+            } else if (check.equalsIgnoreCase("logout")) {
+                loginAndLogOut(false);
+            } else if (check.equalsIgnoreCase("back"))
                 return null;
             System.out.println(massage);
         }
