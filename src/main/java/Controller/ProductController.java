@@ -61,7 +61,7 @@ public class ProductController {
             }
             sortedProducts.addAll(Arrays.asList(sortProductsByValues(sortedByView)));
         }
-
+        
         return sortedProducts;
     }
 
