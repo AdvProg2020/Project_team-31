@@ -20,7 +20,6 @@ public class OffMenu extends Menu {
     @Override
     public void run() {
         productMenu.resetValues();
-        showOffProducts();
         String command;
         while (!(command = scanner.nextLine().trim().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
@@ -28,6 +27,8 @@ public class OffMenu extends Menu {
                 filtering();
             else if (safeGetMatcher("^(?i)sorting$", command).find())
                 sorting();
+            else if (safeGetMatcher("^(?i)show\\s+products", command).find())
+                showOffProducts();
             else if (matcher.find())
                 showProduct(matcher.group(1));
             else if (safeGetMatcher("^(?i)help$", command).find())
@@ -41,6 +42,7 @@ public class OffMenu extends Menu {
     private void offHelp() {
         System.out.println("///////////////////////help////////////////////");
         System.out.println("show product [productId]");
+        System.out.println("show products");
         System.out.println("filtering");
         System.out.println("sorting");
         System.out.println("login");
@@ -65,7 +67,7 @@ public class OffMenu extends Menu {
                 System.out.println(product);
             }
         } catch (Exception e) {
-           e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

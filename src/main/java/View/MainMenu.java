@@ -805,10 +805,22 @@ public class MainMenu extends Menu {
             Matcher matcher = getMatcher("^(?i)detail\\s+(.+)$", command);
             if (matcher.find())
                 detailRequest(matcher.group(1));
+            if (command.equalsIgnoreCase("help"))
+                manageRequestsHelp();
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
 
         }
+    }
+
+    private void manageRequestsHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("detail requestId");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void detailRequest(String requestId) {
