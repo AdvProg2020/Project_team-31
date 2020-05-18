@@ -864,7 +864,7 @@ public class MainMenu extends Menu {
             else if (add.find())
                 addCategory(add.group(1));
             else if (command.equalsIgnoreCase("help"))
-               manageCategoriesHelp();
+                manageCategoriesHelp();
             else if (remove.find())
                 removeCategory(remove.group(1));
             else System.out.println("invalid command");
@@ -1098,8 +1098,22 @@ public class MainMenu extends Menu {
                 showOrder(showOrder.group(1));
             else if (rate.find())
                 rate(rate.group(1), rate.group(2));
+            else if (command.equalsIgnoreCase("help"))
+              viewOrdersHelp();
             else System.out.println("invalid command");
         }
+    }
+
+    private void viewOrdersHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("show order [orderId]");
+        System.out.println("rate [orderId] [1,2,3,4,5]");
+        System.out.println("decrease [productId]");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void showOrder(String orderId) {
