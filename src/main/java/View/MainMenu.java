@@ -981,6 +981,8 @@ public class MainMenu extends Menu {
                     viewDiscountCodesForCustomer();
                 else if (safeGetMatcher("^(?i)products$", command).find())
                     productMenu();
+                else if (safeGetMatcher("^(?i)add\\s+credit$", command).find())
+                    addCredit();
                 else if (safeGetMatcher("^(?i)offs$", command).find())
                     offsMenu();
                 else if (safeGetMatcher("^(?i)help$", command).find())
@@ -997,6 +999,24 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void addCredit() throws Exception {
+        mustLoginAccess();
+        System.out.println("please enter the amount");
+        String amount;
+        while ((amount = scanByRegex("^\\d+$", "invalid command")).equalsIgnoreCase("back")) {
+            int money = Integer.parseInt(amount);
+            if (money > 0) {
+                customerController.addCredit(user, money);
+                System.out.println("credit added successfully.");
+                return;
+            } else {
+                System.out.println("invalid amount");
+            }
+        }
+
+
     }
 
     private void productMenu() {
