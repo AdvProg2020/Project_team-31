@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+
 import java.util.*;
 import java.lang.String;
 import java.util.stream.Collectors;
@@ -9,6 +10,10 @@ public class CustomerController {
     private static CustomerController customerControllerInstance = new CustomerController();
 
     private CustomerController() {
+    }
+
+    public void addCredit(User user, int credit) {
+        user.getMoney(credit);
     }
 
     public static CustomerController getInstance() {

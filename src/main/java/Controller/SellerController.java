@@ -16,12 +16,14 @@ public class SellerController {
         return sellerControllerInstance;
     }
 
-    public String showCompanyInformation(User user) {
-        return ((Seller) user).getCompanyName();
+    public String showCompanyInformation(User user) throws Exception {
+        if (user instanceof Seller)
+            return ((Seller) user).getCompanyName();
+        throw new Exception("You aren't seller");
     }
 
     public void addSellerToProduct(User user, String productId, int price) throws Exception {
-        if(user instanceof Customer || user instanceof Manager) {
+        if (!(user instanceof Seller)) {
             throw new Exception("You can't be a seller");
         }
         Product product = ProductController.getProductById(productId);
@@ -43,6 +45,9 @@ public class SellerController {
     }
 
     public ArrayList<String> showBuyersOfThisProduct(User user, String productId) throws Exception {
+        if(!(user instanceof Seller)) {
+            throw new Exception("You aren't a seller");
+        }
         if (ProductController.getProductById(productId) == null) {
             throw new Exception("This product doesn't Exist");
         }
@@ -58,6 +63,9 @@ public class SellerController {
     }
 
     public void removeProductFromUser(User user, String productId) throws Exception {
+        if(!(user instanceof Seller)) {
+            throw new Exception("You aren't seller");
+        }
         Product product = ProductController.getProductById(productId);
         if (product == null) {
             throw new Exception("There is not this product");
