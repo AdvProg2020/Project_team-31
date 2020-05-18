@@ -37,6 +37,10 @@ public abstract class Menu {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(check);
     }
+    public Matcher safeGetMatcher(String regex, String check) {
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(check);
+    }
 
     public String scanByRegex(String regex, String massage) {
         String check;

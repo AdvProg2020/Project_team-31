@@ -38,31 +38,31 @@ public class MainMenu extends Menu {
         while (true) {
             command = scanner.nextLine().trim();
             Matcher matcher = getMatcher("^(?i)remove\\s+product\\s+(\\S+)$", command);
-            if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
+            if (safeGetMatcher("^(?i)view\\s+personal\\s+info$", command).find())
                 viewPersonalInformation();
-            else if (getMatcher("^(?i)view\\s+company\\s+information$", command).find())
+            else if (safeGetMatcher("^(?i)view\\s+company\\s+information$", command).find())
                 viewCompanyInformation();
-            else if (getMatcher("^(?i)view\\s+sales\\s+history$", command).find())
+            else if (safeGetMatcher("^(?i)view\\s+sales\\s+history$", command).find())
                 viewSalesHistory();
-            else if (getMatcher("^(?i)manage\\s+products$", command).find())
+            else if (safeGetMatcher("^(?i)manage\\s+products$", command).find())
                 manageProducts();
-            else if (getMatcher("^(?i)add\\s+product$", command).find())
+            else if (safeGetMatcher("^(?i)add\\s+product$", command).find())
                 addProducts();
             else if (matcher.find())
                 removeProduct(matcher.group(1));
-            else if (getMatcher("^(?i)show\\s+categories$", command).find())
+            else if (safeGetMatcher("^(?i)show\\s+categories$", command).find())
                 showCategories();
-            else if (getMatcher("^(?i)view\\s+offs$", command).find())
+            else if (safeGetMatcher("^(?i)view\\s+offs$", command).find())
                 viewAllOffs();
-            else if (getMatcher("^(?i)view\\s+balance\n$", command).find())
+            else if (safeGetMatcher("^(?i)view\\s+balance\n$", command).find())
                 viewBalanceForSeller();
-            else if (getMatcher("^(?i)products$", command).find())
+            else if (safeGetMatcher("^(?i)products$", command).find())
                 productMenu();
-            else if (getMatcher("^(?i)offs$", command).find())
+            else if (safeGetMatcher("^(?i)offs$", command).find())
                 showOffs();
-            else if (getMatcher("^(?i)help", command).find())
+            else if (safeGetMatcher("^(?i)help", command).find())
                 sellerHelp();
-            else if (getMatcher("^(?i)end$", command).find()) {
+            else if (safeGetMatcher("^(?i)end$", command).find()) {
                 end = true;
                 break;
             } else System.out.println("invalid command");
@@ -216,8 +216,8 @@ public class MainMenu extends Menu {
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
-            Matcher viewBuyersMatcher = getMatcher("^(?i)view\\s+buyers\\s+(\\S+)$", command);
-            Matcher editMatcher = getMatcher("^(?i)edit\\s+(\\S+)$", command);
+            Matcher viewBuyersMatcher = safeGetMatcher("^(?i)view\\s+buyers\\s+(\\S+)$", command);
+            Matcher editMatcher = safeGetMatcher("^(?i)edit\\s+(\\S+)$", command);
             if (viewMatcher.find())
                 viewProduct(viewMatcher.group(1));
             else if (viewBuyersMatcher.find())
@@ -344,7 +344,7 @@ public class MainMenu extends Menu {
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
-            Matcher editMatcher = getMatcher("^(?i)edit\\s+(\\S+)$", command);
+            Matcher editMatcher = safeGetMatcher("^(?i)edit\\s+(\\S+)$", command);
             if (viewMatcher.find())
                 try {
                     viewOff(viewMatcher.group(1));
@@ -503,11 +503,11 @@ public class MainMenu extends Menu {
             command = scanner.nextLine().trim();
             if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
                 viewPersonalInformation();
-            else if (getMatcher("^(?i)manage\\s+users$", command).find())
+            else if (safeGetMatcher("^(?i)manage\\s+users$", command).find())
                 manageUsers();
-            else if (getMatcher("^(?i)manage\\s+all\\s+products$", command).find())
+            else if (safeGetMatcher("^(?i)manage\\s+all\\s+products$", command).find())
                 manageAllProducts();
-            else if (getMatcher("^(?i)create\\s+discount\\s+code$", command).find()) {
+            else if (safeGetMatcher("^(?i)create\\s+discount\\s+code$", command).find()) {
                 try {
                     createDiscountCode();
                 } catch (Exception e) {
@@ -515,17 +515,17 @@ public class MainMenu extends Menu {
                 }
             } else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
                 viewDiscountCodesForManager();
-            else if (getMatcher("^(?i)manage\\s+requests$", command).find())
+            else if (safeGetMatcher("^(?i)manage\\s+requests$", command).find())
                 manageRequests();
-            else if (getMatcher("^(?i)manage\\s+categories$", command).find())
+            else if (safeGetMatcher("^(?i)manage\\s+categories$", command).find())
                 manageCategories();
-            else if (getMatcher("^(?i)products$", command).find())
+            else if (safeGetMatcher("^(?i)products$", command).find())
                 productMenu();
-            else if (getMatcher("^(?i)offs$", command).find())
+            else if (safeGetMatcher("^(?i)offs$", command).find())
                 showOffs();
-            else if (getMatcher("^(?i)help$", command).find())
+            else if (safeGetMatcher("^(?i)help$", command).find())
                 managerHelp();
-            else if (getMatcher("^(?i)end$", command).find()) {
+            else if (safeGetMatcher("^(?i)end$", command).find()) {
                 end = true;
                 break;
             } else System.out.println("invalid command");
@@ -541,7 +541,7 @@ public class MainMenu extends Menu {
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+(\\S+)$", command);
-            Matcher deleteMatcher = getMatcher("^(?i)delete\\s+user\\s+(\\S+)$", command);
+            Matcher deleteMatcher = safeGetMatcher("^(?i)delete\\s+user\\s+(\\S+)$", command);
             if (viewMatcher.find())
                 viewUser(viewMatcher.group(1));
             else if (deleteMatcher.find())
@@ -656,8 +656,8 @@ public class MainMenu extends Menu {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+discount\\s+codes\\s+(.+)$", command);
-            Matcher editMatcher = getMatcher("^(?i)edit\\s+discount\\s+codes\\s+(.+)$", command);
-            Matcher removeMatcher = getMatcher("^(?i)remove\\s+discount\\s+codes\\s+(.+)$", command);
+            Matcher editMatcher = safeGetMatcher("^(?i)edit\\s+discount\\s+codes\\s+(.+)$", command);
+            Matcher removeMatcher = safeGetMatcher("^(?i)remove\\s+discount\\s+codes\\s+(.+)$", command);
             if (viewMatcher.find())
                 viewDiscountCode(viewMatcher.group(1));
             else if (editMatcher.find()) {
@@ -776,7 +776,7 @@ public class MainMenu extends Menu {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher accept = getMatcher("^(?i)accept$", command);
-            Matcher decline = getMatcher("^(?i)decline$", command);
+            Matcher decline = safeGetMatcher("^(?i)decline$", command);
             if (accept.find())
                 if (accept.find())
                     acceptRequest(requestId);
@@ -841,8 +841,8 @@ public class MainMenu extends Menu {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher edit = getMatcher("^(?i)edit\\s+(.+)$", command);
-            Matcher add = getMatcher("^(?i)add\\s+(.+)$", command);
-            Matcher remove = getMatcher("^(?i)remove\\s+(.+)$", command);
+            Matcher add = safeGetMatcher("^(?i)add\\s+(.+)$", command);
+            Matcher remove = safeGetMatcher("^(?i)remove\\s+(.+)$", command);
             if (edit.find())
                 editCategory(edit.group(1));
             else if (add.find())
@@ -932,23 +932,23 @@ public class MainMenu extends Menu {
                 command = scanner.nextLine().trim();
                 if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
                     viewPersonalInformation();
-                else if (getMatcher("^(?i)view\\s+cart$", command).find())
+                else if (safeGetMatcher("^(?i)view\\s+cart$", command).find())
                     cart();
-                else if (getMatcher("^(?i)purchase$", command).find())
+                else if (safeGetMatcher("^(?i)purchase$", command).find())
                     purchase();
-                else if (getMatcher("^(?i)view\\s+orders$", command).find())
+                else if (safeGetMatcher("^(?i)view\\s+orders$", command).find())
                     viewOrders();
-                else if (getMatcher("^(?i)view\\s+balance$", command).find())
+                else if (safeGetMatcher("^(?i)view\\s+balance$", command).find())
                     viewBalanceForCustomer();
-                else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
+                else if (safeGetMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
                     viewDiscountCodesForCustomer();
-                else if (getMatcher("^(?i)products$", command).find())
+                else if (safeGetMatcher("^(?i)products$", command).find())
                     productMenu();
-                else if (getMatcher("^(?i)offs$", command).find())
+                else if (safeGetMatcher("^(?i)offs$", command).find())
                     offsMenu();
-                else if (getMatcher("^(?i)help$", command).find())
+                else if (safeGetMatcher("^(?i)help$", command).find())
                     customerHelp();
-                else if (getMatcher("^(?i)end$", command).find())
+                else if (safeGetMatcher("^(?i)end$", command).find())
                     break;
                 else System.out.println("invalid command");
             }
@@ -986,9 +986,9 @@ public class MainMenu extends Menu {
         try {
             while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
                 Matcher view = getMatcher("^(?i)view\\s+(\\S+)$", command);
-                Matcher increase = getMatcher("^(?i)increase\\s+(\\S+)$", command);
-                Matcher decrease = getMatcher("^(?i)decrease\\s+(\\S+)$", command);
-                if (getMatcher("^(?i)show\\s+products$", command).find())
+                Matcher increase = safeGetMatcher("^(?i)increase\\s+(\\S+)$", command);
+                Matcher decrease = safeGetMatcher("^(?i)decrease\\s+(\\S+)$", command);
+                if (safeGetMatcher("^(?i)show\\s+products$", command).find())
                     viewCart();
                 else if (view.find())
                     ProductMenu.getInstance().showProduct(view.group(1));
@@ -996,11 +996,11 @@ public class MainMenu extends Menu {
                     increase(increase.group(1));
                 else if (decrease.find())
                     decrease(decrease.group(1));
-                else if (getMatcher("^(?i)show\\s+total\\s+price", command).find())
+                else if (safeGetMatcher("^(?i)show\\s+total\\s+price", command).find())
                     showTotalPrice();
-                else if (getMatcher("^(?i)purchase$", command).find())
+                else if (safeGetMatcher("^(?i)purchase$", command).find())
                     purchase();
-                else if (getMatcher("^(?i)help$", command).find())
+                else if (safeGetMatcher("^(?i)help$", command).find())
                     viewCartHelp();
                 else System.out.println("invalid command");
             }
@@ -1069,7 +1069,7 @@ public class MainMenu extends Menu {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher showOrder = getMatcher("^(?i)show\\s+order\\s+(\\S+)$", command);
-            Matcher rate = getMatcher("^(?i)rate\\s+(\\S+)\\s+([12345])$", command);
+            Matcher rate = safeGetMatcher("^(?i)rate\\s+(\\S+)\\s+([12345])$", command);
             if (showOrder.find())
                 showOrder(showOrder.group(1));
             else if (rate.find())

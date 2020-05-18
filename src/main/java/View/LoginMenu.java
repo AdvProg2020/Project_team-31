@@ -23,11 +23,11 @@ public class LoginMenu extends Menu {
             Matcher matcher = getMatcher("^(?i)create\\s+account\\s+(customer|seller|manager)\\s+(\\S+)$", command);
             if (matcher.find())
                 register(matcher.group(1), matcher.group(2), false);
-            else if (getMatcher("^(?i)login\\s+(\\S+)$", command).find())
+            else if (safeGetMatcher("^(?i)login\\s+(\\S+)$", command).find())
                 login(matcher.group(1));
-            else if (getMatcher("^(?i)help$", command).find())
+            else if (safeGetMatcher("^(?i)help$", command).find())
                 help();
-            else if (getMatcher("^(?i)back$", command).find())
+            else if (safeGetMatcher("^(?i)back$", command).find())
                 break;
             else System.out.println("invalid command");
         }
