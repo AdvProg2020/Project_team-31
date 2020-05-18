@@ -1235,6 +1235,7 @@ public class MainMenu extends Menu {
         System.out.println("view balance");
         System.out.println("view discount codes");
         System.out.println("products");
+        System.out.println("add credit");
         System.out.println("login");
         System.out.println("logout");
         System.out.println("offs");
