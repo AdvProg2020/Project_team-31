@@ -21,7 +21,7 @@ public class Off {
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.offPercent = offAmount;
-        this.offStatus = ProductAndOffStatus.creating;
+        this.offStatus = ProductAndOffStatus.CREATING;
         onSaleProducts = products;
         allOffs.add(this);
     }

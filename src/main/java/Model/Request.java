@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public abstract class Request {
     protected String requestId;
     protected static ArrayList<Request> allRequests = new ArrayList<>();
-    private static int numberOfRequestCreated;
+    private static int numberOfRequestCreated = 0;
 
     public Request(String requestId) {
-        numberOfRequestCreated++;
+        numberOfRequestCreated += 1;
         this.requestId = requestId;
         allRequests.add(this);
     }

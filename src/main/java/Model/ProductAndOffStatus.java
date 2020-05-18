@@ -1,5 +1,5 @@
 package Model;
 
 public enum ProductAndOffStatus {
-    accepted, creating, editing
+    ACCEPTED, CREATING, EDITING
 }

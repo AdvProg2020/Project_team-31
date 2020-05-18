@@ -135,12 +135,12 @@ public class ManagerController {
             String[] information = ((SellerRequest) request).getInformation();
             new Seller(information[0], information[1], ((SellerRequest) request).getUsername(), information[2], information[3], information[4], information[5]);
         } else if (request instanceof OffRequest) {
-            ((OffRequest) request).getOff().setOffStatus(ProductAndOffStatus.accepted);
+            ((OffRequest) request).getOff().setOffStatus(ProductAndOffStatus.ACCEPTED);
             if (((OffRequest) request).getIsEditing()) {
                 completeEditingOff((OffRequest) request);
             }
         } else if (request instanceof ProductRequest) {
-            ((ProductRequest) request).getProduct().setProductStatus(ProductAndOffStatus.accepted);
+            ((ProductRequest) request).getProduct().setProductStatus(ProductAndOffStatus.ACCEPTED);
             if (((ProductRequest) request).isEditing()) {
                 completeEditingProduct((ProductRequest) request);
             }
@@ -181,7 +181,7 @@ public class ManagerController {
                 ((OffRequest) request).getOff().getSeller().removeOffFromThisSeller(((OffRequest) request).getOff());
                 ((OffRequest) request).getOff().removeOff();
             } else {
-                ((OffRequest) request).getOff().setOffStatus(ProductAndOffStatus.accepted);
+                ((OffRequest) request).getOff().setOffStatus(ProductAndOffStatus.ACCEPTED);
             }
         } else if (request instanceof ProductRequest) {
             if (!((ProductRequest) request).isEditing()) {
@@ -192,7 +192,7 @@ public class ManagerController {
                     seller.removeProduct(product);
                 }
             } else {
-                ((ProductRequest) request).getProduct().setProductStatus(ProductAndOffStatus.accepted);
+                ((ProductRequest) request).getProduct().setProductStatus(ProductAndOffStatus.ACCEPTED);
             }
         }
         request.deleteRequest();

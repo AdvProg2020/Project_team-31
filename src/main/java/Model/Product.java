@@ -31,7 +31,7 @@ public class Product {
         this.company = company;
         this.sellersOfThisProduct = sellersOfThisProduct;
         this.category = category;
-        this.productStatus = ProductAndOffStatus.creating;
+        this.productStatus = ProductAndOffStatus.CREATING;
         this.information = information;
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
         allProducts.add(this);
@@ -127,6 +127,8 @@ public class Product {
     }
 
     public int getCustomersWhoRated() {
+        if(customersWhoRated == 0)
+            return 1;
         return this.customersWhoRated;
     }
 

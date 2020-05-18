@@ -2,6 +2,7 @@ import Controller.LoginController;
 import Controller.ManagerController;
 import Controller.SellerController;
 import Model.Card;
+import Model.Request;
 import Model.Seller;
 import Model.SellerRequest;
 import org.junit.Assert;
@@ -54,9 +55,12 @@ public class RequestTest {
         specialInformation.put("screen", "1980");
         sellerController.addProduct(new String[]{"laptop","asus","2000","myCat","this is a good laptop"},FirstTest.firstSeller,specialInformation);
         try {
-            Assert.assertEquals(managerController.showRequestDetails("ProductRequest2"),"request to create or edit product with id: " + "Product1" + ", isEditing: " + false + ", seller: " + "sell" + ", newPrice: 2000");
+            Assert.assertEquals("google", sellerController.showCompanyInformation(FirstTest.firstSeller));
+            Assert.assertEquals("name=" + "laptop" + ", price=" + "2000" + ", rate=" + "0.0" + ", status=" + "CREATING", sellerController.showProductsOfThisSeller(FirstTest.firstSeller).get(0));
+            //Assert.assertEquals(2, Request.getNumberOfRequestCreated());
+            Assert.assertEquals(managerController.showRequestDetails("ProductRequest3"),"request to create or edit product with id: " + "Product1" + ", isEditing: " + false + ", seller: " + "sell" + ", newPrice: 2000");
         } catch (Exception e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

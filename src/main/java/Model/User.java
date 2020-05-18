@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class User {
+public class User {
     private String name;
     private String lastName;
     private String username;
@@ -24,6 +24,10 @@ public abstract class User {
         this.password = password;
         this.credit = 0;
         allUsers.add(this);
+    }
+
+    public User(String nullString) {
+        name = nullString;
     }
 
     public HashMap<String, String> getFilters() {

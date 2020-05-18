@@ -14,6 +14,10 @@ public class LoginController {
         return loginControllerInstance;
     }
 
+    public User createTempUser() {
+        return new User(null);
+    }
+
     public void register(String username, String role, String[] information) throws Exception {
         if (role.equals("customer")) {
             new Customer(information[0], information[1], username, information[2], information[3], information[4]);

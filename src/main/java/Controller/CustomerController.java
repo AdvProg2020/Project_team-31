@@ -88,9 +88,9 @@ public class CustomerController {
             card = user.getCard();
         }
 
-        if (product.getProductStatus() == ProductAndOffStatus.creating)
+        if (product.getProductStatus() == ProductAndOffStatus.CREATING)
             throw new Exception("Product is in creating progress yet!");
-        if (product.getProductStatus() == ProductAndOffStatus.editing)
+        if (product.getProductStatus() == ProductAndOffStatus.EDITING)
             throw new Exception("product is in editing progress!");
         if (card.getProductsInThisCard().containsKey(product)) {
             throw new Exception("You have add this product to card before!");

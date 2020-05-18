@@ -84,7 +84,7 @@ public class SellerController {
     public ArrayList<String> showProductsOfThisSeller(User user) {
         ArrayList<String> products = new ArrayList<>();
         for (Product product : ((Seller) user).getOnSaleProducts()) {
-            products.add("name=" + product.getName() + ", price=" + product.getSellersOfThisProduct().get((Seller) user) + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()) + ", status=" + product.getProductStatus());
+            products.add("name=" + product.getName() + ", price=" + product.getSellersOfThisProduct().get((Seller) user) + ", rate=" + (1.0 * product.getSumOfCustomersRate() / product.getCustomersWhoRated()) + ", status=" + product.getProductStatus());
         }
         return products;
     }
@@ -94,9 +94,12 @@ public class SellerController {
     }
 
 
-    public void addProduct(String[] productGeneralInformation, User user, HashMap<String, String> specialInformationRelatedToCategory) {
+    public void addProduct(String[] productGeneralInformation, User user, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
         HashMap<Seller, Integer> sellers = new HashMap<>();
         sellers.put((Seller) user, Integer.parseInt(productGeneralInformation[2]));
+        if(ManagerController.getCategoryByName(productGeneralInformation[3]) == null) {
+            throw new Exception("invalid categoryName");
+        }
         Product newProduct = new Product("Product" + (Product.getNumberOfProductCreated() + 1), productGeneralInformation[0], productGeneralInformation[1], ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4], sellers, specialInformationRelatedToCategory);
         newProduct.setMinimumPrice(Integer.parseInt(productGeneralInformation[2]));
         new ProductRequest("ProductRequest" + (Request.getNumberOfRequestCreated() + 1), newProduct, false);
@@ -110,7 +113,7 @@ public class SellerController {
             throw new Exception("There is'nt this Product");
         if (!product.getSellersOfThisProduct().keySet().contains((Seller) user))
             throw new Exception("Seller does'nt have this product");
-        product.setProductStatus(ProductAndOffStatus.editing);
+        product.setProductStatus(ProductAndOffStatus.EDITING);
         (new ProductRequest("ProductRequest" + (Request.getNumberOfRequestCreated() + 1), product, true)).newProductFeatures((Seller) user, price, available, information, specialInformationRelatedToCategory);
     }
 
@@ -178,14 +181,14 @@ public class SellerController {
         ArrayList<Off> allOffs = Off.getAllOffs();
         Date timeNow = new Date();
         for (Off off : allOffs) {
-            if (off.getEndTime().before(timeNow) && off.getOffStatus().equals(ProductAndOffStatus.accepted)) {
+            if (off.getEndTime().before(timeNow) && off.getOffStatus().equals(ProductAndOffStatus.ACCEPTED)) {
                 off.removeOff();
                 off.getSeller().removeOffFromThisSeller(off);
                 for (Product product : off.getOnSaleProducts()) {
                     if (product.getOffs().contains(off))
                         product.removeOff(off);
                 }
-            } else if (off.getBeginTime().before(timeNow) && off.getOffStatus().equals(ProductAndOffStatus.accepted)) {
+            } else if (off.getBeginTime().before(timeNow) && off.getOffStatus().equals(ProductAndOffStatus.ACCEPTED)) {
                 for (Product product : off.getOnSaleProducts()) {
                     boolean canAdd = true;
                     for (Off productOff : product.getOffs()) {
@@ -211,7 +214,7 @@ public class SellerController {
         }
         ArrayList<Product> newProducts = (ArrayList<Product>) products.stream()
                 .map(product -> ProductController.getProductById(product));
-        off.setOffStatus(ProductAndOffStatus.editing);
+        off.setOffStatus(ProductAndOffStatus.EDITING);
         (new OffRequest("OffRequest" + (Request.getNumberOfRequestCreated() + 1), off, true)).setOff(beginTime, endTime, percent, newProducts);
     }
 

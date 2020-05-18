@@ -16,7 +16,7 @@ public class ProductController {
         return productControllerInstance;
     }
 
-    public ArrayList<String> showProducts(User user, String categoryName, String sorting) {
+    public ArrayList<String> showProducts(User user, String categoryName, String sorting) throws Exception {
         ArrayList<Product> products;
         Category category;
         if (categoryName == null) {
@@ -26,14 +26,19 @@ public class ProductController {
             category = ManagerController.getCategoryByName(categoryName);
             products = category.getProducts();
         }
-        ArrayList<Product> filteredProducts = (ArrayList<Product>) products.stream()
-                .filter(product -> isContainThisProduct(user.getFilters(), product, category));
+        ArrayList<Product> filteredProducts = new ArrayList<>();
 
-        return sortProduct(filteredProducts, sorting);
+        filteredProducts = (ArrayList<Product>) products.stream()
+                .filter(product -> isContainThisProduct(user.getFilters(), product, category));
+        if (filteredProducts.size() == 0) {
+            throw new Exception("There is no product with this filters");
+        }
+        return (ArrayList<String>) sortProduct(filteredProducts, sorting).stream()
+                .map(product -> "name=" + product.getName() + ", price=" + product.getMinimumPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
     }
 
-    private ArrayList<String> sortProduct(ArrayList<Product> filteredProducts, String sorting) {
-        ArrayList<Product> sortedProducts =  new ArrayList<>();
+    private ArrayList<Product> sortProduct(ArrayList<Product> filteredProducts, String sorting) {
+        ArrayList<Product> sortedProducts = new ArrayList<>();
         if (sorting.equalsIgnoreCase("price")) {
             HashMap<Product, Double> sortedByPrice = new HashMap<>();
             for (Product product : filteredProducts) {
@@ -54,16 +59,15 @@ public class ProductController {
             sortedProducts.addAll(Arrays.asList(sortProductsByValues(sortedByView)));
         }
 
-        return (ArrayList<String>) sortedProducts.stream()
-                .map(product -> "name=" + product.getName() + ", price=" + product.getMinimumPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
+        return sortedProducts;
     }
 
     private Product[] sortProductsByValues(HashMap<Product, Double> products) {
         Product[] productsArray = new Product[products.keySet().size()];
         productsArray = products.keySet().toArray(productsArray);
         for (int first = 0; first < productsArray.length; first++) {
-            for (int second = first +1 ; second < productsArray.length; second++) {
-                if(products.get(productsArray[first]) < products.get(productsArray[second])) {
+            for (int second = first + 1; second < productsArray.length; second++) {
+                if (products.get(productsArray[first]) < products.get(productsArray[second])) {
                     Product newProduct = productsArray[second];
                     productsArray[second] = productsArray[first];
                     productsArray[first] = newProduct;
@@ -126,17 +130,25 @@ public class ProductController {
         user.addFilter(filterKey, filterValue);
     }
 
-    public ArrayList<String> showOffProduct(User user, String sorting) {
+    public ArrayList<String> showOffProduct(User user, String sorting) throws Exception {
+        SellerController.getInstance().checkTimeOfOffs();
         ArrayList<Product> offedProduct = new ArrayList<>();
-        Date date = new Date();
-        for (Off off : Off.getAllOffs()) {
-            if (off.getBeginTime().before(date) && off.getEndTime().after(date) && off.getOffStatus().equals(ProductAndOffStatus.accepted)) {
-                offedProduct.addAll(off.getOnSaleProducts());
+        for (Product product : Product.allProducts) {
+            if (product.getOffs().size() > 0) {
+                offedProduct.add(product);
             }
         }
         offedProduct.stream()
                 .filter(product -> isContainThisProduct(user.getFilters(), product, null));
-        return sortProduct(offedProduct, sorting);
+        ArrayList<String> offs = new ArrayList<>();
+        for (Product product : sortProduct(offedProduct, sorting)) {
+            for (Off off : product.getOffs()) {
+                offs.add("productId:" + product.getProductId() + ", seller:" + off.getSeller().getUsername() + ", original price: " + product.getSellersOfThisProduct().get(off.getSeller()) + ", offPercent: " + off.getOffPercent());
+            }
+        }
+        if (offs.size() == 0)
+            throw new Exception("there is no off with this filters");
+        return offs;
     }
 
     private Boolean isContainThisProduct(HashMap<String, String> filters, Product product, Category category) {
@@ -193,9 +205,9 @@ public class ProductController {
         user.removeFilter(filterKey);
     }
 
-    public ArrayList<String> compareTwoProduct(Product product1, String productId2) throws Exception{
+    public ArrayList<String> compareTwoProduct(Product product1, String productId2) throws Exception {
         Product product2 = getProductById(productId2);
-        if(product2 == null) {
+        if (product2 == null) {
             throw new Exception("second product doesn't exist");
         }
         ArrayList<String> information = new ArrayList<>();
@@ -204,7 +216,7 @@ public class ProductController {
         information.add("rate:1-" + (1.0 * product1.getSumOfCustomersRate() / product1.getCustomersWhoRated()) + ";2-" + (1.0 * product2.getSumOfCustomersRate() / product2.getCustomersWhoRated()));
         information.add("views:1-" + product1.getViews() + ";2-" + product2.getViews());
         for (String s : product1.getSpecialPropertiesRelatedToCategory().keySet()) {
-            if(product2.getSpecialPropertiesRelatedToCategory().keySet().contains(s)) {
+            if (product2.getSpecialPropertiesRelatedToCategory().keySet().contains(s)) {
                 information.add(s + ":1-" + product1.getSpecialPropertiesRelatedToCategory().get(s) + ";2-" + product2.getSpecialPropertiesRelatedToCategory().get(s));
             }
         }
