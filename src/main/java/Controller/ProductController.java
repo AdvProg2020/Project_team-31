@@ -17,7 +17,6 @@ public class ProductController {
     }
 
     public ArrayList<String> showProducts(User user, String categoryName, String sorting) throws Exception {
-        System.out.println("hello");
         ArrayList<Product> products;
         Category category;
         if (categoryName == null) {
