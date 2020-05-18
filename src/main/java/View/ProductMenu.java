@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 
 public class ProductMenu extends Menu {
     public static ProductMenu instance = null;
-    ShowProductMenu showProductMenu = ShowProductMenu.getInstance();
     String category = null;
     String sort = null;
 
@@ -26,9 +25,8 @@ public class ProductMenu extends Menu {
 
     @Override
     public void run() {
-        category = null;
         String command;
-        sort = null;
+        resetValues();
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
             if (safeGetMatcher("^(?i)view\\s+categories$", command).find())
@@ -45,7 +43,6 @@ public class ProductMenu extends Menu {
                 showProduct(matcher.group(1));
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
-
         }
     }
 
@@ -70,10 +67,6 @@ public class ProductMenu extends Menu {
         System.out.println("///////////////////////help////////////////////");
     }
 
-
-    public void resetSort() {
-        sort = null;
-    }
 
     private void viewAllCategories() {
         ArrayList<String> allCategories = managerController.showAllCategories();

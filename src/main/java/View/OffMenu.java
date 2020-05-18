@@ -19,9 +19,9 @@ public class OffMenu extends Menu {
 
     @Override
     public void run() {
+        productMenu.resetValues();
         showOffProducts();
         String command;
-
         while (!(command = scanner.nextLine().trim().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
             if (safeGetMatcher("^(?i)filtering$", command).find())
@@ -55,7 +55,6 @@ public class OffMenu extends Menu {
     }
 
     private void sorting() {
-        productMenu.resetSort();
         productMenu.sorting();
     }
 
