@@ -10,7 +10,6 @@ public class SellerRequest extends Request {
         super(id);
         this.information = information;
         this.username = username;
-        allRequests.add(this);
     }
 
     public String getUsername() {

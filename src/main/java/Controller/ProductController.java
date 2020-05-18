@@ -30,7 +30,7 @@ public class ProductController {
         filteredProducts = (ArrayList<Product>) products.stream()
                 .filter(product -> isContainThisProduct(user.getFilters(), product, category));
         if (filteredProducts.size() == 0) {
-            throw new Exception("There is no product with this filters");
+            throw new Exception("There is no product with these filters");
         }
         return (ArrayList<String>) sortProduct(filteredProducts, sorting).stream()
                 .map(product -> "name=" + product.getName() + ", price=" + product.getMinimumPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));

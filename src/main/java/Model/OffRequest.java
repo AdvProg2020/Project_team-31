@@ -15,7 +15,6 @@ public class OffRequest extends Request {
         super(id);
         this.off = off;
         this.isEditing = isEditing;
-        allRequests.add(this);
     }
 
     public Off getOff() {
