@@ -672,22 +672,36 @@ public class MainMenu extends Menu {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+discount\\s+codes\\s+(.+)$", command);
-            Matcher editMathcer = getMatcher("^(?i)edit\\s+discount\\s+codes\\s+(.+)$", command);
+            Matcher editMatcher = getMatcher("^(?i)edit\\s+discount\\s+codes\\s+(.+)$", command);
             Matcher removeMatcher = getMatcher("^(?i)remove\\s+discount\\s+codes\\s+(.+)$", command);
             if (viewMatcher.find())
                 viewDiscountCode(viewMatcher.group(1));
-            else if (editMathcer.find()) {
+            else if (editMatcher.find()) {
                 try {
-                    editDiscountCode(editMathcer.group(1));
+                    editDiscountCode(editMatcher.group(1));
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             } else if (removeMatcher.find())
                 removeDiscountCode(removeMatcher.group(1));
+            else if (command.equalsIgnoreCase("help"))
+                discountCodeHelp();
             else System.out.println("invalid command");
 
 
         }
+    }
+
+    private void discountCodeHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("view discount codes");
+        System.out.println("edit discount codes");
+        System.out.println("remove discount codes");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("end");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void viewAllDiscountCodes() {
