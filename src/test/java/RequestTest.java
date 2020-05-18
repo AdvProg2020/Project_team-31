@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 
 public class RequestTest {
@@ -62,6 +63,17 @@ public class RequestTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @Test
+    public void createDiscountCodeTest() throws Exception {
+        acceptRequestAndLoginSeller();
+        FirstTest.registerAndLoginCustomer();
+        Date date = new Date();
+        HashMap<String , Integer> discountForUsers = new HashMap<>();
+        discountForUsers.put("buyer",2);
+        managerController.createDiscountCode("myDiscount", date, new Date(date.getTime() + 60 * 60 * 1000), 20, 10000, discountForUsers);
+        Assert.assertEquals("code:" + "myDiscount" + ", beginTime:" + date + ", endTime:" + (date.getTime() + 60 * 60* 1000) + ", percent:" + "20", managerController.showAllDiscountCodes().get(0));
     }
 
 
