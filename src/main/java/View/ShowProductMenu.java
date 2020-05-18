@@ -35,7 +35,7 @@ public class ShowProductMenu extends Menu {
             else if (matcher.find())
                 compare(matcher.group(1));
             else if (getMatcher("^(?i)help$", command).find())
-              showProductMenuHelp();
+                showProductMenuHelp();
             else if (getMatcher("^(?i)Comments$", command).find())
                 comments();
             else System.out.println("invalid command");
@@ -64,9 +64,21 @@ public class ShowProductMenu extends Menu {
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             if (command.equalsIgnoreCase("add to card"))
                 addToCard();
+            else if (getMatcher("^help$", command).find())
+                digestHelp();
             else System.out.println("invalid command");
         }
 
+    }
+
+    private void digestHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("add to card");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void addToCard() {
