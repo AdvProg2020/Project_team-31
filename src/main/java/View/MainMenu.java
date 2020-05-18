@@ -71,7 +71,7 @@ public class MainMenu extends Menu {
                     break;
                 } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                     System.out.println("invalid command");
-                if (end)
+                if (end || !(user instanceof Seller))
                     break;
             }
         } catch (Exception e) {
@@ -566,7 +566,7 @@ public class MainMenu extends Menu {
                     break;
                 } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                     System.out.println("invalid command");
-                if (end)
+                if (end || !(user instanceof Manager))
                     break;
             }
         } catch (Exception e) {
@@ -1009,7 +1009,7 @@ public class MainMenu extends Menu {
                     break;
                 } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                     System.out.println("invalid command");
-                if (end)
+                if (end || !(user instanceof Customer))
                     break;
             }
 
