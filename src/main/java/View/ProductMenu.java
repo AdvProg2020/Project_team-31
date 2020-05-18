@@ -72,7 +72,7 @@ public class ProductMenu extends Menu {
     private void viewAllCategories() {
         ArrayList<String> allCategories = managerController.showAllCategories();
         if (allCategories.size() == 0)
-            System.out.println("there is not any categoty!");
+            System.out.println("there is not any category!");
         else {
             System.out.println("///////////////////////////////////////////");
             for (String category : allCategories)
@@ -119,7 +119,7 @@ public class ProductMenu extends Menu {
         ArrayList<String> availableFilters = null;
         viewAllCategories();
         System.out.println("please select your category  : (-1 for escape)");
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+        while ((command = scanner.nextLine().trim()).equals("-1")) {
             if (ManagerController.getCategoryByName(command) != null) {
                 availableFilters = productController.showAvailableFiltersForUser(user, null);
                 category = command;
