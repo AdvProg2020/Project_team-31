@@ -71,6 +71,11 @@ public class MainMenu extends Menu {
     }
 
     private void viewPersonalInformation() {
+        try {
+            mustLoginAccess();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         String[] information = loginController.showPersonalInformation(user);
         System.out.println("first name : " + information[0] +
                 "last name : " + information[1] +
