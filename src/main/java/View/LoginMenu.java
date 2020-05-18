@@ -4,7 +4,6 @@ import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
     public static LoginMenu instance = null;
-    boolean loginSuccessful = false;
 
     private LoginMenu() {
     }
@@ -18,7 +17,7 @@ public class LoginMenu extends Menu {
     @Override
     public void run() {
         String command;
-        while (!loginSuccessful) {
+        while (true) {
             command = scanner.nextLine().trim();
             Matcher matcher = safeGetMatcher("^(?i)create\\s+account\\s+(customer|seller|manager)\\s+(\\S+)$", command);
             Matcher login = safeGetMatcher("^(?i)login\\s+(\\S+)$", command);
@@ -32,7 +31,7 @@ public class LoginMenu extends Menu {
                 loginAndLogOut(false);
             else if (safeGetMatcher("^(?i)back$", command).find())
                 break;
-            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+            else if (!command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
         }
     }
@@ -43,7 +42,6 @@ public class LoginMenu extends Menu {
         System.out.println("login [username]");
         System.out.println("help");
         System.out.println("logout");
-        System.out.println("login");
         System.out.println("back");
         System.out.println("///////////////////////help////////////////////");
     }
@@ -113,7 +111,7 @@ public class LoginMenu extends Menu {
         System.out.println("please enter your password:");
         String password = scanner.nextLine();
         try {
-            loginController.login(username, password, card);
+            user=loginController.login(username, password, card);
             System.out.println("you logged in successfully!");
         } catch (Exception e) {
             System.out.println(e.getMessage());

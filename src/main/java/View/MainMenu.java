@@ -93,13 +93,15 @@ public class MainMenu extends Menu {
         mustLoginAccess();
         String[] information = loginController.showPersonalInformation(user);
         System.out.println("first name : " + information[0] +
-                "last name : " + information[1] +
-                "username : " + information[2] +
-                "email address : " + information[3] +
-                "phone number : " + information[4] +
-                "password : " + information[5] +
-                "credit : " + information[6]);
-        viewCompanyInformation();
+                "\nlast name : " + information[1] +
+                "\nusername : " + information[2] +
+                "\nemail address : " + information[3] +
+                "\nphone number : " + information[4] +
+                "\npassword : " + information[5] +
+                "\ncredit : " + information[6]);
+        if (user instanceof Seller) {
+            viewCompanyInformation();
+        }
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)edit\\s+(.+)$", command);
@@ -115,7 +117,7 @@ public class MainMenu extends Menu {
 
     private void personalInfoHelp() {
         System.out.println("///////////////////////help////////////////////");
-        System.out.println("edit");
+        System.out.println("edit [field]");
         System.out.println("help");
         System.out.println("back");
         System.out.println("///////////////////////help////////////////////");
@@ -145,7 +147,8 @@ public class MainMenu extends Menu {
         for (int i = 0; i <= 5; i++)
             newData[i] = data[i];
         try {
-            newData[6] = sellerController.showCompanyInformation(user);
+            if (user instanceof Seller)
+                newData[6] = sellerController.showCompanyInformation(user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
