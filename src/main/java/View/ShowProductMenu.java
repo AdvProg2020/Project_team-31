@@ -120,10 +120,22 @@ public class ShowProductMenu extends Menu {
             System.out.println(line);
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
-            if (command.equalsIgnoreCase("add comment")) {
+            if (command.equalsIgnoreCase("add comment"))
                 addComment();
-            } else System.out.println("invalid command");
+            else if (getMatcher("^help$", command).find())
+                commentsHelp();
+            else System.out.println("invalid command");
         }
+    }
+
+    private void commentsHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("add comment");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void addComment() {
