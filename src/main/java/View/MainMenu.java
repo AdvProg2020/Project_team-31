@@ -1020,6 +1020,8 @@ public class MainMenu extends Menu {
                     showTotalPrice();
                 else if (getMatcher("^(?i)purchase$", command).find())
                     purchase();
+                else if (getMatcher("^(?i)help$", command).find())
+                    viewCartHelp();
                 else if (getMatcher("^(?i)login$", command).find())
                     loginAndLogOut(true);
                 else if (getMatcher("^(?i)logout$", command).find())
@@ -1031,6 +1033,20 @@ public class MainMenu extends Menu {
             System.out.println("you have to login!");
 
         }
+    }
+
+    private void viewCartHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("view [productId]");
+        System.out.println("increase [productId]");
+        System.out.println("decrease [productId]");
+        System.out.println("show total price");
+        System.out.println("purchase");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void showTotalPrice() {
