@@ -28,6 +28,9 @@ public class ProductController {
         }
         ArrayList<Product> filteredProducts = new ArrayList<>();
 
+        if(products.size() == 0) {
+            throw new Exception("There is no product");
+        }
         filteredProducts = (ArrayList<Product>) products.stream()
                 .filter(product -> isContainThisProduct(user.getFilters(), product, category));
         if (filteredProducts.size() == 0) {
