@@ -1134,7 +1134,8 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewDiscountCodesForCustomer() {
+    private void viewDiscountCodesForCustomer() throws Exception{
+        mustLoginAccess();
         try {
             System.out.println("//////////////////////////////////////////////");
             ArrayList<String> allCodes = customerController.showDiscountCodes(user);
