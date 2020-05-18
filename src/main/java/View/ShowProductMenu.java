@@ -28,15 +28,15 @@ public class ShowProductMenu extends Menu {
         String command;
         while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)compare\\s+(\\S+)$", command);
-            if (getMatcher("^(?i)digest$", command).find())
+            if (safeGetMatcher("^(?i)digest$", command).find())
                 digest();
-            else if (getMatcher("^(?i)attributes$", command).find())
+            else if (safeGetMatcher("^(?i)attributes$", command).find())
                 attributes();
             else if (matcher.find())
                 compare(matcher.group(1));
-            else if (getMatcher("^(?i)help$", command).find())
+            else if (safeGetMatcher("^(?i)help$", command).find())
                 showProductMenuHelp();
-            else if (getMatcher("^(?i)Comments$", command).find())
+            else if (safeGetMatcher("^(?i)Comments$", command).find())
                 comments();
             else System.out.println("invalid command");
 

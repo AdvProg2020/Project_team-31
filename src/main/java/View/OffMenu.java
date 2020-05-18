@@ -22,13 +22,13 @@ public class OffMenu extends Menu {
         String command;
         while ((command = scanner.nextLine().trim().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
-            if (getMatcher("^(?i)filtering$", command).find())
+            if (safeGetMatcher("^(?i)filtering$", command).find())
                 filtering();
-            else if (getMatcher("^(?i)sorting$", command).find())
+            else if (safeGetMatcher("^(?i)sorting$", command).find())
                 sorting();
             else if (matcher.find())
                 showProduct(matcher.group(1));
-            else if (getMatcher("^(?i)help$", command).find())
+            else if (safeGetMatcher("^(?i)help$", command).find())
                 offHelp();
             else System.out.println("invalid command");
 
