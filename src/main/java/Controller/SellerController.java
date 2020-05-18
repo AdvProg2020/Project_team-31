@@ -21,6 +21,9 @@ public class SellerController {
     }
 
     public void addSellerToProduct(User user, String productId, int price) throws Exception {
+        if(user instanceof Customer || user instanceof Manager) {
+            throw new Exception("You can't be a seller");
+        }
         Product product = ProductController.getProductById(productId);
         if (product == null) {
             throw new Exception("productId is invalid");
