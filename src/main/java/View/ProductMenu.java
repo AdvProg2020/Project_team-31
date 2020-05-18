@@ -3,13 +3,13 @@ package View;
 import Controller.ManagerController;
 import Controller.ProductController;
 import Model.Product;
+import Model.User;
 
 import java.util.*;
 import java.util.regex.Matcher;
 
 public class ProductMenu extends Menu {
     public static ProductMenu instance = null;
-    ShowProductMenu showProductMenu = ShowProductMenu.getInstance();
     String category = null;
     String sort = null;
 
@@ -25,9 +25,8 @@ public class ProductMenu extends Menu {
 
     @Override
     public void run() {
-        category = null;
         String command;
-        sort = null;
+        resetValues();
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
             if (safeGetMatcher("^(?i)view\\s+categories$", command).find())
@@ -44,10 +43,14 @@ public class ProductMenu extends Menu {
                 showProduct(matcher.group(1));
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
-
         }
-        sort=null;
-        category=null;
+    }
+
+    public void resetValues() {
+        sort = null;
+        category = null;
+        productController.clearFilters(user);
+        productController.clearFilters(tempUser);
     }
 
     private void productMenuHelp() {
@@ -65,14 +68,10 @@ public class ProductMenu extends Menu {
     }
 
 
-    public void resetSort() {
-        sort = null;
-    }
-
     private void viewAllCategories() {
         ArrayList<String> allCategories = managerController.showAllCategories();
         if (allCategories.size() == 0)
-            System.out.println("there is not any categoty!");
+            System.out.println("there is not any category!");
         else {
             System.out.println("///////////////////////////////////////////");
             for (String category : allCategories)
@@ -119,7 +118,7 @@ public class ProductMenu extends Menu {
         ArrayList<String> availableFilters = null;
         viewAllCategories();
         System.out.println("please select your category  : (-1 for escape)");
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
+        while ((command = scanner.nextLine().trim()).equals("-1")) {
             if (ManagerController.getCategoryByName(command) != null) {
                 availableFilters = productController.showAvailableFiltersForUser(user, null);
                 category = command;
@@ -139,14 +138,14 @@ public class ProductMenu extends Menu {
                 "(for range filter use format [number-number] for example [2-100]");
         String filterValue = scanner.nextLine().trim();
         try {
-            productController.addFilterForUser(user, filter, filterValue);
+            productController.addFilterForUser(userForFilter(), filter, filterValue);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     private void showCurrentFilters() {
-        HashMap<String, String> filters = productController.ShowCurrentFilters(user);
+        HashMap<String, String> filters = productController.ShowCurrentFilters(userForFilter());
         System.out.println("current filters : ");
         for (Map.Entry<String, String> entry : filters.entrySet()) {
             System.out.println(entry.getKey() + "      " + entry.getValue());
@@ -156,7 +155,7 @@ public class ProductMenu extends Menu {
 
     private void disableFilter(String filter) {
         try {
-            productController.disableFilterForUser(user, filter);
+            productController.disableFilterForUser(userForFilter(), filter);
             System.out.println("disabled successfully!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -240,4 +239,10 @@ public class ProductMenu extends Menu {
         }
     }
 
+
+    private User userForFilter() {
+        if (user == null)
+            return tempUser;
+        return user;
+    }
 }

@@ -1,7 +1,6 @@
 package View;
 
 import Model.Card;
-import Model.Seller;
 import Model.User;
 import Controller.*;
 
@@ -12,6 +11,7 @@ import java.util.regex.Pattern;
 
 public abstract class Menu {
     public static User user;
+    public static User tempUser = null;
     public static Scanner scanner;
     public static Card card = null;
     LoginController loginController = LoginController.getInstance();
@@ -70,5 +70,9 @@ public abstract class Menu {
     void mustLoginAccess() throws Exception {
         if (user == null)
             throw new Exception("you have to login!");
+    }
+
+    public static void initialize() {
+        tempUser = LoginController.getInstance().createTempUser();
     }
 }

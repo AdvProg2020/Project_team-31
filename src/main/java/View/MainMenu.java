@@ -336,7 +336,11 @@ public class MainMenu extends Menu {
             String featureValue = scanner.nextLine().trim();
             categoryData.put(categoryFeature, featureValue);
         }
-        sellerController.addProduct(data, user, categoryData);
+        try {
+            sellerController.addProduct(data, user, categoryData);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void getGeneralData(String[] data) {
