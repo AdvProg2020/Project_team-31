@@ -118,8 +118,8 @@ public class ProductMenu extends Menu {
         String command;
         ArrayList<String> availableFilters = null;
         viewAllCategories();
-        System.out.println("please select your category  : (-1 for escape)");
-        while ((command = scanner.nextLine().trim()).equals("-1")) {
+        System.out.println("please select your category  : (1 for escape)");
+        while ((command = scanner.nextLine().trim()).equals("1")) {
             if (ManagerController.getCategoryByName(command) != null) {
                 availableFilters = productController.showAvailableFiltersForUser(user, null);
                 category = command;
