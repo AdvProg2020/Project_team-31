@@ -1,14 +1,11 @@
 import Controller.LoginController;
 import Controller.ManagerController;
+import Controller.ProductController;
 import Controller.SellerController;
-import Model.Card;
-import Model.Request;
-import Model.Seller;
-import Model.SellerRequest;
+import Model.*;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -37,7 +34,11 @@ public class RequestTest {
         FirstTest.registerManager();
         FirstTest.loginManager();
         FirstTest.registerSeller();
-        managerController.acceptRequest("SellerRequest1");
+        try {
+            managerController.acceptRequest("SellerRequest1");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         FirstTest.firstSeller = (Seller) loginController.login("sell", "1234abcd", new Card());
     }
 
@@ -58,11 +59,14 @@ public class RequestTest {
         try {
             Assert.assertEquals("google", sellerController.showCompanyInformation(FirstTest.firstSeller));
             Assert.assertEquals("name=" + "laptop" + ", price=" + "2000" + ", rate=" + "0.0" + ", status=" + "CREATING", sellerController.showProductsOfThisSeller(FirstTest.firstSeller).get(0));
-            //Assert.assertEquals(2, Request.getNumberOfRequestCreated());
-            Assert.assertEquals(managerController.showRequestDetails("ProductRequest3"),"request to create or edit product with id: " + "Product1" + ", isEditing: " + false + ", seller: " + "sell" + ", newPrice: 2000");
+            Assert.assertEquals(managerController.showRequestDetails("ProductRequest3"),"request to create or edit product with id: " + "Product1" + ", isEditing: " + false + ", seller: " + "sell" + ", price: 2000");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("this" + e.getMessage());
         }
+        managerController.acceptRequest("ProductRequest3");
+        Assert.assertEquals(ProductController.getProductById("Product1").getProductStatus(), ProductAndOffStatus.ACCEPTED);
+        sellerController.editProduct(FirstTest.firstSeller,"Product1",200,10,"is good",specialInformation);
+        managerController.acceptRequest("ProductRequest4");
     }
 
     public Date createDiscountCodeTest() throws Exception {
@@ -79,13 +83,44 @@ public class RequestTest {
     @Test
     public void  editAndRemoveDiscount() throws Exception {
         Date date = createDiscountCodeTest();
-        Assert.assertEquals("code:" + "myDiscount" + ", beginTime:" + date + ", endTime:" + new Date(date.getTime() + 60 * 60* 1000) + ", percent:" + "20", managerController.showDiscount("myDiscount"));
-
+        Assert.assertEquals("code:" + "myDiscount" + ", beginTime:" + date + ", endTime:" + new Date(date.getTime() + 60 * 60* 1000) + ", percent:" + "20", managerController.showAllDiscountCodes().get(0));
+        HashMap<String , Integer> discountForUsers = new HashMap<>();
+        discountForUsers.put("buyer",1);
+        managerController.editDiscountCode("myDiscount",date,new Date(date.getTime() + 60 * 60* 1000), 25, 1000,discountForUsers);
+        Assert.assertEquals("code:" + "myDiscount" + ", beginTime:" + date + ", endTime:" + new Date(date.getTime() + 60 * 60* 1000) + ", percent:" + "25", managerController.showDiscount("myDiscount"));
+        managerController.removeDiscountCode("myDiscount");
+        try {
+            managerController.showDiscount("myDiscount");
+        } catch (Exception e) {
+            Assert.assertEquals("There is no discount with this code", e.getMessage());
+        }
     }
 
+    @Test
+    public void editAndRemoveCategory() throws Exception{
+        HashMap<String, String> newFeatures = new HashMap<>();
+        newFeatures.put("hard","memory");
+        managerController.changeFeatureOfCategory("myCat", newFeatures);
+        Assert.assertEquals(managerController.getCategoryFeaturesOfAProduct("Product1"),Arrays.asList("ram","screen","memory"));
+        ArrayList<String> newAttribute = new ArrayList<>();
+        newAttribute.add("screen");
+        newAttribute.add("memory");
+        managerController.editCategory("myCat",newAttribute);
+        Assert.assertEquals(managerController.getCategoryFeaturesOfAProduct("Product1"),Arrays.asList("screen","memory"));
+        managerController.removeCategory("myCat");
+        Assert.assertEquals(ManagerController.getCategoryByName("myCat") , null);
+    }
 
-
-
-
+    @Test
+    public void createProductAndDeclineIt() throws Exception{
+        addCategory();
+        HashMap<String, String> specialInformation = new HashMap<>();
+        specialInformation.put("hard","20");
+        specialInformation.put("ram","40");
+        specialInformation.put("screen", "1980");
+        sellerController.addProduct(new String[]{"laptop","asus","2000","myCat","this is a good laptop"},FirstTest.firstSeller,specialInformation);
+        managerController.declineRequest("ProductRequest7");
+        Assert.assertEquals(Product.allProducts.size(),0);
+    }
 
 }

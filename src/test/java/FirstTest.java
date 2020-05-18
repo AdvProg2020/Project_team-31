@@ -60,6 +60,15 @@ public class FirstTest {
         }
     }
 
+    @Test
+    public void showAndDeleteUserTest() {
+        registerAndLoginCustomer();
+        registerManager();
+        managerController.deleteUser("buyer");
+        managerController.deleteUser("modir");
+        Assert.assertNull(LoginController.getUserByUsername("buyer"));
+    }
+
 
     @Test
     public void RegisterTest() throws Exception {

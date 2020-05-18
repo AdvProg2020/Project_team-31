@@ -43,6 +43,6 @@ public class Category {
     }
 
     public void removeProduct(Product product){
-        allCategories.remove(product);
+        products.remove(product);
     }
 }

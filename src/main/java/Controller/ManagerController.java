@@ -74,29 +74,24 @@ public class ManagerController {
 
     public String showDiscount(String discountId) throws Exception {
         DiscountCode discount = getDiscountById(discountId);
-        if (discount == null)
-            throw new Exception("there is not discount with this code");
         return "code:" + discount.getDiscountCode() + ", beginTime:" + discount.getBeginTime() + ", endTime:" + discount.getEndTime() + ", percent:" + discount.getDiscountPercent();
     }
 
-    public DiscountCode getDiscountById(String discountId) {
+    public DiscountCode getDiscountById(String discountId) throws Exception{
         for (DiscountCode discount : DiscountCode.getAllDiscountCodes()) {
             if (discount.getDiscountCode().equals(discountId))
                 return discount;
         }
-        return null;
+        throw new Exception("There is no discount with this code");
     }
 
     public void editDiscountCode(String discountCode, Date beginTime, Date endTime, int discountPercent, int maximumDiscount, HashMap<String, Integer> discountTimesForEachCustomer) throws Exception {
         DiscountCode discount = getDiscountById(discountCode);
-        if (discount == null) {
-            throw new Exception("There is not discount with this code");
-        }
         HashMap<Customer, Integer> timesForEachCustomer = changeNameToCustomer(discountTimesForEachCustomer);
         discount.setDiscountCode(beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
     }
 
-    public void removeDiscountCode(String discountCode) {
+    public void removeDiscountCode(String discountCode) throws Exception{
         DiscountCode discount = getDiscountById(discountCode);
         discount.removeDiscountCode();
         for (Customer customer : discount.getDiscountTimesForEachCustomer().keySet()) {
@@ -277,10 +272,10 @@ public class ManagerController {
     }
 
     public static Category getCategoryByName(String name) {
-        for (Category category : Category.getAllCategories()) {
+        for (Category category : Category.getAllCategories())
             if (category.getName().equals(name))
                 return category;
-        }
+
         return null;
     }
 

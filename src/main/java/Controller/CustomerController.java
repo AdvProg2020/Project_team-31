@@ -126,8 +126,6 @@ public class CustomerController {
 
     public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws Exception {
         DiscountCode discount = ManagerController.getInstance().getDiscountById(discountCodeString);
-        if (discount == null)
-            throw new Exception("This user has not this discountCode");
         if (discount.getBeginTime().after(new Date()) || discount.getEndTime().before(new Date()))
             throw new Exception("DiscountCode is unavailable this time");
         if (discount.getDiscountTimesForEachCustomer().get(user) == 0)
