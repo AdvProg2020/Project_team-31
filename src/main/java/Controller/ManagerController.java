@@ -121,9 +121,24 @@ public class ManagerController {
         if(request instanceof SellerRequest) {
             return "request to register a seller with username: " + ((SellerRequest) request).getUsername() + ", firstName: " + ((SellerRequest) request).getInformation()[0] + ", lastName: " + ((SellerRequest) request).getInformation()[1] + "phoneNumber: " + ((SellerRequest) request).getInformation()[3];
         } else if(request instanceof ProductRequest) {
-            return "request to create or edit product with id: " + ((ProductRequest) request).getProduct().getProductId() + ", isEditing: " + ((ProductRequest) request).isEditing() + ", seller: " + ((ProductRequest) request).getSeller().getUsername() + ", newPrice: " + ((ProductRequest) request).getPrice();
+            String detail;
+            detail = "request to create or edit product with id: " + ((ProductRequest) request).getProduct().getProductId() + ", isEditing: " + ((ProductRequest) request).isEditing();
+            if(((ProductRequest) request).isEditing()) {
+                detail += ( ", seller: " + ((ProductRequest) request).getSeller().getUsername() + ", newPrice: " + ((ProductRequest) request).getPrice());
+            } else {
+                for (Seller seller : ((ProductRequest) request).getProduct().getSellersOfThisProduct().keySet())
+                    detail += (", seller: " + seller.getUsername() + ", price: " + ((ProductRequest) request).getProduct().getSellersOfThisProduct().get(seller));
+            }
+            return  detail;
         } else if(request instanceof OffRequest) {
-            return "request to create or edit off with id: " + ((OffRequest) request).getOff().getOffId() + ", isEditing: " + ((OffRequest) request).getIsEditing() + ", newOffPercent: " + ((OffRequest) request).getOffPercent();
+            String detail;
+            detail = ("request to create or edit off with id: " + ((OffRequest) request).getOff().getOffId() + ", isEditing: " + ((OffRequest) request).getIsEditing());
+            if(((OffRequest) request).getIsEditing()) {
+                detail += (", newOffPercent: " + ((OffRequest) request).getOffPercent());
+            } else {
+                detail += (", offPercent: " + ((OffRequest) request).getOff().getOffPercent());
+            }
+            return  detail;
         } else {
             return "request to add a seller to a product with id: " + ((SellerOfProductRequest) request).getProduct().getProductId() + ", seller: " + ((SellerOfProductRequest) request).getSeller().getUsername() + ", price: " + ((SellerOfProductRequest) request).getPrice();
         }

@@ -21,7 +21,7 @@ public class Product {
     private int views;
     private HashMap<String , String > specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts = new ArrayList<>();
-    private static int numberOfProductCreated;
+    private static int numberOfProductCreated = 0;
 
     public Product(String productId, String name, String company, Category category, String information, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
