@@ -30,7 +30,8 @@ public class OffMenu extends Menu {
                 showProduct(matcher.group(1));
             else if (safeGetMatcher("^(?i)help$", command).find())
                 offHelp();
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
 
         }
     }

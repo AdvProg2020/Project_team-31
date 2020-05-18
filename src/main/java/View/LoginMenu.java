@@ -32,13 +32,19 @@ public class LoginMenu extends Menu {
                 loginAndLogOut(false);
             else if (safeGetMatcher("^(?i)back$", command).find())
                 break;
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
     private void help() {
         System.out.println("///////////////////////help////////////////////");
-        System.out.println("create account (customer or seller or manager) [username]\nlogin [username]\nhelp\nback");
+        System.out.println("create account (customer or seller or manager) [username]");
+        System.out.println("login [username]");
+        System.out.println("help");
+        System.out.println("logout");
+        System.out.println("login");
+        System.out.println("back");
         System.out.println("///////////////////////help////////////////////");
     }
 

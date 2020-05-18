@@ -65,7 +65,8 @@ public class MainMenu extends Menu {
             else if (safeGetMatcher("^(?i)end$", command).find()) {
                 end = true;
                 break;
-            } else System.out.println("invalid command");
+            } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
@@ -87,7 +88,8 @@ public class MainMenu extends Menu {
                 if (index != 7 && index != 8) editPersonalInformation(index, information);
             } else if (command.equalsIgnoreCase("help")) {
                 personalInfoHelp();
-            } else System.out.println("invalid command");
+            } else if ((!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout")))
+                System.out.println("invalid command");
         }
     }
 
@@ -230,7 +232,8 @@ public class MainMenu extends Menu {
                 } catch (Exception e) {
                     System.out.println("wrong format!");
                 }
-            } else System.out.println("invalid command");
+            } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
@@ -366,7 +369,8 @@ public class MainMenu extends Menu {
                     System.out.println(e.getMessage());
                 }
 
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
@@ -528,7 +532,8 @@ public class MainMenu extends Menu {
             else if (safeGetMatcher("^(?i)end$", command).find()) {
                 end = true;
                 break;
-            } else System.out.println("invalid command");
+            } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
 
 
         }
@@ -550,7 +555,8 @@ public class MainMenu extends Menu {
                 manageUsersHelp();
             else if (command.equalsIgnoreCase("create manager profile"))
                 addManager();
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
@@ -598,7 +604,8 @@ public class MainMenu extends Menu {
             Matcher removeMathcer = getMatcher("^(?i)remove\\s+(\\S+)$", command);
             if (removeMathcer.find())
                 removeProductByManager(removeMathcer.group(1));
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
@@ -654,7 +661,7 @@ public class MainMenu extends Menu {
     private void viewDiscountCodesForManager() {
         viewAllDiscountCodes();
         String command;
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher viewMatcher = getMatcher("^(?i)view\\s+discount\\s+codes\\s+(.+)$", command);
             Matcher editMatcher = safeGetMatcher("^(?i)edit\\s+discount\\s+codes\\s+(.+)$", command);
             Matcher removeMatcher = safeGetMatcher("^(?i)remove\\s+discount\\s+codes\\s+(.+)$", command);
@@ -670,7 +677,8 @@ public class MainMenu extends Menu {
                 removeDiscountCode(removeMatcher.group(1));
             else if (command.equalsIgnoreCase("help"))
                 discountCodeHelp();
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
@@ -758,11 +766,12 @@ public class MainMenu extends Menu {
     private void manageRequests() {
         showAllRequests();
         String command;
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)detail\\s+(.+)$", command);
             if (matcher.find())
                 detailRequest(matcher.group(1));
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
 
         }
     }
@@ -774,7 +783,7 @@ public class MainMenu extends Menu {
             System.out.println(e.getMessage());
         }
         String command;
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher accept = getMatcher("^(?i)accept$", command);
             Matcher decline = safeGetMatcher("^(?i)decline$", command);
             if (accept.find())
@@ -784,7 +793,8 @@ public class MainMenu extends Menu {
                 detailRequestHelp();
             else if (decline.find())
                 declineRequest(requestId);
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
@@ -851,7 +861,8 @@ public class MainMenu extends Menu {
                 manageCategoriesHelp();
             else if (remove.find())
                 removeCategory(remove.group(1));
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
@@ -948,13 +959,15 @@ public class MainMenu extends Menu {
                     offsMenu();
                 else if (safeGetMatcher("^(?i)help$", command).find())
                     customerHelp();
-                else if (safeGetMatcher("^(?i)end$", command).find())
+                else if (safeGetMatcher("^(?i)end$", command).find()) {
+                    end = true;
                     break;
-                else System.out.println("invalid command");
+                } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                    System.out.println("invalid command");
             }
 
         } catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
 
         }
     }
@@ -984,7 +997,7 @@ public class MainMenu extends Menu {
     private void cart() {
         String command;
         try {
-            while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
                 Matcher view = getMatcher("^(?i)view\\s+(\\S+)$", command);
                 Matcher increase = safeGetMatcher("^(?i)increase\\s+(\\S+)$", command);
                 Matcher decrease = safeGetMatcher("^(?i)decrease\\s+(\\S+)$", command);
@@ -1002,11 +1015,12 @@ public class MainMenu extends Menu {
                     purchase();
                 else if (safeGetMatcher("^(?i)help$", command).find())
                     viewCartHelp();
-                else System.out.println("invalid command");
+                else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                    System.out.println("invalid command");
             }
 
         } catch (Exception e) {
-            System.out.println("you have to login!");
+            System.out.println(e.getMessage());
 
         }
     }
@@ -1076,7 +1090,8 @@ public class MainMenu extends Menu {
                 rate(rate.group(1), rate.group(2));
             else if (command.equalsIgnoreCase("help"))
                 viewOrdersHelp();
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 

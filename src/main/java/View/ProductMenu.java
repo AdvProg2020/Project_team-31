@@ -28,7 +28,7 @@ public class ProductMenu extends Menu {
         category = null;
         String command;
         sort = null;
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
             if (safeGetMatcher("^(?i)view\\s+categories$", command).find())
                 viewAllCategories();
@@ -42,7 +42,8 @@ public class ProductMenu extends Menu {
                 showProducts();
             else if (matcher.find())
                 showProduct(matcher.group(1));
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
 
         }
     }
@@ -80,7 +81,7 @@ public class ProductMenu extends Menu {
 
     public void filtering() {
         String command;
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher addFilter = getMatcher("^(?i)filter\\s+(\\S+)$", command);
             Matcher disableFilter = safeGetMatcher("^(?i)disable\\s+filter\\s+(\\S+)$", command);
             if (safeGetMatcher("^(?i)show\\s+available\\s+filters$", command).find())
@@ -93,7 +94,8 @@ public class ProductMenu extends Menu {
                 showCurrentFilters();
             else if (disableFilter.find())
                 disableFilter(disableFilter.group(1));
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
@@ -161,7 +163,7 @@ public class ProductMenu extends Menu {
 
     public void sorting() {
         String command;
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher sort = getMatcher("^(?i)sort\\s+(\\S+)$", command);
             if (sort.find())
                 sort(sort.group(1));
@@ -173,7 +175,8 @@ public class ProductMenu extends Menu {
                 sortHelp();
             else if (safeGetMatcher("^(?i)disable\\s+sort$", command).find())
                 disableSort();
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 

@@ -26,7 +26,7 @@ public class ShowProductMenu extends Menu {
     @Override
     public void run() {
         String command;
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)compare\\s+(\\S+)$", command);
             if (safeGetMatcher("^(?i)digest$", command).find())
                 digest();
@@ -38,7 +38,8 @@ public class ShowProductMenu extends Menu {
                 showProductMenuHelp();
             else if (safeGetMatcher("^(?i)Comments$", command).find())
                 comments();
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
 
         }
     }
@@ -66,7 +67,8 @@ public class ShowProductMenu extends Menu {
                 addToCard();
             else if (getMatcher("^help$", command).find())
                 digestHelp();
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
 
     }
@@ -124,7 +126,8 @@ public class ShowProductMenu extends Menu {
                 addComment();
             else if (getMatcher("^help$", command).find())
                 commentsHelp();
-            else System.out.println("invalid command");
+            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                System.out.println("invalid command");
         }
     }
 
