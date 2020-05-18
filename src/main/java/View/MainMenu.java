@@ -89,8 +89,18 @@ public class MainMenu extends Menu {
             if (matcher.find()) {
                 int index = findIndex(matcher.group(1));
                 if (index != 7 && index != 8) editPersonalInformation(index, information);
+            } else if (command.equalsIgnoreCase("help")) {
+                personalInfoHelp();
             } else System.out.println("invalid command");
         }
+    }
+
+    private void personalInfoHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("edit");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private int findIndex(String check) {
