@@ -87,12 +87,27 @@ public class ProductMenu extends Menu {
                 showAvailableFilters();
             else if (addFilter.find())
                 addFilter(addFilter.group(1));
+            else if (command.equalsIgnoreCase("help"))
+                filteringHelp();
             else if (getMatcher("^(?i)current\\s+filters$", command).find())
                 showCurrentFilters();
             else if (disableFilter.find())
                 disableFilter(disableFilter.group(1));
             else System.out.println("invalid command");
         }
+    }
+
+    private void filteringHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("filer [filter name]");
+        System.out.println("disable filter [filter name]");
+        System.out.println("show available filters");
+        System.out.println("current filters");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void showAvailableFilters() {
