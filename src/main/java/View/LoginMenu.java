@@ -20,13 +20,16 @@ public class LoginMenu extends Menu {
         String command;
         while (!loginSuccessful) {
             command = scanner.nextLine().trim();
-            Matcher matcher = getMatcher("^(?i)create\\s+account\\s+(customer|seller|manager)\\s+(\\S+)$", command);
+            Matcher matcher = safeGetMatcher("^(?i)create\\s+account\\s+(customer|seller|manager)\\s+(\\S+)$", command);
+            Matcher login = safeGetMatcher("^(?i)login\\s+(\\S+)$", command);
             if (matcher.find())
                 register(matcher.group(1), matcher.group(2), false);
-            else if (safeGetMatcher("^(?i)login\\s+(\\S+)$", command).find())
-                login(matcher.group(1));
+            else if (login.find())
+                login(login.group(1));
             else if (safeGetMatcher("^(?i)help$", command).find())
                 help();
+            else if (safeGetMatcher("^(?i)logout$", command).find())
+                loginAndLogOut(false);
             else if (safeGetMatcher("^(?i)back$", command).find())
                 break;
             else System.out.println("invalid command");
@@ -35,7 +38,7 @@ public class LoginMenu extends Menu {
 
     private void help() {
         System.out.println("///////////////////////help////////////////////");
-        System.out.println("create account (customer or seller or manager) [username]\nlogin\nhelp\nback\n");
+        System.out.println("create account (customer or seller or manager) [username]\nlogin [username]\nhelp\nback");
         System.out.println("///////////////////////help////////////////////");
     }
 
@@ -53,7 +56,7 @@ public class LoginMenu extends Menu {
         }
         String password = "";
         System.out.println("please enter your password:" +
-                "Password must be between 4 and 8 digits long and include at least one numeric digit.\n");
+                "Password must be between 4 and 8 digits long and include at least one numeric digit.");
         while (!password.matches("^(?=.*\\d).{4,8}$")) {
             password = scanner.nextLine();
             if (!password.matches("^(?=.*\\d).{4,8}$"))
@@ -97,6 +100,10 @@ public class LoginMenu extends Menu {
     }
 
     public void login(String username) {
+        if (user != null) {
+            System.out.println("you have already logged in!");
+            return;
+        }
         System.out.println("please enter your password:");
         String password = scanner.nextLine();
         try {

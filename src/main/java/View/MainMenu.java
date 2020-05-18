@@ -954,7 +954,7 @@ public class MainMenu extends Menu {
             }
 
         } catch (Exception e) {
-            System.out.println("you have to login!");
+        e.printStackTrace();
 
         }
     }
