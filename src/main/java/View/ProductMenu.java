@@ -3,6 +3,7 @@ package View;
 import Controller.ManagerController;
 import Controller.ProductController;
 import Model.Product;
+import Model.User;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -46,8 +47,8 @@ public class ProductMenu extends Menu {
                 System.out.println("invalid command");
 
         }
-        sort=null;
-        category=null;
+        sort = null;
+        category = null;
     }
 
     private void productMenuHelp() {
@@ -240,4 +241,10 @@ public class ProductMenu extends Menu {
         }
     }
 
+
+    private User userForFilter() {
+        if (user == null)
+            return tempUser;
+        return user;
+    }
 }
