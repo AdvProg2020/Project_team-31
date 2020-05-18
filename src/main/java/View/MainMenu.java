@@ -60,10 +60,6 @@ public class MainMenu extends Menu {
                 productMenu();
             else if (getMatcher("^(?i)offs$", command).find())
                 showOffs();
-            else if (getMatcher("^(?i)login$", command).find())
-                loginAndLogOut(true);
-            else if (getMatcher("^(?i)logout$", command).find())
-                loginAndLogOut(false);
             else if (getMatcher("^(?i)help", command).find())
                 sellerHelp();
             else if (getMatcher("^(?i)end$", command).find()) {
@@ -228,10 +224,6 @@ public class MainMenu extends Menu {
                 viewBuyerProduct(viewBuyersMatcher.group(1));
             else if (command.equalsIgnoreCase("help"))
                 manageProductsHelp();
-            else if (getMatcher("^(?i)login$", command).find())
-                loginAndLogOut(true);
-            else if (getMatcher("^(?i)logout$", command).find())
-                loginAndLogOut(false);
             else if (editMatcher.find()) {
                 try {
                     editProduct(editMatcher.group(1));
@@ -359,12 +351,8 @@ public class MainMenu extends Menu {
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-            else if (command.equalsIgnoreCase("help")) {
+            else if (command.equalsIgnoreCase("help"))
                 viewAllOffsHelp();
-            } else if (getMatcher("^(?i)login$", command).find())
-                loginAndLogOut(true);
-            else if (getMatcher("^(?i)logout$", command).find())
-                loginAndLogOut(false);
             else if (editMatcher.find())
                 try {
                     editOff(editMatcher.group(1));
@@ -533,10 +521,6 @@ public class MainMenu extends Menu {
                 manageCategories();
             else if (getMatcher("^(?i)products$", command).find())
                 productMenu();
-            else if (getMatcher("^(?i)login$", command).find())
-                loginAndLogOut(true);
-            else if (getMatcher("^(?i)logout$", command).find())
-                loginAndLogOut(false);
             else if (getMatcher("^(?i)offs$", command).find())
                 showOffs();
             else if (getMatcher("^(?i)help$", command).find())
@@ -960,10 +944,6 @@ public class MainMenu extends Menu {
                     viewDiscountCodesForCustomer();
                 else if (getMatcher("^(?i)products$", command).find())
                     productMenu();
-                else if (getMatcher("^(?i)login$", command).find())
-                    loginAndLogOut(true);
-                else if (getMatcher("^(?i)logout$", command).find())
-                    loginAndLogOut(false);
                 else if (getMatcher("^(?i)offs$", command).find())
                     offsMenu();
                 else if (getMatcher("^(?i)help$", command).find())
@@ -1022,10 +1002,6 @@ public class MainMenu extends Menu {
                     purchase();
                 else if (getMatcher("^(?i)help$", command).find())
                     viewCartHelp();
-                else if (getMatcher("^(?i)login$", command).find())
-                    loginAndLogOut(true);
-                else if (getMatcher("^(?i)logout$", command).find())
-                    loginAndLogOut(false);
                 else System.out.println("invalid command");
             }
 
@@ -1099,7 +1075,7 @@ public class MainMenu extends Menu {
             else if (rate.find())
                 rate(rate.group(1), rate.group(2));
             else if (command.equalsIgnoreCase("help"))
-              viewOrdersHelp();
+                viewOrdersHelp();
             else System.out.println("invalid command");
         }
     }

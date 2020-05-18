@@ -49,7 +49,7 @@ public class ProductMenu extends Menu {
 
     private void productMenuHelp() {
         System.out.println("///////////////////////help////////////////////");
-        System.out.println("show peoduct [productId]");
+        System.out.println("show product [productId]");
         System.out.println("view categories");
         System.out.println("filtering");
         System.out.println("sorting");
