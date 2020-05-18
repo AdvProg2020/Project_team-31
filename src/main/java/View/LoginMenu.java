@@ -53,7 +53,7 @@ public class LoginMenu extends Menu {
             System.out.println("please enter a valid role");
             return;
         }
-        if (loginController.isThereAnyManager() && !managerCommand) {
+        if (loginController.isThereAnyManager() && !managerCommand && type.equalsIgnoreCase("manager")) {
             System.out.println("there is already a manager!");
             return;
         } else if (!loginController.isUsernameFree(username)) {

@@ -39,6 +39,7 @@ public class MainMenu extends Menu {
             while (true) {
                 command = scanner.nextLine().trim();
                 Matcher matcher = getMatcher("^(?i)remove\\s+product\\s+(\\S+)$", command);
+                Matcher addMe = safeGetMatcher("^(?i)add\\s+me\\s+to\\s+(.+)", command);
                 if (safeGetMatcher("^(?i)view\\s+personal\\s+info$", command).find())
                     viewPersonalInformation();
                 else if (safeGetMatcher("^(?i)view\\s+company\\s+information$", command).find())
@@ -49,6 +50,8 @@ public class MainMenu extends Menu {
                     manageProducts();
                 else if (safeGetMatcher("^(?i)add\\s+product$", command).find())
                     addProducts();
+                else if (addMe.find())
+                    addMeToProduct(addMe.group(1));
                 else if (matcher.find())
                     removeProduct(matcher.group(1));
                 else if (safeGetMatcher("^(?i)show\\s+categories$", command).find())
@@ -68,7 +71,19 @@ public class MainMenu extends Menu {
                     break;
                 } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                     System.out.println("invalid command");
+                if (end)
+                    break;
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void addMeToProduct(String productId) {
+        System.out.println("please enter your price : ");
+        String price = scanByRegex("^\\d+$", "invalid command");
+        try {
+            sellerController.addSellerToProduct(user, productId, Integer.parseInt(price));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -542,7 +557,8 @@ public class MainMenu extends Menu {
                     break;
                 } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                     System.out.println("invalid command");
-
+                if (end)
+                    break;
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -974,6 +990,8 @@ public class MainMenu extends Menu {
                     break;
                 } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                     System.out.println("invalid command");
+                if (end)
+                    break;
             }
 
         } catch (Exception e) {
@@ -1152,6 +1170,7 @@ public class MainMenu extends Menu {
     private void sellerHelp() {
         System.out.println("///////////////////////help////////////////////");
         System.out.println("remove product [productId]");
+        System.out.println("add me to [productId]");
         System.out.println("view personal info");
         System.out.println("view company info");
         System.out.println("view sales history");
