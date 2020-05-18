@@ -60,7 +60,7 @@ public class OffMenu extends Menu {
 
     private void showOffProducts() {
         try {
-            ArrayList<String> products = productController.showOffProduct(user, productMenu.sort);
+            ArrayList<String> products = productController.showOffProduct(productMenu.userForFilter(), productMenu.sort);
             for (String product : products) {
                 System.out.println(product);
             }

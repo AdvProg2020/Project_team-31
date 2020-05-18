@@ -241,7 +241,7 @@ public class ProductMenu extends Menu {
     }
 
 
-    private User userForFilter() {
+    public User userForFilter() {
         if (user == null)
             return tempUser;
         return user;
