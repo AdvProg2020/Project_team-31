@@ -578,7 +578,7 @@ public class MainMenu extends Menu {
         System.out.println("login");
         System.out.println("logout");
         System.out.println("help");
-        System.out.println("end");
+        System.out.println("back");
         System.out.println("///////////////////////help////////////////////");
     }
 
@@ -687,8 +687,6 @@ public class MainMenu extends Menu {
             else if (command.equalsIgnoreCase("help"))
                 discountCodeHelp();
             else System.out.println("invalid command");
-
-
         }
     }
 
@@ -700,7 +698,7 @@ public class MainMenu extends Menu {
         System.out.println("login");
         System.out.println("logout");
         System.out.println("help");
-        System.out.println("end");
+        System.out.println("back");
         System.out.println("///////////////////////help////////////////////");
     }
 
@@ -798,11 +796,23 @@ public class MainMenu extends Menu {
             if (accept.find())
                 if (accept.find())
                     acceptRequest(requestId);
+            if (command.equalsIgnoreCase("help"))
+                detailRequestHelp();
                 else if (decline.find())
                     declineRequest(requestId);
                 else System.out.println("invalid command");
-
         }
+    }
+
+    private void detailRequestHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("accept");
+        System.out.println("decline");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void acceptRequest(String requestId) {
