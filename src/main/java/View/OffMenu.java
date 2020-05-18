@@ -1,5 +1,6 @@
 package View;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class OffMenu extends Menu {
@@ -20,6 +21,7 @@ public class OffMenu extends Menu {
     public void run() {
         showOffProducts();
         String command;
+
         while ((command = scanner.nextLine().trim().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
             if (safeGetMatcher("^(?i)filtering$", command).find())
@@ -59,7 +61,10 @@ public class OffMenu extends Menu {
 
     private void showOffProducts() {
         try {
-            productController.showOffProduct(user, productMenu.sort);
+            ArrayList<String> products = productController.showOffProduct(user, productMenu.sort);
+            for (String product : products) {
+                System.out.println(product);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -42,6 +42,9 @@ public class CompletionShop extends Menu {
     }
 
     private BuyingLog getInformation() throws Exception {
+        if(customerController.showTotalPrice(card)==0){
+            throw new Exception("you dont have any thing in your cart!");
+        }
         String[] data = new String[2];
         System.out.println("please enter your address : ");
         data[0] = scanner.nextLine().trim();

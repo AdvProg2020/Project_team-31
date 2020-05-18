@@ -35,51 +35,75 @@ public class MainMenu extends Menu {
 
     private void sellerMenu() {
         String command;
-        while (true) {
-            command = scanner.nextLine().trim();
-            Matcher matcher = getMatcher("^(?i)remove\\s+product\\s+(\\S+)$", command);
-            if (safeGetMatcher("^(?i)view\\s+personal\\s+info$", command).find())
-                viewPersonalInformation();
-            else if (safeGetMatcher("^(?i)view\\s+company\\s+information$", command).find())
-                viewCompanyInformation();
-            else if (safeGetMatcher("^(?i)view\\s+sales\\s+history$", command).find())
-                viewSalesHistory();
-            else if (safeGetMatcher("^(?i)manage\\s+products$", command).find())
-                manageProducts();
-            else if (safeGetMatcher("^(?i)add\\s+product$", command).find())
-                addProducts();
-            else if (matcher.find())
-                removeProduct(matcher.group(1));
-            else if (safeGetMatcher("^(?i)show\\s+categories$", command).find())
-                showCategories();
-            else if (safeGetMatcher("^(?i)view\\s+offs$", command).find())
-                viewAllOffs();
-            else if (safeGetMatcher("^(?i)view\\s+balance\n$", command).find())
-                viewBalanceForSeller();
-            else if (safeGetMatcher("^(?i)products$", command).find())
-                productMenu();
-            else if (safeGetMatcher("^(?i)offs$", command).find())
-                showOffs();
-            else if (safeGetMatcher("^(?i)help", command).find())
-                sellerHelp();
-            else if (safeGetMatcher("^(?i)end$", command).find()) {
-                end = true;
-                break;
-            } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
-                System.out.println("invalid command");
+        try {
+            while (true) {
+                command = scanner.nextLine().trim();
+                Matcher matcher = getMatcher("^(?i)remove\\s+product\\s+(\\S+)$", command);
+                Matcher addMe = safeGetMatcher("^(?i)add\\s+me\\s+to\\s+(.+)", command);
+                if (safeGetMatcher("^(?i)view\\s+personal\\s+info$", command).find())
+                    viewPersonalInformation();
+                else if (safeGetMatcher("^(?i)view\\s+company\\s+information$", command).find())
+                    viewCompanyInformation();
+                else if (safeGetMatcher("^(?i)view\\s+sales\\s+history$", command).find())
+                    viewSalesHistory();
+                else if (safeGetMatcher("^(?i)manage\\s+products$", command).find())
+                    manageProducts();
+                else if (safeGetMatcher("^(?i)add\\s+product$", command).find())
+                    addProducts();
+                else if (addMe.find())
+                    addMeToProduct(addMe.group(1));
+                else if (matcher.find())
+                    removeProduct(matcher.group(1));
+                else if (safeGetMatcher("^(?i)show\\s+categories$", command).find())
+                    showCategories();
+                else if (safeGetMatcher("^(?i)view\\s+offs$", command).find())
+                    viewAllOffs();
+                else if (safeGetMatcher("^(?i)view\\s+balance\n$", command).find())
+                    viewBalanceForSeller();
+                else if (safeGetMatcher("^(?i)products$", command).find())
+                    productMenu();
+                else if (safeGetMatcher("^(?i)offs$", command).find())
+                    showOffs();
+                else if (safeGetMatcher("^(?i)help", command).find())
+                    sellerHelp();
+                else if (safeGetMatcher("^(?i)end$", command).find()) {
+                    end = true;
+                    break;
+                } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                    System.out.println("invalid command");
+                if (end)
+                    break;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    private void viewPersonalInformation() {
+    private void addMeToProduct(String productId) {
+        System.out.println("please enter your price : ");
+        String price = scanByRegex("^\\d+$", "invalid command");
+        try {
+            sellerController.addSellerToProduct(user, productId, Integer.parseInt(price));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void viewPersonalInformation() throws Exception {
+        mustLoginAccess();
+        System.out.println("/////////////////////////////////////////////////");
         String[] information = loginController.showPersonalInformation(user);
         System.out.println("first name : " + information[0] +
-                "last name : " + information[1] +
-                "username : " + information[2] +
-                "email address : " + information[3] +
-                "phone number : " + information[4] +
-                "password : " + information[5] +
-                "credit : " + information[6]);
-        viewCompanyInformation();
+                "\nlast name : " + information[1] +
+                "\nusername : " + information[2] +
+                "\nemail address : " + information[3] +
+                "\nphone number : " + information[4] +
+                "\npassword : " + information[5] +
+                "\ncredit : " + information[6]);
+        if (user instanceof Seller) {
+            viewCompanyInformation();
+        }
+        System.out.println("/////////////////////////////////////////////////");
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)edit\\s+(.+)$", command);
@@ -95,7 +119,7 @@ public class MainMenu extends Menu {
 
     private void personalInfoHelp() {
         System.out.println("///////////////////////help////////////////////");
-        System.out.println("edit");
+        System.out.println("edit [field]");
         System.out.println("help");
         System.out.println("back");
         System.out.println("///////////////////////help////////////////////");
@@ -125,7 +149,8 @@ public class MainMenu extends Menu {
         for (int i = 0; i <= 5; i++)
             newData[i] = data[i];
         try {
-            newData[6] = sellerController.showCompanyInformation(user);
+            if (user instanceof Seller)
+                newData[6] = sellerController.showCompanyInformation(user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -141,8 +166,8 @@ public class MainMenu extends Menu {
             newData[5] = editPassword();
         else if (index == 6)
             newData[6] = editCompanyName();
-
         loginController.editPersonalInformation(user, newData);
+        System.out.println("your personal information changed successfully.");
     }
 
     private String editFirstName() {
@@ -480,7 +505,8 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewBalanceForSeller() {
+    private void viewBalanceForSeller() throws Exception {
+        mustLoginAccess();
         try {
             System.out.println(sellerController.showBalanceOfSeller(user));
         } catch (Exception e) {
@@ -488,7 +514,8 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewBalanceForCustomer() {
+    private void viewBalanceForCustomer() throws Exception {
+        mustLoginAccess();
         try {
             System.out.println(customerController.showBalanceForCustomer(user));
         } catch (Exception e) {
@@ -503,39 +530,43 @@ public class MainMenu extends Menu {
     /////////////////////////////////////////////////////////
     private void managerMenu() {
         String command;
-        while (true) {
-            command = scanner.nextLine().trim();
-            if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
-                viewPersonalInformation();
-            else if (safeGetMatcher("^(?i)manage\\s+users$", command).find())
-                manageUsers();
-            else if (safeGetMatcher("^(?i)manage\\s+all\\s+products$", command).find())
-                manageAllProducts();
-            else if (safeGetMatcher("^(?i)create\\s+discount\\s+code$", command).find()) {
-                try {
-                    createDiscountCode();
-                } catch (Exception e) {
-                    System.out.println("invalid date format!");
-                }
-            } else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
-                viewDiscountCodesForManager();
-            else if (safeGetMatcher("^(?i)manage\\s+requests$", command).find())
-                manageRequests();
-            else if (safeGetMatcher("^(?i)manage\\s+categories$", command).find())
-                manageCategories();
-            else if (safeGetMatcher("^(?i)products$", command).find())
-                productMenu();
-            else if (safeGetMatcher("^(?i)offs$", command).find())
-                showOffs();
-            else if (safeGetMatcher("^(?i)help$", command).find())
-                managerHelp();
-            else if (safeGetMatcher("^(?i)end$", command).find()) {
-                end = true;
-                break;
-            } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
-                System.out.println("invalid command");
-
-
+        try {
+            while (true) {
+                command = scanner.nextLine().trim();
+                if (getMatcher("^(?i)view\\s+personal\\s+info$", command).find())
+                    viewPersonalInformation();
+                else if (safeGetMatcher("^(?i)manage\\s+users$", command).find())
+                    manageUsers();
+                else if (safeGetMatcher("^(?i)manage\\s+all\\s+products$", command).find())
+                    manageAllProducts();
+                else if (safeGetMatcher("^(?i)create\\s+discount\\s+code$", command).find()) {
+                    try {
+                        createDiscountCode();
+                    } catch (Exception e) {
+                        System.out.println("invalid date format!");
+                    }
+                } else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
+                    viewDiscountCodesForManager();
+                else if (safeGetMatcher("^(?i)manage\\s+requests$", command).find())
+                    manageRequests();
+                else if (safeGetMatcher("^(?i)manage\\s+categories$", command).find())
+                    manageCategories();
+                else if (safeGetMatcher("^(?i)products$", command).find())
+                    productMenu();
+                else if (safeGetMatcher("^(?i)offs$", command).find())
+                    showOffs();
+                else if (safeGetMatcher("^(?i)help$", command).find())
+                    managerHelp();
+                else if (safeGetMatcher("^(?i)end$", command).find()) {
+                    end = true;
+                    break;
+                } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                    System.out.println("invalid command");
+                if (end)
+                    break;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -955,6 +986,8 @@ public class MainMenu extends Menu {
                     viewDiscountCodesForCustomer();
                 else if (safeGetMatcher("^(?i)products$", command).find())
                     productMenu();
+                else if (safeGetMatcher("^(?i)add\\s+credit$", command).find())
+                    addCredit();
                 else if (safeGetMatcher("^(?i)offs$", command).find())
                     offsMenu();
                 else if (safeGetMatcher("^(?i)help$", command).find())
@@ -964,21 +997,42 @@ public class MainMenu extends Menu {
                     break;
                 } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                     System.out.println("invalid command");
+                if (end)
+                    break;
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-
+            System.out.println(e.getMessage());
         }
     }
 
+    private void addCredit() throws Exception {
+        mustLoginAccess();
+        System.out.println("please enter the amount");
+        String amount;
+        while ((amount = scanByRegex("^\\d+$", "invalid command")).equalsIgnoreCase("back")) {
+            int money = Integer.parseInt(amount);
+            if (money > 0) {
+                customerController.addCredit(user, money);
+                System.out.println("credit added successfully.");
+                return;
+            } else {
+                System.out.println("invalid amount");
+            }
+        }
+
+
+    }
+
     private void productMenu() {
-        productController.clearFilters(user);
+        if (user != null)
+            productController.clearFilters(user);
         ProductMenu.getInstance().run();
     }
 
     private void offsMenu() {
-        productController.clearFilters(user);
+        if (user != null)
+            productController.clearFilters(user);
         OffMenu.getInstance().run();
     }
 
@@ -1067,10 +1121,12 @@ public class MainMenu extends Menu {
     }
 
     private void purchase() {
+
         CompletionShop.getInstance().run();
     }
 
-    private void viewOrders() {
+    private void viewOrders() throws Exception {
+        mustLoginAccess();
         try {
             System.out.println("///////////////////////////////////////////////");
             ArrayList<String> allOrders = customerController.showAllOrders(user);
@@ -1081,7 +1137,7 @@ public class MainMenu extends Menu {
             System.out.println(e.getMessage());
         }
         String command;
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher showOrder = getMatcher("^(?i)show\\s+order\\s+(\\S+)$", command);
             Matcher rate = safeGetMatcher("^(?i)rate\\s+(\\S+)\\s+([12345])$", command);
             if (showOrder.find())
@@ -1123,7 +1179,8 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewDiscountCodesForCustomer() {
+    private void viewDiscountCodesForCustomer() throws Exception {
+        mustLoginAccess();
         try {
             System.out.println("//////////////////////////////////////////////");
             ArrayList<String> allCodes = customerController.showDiscountCodes(user);
@@ -1138,6 +1195,7 @@ public class MainMenu extends Menu {
     private void sellerHelp() {
         System.out.println("///////////////////////help////////////////////");
         System.out.println("remove product [productId]");
+        System.out.println("add me to [productId]");
         System.out.println("view personal info");
         System.out.println("view company info");
         System.out.println("view sales history");
@@ -1182,6 +1240,7 @@ public class MainMenu extends Menu {
         System.out.println("view balance");
         System.out.println("view discount codes");
         System.out.println("products");
+        System.out.println("add credit");
         System.out.println("login");
         System.out.println("logout");
         System.out.println("offs");
