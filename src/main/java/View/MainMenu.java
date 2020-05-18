@@ -485,7 +485,8 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewBalanceForSeller() {
+    private void viewBalanceForSeller() throws Exception {
+        mustLoginAccess();
         try {
             System.out.println(sellerController.showBalanceOfSeller(user));
         } catch (Exception e) {
@@ -493,7 +494,8 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewBalanceForCustomer() {
+    private void viewBalanceForCustomer() throws Exception {
+        mustLoginAccess();
         try {
             System.out.println(customerController.showBalanceForCustomer(user));
         } catch (Exception e) {
@@ -1078,7 +1080,8 @@ public class MainMenu extends Menu {
         CompletionShop.getInstance().run();
     }
 
-    private void viewOrders() {
+    private void viewOrders() throws Exception {
+        mustLoginAccess();
         try {
             System.out.println("///////////////////////////////////////////////");
             ArrayList<String> allOrders = customerController.showAllOrders(user);
