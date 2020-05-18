@@ -28,13 +28,23 @@ public class OffMenu extends Menu {
                 sorting();
             else if (matcher.find())
                 showProduct(matcher.group(1));
-            else if (getMatcher("^(?i)login$", command).find())
-                loginAndLogOut(true);
-            else if (getMatcher("^(?i)logout$", command).find())
-                loginAndLogOut(false);
+            else if (getMatcher("^(?i)help$", command).find())
+                offHelp();
             else System.out.println("invalid command");
 
         }
+    }
+
+    private void offHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("show product [productId]");
+        System.out.println("filtering");
+        System.out.println("sorting");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void filtering() {
