@@ -982,12 +982,14 @@ public class MainMenu extends Menu {
     }
 
     private void productMenu() {
-        productController.clearFilters(user);
+        if (user != null)
+            productController.clearFilters(user);
         ProductMenu.getInstance().run();
     }
 
     private void offsMenu() {
-        productController.clearFilters(user);
+        if (user != null)
+            productController.clearFilters(user);
         OffMenu.getInstance().run();
     }
 
@@ -1134,7 +1136,7 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void viewDiscountCodesForCustomer() throws Exception{
+    private void viewDiscountCodesForCustomer() throws Exception {
         mustLoginAccess();
         try {
             System.out.println("//////////////////////////////////////////////");

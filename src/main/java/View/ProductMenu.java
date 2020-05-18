@@ -46,6 +46,8 @@ public class ProductMenu extends Menu {
                 System.out.println("invalid command");
 
         }
+        sort=null;
+        category=null;
     }
 
     private void productMenuHelp() {
@@ -216,15 +218,15 @@ public class ProductMenu extends Menu {
         ArrayList<String> products = null;
         try {
             products = productController.showProducts(user, category, sort);
+            if (products == null) {
+                System.out.println("there is nothing to show!");
+                return;
+            }
+            for (String product : products) {
+                System.out.println(product);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        if (products == null) {
-            System.out.println("there is nothing to show!");
-            return;
-        }
-        for (String product : products) {
-            System.out.println(product);
         }
     }
 
