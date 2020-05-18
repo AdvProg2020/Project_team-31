@@ -116,7 +116,11 @@ public class MainMenu extends Menu {
         String[] newData = new String[7];
         for (int i = 0; i <= 5; i++)
             newData[i] = data[i];
-        newData[6] = sellerController.showCompanyInformation(user);
+        try {
+            newData[6] = sellerController.showCompanyInformation(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         if (index == 0)
             newData[0] = editFirstName();
         else if (index == 1)
