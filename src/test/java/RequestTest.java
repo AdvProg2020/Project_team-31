@@ -1,14 +1,21 @@
 import Controller.LoginController;
 import Controller.ManagerController;
+import Controller.SellerController;
 import Model.Card;
 import Model.Seller;
 import Model.SellerRequest;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
 public class RequestTest {
     ManagerController managerController = ManagerController.getInstance();
     LoginController loginController = LoginController.getInstance();
+    SellerController sellerController = SellerController.getInstance();
 
     @Test
     public void showRequests() throws Exception {
@@ -32,9 +39,30 @@ public class RequestTest {
         FirstTest.firstSeller = (Seller) loginController.login("sell", "1234abcd", new Card());
     }
 
-    public void addProductRequest() throws Exception{
+    public void addCategory() throws Exception{
         acceptRequestAndLoginSeller();
+        managerController.addCategory("myCat", new ArrayList<>(Arrays.asList("hard", "ram", "screen")));
     }
+
+    @Test
+    public void addProductRequest() throws Exception{
+        addCategory();
+        Assert.assertEquals("name : " + "myCat" + ", specialProperties : " + "[hard, ram, screen]", managerController.showAllCategories().get(0));
+        HashMap<String, String> specialInformation = new HashMap<>();
+        specialInformation.put("hard","20");
+        specialInformation.put("ram","40");
+        specialInformation.put("screen", "1980");
+        sellerController.addProduct(new String[]{"laptop","asus","2000","myCat","this is a good laptop"},FirstTest.firstSeller,specialInformation);
+        try {
+            Assert.assertEquals(managerController.showRequestDetails("ProductRequest2"),"request to create or edit product with id: " + "Product1" + ", isEditing: " + false + ", seller: " + "sell" + ", newPrice: 2000");
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
+
+
+
+
 
 
 }
