@@ -65,7 +65,7 @@ public class OffMenu extends Menu {
                 System.out.println(product);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+           e.printStackTrace();
         }
     }
 
