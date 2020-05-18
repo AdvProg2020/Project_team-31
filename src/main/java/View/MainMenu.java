@@ -228,6 +228,10 @@ public class MainMenu extends Menu {
                 viewBuyerProduct(viewBuyersMatcher.group(1));
             else if (command.equalsIgnoreCase("help"))
                 manageProductsHelp();
+            else if (getMatcher("^(?i)login$", command).find())
+                loginAndLogOut(true);
+            else if (getMatcher("^(?i)logout$", command).find())
+                loginAndLogOut(false);
             else if (editMatcher.find()) {
                 try {
                     editProduct(editMatcher.group(1));
@@ -243,6 +247,8 @@ public class MainMenu extends Menu {
         System.out.println("view [productId]");
         System.out.println("view buyers [productId]");
         System.out.println("edit [productId]");
+        System.out.println("login");
+        System.out.println("logout");
         System.out.println("back");
         System.out.println("help");
         System.out.println("///////////////////////help////////////////////");
