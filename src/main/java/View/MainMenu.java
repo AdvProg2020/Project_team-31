@@ -989,8 +989,7 @@ public class MainMenu extends Menu {
         OffMenu.getInstance().run();
     }
 
-    private void viewCart() throws Exception {
-        mustLoginAccess();
+    private void viewCart() {
         try {
             System.out.println("//////////////////////////////////////////////");
             ArrayList<String> products = customerController.showCard(user, card);
@@ -1075,6 +1074,7 @@ public class MainMenu extends Menu {
     }
 
     private void purchase() {
+
         CompletionShop.getInstance().run();
     }
 
