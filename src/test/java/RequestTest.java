@@ -32,5 +32,9 @@ public class RequestTest {
         FirstTest.firstSeller = (Seller) loginController.login("sell", "1234abcd", new Card());
     }
 
+    public void addProductRequest() throws Exception{
+        acceptRequestAndLoginSeller();
+    }
+
 
 }
