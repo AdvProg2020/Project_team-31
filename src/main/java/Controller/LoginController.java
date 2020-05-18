@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+
 import java.lang.String;
 
 public class LoginController {
@@ -17,8 +18,8 @@ public class LoginController {
         if (role.equals("customer")) {
             new Customer(information[0], information[1], username, information[2], information[3], information[4]);
         } else if (role.equals("seller")) {
-            new SellerRequest("SellerRequest" + (Request.getNumberOfRequestCreated() +1), username, information);
-        } else if (role.equals("manager")){
+            new SellerRequest("SellerRequest" + (Request.getNumberOfRequestCreated() + 1), username, information);
+        } else if (role.equals("manager")) {
             new Manager(information[0], information[1], username, information[2], information[3], information[4]);
         } else {
             throw new Exception("role is invalid");
@@ -37,21 +38,20 @@ public class LoginController {
     }
 
     public User login(String username, String password, Card card) throws Exception {
-        for (User user : User.getAllUsers()) {
-            if (user.getUsername().equals(username)) {
-                if (user.getPassword().equals(password)){
-                    if(card.getProductsInThisCard().size() > 0) {
-                        user.setCard(card);
-                    } else if(user.getCard() == null) {
-                        user.setCard(new Card());
-                    }
-                    return user;
-                }
-                else
-                    throw new Exception("Password is incorrect");
-            }
+        User user = getUserByUsername(username);
+        if(user == null) {
+            throw new Exception("There is not user with this username");
         }
-        throw new Exception("There is not user with this username");
+        if (user.getPassword().equals(password)) {
+            if (card.getProductsInThisCard().size() > 0) {
+                user.setCard(card);
+            } else if (user.getCard() == null) {
+                user.setCard(new Card());
+            }
+            return user;
+        } else
+            throw new Exception("Password is incorrect");
+
     }
 
     public String[] showPersonalInformation(User user) {
@@ -65,7 +65,7 @@ public class LoginController {
         }
     }
 
-   public static User getUserByUsername(String username) {
+    public static User getUserByUsername(String username) {
         for (User user : User.getAllUsers()) {
             if (user.getUsername().equals(username))
                 return user;
