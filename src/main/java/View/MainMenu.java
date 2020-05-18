@@ -299,18 +299,18 @@ public class MainMenu extends Menu {
     private void editProduct(String productId) {
         int price, available;
         String description, command;
-        System.out.println("please enter your new price (1 for escape)");
+        System.out.println("please enter your new price (-1 for escape)");
         price = Integer.parseInt(scanByRegex("^\\d+$", "invalid format"));
-        System.out.println("please enter your available number (1 for escape)");
+        System.out.println("please enter your available number (-1 for escape)");
         available = Integer.parseInt(scanByRegex("^\\d+$", "invalid format"));
         System.out.println("please enter the description");
         description = scanner.nextLine().trim();
         HashMap<String, String> data = new HashMap<>();
         ArrayList<String> features = managerController.getCategoryFeaturesOfAProduct(productId);
         for (String feature : features) {
-            System.out.println("please enter the value of " + feature + " (1 for escape) : ");
+            System.out.println("please enter the value of " + feature + " (-1 for escape) : ");
             command = scanner.nextLine().trim();
-            if (command.equals("1")) {
+            if (command.equals("-1")) {
                 data.put(feature, null);
             } else {
                 data.put(feature, command);
@@ -431,10 +431,10 @@ public class MainMenu extends Menu {
             System.out.println("invalid number!");
             return;
         }
-        System.out.println("please enter the product IDs (1 for exit)");
+        System.out.println("please enter the product IDs (-1 for exit)");
         String productId;
         ArrayList<String> productIds = new ArrayList<>();
-        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("1"))
+        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
             productIds.add(productId);
         try {
             sellerController.addOff(user, productIds, startDate, endDate, percent);
@@ -466,11 +466,11 @@ public class MainMenu extends Menu {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("please enter the product IDs you want to add (1 for exit)");
-        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("1"))
+        System.out.println("please enter the product IDs you want to add (-1 for exit)");
+        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
             productIds.add(productId);
-        System.out.println("please enter the product IDs you want to exclude (1 for exit)");
-        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("1"))
+        System.out.println("please enter the product IDs you want to exclude (-1 for exit)");
+        while (!(productId = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
             productIds.remove(productId);
         try {
             sellerController.editOff(user, offId, productIds, startDate, endDate, percent);
@@ -678,7 +678,7 @@ public class MainMenu extends Menu {
         String command;
         HashMap<String, Integer> data = new HashMap<>();
         System.out.println("please enter the customers and the number of uses (for example reza-2)");
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("1")) {
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             Matcher matcher = getMatcher("(.+)-(\\d+)", command);
             if (matcher.find()) {
                 data.put(matcher.group(1), Integer.parseInt(matcher.group(2)));
@@ -774,7 +774,7 @@ public class MainMenu extends Menu {
         String command;
         HashMap<String, Integer> data = new HashMap<>();
         System.out.println("please enter the customers and the number of uses (for example reza-2)");
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("1")) {
+        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             Matcher matcher = getMatcher("(.+)-(\\d+)", command);
             if (matcher.find()) {
                 data.put(matcher.group(1), Integer.parseInt(matcher.group(2)));
@@ -926,8 +926,8 @@ public class MainMenu extends Menu {
             return;
         }
         String command;
-        System.out.println("please enter the features you want to change(example previousName-changedName) : (1 for exit)");
-        while (!(command = scanner.nextLine().trim()).equals("1")) {
+        System.out.println("please enter the features you want to change(example previousName-changedName) : (-1 for exit)");
+        while (!(command = scanner.nextLine().trim()).equals("-1")) {
             Matcher matcher = getMatcher(command, "^(.+)-(.+)$");
             if (matcher.find())
                 changedFields.put(matcher.group(1), matcher.group(2));
@@ -940,12 +940,12 @@ public class MainMenu extends Menu {
         for (Map.Entry<String, String> entry : changedFields.entrySet()) {
             features.add(entry.getValue());
         }
-        System.out.println("please enter the features you want to add : (1 for exit)");
-        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("1")) {
+        System.out.println("please enter the features you want to add : (-1 for exit)");
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             features.add(command);
         }
-        System.out.println("please enter the product IDs you want to exclude : (1 for exit)");
-        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("1")) {
+        System.out.println("please enter the product IDs you want to exclude : (-1 for exit)");
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1")) {
             features.remove(command);
         }
         try {
@@ -960,10 +960,10 @@ public class MainMenu extends Menu {
             System.out.println("there is another category with this name");
             return;
         }
-        System.out.println("please enter the category features (1 for exit)");
+        System.out.println("please enter the category features (-1 for exit)");
         String command;
         ArrayList<String> features = new ArrayList<>();
-        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("1"))
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
             features.add(command);
     }
 
