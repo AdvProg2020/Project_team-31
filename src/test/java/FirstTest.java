@@ -6,15 +6,15 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class FirstTest {
-    LoginController loginController = LoginController.getInstance();
-    ManagerController managerController = ManagerController.getInstance();
-    SellerController sellerController = SellerController.getInstance();
-    Manager mainManager;
-    Customer firstCustomer;
-    Seller firstSeller;
+    static LoginController loginController = LoginController.getInstance();
+    static ManagerController managerController = ManagerController.getInstance();
+    static SellerController sellerController = SellerController.getInstance();
+    static Manager mainManager;
+    static Customer firstCustomer;
+    static Seller firstSeller;
 
 
-    public void registerManager() {
+    public static void registerManager() {
         String[] personalInformation = new String[6];
         personalInformation[0] = "ali";
         personalInformation[1] = "kaka";
@@ -27,10 +27,10 @@ public class FirstTest {
             e.printStackTrace();
         }
     }
-    public void loginManager() throws Exception{
+    public static void loginManager() throws Exception{
         mainManager = (Manager) loginController.login("modir", "1234abcd", new Card());
     }
-    public void registerAndLoginCustomer() {
+    public static void registerAndLoginCustomer() {
         String[] personalInformation = new String[6];
         personalInformation[0] = "buyer";
         personalInformation[1] = "all";
@@ -45,7 +45,7 @@ public class FirstTest {
         }
     }
 
-    public void registerAndLoginSeller() {
+    public static void registerSeller() {
         String[] personalInformation = new String[6];
         personalInformation[0] = "buyer";
         personalInformation[1] = "all";
@@ -115,7 +115,7 @@ public class FirstTest {
         }
     }
     @Test
-    public void editPersonalInformation() throws Exception {
+    public void editPersonalInformationTest() throws Exception {
         registerManager();
         loginManager();
         String[] personalInformation = new String[6];
