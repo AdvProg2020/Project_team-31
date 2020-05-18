@@ -798,9 +798,9 @@ public class MainMenu extends Menu {
                     acceptRequest(requestId);
             if (command.equalsIgnoreCase("help"))
                 detailRequestHelp();
-                else if (decline.find())
-                    declineRequest(requestId);
-                else System.out.println("invalid command");
+            else if (decline.find())
+                declineRequest(requestId);
+            else System.out.println("invalid command");
         }
     }
 
@@ -863,10 +863,24 @@ public class MainMenu extends Menu {
                 editCategory(edit.group(1));
             else if (add.find())
                 addCategory(add.group(1));
+            else if (command.equalsIgnoreCase("help"))
+               manageCategoriesHelp();
             else if (remove.find())
                 removeCategory(remove.group(1));
             else System.out.println("invalid command");
         }
+    }
+
+    private void manageCategoriesHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("edit [category name]");
+        System.out.println("add [category name]");
+        System.out.println("remove [category name]");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void editCategory(String name) {
