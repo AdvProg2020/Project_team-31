@@ -356,7 +356,7 @@ public class MainMenu extends Menu {
 
     private void removeProduct(String productId) {
         try {
-            sellerController.removeProduct(productId);
+            sellerController.removeProductFromUser(user, productId);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -1096,6 +1096,7 @@ public class MainMenu extends Menu {
         System.out.println("view [productId]");
         System.out.println("increase [productId]");
         System.out.println("decrease [productId]");
+        System.out.println("show products");
         System.out.println("show total price");
         System.out.println("purchase");
         System.out.println("login");
