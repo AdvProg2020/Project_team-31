@@ -65,8 +65,7 @@ public class RequestTest {
         }
     }
 
-    @Test
-    public void createDiscountCodeTest() throws Exception {
+    public Date createDiscountCodeTest() throws Exception {
         acceptRequestAndLoginSeller();
         FirstTest.registerAndLoginCustomer();
         Date date = new Date();
@@ -74,10 +73,14 @@ public class RequestTest {
         discountForUsers.put("buyer",2);
         managerController.createDiscountCode("myDiscount", date, new Date(date.getTime() + 60 * 60 * 1000), 20, 10000, discountForUsers);
         Assert.assertEquals("code:" + "myDiscount" + ", beginTime:" + date + ", endTime:" + new Date(date.getTime() + 60 * 60* 1000) + ", percent:" + "20", managerController.showAllDiscountCodes().get(0));
-        Assert.assertEquals("code:" + "myDiscount" + ", beginTime:" + date + ", endTime:" + new Date(date.getTime() + 60 * 60* 1000) + ", percent:" + "20", managerController.showDiscount("myDiscount"));
+        return date;
     }
 
+    @Test
     public void  editAndRemoveDiscount() throws Exception {
+        Date date = createDiscountCodeTest();
+        Assert.assertEquals("code:" + "myDiscount" + ", beginTime:" + date + ", endTime:" + new Date(date.getTime() + 60 * 60* 1000) + ", percent:" + "20", managerController.showDiscount("myDiscount"));
+
     }
 
 

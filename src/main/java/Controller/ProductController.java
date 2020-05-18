@@ -17,6 +17,7 @@ public class ProductController {
     }
 
     public ArrayList<String> showProducts(User user, String categoryName, String sorting) throws Exception {
+        System.out.println("hello");
         ArrayList<Product> products;
         Category category;
         if (categoryName == null) {
@@ -27,10 +28,6 @@ public class ProductController {
             products = category.getProducts();
         }
         ArrayList<Product> filteredProducts = new ArrayList<>();
-
-        if(products.size() == 0) {
-            throw new Exception("There is no product");
-        }
         filteredProducts = (ArrayList<Product>) products.stream()
                 .filter(product -> isContainThisProduct(user.getFilters(), product, category));
         if (filteredProducts.size() == 0) {
@@ -42,7 +39,13 @@ public class ProductController {
 
     private ArrayList<Product> sortProduct(ArrayList<Product> filteredProducts, String sorting) {
         ArrayList<Product> sortedProducts = new ArrayList<>();
-        if (sorting.equalsIgnoreCase("price")) {
+        if( sorting == null) {
+            HashMap<Product, Double> sortedByView = new HashMap<>();
+            for (Product product : filteredProducts) {
+                sortedByView.put(product, (double) product.getViews());
+            }
+            sortedProducts.addAll(Arrays.asList(sortProductsByValues(sortedByView)));
+        } else if (sorting.equalsIgnoreCase("price")) {
             HashMap<Product, Double> sortedByPrice = new HashMap<>();
             for (Product product : filteredProducts) {
                 sortedByPrice.put(product, (double) product.getMinimumPrice());
@@ -61,7 +64,7 @@ public class ProductController {
             }
             sortedProducts.addAll(Arrays.asList(sortProductsByValues(sortedByView)));
         }
-        
+
         return sortedProducts;
     }
 
