@@ -355,11 +355,11 @@ public class MainMenu extends Menu {
                 }
             else if (command.equalsIgnoreCase("help")) {
                 viewAllOffsHelp();
-                 else if (getMatcher("^(?i)login$", command).find())
-                    loginAndLogOut(true);
-                else if (getMatcher("^(?i)logout$", command).find())
-                    loginAndLogOut(false);
-            } else if (editMatcher.find())
+            } else if (getMatcher("^(?i)login$", command).find())
+                loginAndLogOut(true);
+            else if (getMatcher("^(?i)logout$", command).find())
+                loginAndLogOut(false);
+            else if (editMatcher.find())
                 try {
                     editOff(editMatcher.group(1));
                 } catch (Exception e) {
