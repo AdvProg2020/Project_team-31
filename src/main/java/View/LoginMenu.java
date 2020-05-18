@@ -47,7 +47,7 @@ public class LoginMenu extends Menu {
         if (loginController.isThereAnyManager() && !managerCommand) {
             System.out.println("there is already a manager!");
             return;
-        } else if (!loginController.IsUsernameFree(username)) {
+        } else if (!loginController.isUsernameFree(username)) {
             System.out.println("this username have been taken!");
             return;
         }

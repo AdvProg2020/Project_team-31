@@ -30,7 +30,7 @@ public class LoginController {
         return Manager.getAllManagers().size() > 0;
     }
 
-    public boolean IsUsernameFree(String username) {
+    public boolean isUsernameFree(String username) {
         for (User user : User.getAllUsers())
             if (user.getUsername().equals(username))
                 return false;
