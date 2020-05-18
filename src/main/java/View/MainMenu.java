@@ -353,7 +353,13 @@ public class MainMenu extends Menu {
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-            else if (editMatcher.find())
+            else if (command.equalsIgnoreCase("help")) {
+                viewAllOffsHelp();
+                 else if (getMatcher("^(?i)login$", command).find())
+                    loginAndLogOut(true);
+                else if (getMatcher("^(?i)logout$", command).find())
+                    loginAndLogOut(false);
+            } else if (editMatcher.find())
                 try {
                     editOff(editMatcher.group(1));
                 } catch (Exception e) {
@@ -368,6 +374,18 @@ public class MainMenu extends Menu {
 
             else System.out.println("invalid command");
         }
+    }
+
+    private void viewAllOffsHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("view [offId]");
+        System.out.println("edit [offId]");
+        System.out.println("add off");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void addOff() throws Exception {
