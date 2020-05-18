@@ -22,7 +22,7 @@ public class OffMenu extends Menu {
         showOffProducts();
         String command;
 
-        while ((command = scanner.nextLine().trim().trim()).equalsIgnoreCase("back")) {
+        while (!(command = scanner.nextLine().trim().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)show\\s+product\\s+(\\S+)$", command);
             if (safeGetMatcher("^(?i)filtering$", command).find())
                 filtering();

@@ -47,8 +47,13 @@ public class ProductMenu extends Menu {
                 System.out.println("invalid command");
 
         }
+    }
+
+    public void resetValues() {
         sort = null;
         category = null;
+        productController.clearFilters(user);
+        productController.clearFilters(tempUser);
     }
 
     private void productMenuHelp() {
@@ -140,14 +145,14 @@ public class ProductMenu extends Menu {
                 "(for range filter use format [number-number] for example [2-100]");
         String filterValue = scanner.nextLine().trim();
         try {
-            productController.addFilterForUser(user, filter, filterValue);
+            productController.addFilterForUser(userForFilter(), filter, filterValue);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     private void showCurrentFilters() {
-        HashMap<String, String> filters = productController.ShowCurrentFilters(user);
+        HashMap<String, String> filters = productController.ShowCurrentFilters(userForFilter());
         System.out.println("current filters : ");
         for (Map.Entry<String, String> entry : filters.entrySet()) {
             System.out.println(entry.getKey() + "      " + entry.getValue());
@@ -157,7 +162,7 @@ public class ProductMenu extends Menu {
 
     private void disableFilter(String filter) {
         try {
-            productController.disableFilterForUser(user, filter);
+            productController.disableFilterForUser(userForFilter(), filter);
             System.out.println("disabled successfully!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
