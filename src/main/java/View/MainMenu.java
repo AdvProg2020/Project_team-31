@@ -183,8 +183,12 @@ public class MainMenu extends Menu {
     }
 
     private void viewCompanyInformation() {
-        String info = sellerController.showCompanyInformation(user);
-        System.out.println("company name : " + info);
+        try {
+            String info = sellerController.showCompanyInformation(user);
+            System.out.println("company name : " + info);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void viewSalesHistory() {
