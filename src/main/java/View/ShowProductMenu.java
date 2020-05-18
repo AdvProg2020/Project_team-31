@@ -34,15 +34,26 @@ public class ShowProductMenu extends Menu {
                 attributes();
             else if (matcher.find())
                 compare(matcher.group(1));
-            else if (getMatcher("^(?i)login$", command).find())
-                loginAndLogOut(true);
-            else if (getMatcher("^(?i)logout$", command).find())
-                loginAndLogOut(false);
+            else if (getMatcher("^(?i)help$", command).find())
+              showProductMenuHelp();
             else if (getMatcher("^(?i)Comments$", command).find())
                 comments();
             else System.out.println("invalid command");
 
         }
+    }
+
+    private void showProductMenuHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("compare [productId]");
+        System.out.println("digest");
+        System.out.println("attributes");
+        System.out.println("comments");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void digest() {
