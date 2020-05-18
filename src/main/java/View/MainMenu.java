@@ -91,6 +91,7 @@ public class MainMenu extends Menu {
 
     private void viewPersonalInformation() throws Exception {
         mustLoginAccess();
+        System.out.println("/////////////////////////////////////////");
         String[] information = loginController.showPersonalInformation(user);
         System.out.println("first name : " + information[0] +
                 "\nlast name : " + information[1] +
@@ -102,6 +103,7 @@ public class MainMenu extends Menu {
         if (user instanceof Seller) {
             viewCompanyInformation();
         }
+        System.out.println("/////////////////////////////////////////");
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher matcher = getMatcher("^(?i)edit\\s+(.+)$", command);
