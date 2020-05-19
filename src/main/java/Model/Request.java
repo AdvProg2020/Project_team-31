@@ -8,7 +8,7 @@ public abstract class Request {
     private static int numberOfRequestCreated = 0;
 
     public Request(String requestId) {
-        numberOfRequestCreated += 1;
+        numberOfRequestCreated ++;
         this.requestId = requestId;
         allRequests.add(this);
     }

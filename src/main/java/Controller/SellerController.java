@@ -33,7 +33,7 @@ public class SellerController {
         if (product.getSellersOfThisProduct().containsKey(user)) {
             throw new Exception("seller has product");
         }
-        new SellerOfProductRequest("SellerOfProductRequest", (Seller) user, product, price);
+        new SellerOfProductRequest("SellerOfProductRequest" + (Request.getNumberOfRequestCreated() + 1), (Seller) user, product, price);
     }
 
     public ArrayList<String> showSalesHistory(User user) {
@@ -166,10 +166,8 @@ public class SellerController {
             products.add(product);
         }
         for (Product product : products) {
-            for (Off off : product.getOffs()) {
-                if (off.getSeller().equals((user))) {
-                    throw new Exception("some products are in another off list");
-                }
+            if(!product.getSellersOfThisProduct().keySet().contains((Seller)user)) {
+                throw new Exception("seller doesn't have some products");
             }
         }
         Off newOff = new Off((Seller) user, "Off" + (Off.getNumberOfOffsCreated() + 1), beginTime, endTime, percent, products);

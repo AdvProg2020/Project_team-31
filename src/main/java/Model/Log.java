@@ -7,7 +7,7 @@ public class Log {
     protected Date date;
     protected Customer customer;
     protected DeliveryStatus deliveryStatus;
-    private static int numberOfLogCreated;
+    private static int numberOfLogCreated = 0;
 
     public Log(String logId, Date date, Customer customer) {
         numberOfLogCreated++;

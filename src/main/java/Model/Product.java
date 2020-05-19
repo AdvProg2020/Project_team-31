@@ -26,6 +26,7 @@ public class Product {
     public Product(String productId, String name, String company, Category category, String information, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
         offs = null;
+        numberOfProductCreated ++;
         this.productId = productId;
         this.name = name;
         this.company = company;
