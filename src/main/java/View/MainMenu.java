@@ -259,6 +259,8 @@ public class MainMenu extends Menu {
                 }
             } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
+            if (!(user instanceof Seller))
+                break;
         }
     }
 
@@ -397,9 +399,10 @@ public class MainMenu extends Menu {
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
+            if (!(user instanceof Seller))
+                break;
         }
     }
 
@@ -549,7 +552,7 @@ public class MainMenu extends Menu {
                     } catch (Exception e) {
                         System.out.println("invalid date format!");
                     }
-                } else if (getMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
+                } else if (safeGetMatcher("^(?i)view\\s+discount\\s+codes$", command).find())
                     viewDiscountCodesForManager();
                 else if (safeGetMatcher("^(?i)manage\\s+requests$", command).find())
                     manageRequests();
@@ -592,6 +595,8 @@ public class MainMenu extends Menu {
                 addManager();
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
+            if (!(user instanceof Manager))
+                break;
         }
     }
 
@@ -639,9 +644,23 @@ public class MainMenu extends Menu {
             Matcher removeMathcer = getMatcher("^(?i)remove\\s+(\\S+)$", command);
             if (removeMathcer.find())
                 removeProductByManager(removeMathcer.group(1));
+            else if (command.equalsIgnoreCase("help"))
+                manageAllProductsHelp();
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
+            if (!(user instanceof Manager))
+                break;
         }
+    }
+
+    private void manageAllProductsHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("remove [productId]");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void removeProductByManager(String productId) {
@@ -714,6 +733,8 @@ public class MainMenu extends Menu {
                 discountCodeHelp();
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
+            if (!(user instanceof Manager))
+                break;
         }
     }
 
@@ -809,7 +830,8 @@ public class MainMenu extends Menu {
                 manageRequestsHelp();
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
-
+            if (!(user instanceof Manager))
+                break;
         }
     }
 
@@ -834,8 +856,7 @@ public class MainMenu extends Menu {
             Matcher accept = getMatcher("^(?i)accept$", command);
             Matcher decline = safeGetMatcher("^(?i)decline$", command);
             if (accept.find())
-                if (accept.find())
-                    acceptRequest(requestId);
+                acceptRequest(requestId);
             if (command.equalsIgnoreCase("help"))
                 detailRequestHelp();
             else if (decline.find())
@@ -896,7 +917,7 @@ public class MainMenu extends Menu {
     private void manageCategories() {
         viewAllDiscountCodes();
         String command;
-        while ((command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+        while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher edit = getMatcher("^(?i)edit\\s+(.+)$", command);
             Matcher add = safeGetMatcher("^(?i)add\\s+(.+)$", command);
             Matcher remove = safeGetMatcher("^(?i)remove\\s+(.+)$", command);
@@ -910,6 +931,8 @@ public class MainMenu extends Menu {
                 removeCategory(remove.group(1));
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
+            if (!(user instanceof Manager))
+                break;
         }
     }
 
@@ -1043,6 +1066,8 @@ public class MainMenu extends Menu {
             } else {
                 System.out.println("invalid amount");
             }
+            if (end || !(user instanceof Customer))
+                break;
         }
 
 
@@ -1095,6 +1120,8 @@ public class MainMenu extends Menu {
                     viewCartHelp();
                 else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                     System.out.println("invalid command");
+                if (end || !(user instanceof Customer))
+                    break;
             }
 
         } catch (Exception e) {
@@ -1173,6 +1200,8 @@ public class MainMenu extends Menu {
                 viewOrdersHelp();
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
+            if (end || !(user instanceof Customer))
+                break;
         }
     }
 
