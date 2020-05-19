@@ -330,18 +330,19 @@ public class MainMenu extends Menu {
         getGeneralData(data);
         System.out.println("please enter the category name");
         String categoryName = scanner.nextLine().trim();
-        HashMap<String, String> categoryData = new HashMap<String, String>();
-        ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(categoryName);
-        for (
-                String categoryFeature : categoryFeatures) {
-            System.out.println("enter the value of : " + categoryFeature);
-            String featureValue = scanner.nextLine().trim();
-            categoryData.put(categoryFeature, featureValue);
-        }
+        HashMap<String, String> categoryData = new HashMap<>();
         try {
+            ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(categoryName);
+            for (
+                    String categoryFeature : categoryFeatures) {
+                System.out.println("enter the value of : " + categoryFeature);
+                String featureValue = scanner.nextLine().trim();
+                categoryData.put(categoryFeature, featureValue);
+            }
             sellerController.addProduct(data, user, categoryData);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+            // System.out.println(e.getMessage());
         }
     }
 
@@ -826,7 +827,7 @@ public class MainMenu extends Menu {
             Matcher matcher = getMatcher("^(?i)detail\\s+(.+)$", command);
             if (matcher.find())
                 detailRequest(matcher.group(1));
-            if (command.equalsIgnoreCase("help"))
+            else if (command.equalsIgnoreCase("help"))
                 manageRequestsHelp();
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
@@ -855,14 +856,18 @@ public class MainMenu extends Menu {
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher accept = getMatcher("^(?i)accept$", command);
             Matcher decline = safeGetMatcher("^(?i)decline$", command);
-            if (accept.find())
+            if (accept.find()) {
                 acceptRequest(requestId);
-            if (command.equalsIgnoreCase("help"))
+                break;
+            } else if (command.equalsIgnoreCase("help"))
                 detailRequestHelp();
-            else if (decline.find())
+            else if (decline.find()) {
                 declineRequest(requestId);
-            else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
+                break;
+            } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
+            if (!(user instanceof Manager))
+                break;
         }
     }
 
@@ -915,7 +920,7 @@ public class MainMenu extends Menu {
     }
 
     private void manageCategories() {
-        viewAllDiscountCodes();
+        showAllCategories();
         String command;
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             Matcher edit = getMatcher("^(?i)edit\\s+(.+)$", command);
@@ -933,6 +938,18 @@ public class MainMenu extends Menu {
                 System.out.println("invalid command");
             if (!(user instanceof Manager))
                 break;
+        }
+    }
+
+    private void showAllCategories() {
+        ArrayList<String> categories;
+        try {
+            categories = managerController.showAllCategories();
+            for (String category : categories) {
+                System.out.println(category);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -1000,6 +1017,12 @@ public class MainMenu extends Menu {
         ArrayList<String> features = new ArrayList<>();
         while (!(command = scanner.nextLine().trim()).equalsIgnoreCase("-1"))
             features.add(command);
+        try {
+            managerController.addCategory(name, features);
+            System.out.println("category " + name + " added");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void removeCategory(String name) {
