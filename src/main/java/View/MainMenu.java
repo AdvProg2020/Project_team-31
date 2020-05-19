@@ -330,8 +330,13 @@ public class MainMenu extends Menu {
         getGeneralData(data);
         System.out.println("please enter the category name");
         String categoryName = scanner.nextLine().trim();
-        HashMap<String, String> categoryData = new HashMap<String, String>();
-        ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(categoryName);
+        HashMap<String, String> categoryData = new HashMap<>();
+        ArrayList<String> categoryFeatures = null;
+        try {
+            categoryFeatures = sellerController.getCategoryFeatures(categoryName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         for (
                 String categoryFeature : categoryFeatures) {
             System.out.println("enter the value of : " + categoryFeature);

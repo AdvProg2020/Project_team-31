@@ -2,9 +2,7 @@ import Controller.LoginController;
 import Controller.ManagerController;
 import Controller.SellerController;
 import Model.*;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +17,7 @@ public class SellerTests {
     Seller seller1;
     Seller seller2;
 
+    @Before
     public void createManager() throws Exception{
         String[] personalInformation = new String[6];
         personalInformation[0] = "ali";
@@ -30,6 +29,7 @@ public class SellerTests {
         modir = (Manager) loginController.login("modir" , "1234abcd", new Card());
     }
 
+    @Before
     public void createTwoSeller() throws Exception{
         String[] personalInformation = new String[6];
         personalInformation[0] = "ali";
@@ -54,6 +54,7 @@ public class SellerTests {
         seller2 = (Seller) loginController.login("seller2", "1234abcd", new Card());
     }
 
+    @Before
     public void createCategory() throws Exception {
         createTwoSeller();
         new Category("Books",new ArrayList<>(Arrays.asList("age","type")));
@@ -105,7 +106,7 @@ public class SellerTests {
             Assert.assertEquals("Seller does'nt have this product", e.getMessage());
         }
     }
-    @After
+    @Test
     public void addOffAndEdit() throws Exception{
         createCategory();
         ArrayList<String> offCustomers = new ArrayList<>();

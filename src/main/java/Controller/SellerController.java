@@ -103,7 +103,7 @@ public class SellerController {
         if(ManagerController.getCategoryByName(productGeneralInformation[3]) == null) {
             throw new Exception("invalid categoryName");
         }
-        Product newProduct = new Product("Product" + (Product.getNumberOfProductCreated() + 1), productGeneralInformation[0], productGeneralInformation[1], ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4], sellers, specialInformationRelatedToCategory);
+        Product newProduct = new Product("Product" + (Product.getNumberOfProductCreated() + 1), productGeneralInformation[0], productGeneralInformation[1], ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4],Integer.parseInt(productGeneralInformation[5]), sellers, specialInformationRelatedToCategory);
         newProduct.setMinimumPrice(Integer.parseInt(productGeneralInformation[2]));
         new ProductRequest("ProductRequest" + (Request.getNumberOfRequestCreated() + 1), newProduct, false);
         ManagerController.getCategoryByName(productGeneralInformation[3]).addProduct(newProduct);
