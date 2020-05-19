@@ -17,7 +17,6 @@ public class SellerTests {
     Seller seller1;
     Seller seller2;
 
-    @Before
     public void createManager() throws Exception{
         String[] personalInformation = new String[6];
         personalInformation[0] = "ali";
@@ -29,7 +28,6 @@ public class SellerTests {
         modir = (Manager) loginController.login("modir" , "1234abcd", new Card());
     }
 
-    @Before
     public void createTwoSeller() throws Exception{
         String[] personalInformation = new String[6];
         personalInformation[0] = "ali";
@@ -45,31 +43,44 @@ public class SellerTests {
         System.out.println(Request.getNumberOfRequestCreated());
         System.out.println(Request.getAllRequest());
 
-
         loginController.register("seller1", "seller", personalInformation);
         loginController.register("seller2", "seller", personalInformation);
-        managerController.acceptRequest("SellerRequest1");
-        managerController.acceptRequest("SellerRequest2");
+        try {
+            managerController.acceptRequest("SellerRequest1");
+            managerController.acceptRequest("SellerRequest2");
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
         seller1 = (Seller) loginController.login("seller1", "1234abcd", new Card());
         seller2 = (Seller) loginController.login("seller2", "1234abcd", new Card());
     }
 
-    @Before
     public void createCategory() throws Exception {
         createTwoSeller();
         new Category("Books",new ArrayList<>(Arrays.asList("age","type")));
         HashMap<String, String> specialInformation = new HashMap<>();
         specialInformation.put("age","50");
         specialInformation.put("type","soft");
-        sellerController.addProduct(new String[]{"math","google","20","Books","book with math name"},seller1,specialInformation);
+        sellerController.addProduct(new String[]{"math","google","20","Books", "book with math name","5"},seller1,specialInformation);
         specialInformation.replace("age", "60");
         specialInformation.replace("type","hard");
-        sellerController.addProduct(new String[]{"astronomy","microsoft","30","Books","book with name astronomy"},seller2,specialInformation);
-        managerController.acceptRequest("ProductRequest3");
-        managerController.acceptRequest("ProductRequest4");
+        sellerController.addProduct(new String[]{"astronomy","microsoft","30","Books","book with name astronomy","4"},seller2,specialInformation);
+        try {
+            managerController.acceptRequest("ProductRequest3");
+            managerController.acceptRequest("ProductRequest4");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println("first book" + Product.getNumberOfProductCreated() + "request" + Request.getNumberOfRequestCreated());
         sellerController.addSellerToProduct(seller1,"Product2",25);
-        managerController.acceptRequest("SellerOfProductRequest5");
+        try {
+            managerController.acceptRequest("SellerOfProductRequest5");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         sellerController.removeProductFromUser(seller1,"Product2");
     }
     @Test
