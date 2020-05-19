@@ -2,6 +2,7 @@ import Controller.LoginController;
 import Controller.ManagerController;
 import Controller.SellerController;
 import Model.*;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -104,7 +105,7 @@ public class SellerTests {
             Assert.assertEquals("Seller does'nt have this product", e.getMessage());
         }
     }
-    @Test
+    @After
     public void addOffAndEdit() throws Exception{
         createCategory();
         ArrayList<String> offCustomers = new ArrayList<>();

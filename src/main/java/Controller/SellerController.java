@@ -89,8 +89,11 @@ public class SellerController {
         return products;
     }
 
-    public ArrayList<String> getCategoryFeatures(String productId) {
-        return ProductController.getProductById(productId).getCategory().getSpecialProperties();
+    public ArrayList<String> getCategoryFeatures(String categoryName) throws Exception{
+        if(ManagerController.getCategoryByName(categoryName) == null ) {
+            throw new  Exception("Invalid categoryName");
+        }
+        return ManagerController.getCategoryByName(categoryName).getSpecialProperties();
     }
 
 
