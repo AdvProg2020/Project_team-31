@@ -326,13 +326,11 @@ public class MainMenu extends Menu {
     }
 
     private void addProducts() {
-        String[] data = new String[10];
+        String[] data = new String[5];
         getGeneralData(data);
-        System.out.println("please enter the category name");
-        String categoryName = scanner.nextLine().trim();
         HashMap<String, String> categoryData = new HashMap<>();
         try {
-            ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(categoryName);
+            ArrayList<String> categoryFeatures = sellerController.getCategoryFeatures(data[3]);
             for (
                     String categoryFeature : categoryFeatures) {
                 System.out.println("enter the value of : " + categoryFeature);
@@ -342,19 +340,23 @@ public class MainMenu extends Menu {
             sellerController.addProduct(data, user, categoryData);
         } catch (Exception e) {
             e.printStackTrace();
-            // System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     private void getGeneralData(String[] data) {
         System.out.println("please enter the product name");
         data[0] = scanner.nextLine().trim();
-        System.out.println("please enter the price");
+        System.out.println("please enter the company name");
         data[1] = scanner.nextLine().trim();
-        System.out.println("please enter the product available number");
+        System.out.println("please enter the price");
         data[2] = scanner.nextLine().trim();
-        System.out.println("please enter the product description");
+        System.out.println("please enter the product category name");
         data[3] = scanner.nextLine().trim();
+        System.out.println("please enter the product description");
+        data[4] = scanner.nextLine().trim();
+        System.out.println("please enter the product available number");
+        data[5] = scanner.nextLine().trim();
     }
 
     private void removeProduct(String productId) {
