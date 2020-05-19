@@ -339,7 +339,6 @@ public class MainMenu extends Menu {
             }
             sellerController.addProduct(data, user, categoryData);
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println(e.getMessage());
         }
     }
