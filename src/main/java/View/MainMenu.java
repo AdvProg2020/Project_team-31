@@ -259,6 +259,8 @@ public class MainMenu extends Menu {
                 }
             } else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
+            if (!(user instanceof Seller))
+                break;
         }
     }
 
@@ -639,9 +641,21 @@ public class MainMenu extends Menu {
             Matcher removeMathcer = getMatcher("^(?i)remove\\s+(\\S+)$", command);
             if (removeMathcer.find())
                 removeProductByManager(removeMathcer.group(1));
+            else if(command.equalsIgnoreCase("help"))
+                manageAllProductsHelp();
             else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                 System.out.println("invalid command");
         }
+    }
+
+    private void manageAllProductsHelp() {
+        System.out.println("///////////////////////help////////////////////");
+        System.out.println("remove [productId]");
+        System.out.println("login");
+        System.out.println("logout");
+        System.out.println("help");
+        System.out.println("back");
+        System.out.println("///////////////////////help////////////////////");
     }
 
     private void removeProductByManager(String productId) {
@@ -834,8 +848,7 @@ public class MainMenu extends Menu {
             Matcher accept = getMatcher("^(?i)accept$", command);
             Matcher decline = safeGetMatcher("^(?i)decline$", command);
             if (accept.find())
-                if (accept.find())
-                    acceptRequest(requestId);
+                acceptRequest(requestId);
             if (command.equalsIgnoreCase("help"))
                 detailRequestHelp();
             else if (decline.find())

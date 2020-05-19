@@ -58,7 +58,7 @@ public class RequestTest {
         try {
             Assert.assertEquals("google", sellerController.showCompanyInformation(FirstTest.firstSeller));
             Assert.assertEquals("name=" + "laptop" + ", price=" + "2000" + ", rate=" + "0.0" + ", status=" + "CREATING", sellerController.showProductsOfThisSeller(FirstTest.firstSeller).get(0));
-            //Assert.assertEquals(2, Request.getNumberOfRequestCreated());
+            Assert.assertEquals(2, Request.getNumberOfRequestCreated());
             Assert.assertEquals(managerController.showRequestDetails("ProductRequest3"),"request to create or edit product with id: " + "Product1" + ", isEditing: " + false + ", seller: " + "sell" + ", newPrice: 2000");
         } catch (Exception e) {
             System.out.println(e.getMessage());
