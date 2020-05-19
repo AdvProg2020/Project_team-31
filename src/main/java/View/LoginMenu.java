@@ -47,6 +47,10 @@ public class LoginMenu extends Menu {
     }
 
     public void register(String type, String username, boolean managerCommand) {
+        if (user != null) {
+            System.out.println("you have already logged in!");
+            return;
+        }
         if (!typeCheck(type)) {
             System.out.println("please enter a valid role");
             return;
@@ -111,7 +115,7 @@ public class LoginMenu extends Menu {
         System.out.println("please enter your password:");
         String password = scanner.nextLine();
         try {
-            user=loginController.login(username, password, card);
+            user = loginController.login(username, password, card);
             System.out.println("you logged in successfully!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
