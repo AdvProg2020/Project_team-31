@@ -1,17 +1,21 @@
 package Model;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class Customer extends User {
-    private ArrayList<DiscountCode> allDiscountCodes = new ArrayList<>();
-    private ArrayList<BuyingLog> allBuyingLogs = new ArrayList<>();
-    private ArrayList<Product> recentShoppingProducts = new ArrayList<>();
+public class Customer extends User implements Serializable {
+    private ArrayList<DiscountCode> allDiscountCodes;
+    private ArrayList<BuyingLog> allBuyingLogs;
+    private ArrayList<Product> recentShoppingProducts;
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
 
     public Customer(String name, String lastName, String username, String emailAddress, String phoneNumber, String password) {
         super(name, lastName, username, emailAddress, phoneNumber, password);
         allCustomers.add(this);
+        recentShoppingProducts = new ArrayList<>();
+        allBuyingLogs = new ArrayList<>();
+        allDiscountCodes = new ArrayList<>();
     }
 
     public ArrayList<DiscountCode> getAllDiscountCodes() {
@@ -48,5 +52,30 @@ public class Customer extends User {
 
     public void removeDiscountCode(DiscountCode discountCode){
         this.allDiscountCodes.remove(discountCode);
+    }
+    public void logToFile(){
+        try{
+            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allCustomers.txt");
+            ObjectOutputStream allCustomers = new ObjectOutputStream(file);
+
+            allCustomers.writeObject(getAllCustomers());
+            allCustomers.flush();
+            allCustomers.close();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void fileToLog(){
+        try{
+            FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allCustomers.txt");
+            ObjectInputStream allCustomers = new ObjectInputStream(file);
+
+            Customer.allCustomers = (ArrayList<Customer>) allCustomers.readObject();
+            allCustomers.close();
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }

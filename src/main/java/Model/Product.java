@@ -1,10 +1,10 @@
 package Model;
 
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
-public class Product {
+public class Product implements Serializable{
     private String productId;
     private String name;
     private String company;
@@ -14,7 +14,7 @@ public class Product {
     private Category category;
     private int sumOfCustomersRate;
     private ArrayList<Comment> allComments = new ArrayList<>();
-    private ArrayList<Off> offs = new ArrayList<>();
+    private ArrayList<Off> offs;
     private int available;
     private ProductAndOffStatus productStatus;
     private String information;
@@ -25,18 +25,25 @@ public class Product {
 
     public Product(String productId, String name, String company, Category category, String information,int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
+        offs = new ArrayList<>();
         offs = null;
         numberOfProductCreated ++;
         this.available = available;
         this.productId = productId;
         this.name = name;
         this.company = company;
+        this.sellersOfThisProduct = new HashMap<>();
         this.sellersOfThisProduct = sellersOfThisProduct;
         this.category = category;
         this.productStatus = ProductAndOffStatus.CREATING;
         this.information = information;
+        this.specialPropertiesRelatedToCategory = new HashMap<>();
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
         allProducts.add(this);
+    }
+
+    public static ArrayList<Product> getAllProducts() {
+        return allProducts;
     }
 
     public static int getNumberOfProductCreated() {
@@ -172,6 +179,31 @@ public class Product {
 
     public void setSpecialPropertiesRelatedToCategory(HashMap<String, String> specialPropertiesRelatedToCategory) {
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
+    }
+    public void logToFile(){
+        try{
+            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allProducts.txt");
+            ObjectOutputStream allProducts = new ObjectOutputStream(file);
+
+            allProducts.writeObject(getAllProducts());
+            allProducts.flush();
+            allProducts.close();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void fileToLog(){
+        try{
+            FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allProducts.txt");
+            ObjectInputStream allProducts = new ObjectInputStream(file);
+
+            Product.allProducts = (ArrayList<Product>) allProducts.readObject();
+            allProducts.close();
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }
 

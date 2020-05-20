@@ -16,6 +16,7 @@ public class ProductRequest extends Request {
         super(id);
         this.product = product;
         this.isEditing = isEditing;
+        specialPropertiesRelatedToCategory = new HashMap<>();
     }
     public void newProductFeatures(Seller seller, int price , int available , String information , HashMap<String , String> specialPropertiesRelatedToCategory){
         this.seller = seller;

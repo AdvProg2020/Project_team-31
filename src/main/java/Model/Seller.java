@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.*;
 import java.util.ArrayList;
 
-public class Seller extends User {
+public class Seller extends User implements Serializable{
     private String companyName;
     private ArrayList<SellingLog> allSellingLogs;
     private ArrayList<Product> onSaleProducts;
@@ -63,5 +64,31 @@ public class Seller extends User {
 
     public  void  addProduct(Product product){
         this.onSaleProducts.add(product);
+    }
+
+    public void logToFile(){
+        try{
+            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allSellers.txt");
+            ObjectOutputStream allSellers = new ObjectOutputStream(file);
+
+            allSellers.writeObject(getAllSellers());
+            allSellers.flush();
+            allSellers.close();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void fileToLog(){
+        try{
+            FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allSellers.txt");
+            ObjectInputStream allSellers = new ObjectInputStream(file);
+
+            Seller.allSellers = (ArrayList<Seller>) allSellers.readObject();
+            allSellers.close();
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }

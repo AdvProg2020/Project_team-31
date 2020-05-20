@@ -1,10 +1,11 @@
 package Model;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class DiscountCode {
+public class DiscountCode implements Serializable{
     private static ArrayList<DiscountCode> allDiscountCodes = new ArrayList<>();
     private String discountCode;
     private Date beginTime;
@@ -16,6 +17,7 @@ public class DiscountCode {
     public DiscountCode(String discountCode) {
         this.discountCode = discountCode;
         allDiscountCodes.add(this);
+        discountTimesForEachCustomer = new HashMap<>();
     }
 
     public String getDiscountCode() {
@@ -62,5 +64,30 @@ public class DiscountCode {
         this.discountPercent = discountPercent;
         this.maximumDiscount = maximumDiscount;
         this.discountTimesForEachCustomer = discountTimesForEachCustomer;
+    }
+    public void logToFile(){
+        try{
+            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allDiscountCodes.txt");
+            ObjectOutputStream allDiscountCodes = new ObjectOutputStream(file);
+
+            allDiscountCodes.writeObject(getAllDiscountCodes());
+            allDiscountCodes.flush();
+            allDiscountCodes.close();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void fileToLog(){
+        try{
+            FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allDiscountCodes.txt");
+            ObjectInputStream allDiscountCodes = new ObjectInputStream(file);
+
+            DiscountCode.allDiscountCodes = (ArrayList<DiscountCode>) allDiscountCodes.readObject();
+            allDiscountCodes.close();
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }

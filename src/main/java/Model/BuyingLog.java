@@ -15,6 +15,7 @@ public class BuyingLog extends Log{
         this.totalPrice = totalPrice;
         this.discountAmount = 0;
         this.customer = customer;
+        this.buyingProducts  = new HashMap<>();
         this.buyingProducts = buyingProducts;
         this.personalInformation = personalInformation;
     }

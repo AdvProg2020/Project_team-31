@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class User {
+public class User implements Serializable {
     private String name;
     private String lastName;
     private String username;
@@ -12,7 +13,7 @@ public class User {
     private String password;
     private int credit;
     private Card card;
-    private HashMap<String, String> filters = new HashMap<>();
+    private HashMap<String, String> filters;
     private static ArrayList<User> allUsers = new ArrayList<>();
 
     public User(String name, String lastName, String username, String emailAddress, String  phoneNumber, String password) {
@@ -24,10 +25,12 @@ public class User {
         this.password = password;
         this.credit = 0;
         allUsers.add(this);
+        filters = new HashMap<>();
     }
 
     public User(String nullString) {
         name = nullString;
+        filters = new HashMap<>();
     }
 
     public HashMap<String, String> getFilters() {
@@ -96,5 +99,31 @@ public class User {
 
     public void deleteUser(){
         allUsers.remove(this);
+    }
+
+    public void logToFile() throws IOException {
+        try{
+            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allUsers.txt");
+            ObjectOutputStream allUsers = new ObjectOutputStream(file);
+
+            allUsers.writeObject(getAllUsers());
+            allUsers.flush();
+            allUsers.close();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void fileToLog(){
+        try{
+            FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allUsers.txt");
+            ObjectInputStream allUsers = new ObjectInputStream(file);
+
+            User.allUsers = (ArrayList<User>) allUsers.readObject();
+            allUsers.close();
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }

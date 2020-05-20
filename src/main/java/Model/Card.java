@@ -6,7 +6,7 @@ public class Card {
     private HashMap<Product, ProductInCard> productsInThisCard;
 
     public Card() {
-        productsInThisCard = new HashMap<>();
+        this.productsInThisCard = new HashMap<>();
     }
 
     public void addProductToCard(ProductInCard productInCard) {

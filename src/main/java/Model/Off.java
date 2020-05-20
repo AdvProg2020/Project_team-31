@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Off {
+public class Off implements Serializable {
     private String offId;
     private Date beginTime;
     private Date endTime;
@@ -22,7 +23,8 @@ public class Off {
         this.endTime = endTime;
         this.offPercent = offAmount;
         this.offStatus = ProductAndOffStatus.CREATING;
-        onSaleProducts = products;
+        this.onSaleProducts = new ArrayList<>();
+        this.onSaleProducts = products;
         allOffs.add(this);
     }
 
@@ -84,5 +86,30 @@ public class Off {
 
     public void setOnSaleProducts(ArrayList<Product> onSaleProducts) {
         this.onSaleProducts = onSaleProducts;
+    }
+    public void logToFile(){
+        try{
+            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allOffs.txt");
+            ObjectOutputStream allOffs = new ObjectOutputStream(file);
+
+            allOffs.writeObject(getAllOffs());
+            allOffs.flush();
+            allOffs.close();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void fileToLog(){
+        try{
+            FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allOffs.txt");
+            ObjectInputStream allOffs = new ObjectInputStream(file);
+
+            Off.allOffs = (ArrayList<Off>) allOffs.readObject();
+            allOffs.close();
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }
