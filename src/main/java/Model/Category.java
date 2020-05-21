@@ -48,7 +48,8 @@ public class Category implements Serializable{
     public void removeProduct(Product product){
         products.remove(product);
     }
-    public void logToFile(){
+
+    public static void logToFile(){
         try{
             FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allCategories.txt");
             ObjectOutputStream allCategories = new ObjectOutputStream(file);
@@ -61,7 +62,7 @@ public class Category implements Serializable{
             e.printStackTrace();
         }
     }
-    public void fileToLog(){
+    public static void fileToLog(){
         try{
             FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allCategories.txt");
             ObjectInputStream allCategories = new ObjectInputStream(file);
