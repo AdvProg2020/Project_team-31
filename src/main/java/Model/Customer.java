@@ -53,7 +53,7 @@ public class Customer extends User implements Serializable {
     public void removeDiscountCode(DiscountCode discountCode){
         this.allDiscountCodes.remove(discountCode);
     }
-    public void logToFile(){
+    public static void logToFile(){
         try{
             FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allCustomers.txt");
             ObjectOutputStream allCustomers = new ObjectOutputStream(file);
@@ -66,7 +66,7 @@ public class Customer extends User implements Serializable {
             e.printStackTrace();
         }
     }
-    public void fileToLog(){
+    public static void fileToLog(){
         try{
             FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allCustomers.txt");
             ObjectInputStream allCustomers = new ObjectInputStream(file);

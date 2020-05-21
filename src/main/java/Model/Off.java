@@ -87,7 +87,7 @@ public class Off implements Serializable {
     public void setOnSaleProducts(ArrayList<Product> onSaleProducts) {
         this.onSaleProducts = onSaleProducts;
     }
-    public void logToFile(){
+    public static void logToFile(){
         try{
             FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allOffs.txt");
             ObjectOutputStream allOffs = new ObjectOutputStream(file);
@@ -100,7 +100,7 @@ public class Off implements Serializable {
             e.printStackTrace();
         }
     }
-    public void fileToLog(){
+    public static void fileToLog(){
         try{
             FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allOffs.txt");
             ObjectInputStream allOffs = new ObjectInputStream(file);

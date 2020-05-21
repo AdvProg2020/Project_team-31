@@ -180,7 +180,7 @@ public class Product implements Serializable{
     public void setSpecialPropertiesRelatedToCategory(HashMap<String, String> specialPropertiesRelatedToCategory) {
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
     }
-    public void logToFile(){
+    public static void logToFile(){
         try{
             FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allProducts.txt");
             ObjectOutputStream allProducts = new ObjectOutputStream(file);
@@ -193,7 +193,7 @@ public class Product implements Serializable{
             e.printStackTrace();
         }
     }
-    public void fileToLog(){
+    public static void fileToLog(){
         try{
             FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allProducts.txt");
             ObjectInputStream allProducts = new ObjectInputStream(file);

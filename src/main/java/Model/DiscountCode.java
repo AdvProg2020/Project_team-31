@@ -65,7 +65,7 @@ public class DiscountCode implements Serializable{
         this.maximumDiscount = maximumDiscount;
         this.discountTimesForEachCustomer = discountTimesForEachCustomer;
     }
-    public void logToFile(){
+    public static void logToFile(){
         try{
             FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allDiscountCodes.txt");
             ObjectOutputStream allDiscountCodes = new ObjectOutputStream(file);
@@ -78,7 +78,7 @@ public class DiscountCode implements Serializable{
             e.printStackTrace();
         }
     }
-    public void fileToLog(){
+    public static void fileToLog(){
         try{
             FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allDiscountCodes.txt");
             ObjectInputStream allDiscountCodes = new ObjectInputStream(file);

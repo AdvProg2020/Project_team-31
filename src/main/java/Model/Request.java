@@ -29,7 +29,7 @@ public abstract class Request implements Serializable {
     public String getRequestId() {
         return requestId;
     }
-    public void logToFile() {
+    public static void logToFile() {
         try{
             FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allRequests.txt");
             ObjectOutputStream allRequests = new ObjectOutputStream(file);
@@ -42,7 +42,7 @@ public abstract class Request implements Serializable {
             e.printStackTrace();
         }
     }
-    public void fileToLog(){
+    public static void fileToLog(){
         try{
             FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allRequests.txt");
             ObjectInputStream allRequests = new ObjectInputStream(file);

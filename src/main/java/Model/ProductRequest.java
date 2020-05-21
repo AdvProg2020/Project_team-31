@@ -50,10 +50,6 @@ public class ProductRequest extends Request {
         return isEditing;
     }
 
-    public void setEditing(boolean editing) {
-        isEditing = editing;
-    }
-
     public Product getProduct() {
         return product;
     }

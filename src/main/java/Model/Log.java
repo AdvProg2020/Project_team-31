@@ -32,12 +32,6 @@ public class Log {
     public String getLogId() {
         return logId;
     }
-    public void sendingStatus(){
-        this.deliveryStatus = DeliveryStatus.sending;
-    }
-    public void deliveredStatus(){
-        this.deliveryStatus = DeliveryStatus.delivered;
-    }
 }
 enum DeliveryStatus{
     sending, delivered, ready

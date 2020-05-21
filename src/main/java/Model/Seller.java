@@ -66,7 +66,7 @@ public class Seller extends User implements Serializable{
         this.onSaleProducts.add(product);
     }
 
-    public void logToFile(){
+    public static void logToFile(){
         try{
             FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allSellers.txt");
             ObjectOutputStream allSellers = new ObjectOutputStream(file);
@@ -79,7 +79,7 @@ public class Seller extends User implements Serializable{
             e.printStackTrace();
         }
     }
-    public void fileToLog(){
+    public static void fileToLog(){
         try{
             FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allSellers.txt");
             ObjectInputStream allSellers = new ObjectInputStream(file);

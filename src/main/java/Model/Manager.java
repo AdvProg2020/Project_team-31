@@ -18,7 +18,8 @@ public class Manager extends User implements Serializable {
     public static ArrayList<Manager> getAllManagers() {
         return allManagers;
     }
-    public void logToFile(){
+
+    public static void logToFile(){
         try{
             FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allManagers.txt");
             ObjectOutputStream allManagers = new ObjectOutputStream(file);
@@ -31,7 +32,7 @@ public class Manager extends User implements Serializable {
             e.printStackTrace();
         }
     }
-    public void fileToLog(){
+    public static void fileToLog(){
         try{
             FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allManagers.txt");
             ObjectInputStream allManagers = new ObjectInputStream(file);

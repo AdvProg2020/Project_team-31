@@ -47,8 +47,4 @@ public class OffRequest extends Request {
     public boolean getIsEditing() {
         return isEditing;
     }
-
-    public void setIsEditing(boolean editing) {
-        isEditing = editing;
-    }
 }

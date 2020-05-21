@@ -101,7 +101,7 @@ public class User implements Serializable {
         allUsers.remove(this);
     }
 
-    public void logToFile() throws IOException {
+    public static void logToFile() throws IOException {
         try{
             FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allUsers.txt");
             ObjectOutputStream allUsers = new ObjectOutputStream(file);
@@ -114,7 +114,7 @@ public class User implements Serializable {
             e.printStackTrace();
         }
     }
-    public void fileToLog(){
+    public static void fileToLog(){
         try{
             FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allUsers.txt");
             ObjectInputStream allUsers = new ObjectInputStream(file);
