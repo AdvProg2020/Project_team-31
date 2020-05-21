@@ -3,8 +3,10 @@ package Controller;
 import Model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class SellerController {
     private static SellerController sellerControllerInstance = new SellerController();
@@ -153,8 +155,9 @@ public class SellerController {
         information.add(String.valueOf(off.getEndTime()));
         information.add(String.valueOf(off.getOffPercent()));
         ArrayList<String> products = (ArrayList<String>) off.getOnSaleProducts().stream()
-                .map(product -> "id: " + product.getProductId() + ", name: " + product.getName());
-        information.add(String.valueOf(products.toArray()));
+                .map(product -> "id: " + product.getProductId() + ", name: " + product.getName())
+                .collect(Collectors.toList());
+        information.add(Arrays.toString(products.toArray()));
         return (String[]) information.toArray();
     }
 
@@ -169,7 +172,7 @@ public class SellerController {
             products.add(product);
         }
         for (Product product : products) {
-            if(!product.getSellersOfThisProduct().keySet().contains((Seller)user)) {
+            if(!product.getSellersOfThisProduct().containsKey((Seller)user)) {
                 throw new Exception("seller doesn't have some products");
             }
         }
@@ -214,7 +217,8 @@ public class SellerController {
             throw new Exception("Seller does'nt have this off");
         }
         ArrayList<Product> newProducts = (ArrayList<Product>) products.stream()
-                .map(product -> ProductController.getProductById(product));
+                .map(ProductController::getProductById)
+                .collect(Collectors.toList());
         off.setOffStatus(ProductAndOffStatus.EDITING);
         (new OffRequest("OffRequest" + (Request.getNumberOfRequestCreated() + 1), off, true)).setOff(beginTime, endTime, percent, newProducts);
     }

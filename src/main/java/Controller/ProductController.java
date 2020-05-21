@@ -5,6 +5,7 @@ import Model.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class ProductController {
     private static ProductController productControllerInstance = new ProductController();
@@ -28,17 +29,19 @@ public class ProductController {
         }
         ArrayList<Product> filteredProducts = new ArrayList<>();
         filteredProducts = (ArrayList<Product>) products.stream()
-                .filter(product -> isContainThisProduct(user.getFilters(), product, category));
+                .filter(product -> isContainThisProduct(user.getFilters(), product, category))
+                .collect(Collectors.toList());
         if (filteredProducts.size() == 0) {
             throw new Exception("There is no product with these filters");
         }
         return (ArrayList<String>) sortProduct(filteredProducts, sorting).stream()
-                .map(product -> "name=" + product.getName() + ", price=" + product.getMinimumPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()));
+                .map(product -> "name=" + product.getName() + ", price=" + product.getMinimumPrice() + ", rate=" + (product.getSumOfCustomersRate() / product.getCustomersWhoRated()))
+                .collect(Collectors.toList());
     }
 
     private ArrayList<Product> sortProduct(ArrayList<Product> filteredProducts, String sorting) {
         ArrayList<Product> sortedProducts = new ArrayList<>();
-        if( sorting == null) {
+        if (sorting == null) {
             HashMap<Product, Double> sortedByView = new HashMap<>();
             for (Product product : filteredProducts) {
                 sortedByView.put(product, (double) product.getViews());
