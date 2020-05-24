@@ -114,12 +114,16 @@ public class MainMenu extends Menu {
                 personalInfoHelp();
             } else if ((!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout")))
                 System.out.println("invalid command");
+            if (user == null)
+                break;
         }
     }
 
     private void personalInfoHelp() {
         System.out.println("///////////////////////help////////////////////");
         System.out.println("edit [field]");
+        System.out.println("login");
+        System.out.println("logout");
         System.out.println("help");
         System.out.println("back");
         System.out.println("///////////////////////help////////////////////");
@@ -146,8 +150,7 @@ public class MainMenu extends Menu {
 
     private void editPersonalInformation(int index, String[] data) {
         String[] newData = new String[7];
-        for (int i = 0; i <= 5; i++)
-            newData[i] = data[i];
+        System.arraycopy(data, 0, newData, 0, 6);
         try {
             if (user instanceof Seller)
                 newData[6] = sellerController.showCompanyInformation(user);
@@ -326,7 +329,7 @@ public class MainMenu extends Menu {
     }
 
     private void addProducts() {
-        String[] data = new String[5];
+        String[] data = new String[6];
         getGeneralData(data);
         HashMap<String, String> categoryData = new HashMap<>();
         try {
@@ -338,6 +341,7 @@ public class MainMenu extends Menu {
                 categoryData.put(categoryFeature, featureValue);
             }
             sellerController.addProduct(data, user, categoryData);
+            System.out.println("product added successfully.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -627,7 +631,13 @@ public class MainMenu extends Menu {
 
     private void deleteUser(String username) {
         try {
+            User delete = LoginController.getUserByUsername(username);
+            if (user == delete) {
+                System.out.println("you can't delete yourself!");
+                return;
+            }
             managerController.deleteUser(username);
+            System.out.println("the user deleted!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -1144,7 +1154,7 @@ public class MainMenu extends Menu {
                     viewCartHelp();
                 else if (!command.equalsIgnoreCase("login") && !command.equalsIgnoreCase("logout"))
                     System.out.println("invalid command");
-                if (end || !(user instanceof Customer))
+                if (user != null && !(user instanceof Customer))
                     break;
             }
 

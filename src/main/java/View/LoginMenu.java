@@ -47,7 +47,7 @@ public class LoginMenu extends Menu {
     }
 
     public void register(String type, String username, boolean managerCommand) {
-        if (user != null) {
+        if (user != null && !managerCommand) {
             System.out.println("you have already logged in!");
             return;
         }
