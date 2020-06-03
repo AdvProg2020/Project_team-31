@@ -89,7 +89,7 @@ public class Off implements Serializable {
     }
     public static void logToFile(){
         try{
-            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allOffs.txt");
+            FileOutputStream file = new FileOutputStream("src/project files/allOffs.txt");
             ObjectOutputStream allOffs = new ObjectOutputStream(file);
 
             allOffs.writeObject(getAllOffs());
@@ -102,7 +102,7 @@ public class Off implements Serializable {
     }
     public static void fileToLog(){
         try{
-            FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allOffs.txt");
+            FileInputStream file = new FileInputStream("src/project files/allOffs.txt");
             ObjectInputStream allOffs = new ObjectInputStream(file);
 
             Off.allOffs = (ArrayList<Off>) allOffs.readObject();

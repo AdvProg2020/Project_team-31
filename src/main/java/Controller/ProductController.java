@@ -103,7 +103,7 @@ public class ProductController {
         ArrayList<String> attributes = new ArrayList<>();
         attributes.add("status: " + product.getProductStatus());
         attributes.add("information: " + product.getInformation());
-        attributes.add("minimumPrice: " + String.valueOf(product.getMinimumPrice()));
+        attributes.add("minimumPrice: " + product.getMinimumPrice());
         attributes.add("category: " + product.getCategory().getName());
         attributes.add("rate:" + product.getSumOfCustomersRate() / product.getCustomersWhoRated());
         attributes.add("available:" + product.getAvailable());

@@ -51,7 +51,7 @@ public class Category implements Serializable{
 
     public static void logToFile(){
         try{
-            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\project files\\allCategories.txt");
+            FileOutputStream file = new FileOutputStream("src/project files/allCategories.txt");
             ObjectOutputStream allCategories = new ObjectOutputStream(file);
 
             allCategories.writeObject(getAllCategories());
@@ -64,7 +64,7 @@ public class Category implements Serializable{
     }
     public static void fileToLog(){
         try{
-            FileInputStream file = new FileInputStream("F:\\universe\\AP\\project files\\allCategories.txt");
+            FileInputStream file = new FileInputStream("src/project files/allCategories.txt");
             ObjectInputStream allCategories = new ObjectInputStream(file);
 
             Category.allCategories = (ArrayList<Category>) allCategories.readObject();

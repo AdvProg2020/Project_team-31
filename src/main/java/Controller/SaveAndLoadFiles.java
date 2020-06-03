@@ -15,7 +15,7 @@ public class SaveAndLoadFiles {
         Request.fileToLog();
     }
 
-    public void end() throws Exception{
+    public void end() {
         User.logToFile();
         Customer.logToFile();
         Seller.logToFile();
