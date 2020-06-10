@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CustomerMainMenu">
+    <children>
+        <GridPane stylesheets="@/Style.css">
+            <children>
+
+                <GridPane GridPane.columnIndex="0">
+               <ScrollPane>
+                  <content>
+                          <Label fx:id="personalInfo" maxHeight="500.0" maxWidth="400.0" minHeight="500.0" minWidth="400.0" prefHeight="500.0" prefWidth="400.0" text="temp personal info" />
+                  </content>
+               </ScrollPane>
+                    <Label fx:id="roleData" maxHeight="100.0" maxWidth="400.0" minHeight="100.0" minWidth="400.0" prefHeight="100.0" prefWidth="400.0" text="temp role data" GridPane.rowIndex="1" />
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </GridPane.margin>
+                </GridPane>
+
+                <GridPane GridPane.columnIndex="1">
+                    <Label text="right" />
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
+
+                </GridPane>
+
+            </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
+
+        </GridPane>
+    </children>
+</Pane>
