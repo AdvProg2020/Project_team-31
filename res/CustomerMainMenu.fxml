@@ -4,50 +4,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CustomerMainMenu">
+<Pane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="CustomerMainMenu" stylesheets="@/Style.css">
     <children>
-        <GridPane stylesheets="@/Style.css">
+        <GridPane hgap="100.0">
             <children>
-
                 <GridPane GridPane.columnIndex="0">
-               <ScrollPane>
-                  <content>
-                          <Label fx:id="personalInfo" maxHeight="500.0" maxWidth="400.0" minHeight="500.0" minWidth="400.0" prefHeight="500.0" prefWidth="400.0" text="temp personal info" />
-                  </content>
-               </ScrollPane>
-                    <Label fx:id="roleData" maxHeight="100.0" maxWidth="400.0" minHeight="100.0" minWidth="400.0" prefHeight="100.0" prefWidth="400.0" text="temp role data" GridPane.rowIndex="1" />
-               <columnConstraints>
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
-               <GridPane.margin>
-                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-               </GridPane.margin>
+                    <ScrollPane>
+                        <content>
+                            <Label fx:id="personalInfo" maxHeight="400.0" maxWidth="400.0" minHeight="400.0"
+                                   minWidth="400.0" prefHeight="400.0" prefWidth="400.0" text="temp personal info"
+                                   GridPane.rowIndex="0"/>
+                        </content>
+                    </ScrollPane>
                 </GridPane>
-
                 <GridPane GridPane.columnIndex="1">
-                    <Label text="right" />
-               <columnConstraints>
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-               </rowConstraints>
+                    <Label fx:id="roleData" maxHeight="100.0" maxWidth="400.0" minHeight="100.0" minWidth="400.0"
+                           prefHeight="100.0" prefWidth="400.0" text="temp role data" GridPane.rowIndex="0"/>
+                    <Label fx:id="credit" maxHeight="100.0" maxWidth="400.0" minHeight="100.0" minWidth="400.0"
+                           prefHeight="100.0" prefWidth="400.0" text="credit" GridPane.rowIndex="1"/>
+                    <Label fx:id="discountCode" maxHeight="100.0" maxWidth="400.0" minHeight="100.0" minWidth="400.0"
+                           prefHeight="100.0" prefWidth="400.0" text="discount code" GridPane.rowIndex="2"/>
+                </GridPane>
+                <GridPane vgap="150.0" GridPane.columnIndex="2">
+                    <Button mnemonicParsing="false" text="سبد" GridPane.rowIndex="0"/>
+                    <Button mnemonicParsing="false" text="سابقه" GridPane.rowIndex="1"/>
+                    <Button mnemonicParsing="false" text="back" GridPane.rowIndex="2"/>
+
 
                 </GridPane>
+
 
             </children>
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-         </rowConstraints>
-
         </GridPane>
     </children>
 </Pane>
