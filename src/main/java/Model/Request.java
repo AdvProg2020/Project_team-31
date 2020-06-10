@@ -31,7 +31,7 @@ public abstract class Request implements Serializable {
     }
     public static void logToFile() {
         try{
-            FileOutputStream file = new FileOutputStream("src/project files/allRequests.txt");
+            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\Project_team-31\\src\\project files/allRequests.txt");
             ObjectOutputStream allRequests = new ObjectOutputStream(file);
 
             allRequests.writeObject(getAllRequest());
@@ -44,7 +44,7 @@ public abstract class Request implements Serializable {
     }
     public static void fileToLog(){
         try{
-            FileInputStream file = new FileInputStream("src/project files/allRequests.txt");
+            FileInputStream file = new FileInputStream("F:\\universe\\AP\\Project_team-31\\src\\project files\\allRequests.txt");
             ObjectInputStream allRequests = new ObjectInputStream(file);
 
             Request.allRequests = (ArrayList<Request>) allRequests.readObject();

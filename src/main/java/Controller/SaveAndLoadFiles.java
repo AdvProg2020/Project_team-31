@@ -2,8 +2,8 @@ package Controller;
 
 import Model.*;
 
-public class SaveAndLoadFiles {
-    public void start() {
+public  class SaveAndLoadFiles {
+    public  static void start() {
         User.fileToLog();
         Customer.fileToLog();
         Manager.fileToLog();
@@ -15,7 +15,7 @@ public class SaveAndLoadFiles {
         Request.fileToLog();
     }
 
-    public void end() {
+    public static void end() {
         User.logToFile();
         Customer.logToFile();
         Seller.logToFile();

@@ -67,7 +67,7 @@ public class DiscountCode implements Serializable{
     }
     public static void logToFile(){
         try{
-            FileOutputStream file = new FileOutputStream("src/project files/allDiscountCodes.txt");
+            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\Project_team-31\\src\\project files/allDiscountCodes.txt");
             ObjectOutputStream allDiscountCodes = new ObjectOutputStream(file);
 
             allDiscountCodes.writeObject(getAllDiscountCodes());
@@ -80,7 +80,7 @@ public class DiscountCode implements Serializable{
     }
     public static void fileToLog(){
         try{
-            FileInputStream file = new FileInputStream("src/project files/allDiscountCodes.txt");
+            FileInputStream file = new FileInputStream("F:\\universe\\AP\\Project_team-31\\src\\project files/allDiscountCodes.txt");
             ObjectInputStream allDiscountCodes = new ObjectInputStream(file);
 
             DiscountCode.allDiscountCodes = (ArrayList<DiscountCode>) allDiscountCodes.readObject();

@@ -68,7 +68,7 @@ public class Seller extends User implements Serializable{
 
     public static void logToFile(){
         try{
-            FileOutputStream file = new FileOutputStream("src/project files/allSellers.txt");
+            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\Project_team-31\\src\\project files/allSellers.txt");
             ObjectOutputStream allSellers = new ObjectOutputStream(file);
 
             allSellers.writeObject(getAllSellers());
@@ -81,7 +81,7 @@ public class Seller extends User implements Serializable{
     }
     public static void fileToLog(){
         try{
-            FileInputStream file = new FileInputStream("src/project files/allSellers.txt");
+            FileInputStream file = new FileInputStream("F:\\universe\\AP\\Project_team-31\\src\\project files/allSellers.txt");
             ObjectInputStream allSellers = new ObjectInputStream(file);
 
             Seller.allSellers = (ArrayList<Seller>) allSellers.readObject();
