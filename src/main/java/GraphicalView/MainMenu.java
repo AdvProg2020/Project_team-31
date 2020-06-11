@@ -37,10 +37,6 @@ public class MainMenu implements Initializable {
     }
 
     public void userAreaChangeScene(MouseEvent mouseEvent) {
-        try {
             runner.setUserAreaScene();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
     }
 }

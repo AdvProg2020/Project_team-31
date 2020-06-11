@@ -45,7 +45,7 @@ public class Runner extends Application {
         // stage.setFullScreen(true);
     }
 
-    public void setUserAreaScene() throws IOException {
+    public void setUserAreaScene() {
         if (dataBase.user == null || dataBase.user instanceof Customer)
             changeScene("CustomerUserArea.fxml");
         else if (dataBase.user instanceof Seller)
@@ -61,7 +61,7 @@ public class Runner extends Application {
             stage.setScene(new Scene(root));
             dataBase.pages.add(pageName);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+           e.printStackTrace();
         }
     }
 
