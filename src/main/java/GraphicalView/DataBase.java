@@ -7,6 +7,7 @@ import java.util.Stack;
 
 public class DataBase {
     public static DataBase dataBase = null;
+    static Runner runner = Runner.getInstance();
 
     public static DataBase getInstance() {
         if (dataBase == null)
@@ -20,4 +21,10 @@ public class DataBase {
     ///////////////////////////////////////////////////////////
     Stack<String> pages = new Stack();
     User user = null;
+
+    public void logout() {
+//        user = null;
+//        pages.clear();
+//        runner.changeScene("MainMenu.fxml");
+    }
 }

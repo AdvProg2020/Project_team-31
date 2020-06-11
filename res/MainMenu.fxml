@@ -22,7 +22,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
                   <Button mnemonicParsing="false" fx:id="mainMenuLogin"  text="login" />
-                  <Button mnemonicParsing="false" text="logout" fx:id="mainMenuLogout" />
+                  <Button mnemonicParsing="false" text="logout" fx:id="logout" />
                </children>
             </HBox>
          </children>

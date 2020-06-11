@@ -25,11 +25,18 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void logoutAlert() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        EventHandler<ActionEvent> event = (e) -> alert.show();
-        if (dataBase.user == null)
+        if (dataBase.user == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            EventHandler<ActionEvent> event = (e) -> alert.show();
             logout.setOnAction(event);
-        alert.setContentText("You have to login");
+            alert.setContentText("You have to login");
+        }else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            EventHandler<ActionEvent> event = (e) -> alert.show();
+            logout.setOnAction(event);
+            dataBase.logout();
+            alert.setContentText("you logged out successfully");
+        }
     }
 
     public void back(MouseEvent mouseEvent) {
