@@ -1,5 +1,6 @@
 package GraphicalView;
 
+import Model.Seller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -29,6 +30,8 @@ public class MainMenu implements Initializable {
         EventHandler<ActionEvent> event = (e) -> alert.show();
         if (dataBase.user == null)
             userArea.setOnAction(event);
+        else if(dataBase.user instanceof Seller)
+
         alert.setContentText("You have to login");
     }
 
