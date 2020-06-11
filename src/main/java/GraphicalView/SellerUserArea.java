@@ -1,5 +1,6 @@
 package GraphicalView;
 
+import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 
 public class SellerUserArea {
@@ -7,5 +8,9 @@ public class SellerUserArea {
 
     public void back(MouseEvent mouseEvent) {
         runner.back();
+    }
+
+    public void editPersonalInfo(ActionEvent actionEvent) {
+        runner.changeScene("EditPersonalInfo.fxml");
     }
 }
