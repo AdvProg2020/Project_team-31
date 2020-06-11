@@ -63,12 +63,20 @@ public class Runner extends Application {
             changeScene("ManagerUserArea.fxml");
     }
 
-    public void changeScene(String fileName) throws IOException {
-        URL url = getClass().getClassLoader().getResource(fileName);
+    public void changeScene(String pageName) throws IOException {
+        URL url = getClass().getClassLoader().getResource(pageName);
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        dataBase.pages.add(url);
+        dataBase.pages.add(pageName);
+    }
+
+    public void back() throws IOException {
+        String pageName = dataBase.pages.pop();
+        URL url = getClass().getClassLoader().getResource(pageName);
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
 
 }

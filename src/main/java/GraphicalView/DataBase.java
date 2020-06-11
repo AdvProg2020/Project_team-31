@@ -18,6 +18,6 @@ public class DataBase {
     }
 
     ///////////////////////////////////////////////////////////
-    Stack<URL> pages = new Stack();
+    Stack<String> pages = new Stack();
     User user = null;
 }
