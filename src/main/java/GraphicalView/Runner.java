@@ -1,9 +1,15 @@
 package GraphicalView;
 
+import Model.Customer;
+import Model.Manager;
+import Model.Seller;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -48,25 +54,21 @@ public class Runner extends Application {
         dataBase.pages.add(url);
     }
 
-    public void setCustomerUserAreaScene() throws IOException {
-        URL url = getClass().getClassLoader().getResource("CustomerUserArea.fxml");
-        Parent customerUserAreaRoot = FXMLLoader.load(url);
-        Scene customerMainMenu = new Scene(customerUserAreaRoot);
-        stage.setScene(customerMainMenu);
+    public void setUserAreaScene() throws IOException {
+        if (dataBase.user == null || dataBase.user instanceof Customer)
+            changeScene("CustomerUserArea.fxml");
+        else if (dataBase.user instanceof Seller)
+            changeScene("SellerUserArea.fxml");
+        else if (dataBase.user instanceof Manager)
+            changeScene("ManagerUserArea.fxml");
+    }
+
+    public void changeScene(String fileName) throws IOException {
+        URL url = getClass().getClassLoader().getResource(fileName);
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
         dataBase.pages.add(url);
     }
-    public void setSellerUserAreaScene() throws IOException {
-        URL url = getClass().getClassLoader().getResource("SellerUserArea.fxml");
-        Parent sellerUserAreaRoot = FXMLLoader.load(url);
-        Scene sellerMainMenu = new Scene(sellerUserAreaRoot);
-        stage.setScene(sellerMainMenu);
-        dataBase.pages.add(url);
-    }
-    public void setManagerUserAreaScene() throws IOException {
-        URL url = getClass().getClassLoader().getResource("ManagerUserArea.fxml");
-        Parent managerUserAreaRoot = FXMLLoader.load(url);
-        Scene managerMainMenu = new Scene(managerUserAreaRoot);
-        stage.setScene(managerMainMenu);
-        dataBase.pages.add(url);
-    }
+
 }

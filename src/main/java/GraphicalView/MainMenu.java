@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,30 +22,11 @@ public class MainMenu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // if there is not any manager make one...
+//         if there is not any manager make one...
         ///////////////////////////////////////////////////////
-        try {
-            userAreaAlert();
-            logoutAlert();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
+        logoutAlert();
     }
 
-    private void userAreaAlert() throws IOException {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        EventHandler<ActionEvent> event = e -> alert.show();
-        if (dataBase.user == null)
-            userArea.setOnAction(event);
-        else if (dataBase.user instanceof Customer)
-            runner.setCustomerUserAreaScene();
-        else if (dataBase.user instanceof Seller)
-            runner.setSellerUserAreaScene();
-        else if (dataBase.user instanceof Manager)
-            runner.setManagerUserAreaScene();
-        alert.setContentText("You have to login");
-    }
 
     private void logoutAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -54,4 +36,11 @@ public class MainMenu implements Initializable {
         alert.setContentText("You have to login");
     }
 
+    public void userAreaChangeScene(MouseEvent mouseEvent) {
+        try {
+            runner.setUserAreaScene();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
