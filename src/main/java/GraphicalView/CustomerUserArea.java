@@ -46,4 +46,8 @@ public class CustomerUserArea implements Initializable {
     public void editPersonalInfo(ActionEvent actionEvent) {
         runner.changeScene("EditPersonalInfo.fxml");
     }
+
+    public void buyingHistory(ActionEvent actionEvent) {
+        runner.changeScene("BuyingHistory.fxml");
+    }
 }

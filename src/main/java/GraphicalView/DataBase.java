@@ -23,8 +23,8 @@ public class DataBase {
     User user = null;
 
     public void logout() {
-//        user = null;
-//        pages.clear();
-//        runner.changeScene("MainMenu.fxml");
+        user = null;
+        pages.clear();
+        runner.changeScene("MainMenu.fxml");
     }
 }
