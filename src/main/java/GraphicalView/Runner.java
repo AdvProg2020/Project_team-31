@@ -14,9 +14,6 @@ public class Runner extends Application {
     public static Stage stage;
     DataBase dataBase = DataBase.getInstance();
 
-    private Runner() {
-    }
-
     public static Runner getInstance() {
         if (runner == null)
             runner = new Runner();
