@@ -1,8 +1,7 @@
 package GraphicalView;
 
+import Model.Customer;
 import Model.User;
-
-import java.net.URL;
 import java.util.Stack;
 
 public class DataBase {
@@ -20,14 +19,15 @@ public class DataBase {
 
     ///////////////////////////////////////////////////////////
     Stack<String> pages = new Stack();
-    User user = null;
+    User user = new Customer("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234");
 
     public void logout() {
         user = null;
         pages.clear();
         runner.changeScene("MainMenu.fxml");
     }
-    public String[] getUserInfo(){
+
+    public String[] getUserInfo() {
         //first name
         // last name
         // password

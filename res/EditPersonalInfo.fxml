@@ -18,37 +18,37 @@
             <children>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <children>
-                        <Label  text="first name" />
-                        <TextField fx:id="firstName"/>
+                        <Label text="first name" />
+                        <TextField fx:id="firstName" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                     <children>
                         <Label text="last name" />
-                        <TextField />
+                        <TextField fx:id="lastName" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
                     <children>
                         <Label text="password" />
-                  <PasswordField />
+                  <PasswordField fx:id="password" />
                     </children>
                 </VBox><VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                 <children>
                     <Label text="email" />
-                    <TextField />
+                    <TextField fx:id="email" />
                 </children>
             </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <children>
                         <Label text="phone number" />
-                        <TextField />
+                        <TextField fx:id="phoneNumber" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <children>
                         <Label text="company name (just for sellers)" />
-                        <TextField />
+                        <TextField fx:id="companyName" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#back" text="back" />
