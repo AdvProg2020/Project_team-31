@@ -5,11 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 
 public class Runner extends Application {
     public static Stage stage;
+    DataBase dataBase = DataBase.getInstance();
 
     public static void main(String[] args) {
         launch(args);
@@ -19,20 +21,21 @@ public class Runner extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         initializeStage();
-        setScene();
+        setMainMenuScene();
         primaryStage.show();
     }
 
-    private void setScene() throws IOException {
-        URL url = getClass().getClassLoader().getResource("CustomerUserArea.fxml");
+    private void setMainMenuScene() throws IOException {
+        URL url = getClass().getClassLoader().getResource("MainMenu.fxml");
         Parent customerMainMenuRoot = FXMLLoader.load(url);
         Scene customerMainMenu = new Scene(customerMainMenuRoot);
         stage.setScene(customerMainMenu);
+        dataBase.pages.add(url);
     }
 
     private void initializeStage() {
-       // stage.setResizable(false);
         stage.setTitle("My shop");
-       // stage.setFullScreen(true);
+        // stage.setResizable(false);
+        // stage.setFullScreen(true);
     }
 }
