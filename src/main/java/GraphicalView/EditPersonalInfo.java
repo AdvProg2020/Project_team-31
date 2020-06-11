@@ -1,6 +1,8 @@
 package GraphicalView;
 
+import Controller.LoginController;
 import Model.Seller;
+import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
@@ -18,9 +20,15 @@ public class EditPersonalInfo implements Initializable {
     public TextField companyName;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
+    LoginController loginController = LoginController.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //initializeFields();
+
+    }
+
+    private void initializeFields() {
         String[] userData = dataBase.getUserInfo();
         firstName.setText(userData[0]);
         lastName.setText(userData[1]);
@@ -30,7 +38,6 @@ public class EditPersonalInfo implements Initializable {
         if (dataBase.user instanceof Seller)
             companyName.setText(userData[5]);
         else companyName.setText("PLEASE ENTER NOTHING!");
-
     }
 
     public void back(ActionEvent actionEvent) {
@@ -38,7 +45,20 @@ public class EditPersonalInfo implements Initializable {
     }
 
     public void submit(ActionEvent actionEvent) {
-        // TODO
+        loginController.editPersonalInformation(dataBase.user, createNewInfo());
+        back(null);
+    }
+
+    private String[] createNewInfo() {
+        String[] newData = new String[6];
+        newData[0] = firstName.getText();
+        newData[1] = lastName.getText();
+        newData[2] = password.getText();
+        newData[3] = email.getText();
+        newData[4] = phoneNumber.getText();
+        if (dataBase.user instanceof Seller)
+            newData[5] = companyName.getText();
+        return newData;
     }
 
 }
