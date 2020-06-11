@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.SaveAndLoadFiles;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,7 +123,7 @@ public class User implements Serializable {
             User.allUsers = (ArrayList<User>) allUsers.readObject();
             allUsers.close();
         }catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            SaveAndLoadFiles.end();
         }
 
     }
