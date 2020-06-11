@@ -24,7 +24,7 @@ public class Runner extends Application {
     }
 
     private void setScene() throws IOException {
-        URL url = getClass().getClassLoader().getResource("CustomerMainMenu.fxml");
+        URL url = getClass().getClassLoader().getResource("CustomerUserArea.fxml");
         Parent customerMainMenuRoot = FXMLLoader.load(url);
         Scene customerMainMenu = new Scene(customerMainMenuRoot);
         stage.setScene(customerMainMenu);
