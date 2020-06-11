@@ -18,8 +18,8 @@
             <children>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <children>
-                        <Label text="first name" />
-                        <TextField />
+                        <Label  text="first name" />
+                        <TextField fx:id="firstName"/>
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="1">

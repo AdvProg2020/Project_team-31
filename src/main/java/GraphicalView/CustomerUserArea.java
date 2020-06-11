@@ -16,12 +16,26 @@ public class CustomerUserArea implements Initializable {
     public Label credit;
     public Label discountCode;
     public Button logout;
+    public Button editPersonalInfo;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logoutAlert();
+        editPersonalInfoAlert();
+    }
+
+    private void editPersonalInfoAlert() {
+        if (dataBase.user == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            EventHandler<ActionEvent> event = (e) -> alert.show();
+            editPersonalInfo.setOnAction(event);
+            alert.setContentText("You have to login");
+        } else {
+            EventHandler<ActionEvent> event = (e) -> runner.changeScene("EditPersonalInfo.fxml");
+            editPersonalInfo.setOnAction(event);
+        }
     }
 
     private void logoutAlert() {
@@ -30,7 +44,7 @@ public class CustomerUserArea implements Initializable {
             EventHandler<ActionEvent> event = (e) -> alert.show();
             logout.setOnAction(event);
             alert.setContentText("You have to login");
-        }else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             EventHandler<ActionEvent> event = (e) -> alert.show();
             logout.setOnAction(event);
@@ -43,9 +57,6 @@ public class CustomerUserArea implements Initializable {
         runner.back();
     }
 
-    public void editPersonalInfo(ActionEvent actionEvent) {
-        runner.changeScene("EditPersonalInfo.fxml");
-    }
 
     public void buyingHistory(ActionEvent actionEvent) {
         runner.changeScene("BuyingHistory.fxml");

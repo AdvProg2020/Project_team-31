@@ -27,4 +27,13 @@ public class DataBase {
         pages.clear();
         runner.changeScene("MainMenu.fxml");
     }
+    public String[] getUserInfo(){
+        //first name
+        // last name
+        // password
+        //email
+        //phone number
+        //company name ?
+        return null;
+    }
 }
