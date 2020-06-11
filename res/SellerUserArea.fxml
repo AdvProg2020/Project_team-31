@@ -1,14 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="GraphicalView.SellerUserArea"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label text="view personal info" />
+            <Label text="view balance" />
+            <Label text="company info" />
+         </children>
+      </VBox>
+       <GridPane GridPane.columnIndex="1">
+           <children>
+               <Button mnemonicParsing="false" text="edit personal info" GridPane.rowIndex="0" />
+               <Button mnemonicParsing="false" text="view sales history" GridPane.rowIndex="1" />
+               <Button mnemonicParsing="false" text="view offs" GridPane.rowIndex="2" />
+           </children>
+         <columnConstraints>
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+       </GridPane>
+       <GridPane GridPane.columnIndex="2">
+           <children>
+               <Button mnemonicParsing="false" text="add product" GridPane.rowIndex="0" />
+               <Button mnemonicParsing="false" text="remove product" GridPane.rowIndex="1" />
+               <Button mnemonicParsing="false" text="manage products" GridPane.rowIndex="2" />
+           </children>
+         <columnConstraints>
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+       </GridPane>
+       <GridPane GridPane.columnIndex="3">
+           <children>
+               <Button mnemonicParsing="false" text="show categories" GridPane.rowIndex="0" />
+               <Button mnemonicParsing="false" text="login" GridPane.rowIndex="1" />
+               <Button mnemonicParsing="false" text="logout" GridPane.rowIndex="2" />
+           </children>
+         <columnConstraints>
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+       </GridPane>
+       <GridPane GridPane.columnIndex="4">
+           <children>
+               <Button mnemonicParsing="false" text="back" GridPane.rowIndex="0" />
+           </children>
+           <columnConstraints>
+               <ColumnConstraints />
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+           </rowConstraints>
+       </GridPane>
+   </children>
+</GridPane>

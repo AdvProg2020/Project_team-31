@@ -38,7 +38,7 @@
             <GridPane GridPane.columnIndex="3">
                 <Button mnemonicParsing="false" text="login" GridPane.rowIndex="0" />
                 <Button mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
-                <Button mnemonicParsing="false" text="back" GridPane.rowIndex="2" />
+                <Button mnemonicParsing="false" text="back" fx:id="#back" GridPane.rowIndex="2" />
             </GridPane>
          </children>
          <columnConstraints>
