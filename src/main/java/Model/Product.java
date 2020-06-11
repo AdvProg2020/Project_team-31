@@ -182,7 +182,7 @@ public class Product implements Serializable{
     }
     public static void logToFile(){
         try{
-            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\Project_team-31\\src\\project files/allProducts.txt");
+            FileOutputStream file = new FileOutputStream("src/project files/allProducts.txt");
             ObjectOutputStream allProducts = new ObjectOutputStream(file);
 
             allProducts.writeObject(getAllProducts());
@@ -195,7 +195,7 @@ public class Product implements Serializable{
     }
     public static void fileToLog(){
         try{
-            FileInputStream file = new FileInputStream("F:\\universe\\AP\\Project_team-31\\src\\project files\\allProducts.txt");
+            FileInputStream file = new FileInputStream("src/project files/allProducts.txt");
             ObjectInputStream allProducts = new ObjectInputStream(file);
 
             Product.allProducts = (ArrayList<Product>) allProducts.readObject();

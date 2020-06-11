@@ -103,7 +103,7 @@ public class User implements Serializable {
 
     public static void logToFile() {
         try{
-            FileOutputStream file = new FileOutputStream("F:\\universe\\AP\\Project_team-31\\src\\project files\\allUsers.txt");
+            FileOutputStream file = new FileOutputStream("src/project files/allUsers.txt");
             ObjectOutputStream allUsers = new ObjectOutputStream(file);
 
             allUsers.writeObject(getAllUsers());
@@ -116,7 +116,7 @@ public class User implements Serializable {
     }
     public static void fileToLog(){
         try{
-            FileInputStream file = new FileInputStream("F:\\universe\\AP\\Project_team-31\\src\\project files\\allUsers.txt");
+            FileInputStream file = new FileInputStream("src/project files/allUsers.txt");
             ObjectInputStream allUsers = new ObjectInputStream(file);
             User.allUsers = (ArrayList<User>) allUsers.readObject();
             allUsers.close();
