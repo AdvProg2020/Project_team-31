@@ -35,7 +35,7 @@ public class Runner extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         initializeStage();
-        setMainMenuScene();
+        changeScene("MainMenu.fxml");
         primaryStage.show();
     }
 
@@ -43,15 +43,6 @@ public class Runner extends Application {
         stage.setTitle("My shop");
         // stage.setResizable(false);
         // stage.setFullScreen(true);
-    }
-
-
-    public void setMainMenuScene() throws IOException {
-        URL url = getClass().getClassLoader().getResource("MainMenu.fxml");
-        Parent mainMenuRoot = FXMLLoader.load(url);
-        Scene mainMenu = new Scene(mainMenuRoot);
-        stage.setScene(mainMenu);
-        dataBase.pages.add(url);
     }
 
     public void setUserAreaScene() throws IOException {
