@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane>
+         <children>
+             <Label text="Label" GridPane.columnIndex="0" />
+
+             <GridPane GridPane.columnIndex="1">
+                 <Button mnemonicParsing="false" text="edit personal info" GridPane.rowIndex="0" />
+                 <Button mnemonicParsing="false" text="manage users" GridPane.rowIndex="1" />
+                 <Button mnemonicParsing="false" text="manage all products" GridPane.rowIndex="2" />
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+            </GridPane>
+            <GridPane GridPane.columnIndex="2">
+                <Button mnemonicParsing="false" text="create discount code" GridPane.rowIndex="0" />
+                <Button mnemonicParsing="false" text="manage requests" GridPane.rowIndex="1" />
+                <Button mnemonicParsing="false" text="manage categories" GridPane.rowIndex="2" />
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+            </GridPane>
+            <GridPane GridPane.columnIndex="3">
+                <Button mnemonicParsing="false" text="login" GridPane.rowIndex="0" />
+                <Button mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
+                <Button mnemonicParsing="false" text="back" GridPane.rowIndex="2" />
+            </GridPane>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
+      </GridPane>
+   </children>
+</Pane>

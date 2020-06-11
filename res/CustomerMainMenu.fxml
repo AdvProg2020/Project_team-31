@@ -1,41 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="CustomerMainMenu" stylesheets="@/Style.css">
+<Pane stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.CustomerMainMenu">
     <children>
-        <GridPane hgap="100.0">
+        <GridPane>
             <children>
                 <GridPane GridPane.columnIndex="0">
-                    <ScrollPane>
-                        <content>
-                            <Label fx:id="personalInfo" maxHeight="400.0" maxWidth="400.0" minHeight="400.0"
-                                   minWidth="400.0" prefHeight="400.0" prefWidth="400.0" text="temp personal info"
-                                   GridPane.rowIndex="0"/>
-                        </content>
-                    </ScrollPane>
+               <GridPane>
+                  <children>
+                                  <Label fx:id="personalInfo" text="temp personal info" />
+                          <Label fx:id="credit" text="credit" GridPane.rowIndex="1" />
+                          <Label fx:id="discountCode" text="discount code" GridPane.rowIndex="2" />
+                  </children>
+                  <columnConstraints>
+                     <ColumnConstraints />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+               </GridPane>
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
                 </GridPane>
                 <GridPane GridPane.columnIndex="1">
-                    <Label fx:id="roleData" maxHeight="100.0" maxWidth="400.0" minHeight="100.0" minWidth="400.0"
-                           prefHeight="100.0" prefWidth="400.0" text="temp role data" GridPane.rowIndex="0"/>
-                    <Label fx:id="credit" maxHeight="100.0" maxWidth="400.0" minHeight="100.0" minWidth="400.0"
-                           prefHeight="100.0" prefWidth="400.0" text="credit" GridPane.rowIndex="1"/>
-                    <Label fx:id="discountCode" maxHeight="100.0" maxWidth="400.0" minHeight="100.0" minWidth="400.0"
-                           prefHeight="100.0" prefWidth="400.0" text="discount code" GridPane.rowIndex="2"/>
+                    <Button fx:id="cartButton" mnemonicParsing="false" text="cart" GridPane.rowIndex="0" />
+                    <Button fx:id="buyingHistoryButton" mnemonicParsing="false" text="buying history" GridPane.rowIndex="1" />
+               <Button mnemonicParsing="false" text="edit personal info" GridPane.rowIndex="3" />
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
                 </GridPane>
-                <GridPane vgap="150.0" GridPane.columnIndex="2">
-                    <Button mnemonicParsing="false" text="سبد" GridPane.rowIndex="0"/>
-                    <Button mnemonicParsing="false" text="سابقه" GridPane.rowIndex="1"/>
-                    <Button mnemonicParsing="false" text="back" GridPane.rowIndex="2"/>
-
-
-                </GridPane>
-
-
+            <GridPane GridPane.columnIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                       <Button fx:id="backButton" mnemonicParsing="false" text="back" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" text="login" />
+                  <Button mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+                
             </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
     </children>
 </Pane>
