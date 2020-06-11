@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Card {
+public class Card implements Serializable {
     private HashMap<Product, ProductInCard> productsInThisCard;
 
     public Card() {
