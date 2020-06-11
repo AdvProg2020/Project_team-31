@@ -56,7 +56,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
-                        <Button fx:id="backButton" mnemonicParsing="false" text="back" GridPane.rowIndex="2"/>
+                        <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#back" text="back" GridPane.rowIndex="2"/>
                         <Button mnemonicParsing="false" text="login"/>
                         <Button mnemonicParsing="false" text="logout" GridPane.rowIndex="1"/>
                     </children>

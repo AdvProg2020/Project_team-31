@@ -54,20 +54,28 @@ public class Runner extends Application {
             changeScene("ManagerUserArea.fxml");
     }
 
-    public void changeScene(String pageName) throws IOException {
-        URL url = getClass().getClassLoader().getResource(pageName);
-        Parent root = FXMLLoader.load(url);
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        dataBase.pages.add(pageName);
+    public void changeScene(String pageName) {
+        try {
+            URL url = getClass().getClassLoader().getResource(pageName);
+            Parent root = FXMLLoader.load(url);
+            stage.setScene(new Scene(root));
+            dataBase.pages.add(pageName);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public void back() throws IOException {
-        String pageName = dataBase.pages.pop();
-        URL url = getClass().getClassLoader().getResource(pageName);
-        Parent root = FXMLLoader.load(url);
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+    public void back() {
+        try {
+            dataBase.pages.pop();
+            String pageName = dataBase.pages.pop();
+            URL url = getClass().getClassLoader().getResource(pageName);
+            Parent root = FXMLLoader.load(url);
+            stage.setScene(new Scene(root));
+            dataBase.pages.push(pageName);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
