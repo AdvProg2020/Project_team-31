@@ -39,6 +39,23 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
+    public ArrayList<Product> showProductInGui(User user, String categoryName) {
+        ArrayList<Product> products;
+        Category category;
+        if (categoryName == null) {
+            products = Product.allProducts;
+            category = null;
+        } else {
+            category = ManagerController.getCategoryByName(categoryName);
+            products = category.getProducts();
+        }
+        ArrayList<Product> filteredProducts;
+        filteredProducts = (ArrayList<Product>) products.stream()
+                .filter(product -> isContainThisProduct(user.getFilters(), product, category))
+                .collect(Collectors.toList());
+        return filteredProducts;
+    }
+
     private ArrayList<Product> sortProduct(ArrayList<Product> filteredProducts, String sorting) {
         ArrayList<Product> sortedProducts = new ArrayList<>();
         if (sorting == null) {

@@ -6,30 +6,37 @@
 <?import javafx.scene.layout.*?>
 
 <Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductsMenu">
-   <children>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0">
-        <buttons>
-            <Button mnemonicParsing="false" text="filters" />
-            <ChoiceBox fx:id="sorting" prefWidth="150.0" value="view" onAction="#changeSort">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="view" />
-                        <String fx:value="price" />
-                        <String fx:value="rate" />
-                    </FXCollections>
-                </items>
-            </ChoiceBox>
-            <ChoiceBox prefWidth="150.0" value="all" fx:id="category" onMouseClicked="#setCategories" onAction="#changeCategory" >
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="all" />
-                    </FXCollections>
-                </items>
-            </ChoiceBox>
-            <Button fx:id="showButton" mnemonicParsing="false" onMouseClicked="#showProducts" text="show" />
-            <Button mnemonicParsing="false" text="back" />
-        </buttons>
-      </ButtonBar>
-      <VBox fx:id="listOfProducts" layoutX="21.0" layoutY="32.0" prefHeight="248.0" prefWidth="335.0" />
-   </children>
+    <children>
+        <ButtonBar prefHeight="40.0" prefWidth="200.0">
+            <buttons>
+                <Button mnemonicParsing="false" text="filters" />
+                <ChoiceBox fx:id="sorting" onAction="#changeSort" prefWidth="150.0" value="view">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="view" />
+                            <String fx:value="price" />
+                            <String fx:value="rate" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+                <ChoiceBox fx:id="category" onAction="#changeCategory" prefWidth="150.0" value="all">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="all" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+                <Button fx:id="showButton" mnemonicParsing="false" onMouseClicked="#showProducts" text="show" />
+                <Button mnemonicParsing="false" text="back" />
+            </buttons>
+        </ButtonBar>
+        <TableView fx:id="tableOfProducts" layoutY="40.0" minWidth="200.0">
+            <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name" />
+                <TableColumn fx:id="viewColumn" prefWidth="75.0" text="view" />
+                <TableColumn fx:id="priceColumn" prefWidth="75" text="Price" />
+                <TableColumn fx:id="rateColumn" prefWidth="75" text="Rate" />
+            </columns>
+        </TableView>
+    </children>
 </Pane>

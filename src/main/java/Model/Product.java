@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Product implements Serializable{
+public class Product implements Serializable {
     private String productId;
     private String name;
     private String company;
@@ -19,15 +19,17 @@ public class Product implements Serializable{
     private ProductAndOffStatus productStatus;
     private String information;
     private int views;
-    private HashMap<String , String > specialPropertiesRelatedToCategory;
+    private HashMap<String, String> specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts = new ArrayList<>();
     private static int numberOfProductCreated = 0;
+    private double rate;
 
-    public Product(String productId, String name, String company, Category category, String information,int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
+    public Product(String productId, String name, String company, Category category, String information, int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
+        rate = 0.0;
         offs = new ArrayList<>();
         offs = null;
-        numberOfProductCreated ++;
+        numberOfProductCreated++;
         this.available = available;
         this.productId = productId;
         this.name = name;
@@ -62,7 +64,6 @@ public class Product implements Serializable{
         return information;
     }
 
-
     public ArrayList<Off> getOffs() {
         return offs;
     }
@@ -91,7 +92,7 @@ public class Product implements Serializable{
         specialPropertiesRelatedToCategory.remove(key);
     }
 
-    public void addSpecialFeature(String key, String  value) {
+    public void addSpecialFeature(String key, String value) {
         specialPropertiesRelatedToCategory.put(key, value);
     }
 
@@ -104,7 +105,7 @@ public class Product implements Serializable{
     }
 
     public void addView() {
-        views ++;
+        views++;
     }
 
     public String getProductId() {
@@ -133,19 +134,21 @@ public class Product implements Serializable{
 
     public void addSumOfCustomersRate(int sumOfCustomersRate) {
         this.sumOfCustomersRate += sumOfCustomersRate;
+        rate = (1.0 * sumOfCustomersRate / getCustomersWhoRated());
     }
 
     public int getCustomersWhoRated() {
-        if(customersWhoRated == 0)
+        if (customersWhoRated == 0)
             return 1;
         return this.customersWhoRated;
     }
 
-    public void addNumberOfCustomerWhoRated(){
+    public void addNumberOfCustomerWhoRated() {
         this.customersWhoRated++;
+        rate = (1.0 * sumOfCustomersRate / getCustomersWhoRated());
     }
 
-    public void removeProduct(){
+    public void removeProduct() {
         allProducts.remove(this);
     }
 
@@ -180,8 +183,9 @@ public class Product implements Serializable{
     public void setSpecialPropertiesRelatedToCategory(HashMap<String, String> specialPropertiesRelatedToCategory) {
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
     }
-    public static void logToFile(){
-        try{
+
+    public static void logToFile() {
+        try {
             FileOutputStream file = new FileOutputStream("src/project files/allProducts.txt");
             ObjectOutputStream allProducts = new ObjectOutputStream(file);
 
@@ -189,18 +193,19 @@ public class Product implements Serializable{
             allProducts.flush();
             allProducts.close();
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public static void fileToLog(){
-        try{
+
+    public static void fileToLog() {
+        try {
             FileInputStream file = new FileInputStream("src/project files/allProducts.txt");
             ObjectInputStream allProducts = new ObjectInputStream(file);
 
             Product.allProducts = (ArrayList<Product>) allProducts.readObject();
             allProducts.close();
-        }catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 

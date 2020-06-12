@@ -1,24 +1,36 @@
 package GraphicalView;
 
 import Controller.ManagerController;
+import Controller.ProductController;
 import Model.Category;
+import Model.Product;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ProductsMenu implements Initializable {
     public VBox listOfProducts;
     public Button showButton;
     public ChoiceBox sorting;
     public ChoiceBox category;
+    public TableView tableOfProducts;
+    public TableColumn rateColumn;
+    public TableColumn nameColumn;
+    public TableColumn viewColumn;
+    public TableColumn priceColumn;
 
     public void showProducts(MouseEvent mouseEvent) {
         //showButton.setDisable(true);
@@ -32,23 +44,73 @@ public class ProductsMenu implements Initializable {
         System.out.println("hello");
     }
 
-    public void setCategories(MouseEvent mouseEvent) {
+    public void setCategories() {
         ArrayList<String> features = new ArrayList<String>();
         features.add("rom");
         ManagerController.getInstance().addCategory("mobile",features);
-        category.setItems(FXCollections.observableArrayList(Category.getAllCategories()));
-        System.out.println("category");
+        ArrayList<String> listOfCategories = (ArrayList<String>) Category.getAllCategories().stream()
+                .map(e -> e.getName())
+                .collect(Collectors.toList());
+        listOfCategories.add(0, "all");
+        category.setItems(FXCollections.observableList(listOfCategories));
+        category.setValue("all");
     }
 
     public void changeCategory(ActionEvent actionEvent) {
-        if (category.getValue() == null)
-            return;
-        else
-            System.out.println(category.getValue());
+        System.out.println(category.getValue());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setCategories();
+        addButtonToTable();
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        viewColumn.setCellValueFactory(new PropertyValueFactory<>("views"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
+        rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
+        tableOfProducts.setItems(getProducts());
+    }
 
+    private void addButtonToTable() {
+        TableColumn<Product, Void> colBtn = new TableColumn("");
+        Callback<TableColumn<Product, Void>, TableCell<Product, Void>> cellFactory = new Callback<TableColumn<Product, Void>, TableCell<Product, Void>>() {
+            @Override
+            public TableCell<Product, Void> call(final TableColumn<Product, Void> param) {
+                final TableCell<Product, Void> cell = new TableCell<Product, Void>() {
+
+                    private final Button btn = new Button("view");
+                    {
+                        btn.setMinWidth(75);
+                        btn.setOnAction((ActionEvent event) -> {
+                            Product product = getTableView().getItems().get(getIndex());
+                            System.out.println("selectedData: " + product.getName());
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        tableOfProducts.getColumns().add(colBtn);
+    }
+
+
+    private ObservableList<Product> getProducts() {
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        products.addAll(ProductController.getInstance().showProductInGui(DataBase.getInstance().user,null));
+        products.add(new Product("a","s10","samsung",ManagerController.getCategoryByName("mobile"), "good", 10, null,null));
+        products.add(new Product("a","a10","samsung",ManagerController.getCategoryByName("mobile"), "good", 10, null,null));
+
+        return products;
     }
 }
