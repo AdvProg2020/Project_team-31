@@ -7,12 +7,17 @@ import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -27,6 +32,7 @@ public class ProductsMenu implements Initializable {
     public TableColumn nameColumn;
     public TableColumn viewColumn;
     public TableColumn priceColumn;
+    public static String categoryName;
 
     public void showProducts(MouseEvent mouseEvent) {
         System.out.println(sorting.getValue());
@@ -43,18 +49,19 @@ public class ProductsMenu implements Initializable {
         ArrayList<String> features = new ArrayList<String>();
         features.add("rom");
         ManagerController.getInstance().addCategory("mobile", features);
-        ArrayList
-                <String> listOfCategories = (ArrayList<String>) Category.getAllCategories().stream()
+        ArrayList<String> listOfCategories = (ArrayList<String>) Category.getAllCategories().stream()
                 .map(e -> e.getName())
                 .collect(Collectors.toList());
         listOfCategories.add(0, "all");
         category.setItems(FXCollections.observableList(listOfCategories));
         category.setValue("all");
+        categoryName = "all";
     }
 
     public void changeCategory(ActionEvent actionEvent) {
         System.out.println(category.getValue());
         tableOfProducts.setItems(getProducts((String) category.getValue()));
+        categoryName = (String) category.getValue();
     }
 
     @Override
@@ -65,6 +72,8 @@ public class ProductsMenu implements Initializable {
         viewColumn.setCellValueFactory(new PropertyValueFactory<>("views"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
         rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
+        new Product("a", "M9", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, null, null);
+        new Product("a", "M10", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, null, null);
         tableOfProducts.setItems(getProducts("all"));
     }
 
@@ -102,12 +111,25 @@ public class ProductsMenu implements Initializable {
     private ObservableList<Product> getProducts(String categoryName) {
         ObservableList<Product> products = FXCollections.observableArrayList();
         products.addAll(ProductController.getInstance().showProductInGui(DataBase.getInstance().user, categoryName));
-        products.add(new Product("a", "s10", "samsung", ManagerController.getCategoryByName("mobile"), "good", 10, null, null));
-        products.add(new Product("a", "a10", "samsung", ManagerController.getCategoryByName("mobile"), "good", 10, null, null));
         return products;
     }
 
     public void back(MouseEvent mouseEvent) {
         Runner.getInstance().back();
+    }
+
+    public void filterRequest(MouseEvent mouseEvent) {
+        Stage filterStage = new Stage();
+        URL url = getClass().getClassLoader().getResource("Filters.fxml");
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("not found");
+        }
+        filterStage.setScene(new Scene(root));
+        filterStage.setTitle("filters");
+        filterStage.show();
     }
 }

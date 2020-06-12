@@ -146,6 +146,14 @@ public class ProductController {
         return availableFilters;
     }
 
+    public ArrayList<String> showAvailableFiltersForUserGui(String categoryName) {
+        ArrayList<String> availableFilters = new ArrayList<>();
+        if (!categoryName.equals("all"))
+            availableFilters.addAll(ManagerController.getCategoryByName(categoryName).getSpecialProperties());
+        availableFilters.addAll(Arrays.asList("minimumPrice", "company", "name", "rate", "availability"));
+        return availableFilters;
+    }
+
     public void addFilterForUser(User user, String filterKey, String filterValue) {
         if (user.getFilters().keySet().contains(filterKey))
             user.removeFilter(filterKey);

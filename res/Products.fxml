@@ -9,7 +9,7 @@
     <children>
         <ButtonBar prefHeight="40.0" prefWidth="200.0">
             <buttons>
-                <Button mnemonicParsing="false" text="filters" />
+                <Button mnemonicParsing="false" text="filters" onMouseClicked="#filterRequest"/>
                 <ChoiceBox fx:id="sorting" onAction="#changeSort" prefWidth="150.0" value="view">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
