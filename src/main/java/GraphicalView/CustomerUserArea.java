@@ -37,13 +37,13 @@ public class CustomerUserArea implements Initializable {
     private void showPersonalInfo() {
         StringBuilder toShow = new StringBuilder();
         String[] information = LoginController.getInstance().showPersonalInformation(dataBase.user);
-        toShow.append("first name    : ").append(information[0]+"\n");
-        toShow.append("last  name    : ").append(information[1]+"\n");
-        toShow.append("username      : ").append(information[2]+"\n");
-        toShow.append("email address : ").append(information[3]+"\n");
-        toShow.append("phone number  : ").append(information[4]+"\n");
-        toShow.append("credit        : ").append(information[5]+"\n");
-        personalInfo.textProperty().setValue(toShow.toString()+"\n");
+        toShow.append("first name : ").append(information[0]).append("\n");
+        toShow.append("last name : ").append(information[1]).append("\n");
+        toShow.append("username : ").append(information[2]).append("\n");
+        toShow.append("email address: ").append(information[3]).append("\n");
+        toShow.append("phone number : ").append(information[4]).append("\n");
+        toShow.append("credit : ").append(information[6]).append("\n");
+        personalInfo.textProperty().setValue(toShow.toString());
     }
 
     private void addBalanceDialog() {
@@ -68,6 +68,7 @@ public class CustomerUserArea implements Initializable {
 
     private void addBalance() {
         CustomerController.getInstance().addCredit(dataBase.user, Integer.parseInt(data.getValue()));
+        showPersonalInfo();
     }
 
     private boolean isInvalid(String text) {
