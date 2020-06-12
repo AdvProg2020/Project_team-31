@@ -24,7 +24,7 @@ public class EditPersonalInfo implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //initializeFields();
+        initializeFields();
 
     }
 
@@ -32,9 +32,9 @@ public class EditPersonalInfo implements Initializable {
         String[] userData = dataBase.getUserInfo();
         firstName.setText(userData[0]);
         lastName.setText(userData[1]);
-        password.setText(userData[2]);
         email.setText(userData[3]);
         phoneNumber.setText(userData[4]);
+        password.setText(userData[2]);
         if (dataBase.user instanceof Seller)
             companyName.setText(userData[5]);
         else companyName.setText("PLEASE ENTER NOTHING!");
@@ -53,9 +53,9 @@ public class EditPersonalInfo implements Initializable {
         String[] newData = new String[6];
         newData[0] = firstName.getText();
         newData[1] = lastName.getText();
-        newData[2] = password.getText();
-        newData[3] = email.getText();
-        newData[4] = phoneNumber.getText();
+        newData[2] = email.getText();
+        newData[3] = phoneNumber.getText();
+        newData[4] = password.getText();
         if (dataBase.user instanceof Seller)
             newData[5] = companyName.getText();
         return newData;
