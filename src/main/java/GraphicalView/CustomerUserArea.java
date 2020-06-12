@@ -37,15 +37,23 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void showDiscountCodes() {
+        if(dataBase.user==null){
+            discountCode.textProperty().setValue("no discount code yet!\n you have to log in first!");
+            return;
+        }
         ArrayList<String> information = CustomerController.getInstance().showDiscountCodes(dataBase.user);
-        String toShow = "";
+        String toShow = "your discount codes : ";
         for (String info : information)
             toShow += info + "\n";
         discountCode.textProperty().setValue(toShow);
     }
 
     private void showPersonalInfo() {
-        StringBuilder toShow = new StringBuilder();
+        if(dataBase.user==null){
+            personalInfo.textProperty().setValue("no personal info yet!\n you have to log in first!");
+            return;
+        }
+        StringBuilder toShow = new StringBuilder("personal information : ");
         String[] information = LoginController.getInstance().showPersonalInformation(dataBase.user);
         toShow.append("first name : ").append(information[0]).append("\n");
         toShow.append("last name : ").append(information[1]).append("\n");
@@ -107,7 +115,7 @@ public class CustomerUserArea implements Initializable {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
             if (dataBase.user == null) {
-                error.setContentText("You have to login");
+                error.setContentText("You have not logged in!");
                 error.show();
             } else {
                 message.setContentText("you logged out successfully");

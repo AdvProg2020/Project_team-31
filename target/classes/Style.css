@@ -1,0 +1,12 @@
+#personalInfo{
+    -fx-background-color: red;
+}
+#roleData{
+    -fx-background-color: blue;
+}
+#credit{
+    -fx-background-color: violet;
+}
+#discountCode{
+    -fx-background-color: orange;
+}
