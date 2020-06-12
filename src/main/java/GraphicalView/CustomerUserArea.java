@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -29,9 +30,18 @@ public class CustomerUserArea implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showPersonalInfo();
+        showDiscountCodes();
         logoutAlert();
         editPersonalInfoAlert();
         addBalanceDialog();
+    }
+
+    private void showDiscountCodes() {
+        ArrayList<String> information = CustomerController.getInstance().showDiscountCodes(dataBase.user);
+        String toShow = "";
+        for (String info : information)
+            toShow += info + "\n";
+        discountCode.textProperty().setValue(toShow);
     }
 
     private void showPersonalInfo() {
