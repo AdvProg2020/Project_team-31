@@ -86,4 +86,8 @@ public class SellerUserArea implements Initializable {
     public void salesHistory(MouseEvent mouseEvent) {
         runner.changeScene("SellerHistory.fxml");
     }
+
+    public void showCategories(MouseEvent mouseEvent) {
+        runner.changeScene("ShowCategories.fxml");
+    }
 }
