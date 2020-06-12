@@ -54,8 +54,8 @@
        </GridPane>
        <GridPane GridPane.columnIndex="3">
            <children>
-               <Button mnemonicParsing="false" text="login" GridPane.rowIndex="1" />
-               <Button mnemonicParsing="false" text="logout" GridPane.rowIndex="2" />
+               <Button mnemonicParsing="false" text="login"  GridPane.rowIndex="1" />
+               <Button mnemonicParsing="false" text="logout" fx:id="logout" GridPane.rowIndex="2" />
                <Button mnemonicParsing="false" text="back" GridPane.rowIndex="3" />
            </children>
          <columnConstraints>

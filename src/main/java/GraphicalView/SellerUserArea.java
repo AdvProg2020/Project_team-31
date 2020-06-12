@@ -16,11 +16,13 @@ import java.util.ResourceBundle;
 public class SellerUserArea implements Initializable {
     public Label personalInfo;
     public Button editPersonaInfo;
+    public Button logout;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logoutAlert();
         showPersonalInfo();
         editPersonalInfoAlert();
     }
@@ -63,5 +65,21 @@ public class SellerUserArea implements Initializable {
             EventHandler<ActionEvent> event = (e) -> runner.changeScene("EditPersonalInfo.fxml");
             editPersonaInfo.setOnAction(event);
         }
+    }
+
+    private void logoutAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (dataBase.user == null) {
+                error.setContentText("You have not logged in!");
+                error.show();
+            } else {
+                message.setContentText("you logged out successfully");
+                message.show();
+                dataBase.logout();
+            }
+        };
+        logout.setOnAction(event);
     }
 }
