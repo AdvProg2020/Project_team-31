@@ -82,4 +82,8 @@ public class SellerUserArea implements Initializable {
         };
         logout.setOnAction(event);
     }
+
+    public void salesHistory(MouseEvent mouseEvent) {
+        runner.changeScene("SellerHistory.fxml");
+    }
 }

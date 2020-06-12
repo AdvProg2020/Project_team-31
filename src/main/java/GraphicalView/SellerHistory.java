@@ -2,7 +2,7 @@ package GraphicalView;
 
 import javafx.event.ActionEvent;
 
-public class SellerBuyingHistory {
+public class SellerHistory {
     Runner runner = Runner.getInstance();
 
     public void back(ActionEvent actionEvent) {
