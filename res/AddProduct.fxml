@@ -61,6 +61,7 @@
                   </VBox>
                </children>
             </HBox>
+            <Button mnemonicParsing="false" text="select file"  onMouseClicked="#selectFile" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
             </children>
         </GridPane>
     </children>
