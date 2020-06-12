@@ -9,7 +9,6 @@
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -24,7 +23,7 @@
       </VBox>
        <GridPane GridPane.columnIndex="1">
            <children>
-               <Button mnemonicParsing="false" text="edit personal info" onMouseClicked="#editPersonalInfo" GridPane.rowIndex="0" />
+               <Button mnemonicParsing="false" onMouseClicked="#editPersonalInfo" text="edit personal info" GridPane.rowIndex="0" />
                <Button mnemonicParsing="false" text="view sales history" GridPane.rowIndex="1" />
                <Button mnemonicParsing="false" text="view offs" GridPane.rowIndex="2" />
            </children>
@@ -35,18 +34,21 @@
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
+            <RowConstraints />
          </rowConstraints>
        </GridPane>
        <GridPane GridPane.columnIndex="2">
            <children>
                <Button mnemonicParsing="false" text="add product" GridPane.rowIndex="0" />
-               <Button mnemonicParsing="false" text="remove product" GridPane.rowIndex="1" />
-               <Button mnemonicParsing="false" text="manage products" GridPane.rowIndex="2" />
+               <Button mnemonicParsing="false" text="manage products" GridPane.rowIndex="4" />
+               <Button mnemonicParsing="false" text="show categories" GridPane.rowIndex="3" />
            </children>
          <columnConstraints>
             <ColumnConstraints />
          </columnConstraints>
          <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
@@ -54,9 +56,9 @@
        </GridPane>
        <GridPane GridPane.columnIndex="3">
            <children>
-               <Button mnemonicParsing="false" text="show categories" GridPane.rowIndex="0" />
                <Button mnemonicParsing="false" text="login" GridPane.rowIndex="1" />
                <Button mnemonicParsing="false" text="logout" GridPane.rowIndex="2" />
+               <Button mnemonicParsing="false" text="back" GridPane.rowIndex="3" />
            </children>
          <columnConstraints>
             <ColumnConstraints />
@@ -66,19 +68,6 @@
             <RowConstraints />
             <RowConstraints />
          </rowConstraints>
-       </GridPane>
-       <GridPane GridPane.columnIndex="4">
-           <children>
-               <Button mnemonicParsing="false" text="back" GridPane.rowIndex="0" />
-           </children>
-           <columnConstraints>
-               <ColumnConstraints />
-           </columnConstraints>
-           <rowConstraints>
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-           </rowConstraints>
        </GridPane>
    </children>
 </GridPane>

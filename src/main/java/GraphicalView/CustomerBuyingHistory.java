@@ -1,7 +1,9 @@
 package GraphicalView;
 
 import Controller.CustomerController;
+import Model.BuyingLog;
 import Model.Customer;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -10,7 +12,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class BuyingHistory implements Initializable {
+public class CustomerBuyingHistory implements Initializable {
     public Label buyingHistory;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();

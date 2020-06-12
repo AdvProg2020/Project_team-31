@@ -29,7 +29,7 @@ public class MainMenu implements Initializable {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
             if (dataBase.user == null) {
-                error.setContentText("You have to login");
+                error.setContentText("You have not logged in!");
                 error.show();
             } else {
                 message.setContentText("you logged out successfully");
