@@ -71,7 +71,8 @@ public class CustomerUserArea implements Initializable {
             addBalance.setOnAction(event);
             alert.setContentText("You have to login");
         } else {
-            TextInputDialog getNumber = new TextInputDialog("how much do you want to add?");
+            TextInputDialog getNumber = new TextInputDialog("enter a number");
+            getNumber.headerTextProperty().setValue("how mach do you want to add?");
             data.bind(getNumber.getEditor().textProperty());
             Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
             EventHandler<ActionEvent> addBalanceEvent = (e) -> addBalance();
