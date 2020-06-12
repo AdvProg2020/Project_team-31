@@ -21,7 +21,7 @@
       </VBox>
        <GridPane GridPane.columnIndex="1">
            <children>
-               <Button mnemonicParsing="false" text="edit personal info" GridPane.rowIndex="0" />
+               <Button mnemonicParsing="false" fx:id="editPersonaInfo" text="edit personal info" GridPane.rowIndex="0" />
                <Button mnemonicParsing="false" text="view sales history" GridPane.rowIndex="1" />
                <Button mnemonicParsing="false" text="view offs" GridPane.rowIndex="2" />
            </children>

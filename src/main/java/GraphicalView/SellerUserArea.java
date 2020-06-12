@@ -3,7 +3,10 @@ package GraphicalView;
 import Controller.LoginController;
 import Controller.SellerController;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
@@ -12,12 +15,14 @@ import java.util.ResourceBundle;
 
 public class SellerUserArea implements Initializable {
     public Label personalInfo;
+    public Button editPersonaInfo;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showPersonalInfo();
+        editPersonalInfoAlert();
     }
 
     private void showPersonalInfo() {
@@ -25,7 +30,7 @@ public class SellerUserArea implements Initializable {
             personalInfo.textProperty().setValue("no personal info yet!\n you have to log in first!");
             return;
         }
-        String company="";
+        String company = "";
         try {
             company = SellerController.getInstance().showCompanyInformation(dataBase.user);
         } catch (Exception e) {
@@ -48,4 +53,15 @@ public class SellerUserArea implements Initializable {
     }
 
 
+    private void editPersonalInfoAlert() {
+        if (dataBase.user == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            EventHandler<ActionEvent> event = (e) -> alert.show();
+            editPersonaInfo.setOnAction(event);
+            alert.setContentText("You have to login");
+        } else {
+            EventHandler<ActionEvent> event = (e) -> runner.changeScene("EditPersonalInfo.fxml");
+            editPersonaInfo.setOnAction(event);
+        }
+    }
 }
