@@ -60,7 +60,7 @@ public class CustomerUserArea implements Initializable {
 
 
     public void buyingHistory(ActionEvent actionEvent) {
-        runner.changeScene("BuyingHistory.fxml");
+        runner.changeScene("CustomerBuyingHistory.fxml");
     }
 
     public void showCart(ActionEvent actionEvent) {
