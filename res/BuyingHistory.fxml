@@ -7,7 +7,7 @@
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label text="buying history" />
+            <Label fx:id="buyingHistory" />
             <Button mnemonicParsing="false" onAction="#back" text="back" />
          </children>
       </VBox>

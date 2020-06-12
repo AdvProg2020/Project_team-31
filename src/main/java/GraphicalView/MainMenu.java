@@ -25,18 +25,19 @@ public class MainMenu implements Initializable {
 
 
     private void logoutAlert() {
-        if (dataBase.user == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            EventHandler<ActionEvent> event = (e) -> alert.show();
-            logout.setOnAction(event);
-            alert.setContentText("You have to login");
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            EventHandler<ActionEvent> event = (e) -> alert.show();
-            logout.setOnAction(event);
-            dataBase.logout();
-            alert.setContentText("you logged out successfully");
-        }
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (dataBase.user == null) {
+                error.setContentText("You have to login");
+                error.show();
+            } else {
+                message.setContentText("you logged out successfully");
+                message.show();
+                dataBase.logout();
+            }
+        };
+        logout.setOnAction(event);
     }
 
     public void userAreaChangeScene(MouseEvent mouseEvent) {

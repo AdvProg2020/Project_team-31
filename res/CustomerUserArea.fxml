@@ -26,7 +26,7 @@
                 <GridPane GridPane.columnIndex="1">
                     <Button fx:id="cartButton" mnemonicParsing="false" onAction="#showCart" text="cart" GridPane.rowIndex="0" />
                     <Button fx:id="buyingHistoryButton" mnemonicParsing="false" onAction="#buyingHistory" text="buying history" GridPane.rowIndex="1" />
-                    <Button mnemonicParsing="false" onAction="#editPersonalInfo" text="edit personal info" GridPane.rowIndex="3" />
+                    <Button mnemonicParsing="false" fx:id="editPersonalInfo" text="edit personal info" GridPane.rowIndex="3" />
                   <columnConstraints>
                      <ColumnConstraints />
                   </columnConstraints>

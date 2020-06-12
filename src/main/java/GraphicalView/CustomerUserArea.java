@@ -16,36 +16,48 @@ public class CustomerUserArea implements Initializable {
     public Label credit;
     public Label discountCode;
     public Button logout;
+    public Button editPersonalInfo;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logoutAlert();
+        editPersonalInfoAlert();
     }
 
-    private void logoutAlert() {
+    private void editPersonalInfoAlert() {
         if (dataBase.user == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             EventHandler<ActionEvent> event = (e) -> alert.show();
-            logout.setOnAction(event);
+            editPersonalInfo.setOnAction(event);
             alert.setContentText("You have to login");
-        }else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            EventHandler<ActionEvent> event = (e) -> alert.show();
-            logout.setOnAction(event);
-            dataBase.logout();
-            alert.setContentText("you logged out successfully");
+        } else {
+            EventHandler<ActionEvent> event = (e) -> runner.changeScene("EditPersonalInfo.fxml");
+            editPersonalInfo.setOnAction(event);
         }
+    }
+
+    private void logoutAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (dataBase.user == null) {
+                error.setContentText("You have to login");
+                error.show();
+            } else {
+                message.setContentText("you logged out successfully");
+                message.show();
+                dataBase.logout();
+            }
+        };
+        logout.setOnAction(event);
     }
 
     public void back(MouseEvent mouseEvent) {
         runner.back();
     }
 
-    public void editPersonalInfo(ActionEvent actionEvent) {
-        runner.changeScene("EditPersonalInfo.fxml");
-    }
 
     public void buyingHistory(ActionEvent actionEvent) {
         runner.changeScene("BuyingHistory.fxml");
