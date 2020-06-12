@@ -3,28 +3,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.SellerUserArea">
+<GridPane prefHeight="247.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.SellerUserArea">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="225.0" minWidth="10.0" prefWidth="192.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="156.0" minWidth="10.0" prefWidth="109.33333333333337" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="128.33333333333331" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="114.0" minWidth="10.0" prefWidth="78.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0">
+      <VBox>
          <children>
-            <Label text="view personal info" />
-            <Label text="view balance" />
-            <Label text="company info" />
+            <Label fx:id="personalInfo" />
          </children>
       </VBox>
        <GridPane GridPane.columnIndex="1">
            <children>
-               <Button mnemonicParsing="false" onMouseClicked="#editPersonalInfo" text="edit personal info" GridPane.rowIndex="0" />
-               <Button mnemonicParsing="false" text="view sales history" GridPane.rowIndex="1" />
+               <Button mnemonicParsing="false" fx:id="editPersonaInfo" text="edit personal info" GridPane.rowIndex="0" />
+               <Button mnemonicParsing="false" text="view sales history" onMouseClicked="#salesHistory" GridPane.rowIndex="1" />
                <Button mnemonicParsing="false" text="view offs" GridPane.rowIndex="2" />
            </children>
          <columnConstraints>
@@ -39,9 +37,9 @@
        </GridPane>
        <GridPane GridPane.columnIndex="2">
            <children>
-               <Button mnemonicParsing="false" text="add product" GridPane.rowIndex="0" />
+               <Button mnemonicParsing="false" text="add product" onMouseClicked="#addProduct" GridPane.rowIndex="0" />
                <Button mnemonicParsing="false" text="manage products" GridPane.rowIndex="4" />
-               <Button mnemonicParsing="false" text="show categories" GridPane.rowIndex="3" />
+               <Button mnemonicParsing="false" text="show categories" onMouseClicked="#showCategories" GridPane.rowIndex="3" />
            </children>
          <columnConstraints>
             <ColumnConstraints />
@@ -56,14 +54,15 @@
        </GridPane>
        <GridPane GridPane.columnIndex="3">
            <children>
-               <Button mnemonicParsing="false" text="login" GridPane.rowIndex="1" />
-               <Button mnemonicParsing="false" text="logout" GridPane.rowIndex="2" />
-               <Button mnemonicParsing="false" text="back" GridPane.rowIndex="3" />
+               <Button mnemonicParsing="false" text="login"  GridPane.rowIndex="1" />
+               <Button mnemonicParsing="false" text="logout" fx:id="logout" GridPane.rowIndex="2" />
+               <Button mnemonicParsing="false" text="back" onMouseClicked="#back" GridPane.rowIndex="3" />
            </children>
          <columnConstraints>
             <ColumnConstraints />
          </columnConstraints>
          <rowConstraints>
+            <RowConstraints />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />

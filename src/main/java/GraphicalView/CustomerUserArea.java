@@ -42,7 +42,7 @@ public class CustomerUserArea implements Initializable {
             return;
         }
         ArrayList<String> information = CustomerController.getInstance().showDiscountCodes(dataBase.user);
-        String toShow = "your discount codes : ";
+        String toShow = "your discount codes : \n";
         for (String info : information)
             toShow += info + "\n";
         discountCode.textProperty().setValue(toShow);
@@ -53,7 +53,7 @@ public class CustomerUserArea implements Initializable {
             personalInfo.textProperty().setValue("no personal info yet!\n you have to log in first!");
             return;
         }
-        StringBuilder toShow = new StringBuilder("personal information : ");
+        StringBuilder toShow = new StringBuilder("personal information : \n");
         String[] information = LoginController.getInstance().showPersonalInformation(dataBase.user);
         toShow.append("first name : ").append(information[0]).append("\n");
         toShow.append("last name : ").append(information[1]).append("\n");
