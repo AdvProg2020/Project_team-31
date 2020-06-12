@@ -11,9 +11,8 @@
                     <GridPane>
                         <children>
                             <Label fx:id="personalInfo" text="some data" />
-                            <Label fx:id="credit" text="some data" GridPane.rowIndex="1" />
                             <Label fx:id="discountCode" text="some data" GridPane.rowIndex="2" />
-                     <Button mnemonicParsing="false" text="add balance" GridPane.rowIndex="3" />
+                     <Button mnemonicParsing="false" text="add balance" fx:id="addBalance" GridPane.rowIndex="3" />
                         </children>
                   <columnConstraints>
                      <ColumnConstraints />
