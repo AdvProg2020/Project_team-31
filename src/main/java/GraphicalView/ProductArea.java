@@ -31,7 +31,7 @@ public class ProductArea implements Initializable {
     private Product product;
     private Seller seller;
     private CustomerController customerController = CustomerController.getInstance();
-    private ArrayList<String> commentsToString = product.getAllCommentsToString();
+    private ArrayList<String> commentsToString = ProductController.getInstance().showCommentAboutProduct(product);
     public void addThisProductToCard(ActionEvent actionEvent) throws Exception {
         customerController.addProductToCard(user , card , product , seller.getUsername());
     }
@@ -98,7 +98,6 @@ public class ProductArea implements Initializable {
 
     public void commentThisProduct(ActionEvent actionEvent) {
         ProductController.getInstance().addComment(user , product , CommentTitle.getText() , CommentContent.getText() );
-        commentsToString.add(CommentTitle.getText() + "\n" +CommentContent.getText());
         update();
     }
 
@@ -112,6 +111,7 @@ public class ProductArea implements Initializable {
     public void update(){
         rate.setText("rate : " + product.getRate());
         price.setText("price : " + product.getMinimumPrice());
+        commentsToString = ProductController.getInstance().showCommentAboutProduct(product);
         if (commentsToString != null)
         commentsList.setItems((ObservableList) commentsToString);
     }
