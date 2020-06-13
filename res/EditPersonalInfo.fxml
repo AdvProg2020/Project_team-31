@@ -54,7 +54,7 @@
                         <Button mnemonicParsing="false" onAction="#submit" text="submit" />
                         <Button mnemonicParsing="false" onAction="#back" text="back" />
                         <Button mnemonicParsing="false" text="login" />
-                        <Button mnemonicParsing="false" text="logout" />
+                        <Button mnemonicParsing="false" text="logout" fx:id="logout" />
                      </children>
                   </HBox>
                     </children>
