@@ -37,7 +37,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void showDiscountCodes() {
-        if(dataBase.user==null){
+        if (dataBase.user == null) {
             discountCode.textProperty().setValue("no discount code yet!\n you have to log in first!");
             return;
         }
@@ -49,7 +49,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void showPersonalInfo() {
-        if(dataBase.user==null){
+        if (dataBase.user == null) {
             personalInfo.textProperty().setValue("no personal info yet!\n you have to log in first!");
             return;
         }
@@ -71,8 +71,8 @@ public class CustomerUserArea implements Initializable {
             addBalance.setOnAction(event);
             alert.setContentText("You have to login");
         } else {
-            TextInputDialog getNumber = new TextInputDialog("enter a number");
-            getNumber.headerTextProperty().setValue("how mach do you want to add?");
+            TextInputDialog getNumber = new TextInputDialog();
+            getNumber.getEditor().setPromptText("how mach do you want to add?");
             data.bind(getNumber.getEditor().textProperty());
             Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
             EventHandler<ActionEvent> addBalanceEvent = (e) -> addBalance();
@@ -92,11 +92,12 @@ public class CustomerUserArea implements Initializable {
 
     private boolean isInvalid(String text) {
         try {
-            Integer.parseInt(text);
+            if (Integer.parseInt(text) > 0)
             return false;
-        } catch (Exception e) {
-            return true;
+        } catch (Exception ignored) {
         }
+        return true;
+
     }
 
     private void editPersonalInfoAlert() {

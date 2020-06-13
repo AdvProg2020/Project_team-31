@@ -85,7 +85,6 @@ public class CreateDiscountCode implements Initializable {
             }
         });
         gridPane.add(username, 0, 0);
-        gridPane.add(new Label("To:"), 1, 0);
         gridPane.add(number, 2, 0);
         dialog.getDialogPane().setContent(gridPane);
         Platform.runLater(() -> username.requestFocus());

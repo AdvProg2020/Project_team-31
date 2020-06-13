@@ -27,8 +27,8 @@
                     </rowConstraints>
                     <children>
                         <Button mnemonicParsing="false" text="login" />
-                        <Button mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" text="back" GridPane.rowIndex="3" />
+                        <Button fx:id="logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" onAction="#back" text="back" GridPane.rowIndex="3" />
                   <Button mnemonicParsing="false" text="purchase" GridPane.rowIndex="2" />
                     </children>
                 </GridPane>
