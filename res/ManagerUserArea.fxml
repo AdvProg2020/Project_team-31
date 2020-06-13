@@ -7,10 +7,9 @@
    <children>
       <GridPane>
          <children>
-             <Label text="Label" GridPane.columnIndex="0" />
-
+             <Label fx:id="personalInfo" GridPane.columnIndex="0" />
              <GridPane GridPane.columnIndex="1">
-                 <Button mnemonicParsing="false" text="edit personal info" onMouseClicked="#editPersonalInfo" GridPane.rowIndex="0" />
+                 <Button mnemonicParsing="false" onAction="#editPersonalInfo" text="edit personal info" GridPane.rowIndex="0" />
                  <Button mnemonicParsing="false" text="manage users" GridPane.rowIndex="1" />
                  <Button mnemonicParsing="false" text="manage all products" GridPane.rowIndex="2" />
                <columnConstraints>
@@ -23,7 +22,7 @@
                </rowConstraints>
             </GridPane>
             <GridPane GridPane.columnIndex="2">
-                <Button mnemonicParsing="false" text="create discount code" GridPane.rowIndex="0" />
+                <Button mnemonicParsing="false" onAction="#createDiscountCode" text="create discount code" GridPane.rowIndex="0" />
                 <Button mnemonicParsing="false" text="manage requests" GridPane.rowIndex="1" />
                 <Button mnemonicParsing="false" text="manage categories" GridPane.rowIndex="2" />
                <columnConstraints>
@@ -37,8 +36,16 @@
             </GridPane>
             <GridPane GridPane.columnIndex="3">
                 <Button mnemonicParsing="false" text="login" GridPane.rowIndex="0" />
-                <Button mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
-                <Button mnemonicParsing="false" text="back" fx:id="#back" GridPane.rowIndex="2" />
+                <Button fx:id="logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
+                <Button mnemonicParsing="false" onMouseClicked="#back" text="back" GridPane.rowIndex="2" />
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
             </GridPane>
          </children>
          <columnConstraints>
