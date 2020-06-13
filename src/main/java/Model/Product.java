@@ -47,6 +47,14 @@ public class Product implements Serializable {
         allProducts.add(this);
     }
 
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
     public Product(ImageView imageView, String productId, String name, String company, Category category, String information, int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         this.imageView = imageView;
         views = 0;

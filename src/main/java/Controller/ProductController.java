@@ -181,6 +181,17 @@ public class ProductController {
         return offs;
     }
 
+    public ArrayList<OffedProduct> showOffProductInGui() {
+        SellerController.getInstance().checkTimeOfOffs();
+        ArrayList<OffedProduct> offedProduct = new ArrayList<>();
+        for (Off off : Off.getAllOffs()) {
+            for (Product saleProduct : off.getOnSaleProducts()) {
+                offedProduct.add(new OffedProduct(saleProduct, off.getEndTime(), saleProduct.getSellersOfThisProduct().get(off.getSeller()), off.getOffPercent()));
+            }
+        }
+        return offedProduct;
+    }
+
     private Boolean isContainThisProduct(HashMap<String, String> filters, Product product, Category category) {
         HashMap<String, String> specialPropertiesOfProduct = product.getSpecialPropertiesRelatedToCategory();
         for (String key : filters.keySet()) {

@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.*?>
 
 <Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductsMenu">
-    <children>
         <ButtonBar prefHeight="40.0" prefWidth="200.0">
             <buttons>
-                <Button mnemonicParsing="false" text="filters" onMouseClicked="#filterRequest"/>
+                <Button mnemonicParsing="false" onMouseClicked="#filterRequest" text="filters" />
                 <ChoiceBox fx:id="category" onAction="#changeCategory" prefWidth="150.0" value="all">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
@@ -17,10 +16,10 @@
                         </FXCollections>
                     </items>
                 </ChoiceBox>
-                <Button mnemonicParsing="false" text="back" onMouseClicked="#back"/>
+                <Button mnemonicParsing="false" onMouseClicked="#back" text="back" />
             </buttons>
         </ButtonBar>
-        <TableView fx:id="tableOfProducts" layoutY="40.0" minWidth="200.0">
+        <TableView fx:id="tableOfProducts" layoutY="40.0" minWidth="200.0" prefHeight="361.0" prefWidth="377.0">
             <columns>
                 <TableColumn fx:id="imageColumn" prefWidth="75.0" text="image" />
                 <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name" />
@@ -29,5 +28,4 @@
                 <TableColumn fx:id="rateColumn" prefWidth="75" text="Rate" />
             </columns>
         </TableView>
-    </children>
 </Pane>

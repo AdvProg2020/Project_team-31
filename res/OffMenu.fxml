@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane minWidth="597.0" prefHeight="381.0" prefWidth="597.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.OffMenu">
+    <TableView fx:id="tableOfProducts" layoutY="7.0" minWidth="200.0" prefHeight="322.0" prefWidth="527.0">
+        <columns>
+            <TableColumn fx:id="imageColumn" prefWidth="75.0" text="image" />
+            <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name" />
+            <TableColumn fx:id="viewColumn" prefWidth="75" text="view" />
+            <TableColumn fx:id="priceColumn" prefWidth="75" text="Price" />
+            <TableColumn fx:id="rateColumn" prefWidth="75" text="Rate" />
+            <TableColumn fx:id="timeColumn" prefWidth="75" text="remain time" />
+            <TableColumn fx:id="percentColumn" prefWidth="75" text="percent" />
+        </columns>
+    </TableView>
+   <Button layoutX="31.0" layoutY="342.0" minWidth="50" mnemonicParsing="false" onMouseClicked="#back" text="back" />
+</Pane>
