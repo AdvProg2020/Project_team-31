@@ -1,5 +1,6 @@
 package GraphicalView;
 
+import Controller.ManagerController;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,6 +13,10 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -96,8 +101,17 @@ public class CreateDiscountCode implements Initializable {
         });
     }
 
-    public void submit(ActionEvent actionEvent) {
-
+    public void submit(ActionEvent actionEvent) throws Exception {
+        ManagerController controller = ManagerController.getInstance();
+        LocalDate localDate1 = startDate.getValue();
+        Instant instant = Instant.from(localDate1.atStartOfDay(ZoneId.systemDefault()));
+        Date startDate1 = Date.from(instant);
+        LocalDate localDate2 = endDate.getValue();
+        Instant instant2 = Instant.from(localDate2.atStartOfDay(ZoneId.systemDefault()));
+        Date endDate2 = Date.from(instant2);
+        int percent = Integer.parseInt(percentage.getText());
+        int maximumValue = Integer.parseInt(maximumPrice.getText());
+        controller.createDiscountCode(code.getText(), startDate1, endDate2, percent, maximumValue, usernameAndNumber);
     }
 
     public void login(ActionEvent actionEvent) {
