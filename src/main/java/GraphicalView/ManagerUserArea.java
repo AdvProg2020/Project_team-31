@@ -25,7 +25,6 @@ public class ManagerUserArea implements Initializable {
     }
 
     private void logoutAlert() {
-        Alert error = new Alert(Alert.AlertType.ERROR);
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
             message.setContentText("you logged out successfully");
