@@ -25,7 +25,7 @@ public class DataBase {
 
     ///////////////////////////////////////////////////////////
     Stack<String> pages = new Stack();
-    Card card;
+    User tempUser = new User();
     User user = new Seller("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234","samsung");
     public void logout() {
         user = null;

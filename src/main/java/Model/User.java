@@ -33,6 +33,9 @@ public class User implements Serializable {
         filters = new HashMap<>();
     }
 
+    public User() {
+    }
+
     public HashMap<String, String> getFilters() {
         return filters;
     }
