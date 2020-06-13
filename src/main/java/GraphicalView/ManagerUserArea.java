@@ -58,4 +58,7 @@ public class ManagerUserArea implements Initializable {
         personalInfo.textProperty().setValue(toShow.toString());
     }
 
+    public void createDiscountCode(ActionEvent actionEvent) {
+        runner.changeScene("CreateDiscountCode.fxml");
+    }
 }
