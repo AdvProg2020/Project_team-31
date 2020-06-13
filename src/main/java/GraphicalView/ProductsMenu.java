@@ -34,6 +34,7 @@ public class ProductsMenu implements Initializable {
     private static TableView tempTable;
     public static Stage filterStageToSave;
     public TableColumn imageColumn;
+    public static Product product;
 
     public void setCategories() {
         ArrayList<String> features = new ArrayList<>();
@@ -79,8 +80,8 @@ public class ProductsMenu implements Initializable {
                     {
                         btn.setMinWidth(75);
                         btn.setOnAction((ActionEvent event) -> {
-                            Product product = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + product.getName());
+                            product = getTableView().getItems().get(getIndex());
+                            showDetail();
                         });
                     }
 
@@ -99,6 +100,10 @@ public class ProductsMenu implements Initializable {
         };
         colBtn.setCellFactory(cellFactory);
         tableOfProducts.getColumns().add(colBtn);
+    }
+
+    private void showDetail() {
+        Runner.getInstance().changeScene("ProductArea.fxml");
     }
 
     private static ObservableList<Product> getProducts(String categoryName) {

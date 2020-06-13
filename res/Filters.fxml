@@ -3,17 +3,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane prefHeight="302.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.FilterMenu" stylesheets="@/Style.css">
-    <VBox fx:id="currentFilters" minHeight="200.0" minWidth="180"/>
-    <ChoiceBox fx:id="available" layoutX="243.0" layoutY="14.0" prefWidth="150.0"/>
-    <ChoiceBox fx:id="disable" layoutX="414.0" layoutY="14.0" prefWidth="150.0"/>
-    <Label layoutX="243.0" layoutY="39.0" prefHeight="41.0" prefWidth="150.0"
-           text="Enter the value or use [%d-%d] for the interval" wrapText="true"/>
-    <TextField fx:id="valueOfFilter" layoutX="244.0" layoutY="88.0"/>
-    <Button layoutX="244.0" layoutY="126.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#setNewFilter"
-            text="addFilter"/>
-    <Button layoutX="447.0" layoutY="65.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#removeFilter"
-            text="removeFilter"/>
-    <Button layoutX="244.0" layoutY="238.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#exit" text="Exit"/>
+<Pane prefHeight="302.0" prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.FilterMenu">
+    <VBox fx:id="currentFilters" minHeight="200.0" minWidth="180" />
+    <ChoiceBox fx:id="available" layoutX="243.0" layoutY="53.0" prefWidth="150.0" />
+    <ChoiceBox fx:id="disable" layoutX="414.0" layoutY="53.0" prefWidth="150.0" />
+    <Label layoutX="243.0" layoutY="106.0" prefHeight="41.0" prefWidth="150.0" text="Enter the value or use [%d-%d] for the interval" wrapText="true" />
+    <TextField fx:id="valueOfFilter" layoutX="244.0" layoutY="151.0" />
+    <Button layoutX="244.0" layoutY="184.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#setNewFilter" text="addFilter" />
+    <Button layoutX="445.0" layoutY="131.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#removeFilter" text="removeFilter" />
+    <Button layoutX="451.0" layoutY="238.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#exit" text="Exit" />
+    <Label layoutX="241.0" layoutY="14.0" text="set new filter" />
+    <Label layoutX="415.0" layoutY="14.0" text="disable filter" />
 </Pane>

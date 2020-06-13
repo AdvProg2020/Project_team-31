@@ -31,15 +31,15 @@ public class ProductArea implements Initializable {
     private Product product;
     private Seller seller;
     private CustomerController customerController = CustomerController.getInstance();
-    private ArrayList<String> commentsToString = product.getAllCommentsToString();
+    private ArrayList<String> commentsToString ;
     public void addThisProductToCard(ActionEvent actionEvent) throws Exception {
         customerController.addProductToCard(user , card , product , seller.getUsername());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        logout();
-        login();
+        product = ProductsMenu.product;
+        commentsToString = product.getAllCommentsToString();
         if (product.getAllComments() != null)
         commentsList.setItems((ObservableList) commentsToString);
         if (DataBase.getInstance().user != null){

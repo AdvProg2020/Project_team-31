@@ -16,8 +16,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" text="products" />
-            <Button mnemonicParsing="false" text="Offs" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" text="products" onMouseClicked="#products"/>
+            <Button mnemonicParsing="false" text="Offs" GridPane.rowIndex="1" onMouseClicked="#offs"/>
             <Button fx:id="userArea" mnemonicParsing="false" onMouseClicked="#userAreaChangeScene" text="User area" GridPane.rowIndex="2" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>

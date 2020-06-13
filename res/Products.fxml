@@ -19,7 +19,7 @@
                 <Button mnemonicParsing="false" onMouseClicked="#back" text="back" />
             </buttons>
         </ButtonBar>
-        <TableView fx:id="tableOfProducts" layoutY="40.0" minWidth="200.0" prefHeight="361.0" prefWidth="377.0">
+        <TableView fx:id="tableOfProducts" layoutY="40.0" minWidth="200.0" prefHeight="361.0">
             <columns>
                 <TableColumn fx:id="imageColumn" prefWidth="75.0" text="image" />
                 <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name" />
