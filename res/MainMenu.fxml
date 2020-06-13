@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.MainMenu">
+<Pane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.MainMenu" stylesheets="@/Style.css">
    <children>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
         <columnConstraints>
@@ -18,11 +18,11 @@
          <children>
             <Button mnemonicParsing="false" text="products" />
             <Button mnemonicParsing="false" text="Offs" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" text="User area" fx:id="userArea" onMouseClicked="#userAreaChangeScene" GridPane.rowIndex="2" />
+            <Button fx:id="userArea" mnemonicParsing="false" onMouseClicked="#userAreaChangeScene" text="User area" GridPane.rowIndex="2" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Button mnemonicParsing="false" fx:id="mainMenuLogin"  text="login" />
-                  <Button mnemonicParsing="false" text="logout" fx:id="logout" />
+                  <Button fx:id="login" mnemonicParsing="false" text="login" />
+                  <Button fx:id="logout" mnemonicParsing="false" text="logout" />
                </children>
             </HBox>
          </children>

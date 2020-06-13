@@ -3,11 +3,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane prefHeight="234.0" prefWidth="499.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.LoginMenu">
-   <children>
-      <TextField fx:id="usernameField" layoutX="89.0" layoutY="73.0" promptText="username" />
-      <PasswordField fx:id="passwordField" layoutX="281.0" layoutY="73.0" promptText="password" />
-      <Button layoutX="214.0" layoutY="133.0" minWidth="100" mnemonicParsing="false" text="login" onMouseClicked="#loginRequest"/>
-      <Button layoutX="238.0" layoutY="175.0" mnemonicParsing="false" text="back" minWidth="50" onMouseClicked="#back"/>
-   </children>
+<Pane prefHeight="234.0" prefWidth="499.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.LoginMenu" stylesheets="@/Style.css">
+    <children>
+        <TextField fx:id="usernameField" layoutX="82.0" layoutY="48.0" promptText="username"/>
+        <PasswordField fx:id="passwordField" layoutX="82.0" layoutY="80.0" promptText="password"/>
+        <Label layoutX="310.0" layoutY="52.0" text="Don't have account?"/>
+        <Button layoutX="82.0" layoutY="117.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#loginRequest"
+                text="login"/>
+        <Button layoutX="339.0" layoutY="130.0" minWidth="50" mnemonicParsing="false" onMouseClicked="#back"
+                text="back"/>
+        <Button layoutX="314.0" layoutY="80.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#register"
+                text="Sign Up"/>
+    </children>
 </Pane>
