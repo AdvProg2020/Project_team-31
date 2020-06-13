@@ -10,5 +10,5 @@
    <TextField fx:id="valueOfFilter" layoutX="244.0" layoutY="65.0" />
    <Button layoutX="244.0" layoutY="100.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#setNewFilter" text="addFilter" />
    <Button layoutX="447.0" layoutY="65.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#removeFilter" text="removeFilter" />
-   <Button layoutX="244.0" layoutY="238.0" minWidth="100" mnemonicParsing="false" text="Exit" />
+   <Button layoutX="244.0" layoutY="238.0" minWidth="100" mnemonicParsing="false" text="Exit" onMouseClicked="#exit"/>
 </Pane>

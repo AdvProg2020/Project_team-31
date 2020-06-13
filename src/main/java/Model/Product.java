@@ -8,6 +8,7 @@ public class Product implements Serializable {
     private String productId;
     private String name;
     private String company;
+    private String  rate;
     private HashMap<Seller, Integer> sellersOfThisProduct;
     private int minimumPrice;
     private int customersWhoRated;
@@ -22,11 +23,10 @@ public class Product implements Serializable {
     private HashMap<String, String> specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts = new ArrayList<>();
     private static int numberOfProductCreated = 0;
-    private double rate;
 
     public Product(String productId, String name, String company, Category category, String information, int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
-        rate = 0.0;
+        rate = "0.0";
         offs = new ArrayList<>();
         offs = null;
         numberOfProductCreated++;
@@ -134,7 +134,7 @@ public class Product implements Serializable {
 
     public void addSumOfCustomersRate(int sumOfCustomersRate) {
         this.sumOfCustomersRate += sumOfCustomersRate;
-        rate = (1.0 * sumOfCustomersRate / getCustomersWhoRated());
+        rate = String.valueOf(1.0 * this.sumOfCustomersRate / getCustomersWhoRated());
     }
 
     public int getCustomersWhoRated() {
@@ -145,7 +145,7 @@ public class Product implements Serializable {
 
     public void addNumberOfCustomerWhoRated() {
         this.customersWhoRated++;
-        rate = (1.0 * sumOfCustomersRate / getCustomersWhoRated());
+        rate = String.valueOf(1.0 * sumOfCustomersRate / getCustomersWhoRated());
     }
 
     public void removeProduct() {

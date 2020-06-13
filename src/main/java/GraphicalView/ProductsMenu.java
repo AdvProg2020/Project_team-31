@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class ProductsMenu implements Initializable {
-    public Button showButton;
     public ChoiceBox sorting;
     public ChoiceBox category;
     public TableView tableOfProducts;
@@ -33,20 +32,11 @@ public class ProductsMenu implements Initializable {
     public TableColumn viewColumn;
     public TableColumn priceColumn;
     public static String categoryName;
-
-    public void showProducts(MouseEvent mouseEvent) {
-        System.out.println(sorting.getValue());
-        System.out.println(category.getValue());
-        if (category.getValue().equals("Save"))
-            System.out.println("equal");
-    }
-
-    public void changeSort(ActionEvent actionEvent) {
-        System.out.println("hello");
-    }
+    private static TableView tempTable;
+    public static Stage filterStageToSave;
 
     public void setCategories() {
-        ArrayList<String> features = new ArrayList<String>();
+        ArrayList<String> features = new ArrayList<>();
         features.add("rom");
         ManagerController.getInstance().addCategory("mobile", features);
         ArrayList<String> listOfCategories = (ArrayList<String>) Category.getAllCategories().stream()
@@ -59,13 +49,13 @@ public class ProductsMenu implements Initializable {
     }
 
     public void changeCategory(ActionEvent actionEvent) {
-        System.out.println(category.getValue());
         tableOfProducts.setItems(getProducts((String) category.getValue()));
         categoryName = (String) category.getValue();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        tempTable = tableOfProducts;
         setCategories();
         addButtonToTable();
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -108,7 +98,7 @@ public class ProductsMenu implements Initializable {
         tableOfProducts.getColumns().add(colBtn);
     }
 
-    private ObservableList<Product> getProducts(String categoryName) {
+    private static ObservableList<Product> getProducts(String categoryName) {
         ObservableList<Product> products = FXCollections.observableArrayList();
         products.addAll(ProductController.getInstance().showProductInGui(DataBase.getInstance().user, categoryName));
         return products;
@@ -130,6 +120,11 @@ public class ProductsMenu implements Initializable {
         }
         filterStage.setScene(new Scene(root));
         filterStage.setTitle("filters");
+        filterStageToSave = filterStage;
         filterStage.show();
+    }
+
+    public static void filterProducts() {
+        tempTable.setItems(getProducts(categoryName));
     }
 }

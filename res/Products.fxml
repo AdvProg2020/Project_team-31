@@ -10,15 +10,6 @@
         <ButtonBar prefHeight="40.0" prefWidth="200.0">
             <buttons>
                 <Button mnemonicParsing="false" text="filters" onMouseClicked="#filterRequest"/>
-                <ChoiceBox fx:id="sorting" onAction="#changeSort" prefWidth="150.0" value="view">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="view" />
-                            <String fx:value="price" />
-                            <String fx:value="rate" />
-                        </FXCollections>
-                    </items>
-                </ChoiceBox>
                 <ChoiceBox fx:id="category" onAction="#changeCategory" prefWidth="150.0" value="all">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
@@ -26,7 +17,6 @@
                         </FXCollections>
                     </items>
                 </ChoiceBox>
-                <Button fx:id="showButton" mnemonicParsing="false" onMouseClicked="#showProducts" text="show" />
                 <Button mnemonicParsing="false" text="back" onMouseClicked="#back"/>
             </buttons>
         </ButtonBar>

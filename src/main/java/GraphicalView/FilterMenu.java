@@ -58,6 +58,7 @@ public class FilterMenu implements Initializable {
         } else{
             ProductController.getInstance().addFilterForUser(DataBase.getInstance().user, available.getValue().toString(), valueOfFilter.getText());
             setCurrentFilters();
+            ProductsMenu.filterProducts();
         }
     }
 
@@ -70,8 +71,13 @@ public class FilterMenu implements Initializable {
         try {
             ProductController.getInstance().disableFilterForUser(DataBase.getInstance().user, disable.getValue().toString());
             setCurrentFilters();
+            ProductsMenu.filterProducts();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void exit(MouseEvent mouseEvent) {
+        ProductsMenu.filterStageToSave.close();
     }
 }
