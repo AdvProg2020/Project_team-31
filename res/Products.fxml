@@ -22,6 +22,7 @@
         </ButtonBar>
         <TableView fx:id="tableOfProducts" layoutY="40.0" minWidth="200.0">
             <columns>
+                <TableColumn fx:id="imageColumn" prefWidth="75.0" text="image" />
                 <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name" />
                 <TableColumn fx:id="viewColumn" prefWidth="75" text="view" />
                 <TableColumn fx:id="priceColumn" prefWidth="75" text="Price" />

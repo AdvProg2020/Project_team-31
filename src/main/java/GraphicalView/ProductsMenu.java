@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class ProductsMenu implements Initializable {
-    public ChoiceBox sorting;
     public ChoiceBox category;
     public TableView tableOfProducts;
     public TableColumn rateColumn;
@@ -34,6 +33,7 @@ public class ProductsMenu implements Initializable {
     public static String categoryName;
     private static TableView tempTable;
     public static Stage filterStageToSave;
+    public TableColumn imageColumn;
 
     public void setCategories() {
         ArrayList<String> features = new ArrayList<>();
@@ -58,12 +58,13 @@ public class ProductsMenu implements Initializable {
         tempTable = tableOfProducts;
         setCategories();
         addButtonToTable();
+        imageColumn.setCellValueFactory(new PropertyValueFactory<>("imageView"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         viewColumn.setCellValueFactory(new PropertyValueFactory<>("views"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
         rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
-        new Product("a", "M9", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, null, null);
-        new Product("a", "M10", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, null, null);
+        new Product(null, "a", "M9", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, null, null);
+        new Product(null, "a", "M10", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, null, null);
         tableOfProducts.setItems(getProducts("all"));
     }
 

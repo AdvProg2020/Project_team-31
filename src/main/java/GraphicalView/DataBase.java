@@ -1,6 +1,7 @@
 package GraphicalView;
 
 import Controller.LoginController;
+import Model.Card;
 import Model.Customer;
 import Model.Manager;
 import Model.Seller;
@@ -24,6 +25,7 @@ public class DataBase {
 
     ///////////////////////////////////////////////////////////
     Stack<String> pages = new Stack();
+    Card card;
     User user = new Manager("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234");
     public void logout() {
         user = null;
