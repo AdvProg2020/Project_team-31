@@ -75,6 +75,7 @@ public class ProductsMenu implements Initializable {
             public TableCell<Product, Void> call(final TableColumn<Product, Void> param) {
                 final TableCell<Product, Void> cell = new TableCell<Product, Void>() {
                     private final Button btn = new Button("view");
+
                     {
                         btn.setMinWidth(75);
                         btn.setOnAction((ActionEvent event) -> {
@@ -82,6 +83,7 @@ public class ProductsMenu implements Initializable {
                             System.out.println("selectedData: " + product.getName());
                         });
                     }
+
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -101,7 +103,10 @@ public class ProductsMenu implements Initializable {
 
     private static ObservableList<Product> getProducts(String categoryName) {
         ObservableList<Product> products = FXCollections.observableArrayList();
-        products.addAll(ProductController.getInstance().showProductInGui(DataBase.getInstance().user, categoryName));
+        if (DataBase.getInstance().user != null)
+            products.addAll(ProductController.getInstance().showProductInGui(DataBase.getInstance().user, categoryName));
+        else
+            products.addAll(ProductController.getInstance().showProductInGui(DataBase.getInstance().tempUser, categoryName));
         return products;
     }
 
