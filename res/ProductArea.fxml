@@ -10,10 +10,11 @@
       <Label fx:id="productName" layoutX="306.0" layoutY="32.0" text="product name" />
       <Label fx:id="price" layoutX="317.0" layoutY="62.0" text="price" />
       <Label fx:id="rate" layoutX="324.0" layoutY="96.0" text="rate" />
-      <TextField fx:id="ratePlease" layoutX="359.0" layoutY="229.0" promptText="rate please" onAction="#rateThisProduct" />
-      <TextField fx:id="addComment" layoutX="369.0" layoutY="284.0" promptText="comment" onAction="#commentThisProduct"/>
+      <TextField fx:id="ratePlease" layoutX="359.0" layoutY="229.0" onAction="#rateThisProduct" promptText="rate please" />
+      <TextField fx:id="CommentTitle" layoutX="369.0" layoutY="284.0" onAction="#commentThisProduct" promptText="commentTitle" />
       <Label fx:id="specialProperties" layoutX="369.0" layoutY="73.0" text="special properties" />
-      <Button fx:id="loginButton" layoutX="401.0" layoutY="338.0" mnemonicParsing="false" text="login" onAction="#login" />
-      <Button fx:id="logoutButton" layoutX="302.0" layoutY="338.0" mnemonicParsing="false" text="logout" onAction="#logout" />
+      <Button fx:id="loginButton" layoutX="401.0" layoutY="338.0" mnemonicParsing="false" onAction="#login" text="login" />
+      <Button fx:id="logoutButton" layoutX="302.0" layoutY="338.0" mnemonicParsing="false" onAction="#logout" text="logout" />
+      <TextField fx:id="CommentContent" promptText="commentContent" />
    </children>
 </AnchorPane>
