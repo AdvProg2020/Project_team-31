@@ -3,6 +3,7 @@ package GraphicalView;
 import Controller.LoginController;
 import Model.Card;
 import Model.Customer;
+import Model.Manager;
 import Model.Seller;
 import Model.User;
 
