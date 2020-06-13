@@ -11,12 +11,14 @@ import java.util.ResourceBundle;
 
 public class ShowCart implements Initializable {
     public Button logout;
+    public Button login;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logoutAlert();
+        loginAlert();
     }
 
     private void logoutAlert() {
@@ -33,4 +35,16 @@ public class ShowCart implements Initializable {
         runner.back();
     }
 
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (dataBase.user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                runner.changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
+    }
 }
