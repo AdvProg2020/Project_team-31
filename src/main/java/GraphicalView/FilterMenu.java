@@ -1,16 +1,13 @@
 package GraphicalView;
 
 import Controller.ProductController;
-import Model.User;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import javax.jws.soap.SOAPBinding;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -25,12 +22,11 @@ public class FilterMenu implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         HashMap<String, String> current = DataBase.getInstance().user.getFilters();
         setCurrentFilters();
-        disable.setItems(FXCollections.observableList(current.keySet().stream()
-                .collect(Collectors.toList())));
         available.setItems(FXCollections.observableList(ProductController.getInstance().showAvailableFiltersForUserGui(ProductsMenu.categoryName)));
     }
 
     private void setCurrentFilters() {
+        currentFilters.getChildren().clear();
         HashMap<String, String> current = DataBase.getInstance().user.getFilters();
         Label key = new Label("Key");
         Label value = new Label("Value");
@@ -48,6 +44,8 @@ public class FilterMenu implements Initializable {
             aFilter.getChildren().addAll(filterKey, filterValue);
             currentFilters.getChildren().add(aFilter);
         }
+        disable.setItems(FXCollections.observableList(current.keySet().stream()
+                .collect(Collectors.toList())));
     }
 
     public void setNewFilter(MouseEvent mouseEvent) {
@@ -60,6 +58,20 @@ public class FilterMenu implements Initializable {
         } else{
             ProductController.getInstance().addFilterForUser(DataBase.getInstance().user, available.getValue().toString(), valueOfFilter.getText());
             setCurrentFilters();
+        }
+    }
+
+    public void removeFilter(MouseEvent mouseEvent) {
+        if(disable.getValue() == null) {
+            Alert nextTurnError = new Alert(Alert.AlertType.ERROR, "select key please!", ButtonType.OK);
+            nextTurnError.show();
+            return;
+        }
+        try {
+            ProductController.getInstance().disableFilterForUser(DataBase.getInstance().user, disable.getValue().toString());
+            setCurrentFilters();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
