@@ -1,6 +1,7 @@
 package GraphicalView;
 
 import Controller.ProductController;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -17,17 +18,22 @@ public class FilterMenu implements Initializable {
     public VBox currentFilters;
     public ChoiceBox available, disable;
     public TextField valueOfFilter;
+    private User user;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        HashMap<String, String> current = DataBase.getInstance().user.getFilters();
+        if (DataBase.getInstance().user != null)
+            user = DataBase.getInstance().user;
+        else
+            user = DataBase.getInstance().tempUser;
+        HashMap<String, String> current = user.getFilters();
         setCurrentFilters();
         available.setItems(FXCollections.observableList(ProductController.getInstance().showAvailableFiltersForUserGui(ProductsMenu.categoryName)));
     }
 
     private void setCurrentFilters() {
         currentFilters.getChildren().clear();
-        HashMap<String, String> current = DataBase.getInstance().user.getFilters();
+        HashMap<String, String> current = user.getFilters();
         Label key = new Label("Key");
         Label value = new Label("Value");
         key.setMinWidth(100);
@@ -55,21 +61,21 @@ public class FilterMenu implements Initializable {
         } else if (valueOfFilter.getText().equals("")) {
             Alert emptyField = new Alert(Alert.AlertType.ERROR, "enter value please!", ButtonType.OK);
             emptyField.show();
-        } else{
-            ProductController.getInstance().addFilterForUser(DataBase.getInstance().user, available.getValue().toString(), valueOfFilter.getText());
+        } else {
+            ProductController.getInstance().addFilterForUser(user, available.getValue().toString(), valueOfFilter.getText());
             setCurrentFilters();
             ProductsMenu.filterProducts();
         }
     }
 
     public void removeFilter(MouseEvent mouseEvent) {
-        if(disable.getValue() == null) {
+        if (disable.getValue() == null) {
             Alert emptyField = new Alert(Alert.AlertType.ERROR, "select key please!", ButtonType.OK);
             emptyField.show();
             return;
         }
         try {
-            ProductController.getInstance().disableFilterForUser(DataBase.getInstance().user, disable.getValue().toString());
+            ProductController.getInstance().disableFilterForUser(user, disable.getValue().toString());
             setCurrentFilters();
             ProductsMenu.filterProducts();
         } catch (Exception e) {
