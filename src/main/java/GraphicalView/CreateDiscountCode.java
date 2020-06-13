@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -26,6 +27,7 @@ public class CreateDiscountCode implements Initializable {
     public TextField maximumPrice;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
+    HashMap<String, Integer> usernameAndNumber = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -90,7 +92,7 @@ public class CreateDiscountCode implements Initializable {
         });
         Optional<Pair<String, String>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
-            System.out.println("From=" + pair.getKey() + ", To=" + pair.getValue());
+            usernameAndNumber.put(pair.getKey(), Integer.parseInt(pair.getValue()));
         });
     }
 
