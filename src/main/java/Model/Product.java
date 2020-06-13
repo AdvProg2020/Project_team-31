@@ -1,10 +1,13 @@
 package Model;
 
+import javafx.scene.image.ImageView;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Product implements Serializable {
+    private ImageView imageView;
     private String productId;
     private String name;
     private String company;
@@ -25,6 +28,27 @@ public class Product implements Serializable {
     private static int numberOfProductCreated = 0;
 
     public Product(String productId, String name, String company, Category category, String information, int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
+        views = 0;
+        rate = "0.0";
+        offs = new ArrayList<>();
+        offs = null;
+        numberOfProductCreated++;
+        this.available = available;
+        this.productId = productId;
+        this.name = name;
+        this.company = company;
+        this.sellersOfThisProduct = new HashMap<>();
+        this.sellersOfThisProduct = sellersOfThisProduct;
+        this.category = category;
+        this.productStatus = ProductAndOffStatus.CREATING;
+        this.information = information;
+        this.specialPropertiesRelatedToCategory = new HashMap<>();
+        this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
+        allProducts.add(this);
+    }
+
+    public Product(ImageView imageView, String productId, String name, String company, Category category, String information, int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
+        this.imageView = imageView;
         views = 0;
         rate = "0.0";
         offs = new ArrayList<>();

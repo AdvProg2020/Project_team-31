@@ -1,4 +1,33 @@
 package GraphicalView;
 
+import Controller.LoginController;
+import Model.User;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+
 public class LoginMenu {
+    public TextField usernameField;
+    public PasswordField passwordField;
+
+    public void back(MouseEvent mouseEvent) {
+        Runner.getInstance().back();
+    }
+
+    public void loginRequest(MouseEvent mouseEvent) {
+        if(usernameField.getText().equals("") || passwordField.getText().equals("")) {
+            Alert emptyField = new Alert(Alert.AlertType.ERROR, "please fill fields", ButtonType.OK);
+            emptyField.show();
+        } else {
+            try {
+                DataBase.getInstance().user = LoginController.getInstance().login(usernameField.getText(), passwordField.getText(),DataBase.getInstance().card);
+            } catch (Exception e) {
+                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                error.show();
+            }
+
+        }
+    }
 }

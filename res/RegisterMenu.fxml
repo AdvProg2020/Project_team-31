@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.RegisterMenu">
+    <Label layoutX="34.0" layoutY="5.0" text="select your role" />
+    <ChoiceBox fx:id="role" layoutX="14.0" layoutY="31.0" onAction="#changeRole" prefWidth="150.0" value="all">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="customer" />
+                <String fx:value="seller" />
+                <String fx:value="manager" />
+            </FXCollections>
+        </items>
+    </ChoiceBox>
+</Pane>

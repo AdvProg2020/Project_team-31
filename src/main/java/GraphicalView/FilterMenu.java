@@ -50,11 +50,11 @@ public class FilterMenu implements Initializable {
 
     public void setNewFilter(MouseEvent mouseEvent) {
         if (available.getValue() == null) {
-            Alert nextTurnError = new Alert(Alert.AlertType.ERROR, "select key please!", ButtonType.OK);
-            nextTurnError.show();
+            Alert emptyField = new Alert(Alert.AlertType.ERROR, "select key please!", ButtonType.OK);
+            emptyField.show();
         } else if (valueOfFilter.getText().equals("")) {
-            Alert nextTurnError = new Alert(Alert.AlertType.ERROR, "enter value please!", ButtonType.OK);
-            nextTurnError.show();
+            Alert emptyField = new Alert(Alert.AlertType.ERROR, "enter value please!", ButtonType.OK);
+            emptyField.show();
         } else{
             ProductController.getInstance().addFilterForUser(DataBase.getInstance().user, available.getValue().toString(), valueOfFilter.getText());
             setCurrentFilters();
@@ -64,8 +64,8 @@ public class FilterMenu implements Initializable {
 
     public void removeFilter(MouseEvent mouseEvent) {
         if(disable.getValue() == null) {
-            Alert nextTurnError = new Alert(Alert.AlertType.ERROR, "select key please!", ButtonType.OK);
-            nextTurnError.show();
+            Alert emptyField = new Alert(Alert.AlertType.ERROR, "select key please!", ButtonType.OK);
+            emptyField.show();
             return;
         }
         try {
