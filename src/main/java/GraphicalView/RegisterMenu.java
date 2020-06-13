@@ -1,7 +1,10 @@
 package GraphicalView;
 
+import Controller.LoginController;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -38,6 +41,48 @@ public class RegisterMenu implements Initializable {
     }
 
     public void registerRequest(MouseEvent mouseEvent) {
+        if(!isEmpty().equals("none")) {
+            Alert error = new Alert(Alert.AlertType.ERROR,"please enter " + isEmpty() , ButtonType.OK);
+            error.show();
+        } else {
+            if(role.getValue().equals("manager") && LoginController.getInstance().isThereAnyManager()) {
+                Alert error = new Alert(Alert.AlertType.ERROR,"One manager registered before", ButtonType.OK);
+                error.show();
+            } else if (!LoginController.getInstance().isUsernameFree(usernameField.getText())) {
+                Alert error = new Alert(Alert.AlertType.ERROR,"This username is token before", ButtonType.OK);
+                error.show();
+            } else {
+                String information[] = new String[6];
+                information[0] = firstNameField.getText();
+                information[1] = lastNameField.getText();
+                information[2] = emailField.getText();
+                information[3] = phoneField.getText();
+                information[4] = passwordField.getText();
+                information[5] = companyField.getText();
+                try {
+                    LoginController.getInstance().register(usernameField.getText(), (String) role.getValue(), information);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
+    private String  isEmpty() {
+        if(usernameField.getText().equals(""))
+            return "username";
+        if(passwordField.getText().equals(""))
+            return "password";
+        if(firstNameField.getText().equals(""))
+            return "firstName";
+        if(lastNameField.getText().equals(""))
+            return "lastName";
+        if(emailField.getText().equals(""))
+            return "email address";
+        if(phoneField.getText().equals(""))
+            return "phone number";
+        if(role.getValue().equals("seller") && companyField.getText().equals(""))
+            return "company";
+        return "none";
     }
 }
