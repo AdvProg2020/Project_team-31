@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 public class MainMenu implements Initializable {
     public Button logout;
     public Button userArea;
+    public Button login;
     DataBase dataBase = DataBase.getInstance();
     Runner runner = Runner.getInstance();
 
@@ -21,6 +22,7 @@ public class MainMenu implements Initializable {
 //         if there is not any manager make one...
         ///////////////////////////////////////////////////////
         logoutAlert();
+        loginAlert();
     }
 
 
@@ -42,5 +44,18 @@ public class MainMenu implements Initializable {
 
     public void userAreaChangeScene(MouseEvent mouseEvent) {
         runner.setUserAreaScene();
+    }
+
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (dataBase.user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                runner.changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
     }
 }

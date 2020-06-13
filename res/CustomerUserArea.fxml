@@ -3,72 +3,78 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.CustomerUserArea">
+<Pane stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="GraphicalView.CustomerUserArea" >
     <children>
         <GridPane>
             <children>
                 <GridPane GridPane.columnIndex="0">
                     <GridPane>
                         <children>
-                            <Label fx:id="personalInfo" />
-                            <Label fx:id="discountCode"  GridPane.rowIndex="2" />
-                     <Button mnemonicParsing="false" text="add balance" fx:id="addBalance" GridPane.rowIndex="3" />
+                            <Label fx:id="personalInfo"/>
+                            <Label fx:id="discountCode" GridPane.rowIndex="2"/>
+                            <Button fx:id="addBalance" mnemonicParsing="false" text="add balance"
+                                    GridPane.rowIndex="3"/>
                         </children>
-                  <columnConstraints>
-                     <ColumnConstraints />
-                  </columnConstraints>
-                  <rowConstraints>
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                  </rowConstraints>
-                </GridPane>
-                <GridPane GridPane.columnIndex="1">
-                    <Button fx:id="cartButton" mnemonicParsing="false" onAction="#showCart" text="view cart" GridPane.rowIndex="0" />
-                    <Button fx:id="buyingHistoryButton" mnemonicParsing="false"  text="buying history" GridPane.rowIndex="1" />
-                    <Button fx:id="editPersonalInfo" mnemonicParsing="false" text="edit personal info" GridPane.rowIndex="3" />
-                  <columnConstraints>
-                     <ColumnConstraints />
-                  </columnConstraints>
-                  <rowConstraints>
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                  </rowConstraints>
-                </GridPane>
-                <GridPane GridPane.columnIndex="2">
-                    <children>
-                        <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#back" text="back" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" text="login" />
-                        <Button fx:id="logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
-                    </children>
-                  <columnConstraints>
-                     <ColumnConstraints />
-                  </columnConstraints>
-                  <rowConstraints>
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                  </rowConstraints>
-                </GridPane>
-               <columnConstraints>
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-               </rowConstraints>
+                        <columnConstraints>
+                            <ColumnConstraints/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                        </rowConstraints>
+                    </GridPane>
+                    <GridPane GridPane.columnIndex="1">
+                        <Button fx:id="cartButton" mnemonicParsing="false" onAction="#showCart" text="view cart"
+                                GridPane.rowIndex="0"/>
+                        <Button fx:id="buyingHistoryButton" mnemonicParsing="false" text="buying history"
+                                GridPane.rowIndex="1"/>
+                        <Button fx:id="editPersonalInfo" mnemonicParsing="false" text="edit personal info"
+                                GridPane.rowIndex="3"/>
+                        <columnConstraints>
+                            <ColumnConstraints/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                        </rowConstraints>
+                    </GridPane>
+                    <GridPane GridPane.columnIndex="2">
+                        <children>
+                            <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#back" text="back"
+                                    GridPane.rowIndex="2"/>
+                            <Button mnemonicParsing="false" text="login" fx:id="login"/>
+                            <Button fx:id="logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="1"/>
+                        </children>
+                        <columnConstraints>
+                            <ColumnConstraints/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                        </rowConstraints>
+                    </GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                    </rowConstraints>
                 </GridPane>
             </children>
-         <columnConstraints>
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-         </rowConstraints>
+            <columnConstraints>
+                <ColumnConstraints/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints/>
+            </rowConstraints>
         </GridPane>
     </children>
 </Pane>

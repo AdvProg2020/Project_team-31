@@ -30,6 +30,7 @@ public class CreateDiscountCode implements Initializable {
     public DatePicker endDate;
     public TextField percentage;
     public TextField maximumPrice;
+    public Button login;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     HashMap<String, Integer> usernameAndNumber = new HashMap<>();
@@ -38,15 +39,7 @@ public class CreateDiscountCode implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         logoutAlert();
         validate();
-//        code.textProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue,
-//                                String newValue) {
-//                if (!newValue.matches("\\d*")) {
-//                    code.setText(newValue.replaceAll("[^\\d]", ""));
-//                }
-//            }
-//        });
+        loginAlert();
     }
 
     private void validate() {
@@ -113,8 +106,17 @@ public class CreateDiscountCode implements Initializable {
         controller.createDiscountCode(code.getText(), startDate1, endDate2, percent, maximumValue, usernameAndNumber);
     }
 
-    public void login(ActionEvent actionEvent) {
-
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (dataBase.user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                runner.changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
     }
 
     private void logoutAlert() {

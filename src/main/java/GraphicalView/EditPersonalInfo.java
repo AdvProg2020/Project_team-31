@@ -22,6 +22,7 @@ public class EditPersonalInfo implements Initializable {
     public TextField phoneNumber;
     public TextField companyName;
     public Button logout;
+    public Button login;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     LoginController loginController = LoginController.getInstance();
@@ -73,6 +74,19 @@ public class EditPersonalInfo implements Initializable {
         if (dataBase.user instanceof Seller)
             newData[5] = companyName.getText();
         return newData;
+    }
+
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (dataBase.user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                runner.changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
     }
 
 }
