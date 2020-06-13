@@ -215,6 +215,15 @@ public class Product implements Serializable {
     public void setSpecialPropertiesRelatedToCategory(HashMap<String, String> specialPropertiesRelatedToCategory) {
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
     }
+    public ArrayList<String> getAllCommentsToString(){
+        if (this.getAllComments() == null)
+            return null;
+        ArrayList<String> commentsToString = new ArrayList<>();
+        for (Comment comment : this.getAllComments()) {
+            commentsToString.add(comment.getCommentTitle() + "\n" + comment.getCommentContent());
+        }
+        return getAllCommentsToString();
+    }
 
     public static void logToFile() {
         try {

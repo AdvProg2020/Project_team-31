@@ -2,19 +2,15 @@ package GraphicalView;
 
 import Controller.CustomerController;
 import Controller.ProductController;
-import Model.Card;
-import Model.Product;
-import Model.Seller;
-import Model.User;
+import Model.*;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProductArea implements Initializable {
@@ -29,14 +25,13 @@ public class ProductArea implements Initializable {
     public Button loginButton;
     public TextField CommentTitle;
     public TextField CommentContent;
+    public ListView commentsList;
     private Card card;
     private User user;
     private Product product;
     private Seller seller;
     private CustomerController customerController = CustomerController.getInstance();
-
-
-
+    private ArrayList<String> commentsToString = product.getAllCommentsToString();
     public void addThisProductToCard(ActionEvent actionEvent) throws Exception {
         customerController.addProductToCard(user , card , product , seller.getUsername());
     }
@@ -45,6 +40,8 @@ public class ProductArea implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         logout();
         login();
+        if (product.getAllComments() != null)
+        commentsList.setItems((ObservableList) commentsToString);
         if (DataBase.getInstance().user != null){
             user = DataBase.getInstance().user;
             if (DataBase.getInstance().user.getCard() == null){
@@ -101,6 +98,7 @@ public class ProductArea implements Initializable {
 
     public void commentThisProduct(ActionEvent actionEvent) {
         ProductController.getInstance().addComment(user , product , CommentTitle.getText() , CommentContent.getText() );
+        commentsToString.add(CommentTitle.getText() + "\n" +CommentContent.getText());
         update();
     }
 
@@ -114,5 +112,7 @@ public class ProductArea implements Initializable {
     public void update(){
         rate.setText("rate : " + product.getRate());
         price.setText("price : " + product.getMinimumPrice());
+        if (commentsToString != null)
+        commentsList.setItems((ObservableList) commentsToString);
     }
 }

@@ -1,20 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductArea">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="724.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductArea">
    <children>
-      <Button fx:id="addToCardButton" layoutX="503.0" layoutY="338.0" mnemonicParsing="false" onAction="#addThisProductToCard" text="add to card" />
-      <Label fx:id="productName" layoutX="306.0" layoutY="32.0" text="product name" />
-      <Label fx:id="price" layoutX="317.0" layoutY="62.0" text="price" />
-      <Label fx:id="rate" layoutX="324.0" layoutY="96.0" text="rate" />
-      <TextField fx:id="ratePlease" layoutX="359.0" layoutY="229.0" onAction="#rateThisProduct" promptText="rate please" />
-      <TextField fx:id="CommentTitle" layoutX="369.0" layoutY="284.0" onAction="#commentThisProduct" promptText="commentTitle" />
-      <Label fx:id="specialProperties" layoutX="369.0" layoutY="73.0" text="special properties" />
-      <Button fx:id="loginButton" layoutX="401.0" layoutY="338.0" mnemonicParsing="false" onAction="#login" text="login" />
-      <Button fx:id="logoutButton" layoutX="302.0" layoutY="338.0" mnemonicParsing="false" onAction="#logout" text="logout" />
-      <TextField fx:id="CommentContent" promptText="commentContent" />
+      <Button fx:id="addToCardButton" layoutX="324.0" layoutY="190.0" mnemonicParsing="false" onAction="#addThisProductToCard" text="add to card">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Label fx:id="productName" layoutX="324.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" text="product name">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="price" layoutX="324.0" layoutY="58.0" prefHeight="27.0" prefWidth="251.0" text="price">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="rate" layoutX="324.0" layoutY="101.0" prefHeight="27.0" prefWidth="251.0" text="rate">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <TextField fx:id="ratePlease" layoutX="80.0" layoutY="307.0" onAction="#rateThisProduct" promptText="rate this product">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <TextField fx:id="CommentTitle" layoutX="80.0" layoutY="384.0" onAction="#commentThisProduct" promptText="commentTitle">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <Label fx:id="specialProperties" layoutX="324.0" layoutY="142.0" prefHeight="27.0" prefWidth="251.0" text="special properties">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Button fx:id="loginButton" layoutX="439.0" layoutY="190.0" mnemonicParsing="false" onAction="#login" text="login">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Button fx:id="logoutButton" layoutX="504.0" layoutY="190.0" mnemonicParsing="false" onAction="#logout" text="logout">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <TextField fx:id="CommentContent" layoutX="80.0" layoutY="423.0" promptText="commentContent">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <ListView fx:id="commentsList" layoutX="321.0" layoutY="244.0" prefHeight="229.0" prefWidth="389.0" />
    </children>
 </AnchorPane>
