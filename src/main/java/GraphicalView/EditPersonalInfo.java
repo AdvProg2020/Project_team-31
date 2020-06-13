@@ -4,7 +4,10 @@ import Controller.LoginController;
 import Model.Seller;
 import Model.User;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -18,6 +21,7 @@ public class EditPersonalInfo implements Initializable {
     public TextField email;
     public TextField phoneNumber;
     public TextField companyName;
+    public Button logout;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     LoginController loginController = LoginController.getInstance();
@@ -25,7 +29,7 @@ public class EditPersonalInfo implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeFields();
-
+        logoutAlert();
     }
 
     private void initializeFields() {
@@ -38,6 +42,16 @@ public class EditPersonalInfo implements Initializable {
         if (dataBase.user instanceof Seller)
             companyName.setText(userData[5]);
         else companyName.setText("PLEASE ENTER NOTHING!");
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            message.setContentText("you logged out successfully");
+            message.show();
+            dataBase.logout();
+        };
+        logout.setOnAction(event);
     }
 
     public void back(ActionEvent actionEvent) {
