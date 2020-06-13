@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <Pane stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="GraphicalView.CustomerUserArea">
+      fx:controller="GraphicalView.CustomerUserArea" >
     <children>
         <GridPane>
             <children>

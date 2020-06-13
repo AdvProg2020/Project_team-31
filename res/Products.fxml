@@ -5,7 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductsMenu">
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductsMenu" stylesheets="@/Style.css">
     <children>
         <ButtonBar prefHeight="40.0" prefWidth="200.0">
             <buttons>
@@ -13,7 +14,7 @@
                 <ChoiceBox fx:id="category" onAction="#changeCategory" prefWidth="150.0" value="all">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="all" />
+                            <String fx:value="all"/>
                         </FXCollections>
                     </items>
                 </ChoiceBox>
@@ -22,11 +23,11 @@
         </ButtonBar>
         <TableView fx:id="tableOfProducts" layoutY="40.0" minWidth="200.0">
             <columns>
-                <TableColumn fx:id="imageColumn" prefWidth="75.0" text="image" />
-                <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name" />
-                <TableColumn fx:id="viewColumn" prefWidth="75" text="view" />
-                <TableColumn fx:id="priceColumn" prefWidth="75" text="Price" />
-                <TableColumn fx:id="rateColumn" prefWidth="75" text="Rate" />
+                <TableColumn fx:id="imageColumn" prefWidth="75.0" text="image"/>
+                <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name"/>
+                <TableColumn fx:id="viewColumn" prefWidth="75" text="view"/>
+                <TableColumn fx:id="priceColumn" prefWidth="75" text="Price"/>
+                <TableColumn fx:id="rateColumn" prefWidth="75" text="Rate"/>
             </columns>
         </TableView>
     </children>
