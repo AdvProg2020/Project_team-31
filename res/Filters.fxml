@@ -7,8 +7,9 @@
     <VBox fx:id="currentFilters" minHeight="200.0" minWidth="180" />
     <ChoiceBox fx:id="available" layoutX="243.0" layoutY="14.0" prefWidth="150.0" />
     <ChoiceBox fx:id="disable" layoutX="414.0" layoutY="14.0" prefWidth="150.0" />
-   <TextField fx:id="valueOfFilter" layoutX="244.0" layoutY="65.0" />
-   <Button layoutX="244.0" layoutY="100.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#setNewFilter" text="addFilter" />
+    <Label layoutX="243.0" layoutY="39.0" prefHeight="41.0" prefWidth="150.0" text="Enter the value or use [%d-%d] for the interval" wrapText="true" />
+   <TextField fx:id="valueOfFilter" layoutX="244.0" layoutY="88.0" />
+   <Button layoutX="244.0" layoutY="126.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#setNewFilter" text="addFilter" />
    <Button layoutX="447.0" layoutY="65.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#removeFilter" text="removeFilter" />
-   <Button layoutX="244.0" layoutY="238.0" minWidth="100" mnemonicParsing="false" text="Exit" onMouseClicked="#exit"/>
+   <Button layoutX="244.0" layoutY="238.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#exit" text="Exit" />
 </Pane>
