@@ -35,6 +35,8 @@ public class ProductArea implements Initializable {
     private Seller seller;
     private CustomerController customerController = CustomerController.getInstance();
 
+
+
     public void addThisProductToCard(ActionEvent actionEvent) throws Exception {
         customerController.addProductToCard(user , card , product , seller.getUsername());
     }
@@ -94,9 +96,23 @@ public class ProductArea implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        update();
     }
 
     public void commentThisProduct(ActionEvent actionEvent) {
         ProductController.getInstance().addComment(user , product , CommentTitle.getText() , CommentContent.getText() );
+        update();
+    }
+
+    public void  showProductDetails(){
+        rate.setText("rate : " + product.getRate());
+        price.setText("price : " + product.getMinimumPrice());
+        productName.setText("name : " + product.getName());
+        specialProperties.setText("specialProperties : " + product.getSpecialPropertiesRelatedToCategory().keySet().toString());
+    }
+
+    public void update(){
+        rate.setText("rate : " + product.getRate());
+        price.setText("price : " + product.getMinimumPrice());
     }
 }
