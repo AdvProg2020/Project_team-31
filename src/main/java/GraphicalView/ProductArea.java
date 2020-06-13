@@ -98,7 +98,6 @@ public class ProductArea implements Initializable {
 
     public void commentThisProduct(ActionEvent actionEvent) {
         ProductController.getInstance().addComment(user , product , CommentTitle.getText() , CommentContent.getText() );
-        commentsToString.add(CommentTitle.getText() + "\n" +CommentContent.getText());
         update();
     }
 
@@ -112,6 +111,7 @@ public class ProductArea implements Initializable {
     public void update(){
         rate.setText("rate : " + product.getRate());
         price.setText("price : " + product.getMinimumPrice());
+        commentsToString = ProductController.getInstance().showCommentAboutProduct(product);
         if (commentsToString != null)
         commentsList.setItems((ObservableList) commentsToString);
     }
