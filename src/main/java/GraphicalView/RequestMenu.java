@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 public class RequestMenu implements Initializable {
     public TableColumn idColumn;
     public TableView tableOfRequest;
+    public static Request request;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -45,7 +46,8 @@ public class RequestMenu implements Initializable {
                     {
                         btn.setMinWidth(75);
                         btn.setOnAction((ActionEvent event) -> {
-                            Request request = getTableView().getItems().get(getIndex());
+                            request = getTableView().getItems().get(getIndex());
+                            showDetail();
                         });
                     }
 
@@ -64,6 +66,10 @@ public class RequestMenu implements Initializable {
         };
         colBtn.setCellFactory(cellFactory);
         tableOfRequest.getColumns().add(colBtn);
+    }
+
+    private void showDetail() {
+        Runner.getInstance().changeScene("RequestArea.fxml");
     }
 
     public void back(MouseEvent mouseEvent) {
