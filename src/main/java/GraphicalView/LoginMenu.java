@@ -22,12 +22,15 @@ public class LoginMenu {
             emptyField.show();
         } else {
             try {
-                DataBase.getInstance().user = LoginController.getInstance().login(usernameField.getText(), passwordField.getText(),DataBase.getInstance().card);
+                DataBase.getInstance().user = LoginController.getInstance().login(usernameField.getText(), passwordField.getText(),DataBase.getInstance().tempUser.getCard());
             } catch (Exception e) {
                 Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
                 error.show();
             }
-
         }
+    }
+
+    public void register(MouseEvent mouseEvent) {
+        Runner.getInstance().changeScene("RegisterMenu.fxml");
     }
 }
