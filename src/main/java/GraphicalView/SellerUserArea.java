@@ -17,6 +17,7 @@ public class SellerUserArea implements Initializable {
     public Label personalInfo;
     public Button editPersonaInfo;
     public Button logout;
+    public Button login;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
@@ -93,5 +94,18 @@ public class SellerUserArea implements Initializable {
 
     public void addProduct(MouseEvent mouseEvent) {
         runner.changeScene("AddProduct.fxml");
+    }
+
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (dataBase.user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                runner.changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
     }
 }

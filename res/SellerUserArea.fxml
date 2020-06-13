@@ -21,8 +21,8 @@
       </VBox>
        <GridPane GridPane.columnIndex="1">
            <children>
-               <Button mnemonicParsing="false" fx:id="editPersonaInfo" text="edit personal info" GridPane.rowIndex="0" />
-               <Button mnemonicParsing="false" text="view sales history" onMouseClicked="#salesHistory" GridPane.rowIndex="1" />
+               <Button fx:id="editPersonaInfo" mnemonicParsing="false" text="edit personal info" GridPane.rowIndex="0" />
+               <Button mnemonicParsing="false" onMouseClicked="#salesHistory" text="view sales history" GridPane.rowIndex="1" />
                <Button mnemonicParsing="false" text="view offs" GridPane.rowIndex="2" />
            </children>
          <columnConstraints>
@@ -37,9 +37,9 @@
        </GridPane>
        <GridPane GridPane.columnIndex="2">
            <children>
-               <Button mnemonicParsing="false" text="add product" onMouseClicked="#addProduct" GridPane.rowIndex="0" />
+               <Button mnemonicParsing="false" onMouseClicked="#addProduct" text="add product" GridPane.rowIndex="0" />
                <Button mnemonicParsing="false" text="manage products" GridPane.rowIndex="4" />
-               <Button mnemonicParsing="false" text="show categories" onMouseClicked="#showCategories" GridPane.rowIndex="3" />
+               <Button mnemonicParsing="false" onMouseClicked="#showCategories" text="show categories" GridPane.rowIndex="3" />
            </children>
          <columnConstraints>
             <ColumnConstraints />
@@ -54,9 +54,9 @@
        </GridPane>
        <GridPane GridPane.columnIndex="3">
            <children>
-               <Button mnemonicParsing="false" text="login"  GridPane.rowIndex="1" />
-               <Button mnemonicParsing="false" text="logout" fx:id="logout" GridPane.rowIndex="2" />
-               <Button mnemonicParsing="false" text="back" onMouseClicked="#back" GridPane.rowIndex="3" />
+               <Button fx:id="login" mnemonicParsing="false" text="login" GridPane.rowIndex="1" />
+               <Button fx:id="logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="2" />
+               <Button mnemonicParsing="false" onMouseClicked="#back" text="back" GridPane.rowIndex="3" />
            </children>
          <columnConstraints>
             <ColumnConstraints />
