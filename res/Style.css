@@ -4,14 +4,27 @@
     -fx-font-weight: bold;
     -fx-background-color: linear-gradient(#61a2b1, #2A5058);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-    -fx-font-size: 20px;
+    -fx-font-size: 18px;
 }
 .button:hover {
     -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+    -fx-scale-y: 1.05;
+    -fx-scale-x: 1.05;
 }
 .label {
     -fx-font-size: 25px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;
     -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+.text-field {
+    -fx-font-size: 10pt;
+    -fx-text-fill: black;
+    -fx-background-color: #CBF6F6;
+    -fx-background-radius: 10;
+    -fx-opacity: 50;
+}
+.text-field :hover{
+    -fx-scale-y: 1.05;
+    -fx-scale-x: 1.05;
 }
