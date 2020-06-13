@@ -16,4 +16,14 @@
             </FXCollections>
         </items>
     </ChoiceBox>
+   <TextField fx:id="usernameField" layoutX="15.0" layoutY="75.0" prefWidth="200" promptText="username" />
+   <TextField fx:id="passwordField" layoutX="248.0" layoutY="75.0" prefWidth="200" promptText="password" />
+   <TextField fx:id="firstNameField" layoutX="15.0" layoutY="126.0" prefHeight="25.0" prefWidth="200" promptText="firstName" />
+   <TextField fx:id="lastNameField" layoutX="248.0" layoutY="126.0" prefHeight="25.0" prefWidth="200" promptText="lastName" />
+   <TextField fx:id="emailField" layoutX="15.0" layoutY="175.0" prefWidth="200" promptText="email address" />
+   <TextField fx:id="phoneField" layoutX="248.0" layoutY="175.0" prefWidth="200" promptText="phone number" />
+   <TextField fx:id="companyField" layoutX="248.0" layoutY="31.0" prefWidth="200" promptText="company (only for sellers)" />
+   <Button layoutX="49.0" layoutY="238.0" mnemonicParsing="false" prefWidth="100" text="back" onMouseClicked="#back"/>
+   <Button layoutX="257.0" layoutY="238.0" mnemonicParsing="false" text="register" prefWidth="100" onMouseClicked="#registerRequest"/>
+    
 </Pane>
