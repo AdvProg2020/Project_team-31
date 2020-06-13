@@ -41,10 +41,10 @@ public class Runner extends Application {
 
     private void initializeStage() {
         stage.setTitle("My shop");
-         stage.setResizable(false);
+        stage.setResizable(false);
 //         stage.setFullScreen(true);
-         stage.setWidth(800);
-         stage.setHeight(600);
+        stage.setWidth(800);
+        stage.setHeight(600);
     }
 
     public void setUserAreaScene() {
@@ -63,7 +63,7 @@ public class Runner extends Application {
             stage.setScene(new Scene(root));
             dataBase.pages.add(pageName);
         } catch (IOException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

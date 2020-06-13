@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 public class CustomerBuyingHistory implements Initializable {
     public Label buyingHistory;
     public Button logout;
+    public Button login;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     CustomerController customerController = CustomerController.getInstance();
@@ -26,6 +27,7 @@ public class CustomerBuyingHistory implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadBuyingHistory();
         logoutAlert();
+        loginAlert();
     }
 
     private void loadBuyingHistory() {
@@ -49,6 +51,18 @@ public class CustomerBuyingHistory implements Initializable {
             dataBase.logout();
         };
         logout.setOnAction(event);
+    }
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (dataBase.user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                runner.changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
     }
 
 }

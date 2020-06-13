@@ -53,7 +53,7 @@
                         <Button mnemonicParsing="false" onAction="#submit" text="submit" />
                         <VBox prefHeight="96.0" prefWidth="56.0">
                             <children>
-                                <Button mnemonicParsing="false" onAction="#login" text="login" />
+                                <Button fx:id="login" mnemonicParsing="false" text="login" />
                                 <Button fx:id="logout" mnemonicParsing="false" text="logout" />
                             </children>
                         </VBox>
