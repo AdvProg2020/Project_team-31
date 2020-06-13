@@ -23,6 +23,7 @@ public class CustomerUserArea implements Initializable {
     public Button logout;
     public Button editPersonalInfo;
     public Button addBalance;
+    public Button buyingHistoryButton;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     StringProperty data = new SimpleStringProperty();
@@ -34,6 +35,7 @@ public class CustomerUserArea implements Initializable {
         logoutAlert();
         editPersonalInfoAlert();
         addBalanceDialog();
+        buyingHistory();
     }
 
     private void showDiscountCodes() {
@@ -93,7 +95,7 @@ public class CustomerUserArea implements Initializable {
     private boolean isInvalid(String text) {
         try {
             if (Integer.parseInt(text) > 0)
-            return false;
+                return false;
         } catch (Exception ignored) {
         }
         return true;
@@ -133,8 +135,18 @@ public class CustomerUserArea implements Initializable {
     }
 
 
-    public void buyingHistory(ActionEvent actionEvent) {
-        runner.changeScene("CustomerBuyingHistory.fxml");
+    public void buyingHistory() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (dataBase.user == null) {
+                error.setContentText("You have not logged in!");
+                error.show();
+            } else {
+              runner.changeScene("CustomerBuyingHistory.fxml");
+            }
+        };
+        buyingHistoryButton.setOnAction(event);
     }
 
     public void showCart(ActionEvent actionEvent) {
