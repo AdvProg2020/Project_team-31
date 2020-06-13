@@ -4,14 +4,10 @@ import Model.Customer;
 import Model.Manager;
 import Model.Seller;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 
@@ -42,7 +38,7 @@ public class Runner extends Application {
     private void initializeStage() {
         stage.setTitle("My shop");
         // stage.setResizable(false);
-        // stage.setFullScreen(true);
+       // stage.setFullScreen(true);
     }
 
     public void setUserAreaScene() {
