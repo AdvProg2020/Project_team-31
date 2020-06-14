@@ -1,10 +1,7 @@
 package GraphicalView;
 
 import Controller.CustomerController;
-import Model.Product;
-import Model.ProductInCard;
-import Model.ProductInCartInGui;
-import Model.User;
+import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,7 +41,7 @@ public class ShowCart implements Initializable {
     }
 
     private void addShowButtonToTable() {
-        TableColumn<ProductInCartInGui, Void> colBtn = new TableColumn();
+        TableColumn<ProductInCartInGui, Void> colBtn = new TableColumn("detail");
         Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>> cellFactory = new Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>>() {
             @Override
             public TableCell<ProductInCartInGui, Void> call (final TableColumn<ProductInCartInGui, Void> param) {
@@ -72,13 +69,14 @@ public class ShowCart implements Initializable {
 
     private void addDecreaseButtonToTable() {
         TableColumn<ProductInCartInGui, Void> colBtn = new TableColumn();
+        colBtn.setMaxWidth(40);
         Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>> cellFactory = new Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>>() {
             @Override
             public TableCell<ProductInCartInGui, Void> call (final TableColumn<ProductInCartInGui, Void> param) {
                 final TableCell<ProductInCartInGui, Void> cell = new TableCell<ProductInCartInGui, Void>() {
                     private final Button btn = new Button("-");
                     {
-                        btn.setMinWidth(30);
+                        btn.setMinWidth(40);
                         btn.setOnAction((ActionEvent event) -> {
                             ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
                             changeNumber(productInCartInGui.getProduct(), -1);
@@ -97,13 +95,14 @@ public class ShowCart implements Initializable {
 
     private void addIncreaseButtonToTable() {
         TableColumn<ProductInCartInGui, Void> colBtn = new TableColumn();
+        colBtn.setMaxWidth(40);
         Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>> cellFactory = new Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>>() {
             @Override
             public TableCell<ProductInCartInGui, Void> call (final TableColumn<ProductInCartInGui, Void> param) {
                 final TableCell<ProductInCartInGui, Void> cell = new TableCell<ProductInCartInGui, Void>() {
                     private final Button btn = new Button("+");
                     {
-                        btn.setMinWidth(30);
+                        btn.setMinWidth(40);
                         btn.setOnAction((ActionEvent event) -> {
                             ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
                             changeNumber(productInCartInGui.getProduct(), +1);
@@ -149,6 +148,11 @@ public class ShowCart implements Initializable {
     }
 
     public void purchase(MouseEvent mouseEvent) {
+        if(dataBase.user == null) {
+            runner.changeScene("LoginMenu.fxml");
+        } else {
+            // receive information scene
+        }
     }
 
     private void changeNumber(Product product, int changing) {
@@ -165,6 +169,9 @@ public class ShowCart implements Initializable {
         User user = dataBase.tempUser;
         if(dataBase.user != null)
             user = dataBase.user;
+        if(user.getCard() == null) {
+            user.setCard(new Card());
+        }
         ObservableList allProducts = FXCollections.observableArrayList();
         for (ProductInCard productInCard : user.getCard().getProductsInThisCard().values()) {
             allProducts.addAll(new ProductInCartInGui(productInCard));
