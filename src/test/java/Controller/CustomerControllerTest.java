@@ -35,6 +35,7 @@ public class CustomerControllerTest {
 
     @Test
     public void getInstance() {
+        assertNotNull(CustomerController.getInstance());
     }
 
     @Test
