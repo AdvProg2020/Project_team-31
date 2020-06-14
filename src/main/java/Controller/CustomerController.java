@@ -73,7 +73,6 @@ public class CustomerController {
         if(user != null) {
             card = user.getCard();
         }
-
         if (product.getProductStatus() == ProductAndOffStatus.CREATING)
             throw new Exception("Product is in creating progress yet!");
         if (product.getProductStatus() == ProductAndOffStatus.EDITING)
