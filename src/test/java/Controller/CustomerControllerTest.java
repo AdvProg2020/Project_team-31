@@ -46,6 +46,7 @@ public class CustomerControllerTest {
 
     @Test
     public void createCard() {
+        Assert.assertNotNull(productInCard);
     }
 
     @Test
@@ -59,6 +60,28 @@ public class CustomerControllerTest {
 
     @Test
     public void addProductToCard(){
+        new MockUp<Card>(){
+        @Mock
+        HashMap<Product , ProductInCard> getProductsInThisCard(){
+            HashMap<Product , ProductInCard> hamed = new HashMap<>();
+            hamed.put(product , productInCard);
+            return hamed;
+            }
+        };
+        new Expectations(){
+            {
+                user.getCard(); result = card;
+
+                product.getProductStatus(); result = ProductAndOffStatus.ACCEPTED; times = 2;
+
+            }
+        };
+
+        try {
+            customerController.addProductToCard(user , card , product , "good");
+        } catch (Exception e) {
+            Assert.assertEquals("You have add this product to card before!" , e.getMessage());
+        }
     }
 
     @Test
