@@ -164,12 +164,35 @@ public class CustomerControllerTest {
         };
 
         Assert.assertEquals(50 ,customerController.showTotalPrice(card));
-
-
     }
 
     @Test
     public void createBuyingLog() {
+            new MockUp<Card>(){
+                @Mock
+                HashMap<Product , ProductInCard> getProductsInThisCard(){
+                    HashMap<Product , ProductInCard> productsInThisCard = new HashMap<>();
+                    productsInThisCard.put(product , productInCard);
+                    return productsInThisCard;
+                }
+            };
+        new Expectations(){
+            {
+                user.getCard(); result = card;
+                product.getAvailable(); result = 5;
+                user.getCard(); result = card;
+                productInCard.getNumber(); result = 6;
+                product.getName(); result = "mobile";
+
+
+            }
+        };
+        String[] information = new String[6];
+        try {
+            customerController.createBuyingLog(user,information);
+        } catch (Exception e) {
+            Assert.assertEquals("number of mobileis more than it's availability." ,e.getMessage() );
+        }
     }
 
     @Test
