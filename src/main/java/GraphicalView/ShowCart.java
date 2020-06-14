@@ -1,25 +1,125 @@
 package GraphicalView;
 
+import Controller.CustomerController;
+import Model.Product;
+import Model.ProductInCard;
+import Model.ProductInCartInGui;
+import Model.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 
+import javax.jws.soap.SOAPBinding;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ShowCart implements Initializable {
     public Button logout;
     public Button login;
+    public Label totalPrice;
+    public TableView tableOfProducts;
+    public TableColumn productName;
+    public TableColumn number;
+    public TableColumn price;
+    public TableColumn total;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        logoutAlert();
-        loginAlert();
+        addShowButtonToTable();
+        addDecreaseButtonToTable();
+        addIncreaseButtonToTable();
+        productName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        number.setCellValueFactory(new PropertyValueFactory<>("number"));
+        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        total.setCellValueFactory(new PropertyValueFactory<>("total"));
+        setTableOfProducts();
     }
+
+    private void addShowButtonToTable() {
+        TableColumn<ProductInCartInGui, Void> colBtn = new TableColumn();
+        Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>> cellFactory = new Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>>() {
+            @Override
+            public TableCell<ProductInCartInGui, Void> call (final TableColumn<ProductInCartInGui, Void> param) {
+                final TableCell<ProductInCartInGui, Void> cell = new TableCell<ProductInCartInGui, Void>() {
+                    private final Button btn = new Button("show");
+                    {
+                        btn.setMinWidth(75);
+                        btn.setOnAction((ActionEvent event) -> {
+                            ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
+                            ProductsMenu.product = productInCartInGui.getProduct();
+                            runner.changeScene("ProductArea.fxml");
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        tableOfProducts.getColumns().add(colBtn);
+    }
+
+    private void addDecreaseButtonToTable() {
+        TableColumn<ProductInCartInGui, Void> colBtn = new TableColumn();
+        Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>> cellFactory = new Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>>() {
+            @Override
+            public TableCell<ProductInCartInGui, Void> call (final TableColumn<ProductInCartInGui, Void> param) {
+                final TableCell<ProductInCartInGui, Void> cell = new TableCell<ProductInCartInGui, Void>() {
+                    private final Button btn = new Button("-");
+                    {
+                        btn.setMinWidth(30);
+                        btn.setOnAction((ActionEvent event) -> {
+                            ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
+                            changeNumber(productInCartInGui.getProduct(), -1);
+                        });
+                    }
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        tableOfProducts.getColumns().add(colBtn);
+    }
+
+    private void addIncreaseButtonToTable() {
+        TableColumn<ProductInCartInGui, Void> colBtn = new TableColumn();
+        Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>> cellFactory = new Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>>() {
+            @Override
+            public TableCell<ProductInCartInGui, Void> call (final TableColumn<ProductInCartInGui, Void> param) {
+                final TableCell<ProductInCartInGui, Void> cell = new TableCell<ProductInCartInGui, Void>() {
+                    private final Button btn = new Button("+");
+                    {
+                        btn.setMinWidth(30);
+                        btn.setOnAction((ActionEvent event) -> {
+                            ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
+                            changeNumber(productInCartInGui.getProduct(), +1);
+                        });
+                    }
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        tableOfProducts.getColumns().add(colBtn);
+    }
+
 
     private void logoutAlert() {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
@@ -46,5 +146,30 @@ public class ShowCart implements Initializable {
             }
         };
         login.setOnAction(event);
+    }
+
+    public void purchase(MouseEvent mouseEvent) {
+    }
+
+    private void changeNumber(Product product, int changing) {
+        try {
+            CustomerController.getInstance().changeNumberOfProductInCard(dataBase.user, dataBase.tempUser.getCard(),product.getProductId(),changing);
+            setTableOfProducts();
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            error.show();
+        }
+    }
+
+    private void setTableOfProducts() {
+        User user = dataBase.tempUser;
+        if(dataBase.user != null)
+            user = dataBase.user;
+        ObservableList allProducts = FXCollections.observableArrayList();
+        for (ProductInCard productInCard : user.getCard().getProductsInThisCard().values()) {
+            allProducts.addAll(new ProductInCartInGui(productInCard));
+        }
+        tableOfProducts.setItems(allProducts);
+        totalPrice.setText("total price: " + CustomerController.getInstance().showTotalPrice(user.getCard()));
     }
 }

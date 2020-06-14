@@ -180,6 +180,7 @@ public class CustomerController {
                 .map(buyingLog -> "Id: " + buyingLog.getLogId() + ", Date: " + buyingLog.getDate() + ", Price: " + buyingLog.getTotalPrice())
                 .collect(Collectors.toList());
     }
+
     public ArrayList<BuyingLog> showAllOrdersByList(User user) {
         return ((Customer) user).getAllBuyingLogs();
     }
