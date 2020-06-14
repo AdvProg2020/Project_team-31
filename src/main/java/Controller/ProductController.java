@@ -42,8 +42,7 @@ public class ProductController {
     public ArrayList<Product> showProductInGui(User user, String categoryName) {
         ArrayList<Product> products;
         Category category;
-        System.out.println(categoryName);
-        if (categoryName.equals("all")) {
+        if (categoryName == null || categoryName.equals("all")) {
             products = Product.allProducts;
             category = null;
         } else {

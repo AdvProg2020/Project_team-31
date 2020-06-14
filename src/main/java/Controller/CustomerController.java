@@ -81,7 +81,6 @@ public class CustomerController {
         if (card.getProductsInThisCard().containsKey(product)) {
             throw new Exception("You have add this product to card before!");
         }
-
         User seller = LoginController.getUserByUsername(sellerUsername);
         if (seller == null) {
             throw new Exception("There is not Seller with this userName");

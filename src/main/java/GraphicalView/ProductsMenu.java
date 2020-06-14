@@ -20,6 +20,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -44,7 +45,8 @@ public class ProductsMenu implements Initializable {
                 .map(e -> e.getName())
                 .collect(Collectors.toList());
         listOfCategories.add(0, "all");
-        category.setItems(FXCollections.observableList(listOfCategories));
+        ObservableList categories = FXCollections.observableArrayList(listOfCategories);
+        category.setItems(categories);
         category.setValue("all");
         categoryName = "all";
     }
@@ -64,8 +66,8 @@ public class ProductsMenu implements Initializable {
         viewColumn.setCellValueFactory(new PropertyValueFactory<>("views"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
         rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
-        new Product(null, "a", "M9", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, null, null);
-        new Product(null, "a", "M10", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, null, null);
+        new Product(null, "a", "M9", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, new HashMap<>(), new HashMap<>());
+        new Product(null, "a", "M10", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, new HashMap<>(), new HashMap<>());
         tableOfProducts.setItems(getProducts("all"));
     }
 

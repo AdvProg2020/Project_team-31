@@ -16,9 +16,9 @@
 
     <VBox fx:id="specialProperties" layoutX="21.0" layoutY="215.0" prefHeight="27.0" prefWidth="250" />
 
-    <Button fx:id="loginButton" layoutX="91.0" layoutY="353.0" mnemonicParsing="false" onMouseClicked="#login" text="login" />
+    <Button fx:id="loginButton" layoutX="117.0" layoutY="353.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#login" text="login" />
 
-    <Button fx:id="logoutButton" layoutX="21.0" layoutY="353.0" mnemonicParsing="false" onMouseClicked="#logout" text="logout" />
+    <Button fx:id="logoutButton" layoutX="21.0" layoutY="353.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#logout" text="logout" />
 
     <ListView fx:id="commentsList" layoutX="348.0" layoutY="166.0" prefHeight="234.0" prefWidth="324.0" />
 
@@ -29,11 +29,20 @@
    <Button layoutX="420.0" layoutY="128.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#commentThisProduct" text="comment" />
 
    <TextArea fx:id="commentContent" layoutX="517.0" layoutY="95.0" prefHeight="65.0" prefWidth="149.0" promptText="Content" wrapText="true" />
-   <ChoiceBox layoutX="231.0" layoutY="50.0" prefWidth="150.0" />
-   <Label layoutX="275.0" layoutY="19.0" text="select seller" />
-   <Label layoutX="292.0" layoutY="87.0" text="price: " />
-   <Label fx:id="price" layoutX="29.0" layoutY="87.0" text="minimum price: " />
-   <Label fx:id="view" layoutX="134.0" layoutY="54.0" text="view: " />
-   <Label fx:id="status" layoutX="135.0" layoutY="19.0" text="status:" />
-   <Label fx:id="available" layoutX="29.0" layoutY="119.0" text="availability" />
+
+    <ChoiceBox fx:id="sellers" layoutX="231.0" layoutY="50.0" onAction="#changeSeller" prefWidth="150.0" />
+
+    <Label layoutX="275.0" layoutY="19.0" text="select seller" />
+
+    <Label fx:id="sellerPrice" layoutX="231.0" layoutY="87.0" text="price: " wrapText="true" />
+
+    <Label fx:id="price" layoutX="29.0" layoutY="87.0" text="minimum price: " />
+
+    <Label fx:id="view" layoutX="134.0" layoutY="54.0" text="view: " />
+
+    <Label fx:id="status" layoutX="135.0" layoutY="19.0" text="status:" />
+
+    <Label fx:id="available" layoutX="29.0" layoutY="119.0" text="availability" />
+
+   <Button layoutX="219.0" layoutY="353.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#back" text="back" />
 </Pane>

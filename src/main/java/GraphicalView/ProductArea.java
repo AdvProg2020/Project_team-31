@@ -2,21 +2,23 @@ package GraphicalView;
 
 import Controller.CustomerController;
 import Controller.LoginController;
+
 import Controller.ProductController;
 import Model.*;
-import com.sun.org.apache.bcel.internal.generic.LADD;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ProductArea implements Initializable {
 
@@ -35,10 +37,10 @@ public class ProductArea implements Initializable {
     public Label view;
     public Label status;
     public Label available;
-    private Card card;
+    public ChoiceBox sellers;
+    public Label sellerPrice;
     private User user;
     private Product product;
-    private Seller seller;
     private CustomerController customerController = CustomerController.getInstance();
     private ArrayList<String> commentsToString ;
 
@@ -61,6 +63,9 @@ public class ProductArea implements Initializable {
         information.setText("information: " + product.getInformation());
         update();
         setSpecialProperties();
+        ObservableList arrayOfSellers = FXCollections.observableArrayList();
+        arrayOfSellers.addAll(product.getSellersOfThisProduct().keySet().stream().map(e -> e.getUsername()).collect(Collectors.toList()));
+        sellers.setItems(arrayOfSellers);
     }
 
     private void setSpecialProperties() {
@@ -82,10 +87,6 @@ public class ProductArea implements Initializable {
         }
     }
 
-
-    public void addThisProductToCard(ActionEvent actionEvent) throws Exception {
-        customerController.addProductToCard(user , card , product , seller.getUsername());
-    }
 
     public void login() {
         Alert error = new Alert(Alert.AlertType.ERROR);
@@ -112,30 +113,6 @@ public class ProductArea implements Initializable {
 
     }
 
-    public void rateThisProduct(ActionEvent actionEvent) {
-        if(ratePlease.getText().equals("")) {
-            Alert error = new Alert(Alert.AlertType.ERROR, "please enter number", ButtonType.OK);
-            error.show();
-        }
-        try {
-            CustomerController.getInstance().rateProduct(user , product.getProductId() ,Integer.getInteger(ratePlease.getText()));
-        } catch (Exception e) {
-            Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            error.show();
-        }
-        update();
-    }
-
-    public void commentThisProduct(ActionEvent actionEvent) {
-        ProductController.getInstance().addComment(user , product , CommentTitle.getText() , commentContent.getText() );
-        update();
-    }
-
-    public void  showProductDetails(){
-        rate.setText("rate : " + product.getRate());
-        price.setText("price : " + product.getMinimumPrice());
-        productName.setText("name : " + product.getName());
-    }
 
     public void update(){
         rate.setText("rate: " + product.getRate());
@@ -146,5 +123,65 @@ public class ProductArea implements Initializable {
             comments.addAll(commentsToString);
             commentsList.setItems(comments);
         }
+    }
+
+    public void changeSeller(ActionEvent actionEvent) {
+        Off productOff = null;
+        for (Off off : product.getOffs()) {
+            if(off.getSeller().getUsername().equals(sellers.getValue())) {
+                productOff = off;
+            }
+        }
+        int p = product.getSellersOfThisProduct().get(LoginController.getUserByUsername(sellers.getValue().toString()));
+
+        if(productOff == null) {
+            sellerPrice.setText("price: " + p + "\nThere is no off");
+        } else {
+            sellerPrice.setText("price: " + p + "\noff percent: " + productOff.getOffPercent() + ", new price: " + (p*(100 - productOff.getOffPercent())/100));
+        }
+    }
+
+    public void addThisProductToCard(javafx.scene.input.MouseEvent mouseEvent) {
+        if(sellers.getValue() == null) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "please select seller!", ButtonType.OK);
+            error.show();
+        } else {
+            try {
+                customerController.addProductToCard(user , DataBase.getInstance().tempUser.getCard() , product , sellers.getValue().toString());
+            } catch (Exception e) {
+                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                error.show();
+            }
+        }
+    }
+
+    public void rateThisProduct(javafx.scene.input.MouseEvent mouseEvent) {
+        if(ratePlease.getText().equals("")) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "please enter number", ButtonType.OK);
+            error.show();
+        } else {
+            try {
+                CustomerController.getInstance().rateProduct(user , product.getProductId() ,Integer.getInteger(ratePlease.getText()));
+                update();
+            } catch (Exception e) {
+                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                error.show();
+            }
+        }
+
+    }
+
+    public void commentThisProduct(javafx.scene.input.MouseEvent mouseEvent) {
+        if(commentContent.getText().equals("")) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "please  write your comment", ButtonType.OK);
+            error.show();
+        } else {
+            ProductController.getInstance().addComment(user , product , CommentTitle.getText() , commentContent.getText() );
+            update();
+        }
+    }
+
+    public void back(MouseEvent mouseEvent) {
+        Runner.getInstance().back();
     }
 }
