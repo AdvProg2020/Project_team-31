@@ -31,6 +31,12 @@ public class CustomerControllerTest {
 
     @Test
     public void addCredit() {
+        new Expectations(){
+            {
+              user.getMoney(50);
+            }
+        };
+        customerController.addCredit(user ,50);
     }
 
     @Test
