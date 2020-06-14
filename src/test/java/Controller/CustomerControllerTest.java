@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.jws.soap.SOAPBinding;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -46,7 +47,6 @@ public class CustomerControllerTest {
 
     @Test
     public void createCard() {
-        Assert.assertNotNull(productInCard);
     }
 
     @Test
@@ -127,6 +127,45 @@ public class CustomerControllerTest {
 
     @Test
     public void showTotalPrice() {
+        new MockUp<Card>(){
+            @Mock
+            HashMap<Product , ProductInCard> getProductsInThisCard(){
+                HashMap<Product , ProductInCard> hamed = new HashMap<>();
+                hamed.put(product , productInCard);
+                return hamed;
+            }
+        };
+        new MockUp<Product>(){
+            @Mock
+            ArrayList<Off> getOffs(){
+                ArrayList<Off> offs = new ArrayList<>();
+                offs.add(off);
+                return offs;
+            }
+        };
+        new MockUp<Product>(){
+            @Mock
+            HashMap<Seller , Integer> getSellersOfThisProduct(){
+                HashMap<Seller , Integer> sellerIntegerHashMap = new HashMap<>();
+                sellerIntegerHashMap.put(seller1 , 50);
+                return sellerIntegerHashMap;
+            }
+        };
+        new Expectations(){
+            {
+                productInCard.getProduct(); result = product;
+                off.getSeller(); result = seller1;
+                productInCard.getSeller(); result = seller1;
+                off.getOffPercent(); result = 50;
+                productInCard.getProduct(); result = product;
+                productInCard.getSeller(); result = seller1;
+                productInCard.getNumber(); result = 2;
+            }
+        };
+
+        Assert.assertEquals(50 ,customerController.showTotalPrice(card));
+
+
     }
 
     @Test
