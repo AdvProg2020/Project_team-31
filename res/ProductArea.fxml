@@ -1,52 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="724.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductArea">
-   <children>
-      <Button fx:id="addToCardButton" layoutX="324.0" layoutY="190.0" mnemonicParsing="false" onAction="#addThisProductToCard" text="add to card">
-         <font>
-            <Font size="18.0" />
-         </font></Button>
-      <Label fx:id="productName" layoutX="324.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" text="product name">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Label fx:id="price" layoutX="324.0" layoutY="58.0" prefHeight="27.0" prefWidth="251.0" text="price">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Label fx:id="rate" layoutX="324.0" layoutY="101.0" prefHeight="27.0" prefWidth="251.0" text="rate">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <TextField fx:id="ratePlease" layoutX="80.0" layoutY="307.0" onAction="#rateThisProduct" promptText="rate this product">
-         <font>
-            <Font size="18.0" />
-         </font></TextField>
-      <TextField fx:id="CommentTitle" layoutX="80.0" layoutY="384.0" onAction="#commentThisProduct" promptText="commentTitle">
-         <font>
-            <Font size="18.0" />
-         </font></TextField>
-      <Label fx:id="specialProperties" layoutX="324.0" layoutY="142.0" prefHeight="27.0" prefWidth="251.0" text="special properties">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Button fx:id="loginButton" layoutX="439.0" layoutY="190.0" mnemonicParsing="false" onAction="#login" text="login">
-         <font>
-            <Font size="18.0" />
-         </font></Button>
-      <Button fx:id="logoutButton" layoutX="504.0" layoutY="190.0" mnemonicParsing="false" onAction="#logout" text="logout">
-         <font>
-            <Font size="18.0" />
-         </font></Button>
-      <TextField fx:id="CommentContent" layoutX="80.0" layoutY="423.0" promptText="commentContent">
-         <font>
-            <Font size="18.0" />
-         </font></TextField>
-      <ListView fx:id="commentsList" layoutX="321.0" layoutY="244.0" prefHeight="229.0" prefWidth="389.0" />
-   </children>
-</AnchorPane>
+<Pane prefHeight="400.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductArea">
+    <Button fx:id="addToCardButton" layoutX="268.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#addThisProductToCard" text="add to card" />
+
+    <Label fx:id="productName" layoutX="29.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" text="name:" />
+
+    <Label fx:id="rate" layoutX="29.0" layoutY="50.0" prefHeight="27.0" prefWidth="43.0" text="rate:" />
+
+    <TextField fx:id="ratePlease" layoutX="517.0" layoutY="15.0" promptText="Enter number [0-5]" />
+
+    <TextField fx:id="CommentTitle" layoutX="517.0" layoutY="63.0" promptText="Title" />
+
+    <VBox fx:id="specialProperties" layoutX="21.0" layoutY="215.0" prefHeight="27.0" prefWidth="250" />
+
+    <Button fx:id="loginButton" layoutX="91.0" layoutY="353.0" mnemonicParsing="false" onMouseClicked="#login" text="login" />
+
+    <Button fx:id="logoutButton" layoutX="21.0" layoutY="353.0" mnemonicParsing="false" onMouseClicked="#logout" text="logout" />
+
+    <ListView fx:id="commentsList" layoutX="348.0" layoutY="166.0" prefHeight="234.0" prefWidth="324.0" />
+
+   <Label fx:id="information" layoutX="29.0" layoutY="152.0" maxWidth="190" text="information" wrapText="true" />
+
+   <Button layoutX="420.0" layoutY="15.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#rateThisProduct" text="rate" />
+
+   <Button layoutX="420.0" layoutY="128.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#commentThisProduct" text="comment" />
+
+   <TextArea fx:id="commentContent" layoutX="517.0" layoutY="95.0" prefHeight="65.0" prefWidth="149.0" promptText="Content" wrapText="true" />
+   <ChoiceBox layoutX="231.0" layoutY="50.0" prefWidth="150.0" />
+   <Label layoutX="275.0" layoutY="19.0" text="select seller" />
+   <Label layoutX="292.0" layoutY="87.0" text="price: " />
+   <Label fx:id="price" layoutX="29.0" layoutY="87.0" text="minimum price: " />
+   <Label fx:id="view" layoutX="134.0" layoutY="54.0" text="view: " />
+   <Label fx:id="status" layoutX="135.0" layoutY="19.0" text="status:" />
+   <Label fx:id="available" layoutX="29.0" layoutY="119.0" text="availability" />
+</Pane>

@@ -184,13 +184,14 @@ public class CustomerController {
     public ArrayList<BuyingLog> showAllOrdersByList(User user) {
         return ((Customer) user).getAllBuyingLogs();
     }
+
     public void rateProduct(User user, String productId, int rate) throws Exception {
         Product product = ProductController.getProductById(productId);
         if(product == null) {
             throw new Exception("There is not product with this id");
         }
         if (!((Customer) user).getRecentShoppingProducts().contains(product))
-            throw new Exception("Customer Does'nt buy this Product");
+            throw new Exception("You have'nt buy this Product");
         product.addNumberOfCustomerWhoRated();
         product.addSumOfCustomersRate(rate);
     }

@@ -58,4 +58,12 @@ public class MainMenu implements Initializable {
         };
         login.setOnAction(event);
     }
+
+    public void products(MouseEvent mouseEvent) {
+        Runner.getInstance().changeScene("Products.fxml");
+    }
+
+    public void offs(MouseEvent mouseEvent) {
+        Runner.getInstance().changeScene("OffMenu.fxml");
+    }
 }

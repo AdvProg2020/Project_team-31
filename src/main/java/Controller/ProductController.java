@@ -267,7 +267,7 @@ public class ProductController {
     public ArrayList<String> showCommentAboutProduct(Product product) {
         ArrayList<String> allComments = new ArrayList<>();
         for (Comment comment : product.getAllComments()) {
-            allComments.add("title: " + comment.getCommentTitle() + ", content: " + comment.getCommentContent() + ", customer: " + comment.getCustomer().getUsername() + ", is buyer: " + comment.getIsBuyer());
+            allComments.add("title: " + comment.getCommentTitle() + ", customer: " + comment.getCustomer().getUsername() + ", is buyer: " + comment.getIsBuyer() + "\n content: " + comment.getCommentContent());
         }
         return allComments;
     }

@@ -103,6 +103,7 @@ public class ProductsMenu implements Initializable {
     }
 
     private void showDetail() {
+        product.addView();
         Runner.getInstance().changeScene("ProductArea.fxml");
     }
 
