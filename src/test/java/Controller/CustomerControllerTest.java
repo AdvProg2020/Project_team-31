@@ -86,6 +86,43 @@ public class CustomerControllerTest {
 
     @Test
     public void addProductToCard2(){
+        new MockUp<Card>(){
+            @Mock
+            HashMap<Product , ProductInCard> getProductsInThisCard(){
+                HashMap<Product , ProductInCard> hamed = new HashMap<>();
+                hamed.put(null , productInCard);
+                return hamed;
+            }
+        };
+        new MockUp<LoginController>(){
+            @Mock
+            User getUserByUsername(String userName){
+                return seller1;
+            }
+        };
+        new MockUp<Product>(){
+            @Mock
+            HashMap<Seller , Integer> getSellersOfThisProduct(){
+                HashMap<Seller , Integer> hamed = new HashMap<>();
+                hamed.put(seller1 ,0);
+                return hamed;
+            }
+        };
+
+        new Expectations(){
+            {
+                user.getCard(); result = card;
+
+                product.getProductStatus(); result = ProductAndOffStatus.ACCEPTED; times = 2;
+                product.getAvailable(); result = 0;
+            }
+        };
+
+        try {
+            customerController.addProductToCard(user , card , product , "good");
+        } catch (Exception e) {
+            Assert.assertEquals("Inventory of product is not enough" , e.getMessage());
+        }
     }
 
     @Test
