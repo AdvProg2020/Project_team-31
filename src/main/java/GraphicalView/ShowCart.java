@@ -151,7 +151,13 @@ public class ShowCart implements Initializable {
         if(dataBase.user == null) {
             runner.changeScene("LoginMenu.fxml");
         } else {
-            // receive information scene
+            String message = CustomerController.getInstance().isAvailabilityOk(dataBase.user);
+            if(message.equals("ok")) {
+                //
+            } else {
+                Alert error = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+                error.show();
+            }
         }
     }
 
