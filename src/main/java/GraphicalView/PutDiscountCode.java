@@ -29,6 +29,7 @@ public class PutDiscountCode {
     }
 
     public void nextStep(MouseEvent mouseEvent) {
+        Runner.getInstance().changeScene("PayMoney.fxml");
     }
 
     public void back(MouseEvent mouseEvent) {

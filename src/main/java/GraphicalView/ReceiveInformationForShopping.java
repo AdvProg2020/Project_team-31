@@ -23,6 +23,7 @@ public class ReceiveInformationForShopping {
             data[1] = phone.getText();
             try {
                 buyingLog = CustomerController.getInstance().createBuyingLog(DataBase.getInstance().user, data);
+                Runner.getInstance().changeScene("PutDiscountCode.fxml");
             } catch (Exception e) {
                 Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
                 error.show();
