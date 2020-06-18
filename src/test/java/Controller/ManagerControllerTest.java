@@ -170,17 +170,23 @@ public class ManagerControllerTest {
     }
 
     @Test
-    public void showDiscount() {
-        new MockUp<Object>(){
-            //  @Mock
+    public void showDiscount() throws Exception {
+        new MockUp<ManagerController>(){
+             @Mock
+            public DiscountCode getDiscountById(String discountId){
+                 return discountCode;
+             }
         };
         new Expectations(){
             {
-
+                managerController.getDiscountById("firstOne");
+                discountCode.getDiscountCode(); result = "50";
+                discountCode.getBeginTime(); result = new Date(2000 ,02 , 20);
+                discountCode.getEndTime(); result = new Date(2020 , 02 , 20);
+                discountCode.getDiscountPercent(); result = 40;
             }
         };
-
-
+        Assert.assertEquals("code:" + "50" + ", beginTime:" +new Date(2000 ,02 , 20) + ", endTime:" + new Date(2020 , 02 , 20) + ", percent:" + 40 , managerController.showDiscount("firstOne"));
     }
 
     @Test
