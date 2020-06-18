@@ -25,6 +25,8 @@ public class ManagerControllerTest {
     Manager manager;
     @Injectable
     Customer customer;
+    @Injectable
+    DiscountCode discountCode;
     @Test
     public void getInstance() {
         Assert.assertNotNull(ManagerController.getInstance());
@@ -104,6 +106,26 @@ public class ManagerControllerTest {
         new MockUp<LoginController>(){
             @Mock
             public User getUserByUsername(String userName){
+                return manager;
+            }
+        };
+        new Expectations(){
+            {
+                LoginController.getUserByUsername("hamed");
+            }
+        };
+        HashMap<String , Integer> sample = new HashMap<>();
+        sample.put("hamed" , 5);
+        try {
+            managerController.createDiscountCode("firstDiscountCode" , new Date() , new Date() , 40 , 50 , sample);
+        } catch (Exception e) {
+            assertEquals("User with userName \"" + "hamed" + "\" isn't customer", e.getMessage());
+        }
+    }    @Test
+    public void createDiscountCodeAndChangeNameTOCustomer3() {
+        new MockUp<LoginController>(){
+            @Mock
+            public User getUserByUsername(String userName){
                 return customer;
             }
         };
@@ -116,41 +138,35 @@ public class ManagerControllerTest {
         HashMap<String , Integer> sample = new HashMap<>();
         sample.put("hamed" , 5);
         try {
-                managerController.createDiscountCode("firstDiscountCode" , new Date() , new Date() , 40 , 50 , sample);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }    @Test
-    public void createDiscountCodeAndChangeNameTOCustomer3() {
-        new MockUp<Object>(){
-            //  @Mock
-        };
-        new Expectations(){
-            {
-
-            }
-        };
-        HashMap<String , Integer> sample = new HashMap<>();
-        sample.put("hamed" , 5);
-        try {
             managerController.createDiscountCode("firstDiscountCode" , new Date() , new Date() , 40 , 50 , sample);
         } catch (Exception e) {
-            assertEquals("User with userName "+"\"hamed\"" +" doesn't exist" , e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @Test
     public void showAllDiscountCodes() {
-        new MockUp<Object>(){
-            //  @Mock
+        new MockUp<DiscountCode>(){
+              @Mock
+            public ArrayList<DiscountCode> getAllDiscountCodes(){
+                  ArrayList<DiscountCode> allDiscountCodes = new ArrayList<>();
+                  allDiscountCodes.add(discountCode);
+                  return allDiscountCodes;
+              }
         };
         new Expectations(){
             {
+                DiscountCode.getAllDiscountCodes();
+                discountCode.getDiscountCode(); result = "fistOne";
+                discountCode.getBeginTime(); result = new Date(2000 ,02 , 20);
+                discountCode.getEndTime(); result = new Date(2020 , 02 , 20);
+                discountCode.getDiscountPercent(); result = 40;
 
             }
         };
-
-
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("code:" + "fistOne" + ", beginTime:" +  new Date(2000 ,02 , 20)+ ", endTime:" + new Date(2020 , 02 , 20) + ", percent:" + 40);
+        Assert.assertEquals(sample ,managerController.showAllDiscountCodes());
     }
 
     @Test
