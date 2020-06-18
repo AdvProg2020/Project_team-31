@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Customer;
+import Model.Manager;
 import Model.User;
 import mockit.*;
 import mockit.integration.junit4.JMockit;
@@ -7,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -15,6 +18,8 @@ public class ManagerControllerTest {
     ManagerController managerController = ManagerController.getInstance();
     @Injectable
     User user;
+    @Injectable
+    Manager manager;
     @Test
     public void getInstance() {
         Assert.assertNotNull(ManagerController.getInstance());
@@ -55,16 +60,20 @@ public class ManagerControllerTest {
 
     @Test
     public void deleteUser() {
-        new MockUp<Object>(){
-            //  @Mock
+        new MockUp<LoginController>(){
+              @Mock
+            public User getUserByUsername(String userName){
+                  return manager;
+              }
         };
         new Expectations(){
             {
-
+                LoginController.getUserByUsername("hamed");
+                manager.deleteUser();
+                manager.deleteManager();
             }
         };
-
-
+        managerController.deleteUser("hamed");
     }
 
     @Test
