@@ -119,7 +119,7 @@ public class CustomerController {
     public BuyingLog createBuyingLog(User user, String[] information) throws Exception {
         for (Product product : user.getCard().getProductsInThisCard().keySet()) {
             if (product.getAvailable() < user.getCard().getProductsInThisCard().get(product).getNumber())
-                throw new Exception("number of " + product.getName() + "is more than it's availability.");
+                throw new Exception("number of " + product.getName() + " is more than it's availability.");
         }
         return new BuyingLog("BuyingLog" + (Log.getNumberOfLogCreated() +1) , showTotalPrice(user.getCard()), (Customer) user, user.getCard().getProductsInThisCard(), information);
     }
@@ -146,7 +146,7 @@ public class CustomerController {
         user.setCard(new Card());
     }
 
-    private void createSellingLog(BuyingLog buyingLog) {
+    public void createSellingLog(BuyingLog buyingLog) {
         ArrayList<ProductInCard> products = new ArrayList<>(buyingLog.getBuyingProducts().values());
         for (ProductInCard productInCard : products) {
             Seller seller = productInCard.getSeller();
