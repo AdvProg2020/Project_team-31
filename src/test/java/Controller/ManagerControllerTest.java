@@ -191,17 +191,49 @@ public class ManagerControllerTest {
 
     @Test
     public void getDiscountById() {
-        new MockUp<Object>(){
-            //  @Mock
+        new MockUp<DiscountCode>(){
+            @Mock
+            public ArrayList<DiscountCode> getAllDiscountCodes(){
+                ArrayList<DiscountCode> allDiscountCodes = new ArrayList<>();
+                allDiscountCodes.add(discountCode);
+                return allDiscountCodes;
+            }
         };
         new Expectations(){
             {
-
+                DiscountCode.getAllDiscountCodes();
+                discountCode.getDiscountCode();result = "firstOne";
             }
         };
-
-
+        try {
+            managerController.getDiscountById("secondOne");
+        } catch (Exception e) {
+            Assert.assertEquals("There is no discount with this code" , e.getMessage());
+        }
     }
+    @Test
+    public void getDiscountById2() {
+        new MockUp<DiscountCode>(){
+            @Mock
+            public ArrayList<DiscountCode> getAllDiscountCodes(){
+                ArrayList<DiscountCode> allDiscountCodes = new ArrayList<>();
+                allDiscountCodes.add(discountCode);
+                return allDiscountCodes;
+            }
+        };
+        new Expectations(){
+            {
+                DiscountCode.getAllDiscountCodes();
+                discountCode.getDiscountCode();result = "firstOne";
+            }
+        };
+        try {
+            Assert.assertEquals(discountCode ,managerController.getDiscountById("firstOne") );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Test
     public void editDiscountCode() {
