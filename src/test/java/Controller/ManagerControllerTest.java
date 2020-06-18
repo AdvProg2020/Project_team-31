@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Customer;
+import Model.DiscountCode;
 import Model.Manager;
 import Model.User;
 import mockit.*;
@@ -22,6 +23,8 @@ public class ManagerControllerTest {
     User user;
     @Injectable
     Manager manager;
+    @Injectable
+    Customer customer;
     @Test
     public void getInstance() {
         Assert.assertNotNull(ManagerController.getInstance());
@@ -80,6 +83,45 @@ public class ManagerControllerTest {
 
     @Test
     public void createDiscountCodeAndChangeNameTOCustomer() {
+        new MockUp<Object>(){
+            //  @Mock
+        };
+        new Expectations(){
+            {
+                LoginController.getUserByUsername("hamed");
+            }
+        };
+        HashMap<String , Integer> sample = new HashMap<>();
+        sample.put("hamed" , 5);
+        try {
+            managerController.createDiscountCode("firstDiscountCode" , new Date() , new Date() , 40 , 50 , sample);
+        } catch (Exception e) {
+            assertEquals("User with userName "+"\"hamed\"" +" doesn't exist" , e.getMessage());
+        }
+    }
+    @Test
+    public void createDiscountCodeAndChangeNameTOCustomer2() {
+        new MockUp<LoginController>(){
+            @Mock
+            public User getUserByUsername(String userName){
+                return customer;
+            }
+        };
+        new Expectations(){
+            {
+                LoginController.getUserByUsername("hamed");
+                DiscountCode discountCode = new DiscountCode("firstDiscountCode");
+            }
+        };
+        HashMap<String , Integer> sample = new HashMap<>();
+        sample.put("hamed" , 5);
+        try {
+                managerController.createDiscountCode("firstDiscountCode" , new Date() , new Date() , 40 , 50 , sample);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }    @Test
+    public void createDiscountCodeAndChangeNameTOCustomer3() {
         new MockUp<Object>(){
             //  @Mock
         };
