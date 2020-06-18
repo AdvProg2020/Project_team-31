@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 
 import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 @RunWith(JMockit.class)
@@ -77,7 +79,7 @@ public class ManagerControllerTest {
     }
 
     @Test
-    public void createDiscountCode() {
+    public void createDiscountCodeAndChangeNameTOCustomer() {
         new MockUp<Object>(){
             //  @Mock
         };
@@ -86,8 +88,13 @@ public class ManagerControllerTest {
 
             }
         };
-
-
+        HashMap<String , Integer> sample = new HashMap<>();
+        sample.put("hamed" , 5);
+        try {
+            managerController.createDiscountCode("firstDiscountCode" , new Date() , new Date() , 40 , 50 , sample);
+        } catch (Exception e) {
+            assertEquals("User with userName "+"\"hamed\"" +" doesn't exist" , e.getMessage());
+        }
     }
 
     @Test
