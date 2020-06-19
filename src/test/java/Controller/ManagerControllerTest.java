@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Customer;
-import Model.DiscountCode;
-import Model.Manager;
-import Model.User;
+import Model.*;
 import mockit.*;
 import mockit.integration.junit4.JMockit;
 import org.junit.Assert;
@@ -27,6 +24,8 @@ public class ManagerControllerTest {
     Customer customer;
     @Injectable
     DiscountCode discountCode;
+    @Injectable
+    Request request;
     @Test
     public void getInstance() {
         Assert.assertNotNull(ManagerController.getInstance());
@@ -300,17 +299,36 @@ public class ManagerControllerTest {
     }
 
     @Test
-    public void showAllRequests() {
-        new MockUp<Object>(){
-            //  @Mock
+    public void showAllRequests() throws Exception {
+        new MockUp<Request>(){
+              @Mock
+            public ArrayList<Request> getAllRequest(){
+                  ArrayList<Request> requests = new ArrayList<>();
+                  requests.add(request);
+                  return requests;
+              }
+        };
+        new MockUp<ManagerController>(){
+          @Mock
+          public String showRequestDetails(String input){
+              return "hamed";
+          }
         };
         new Expectations(){
             {
-
+                Request.getAllRequest();
+                request.getRequestId(); result = "salam";
+                managerController.showRequestDetails("salam");
+                request.getRequestId(); result = "salam";
             }
         };
-
-
+        try {
+            ArrayList<String> sample = new ArrayList<>();
+            sample.add("RequestId: " +  "salam" + ", " + "hamed");
+            Assert.assertEquals(sample, managerController.showAllRequests());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
