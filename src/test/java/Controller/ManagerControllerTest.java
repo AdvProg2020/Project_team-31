@@ -38,6 +38,8 @@ public class ManagerControllerTest {
     OffRequest offRequest;
     @Injectable
     Off off;
+    @Injectable
+    SellerOfProductRequest sellerOfProductRequest;
     @Test
     public void getInstance() {
         Assert.assertNotNull(ManagerController.getInstance());
@@ -453,16 +455,101 @@ public class ManagerControllerTest {
 
     @Test
     public void acceptRequest() {
-        new MockUp<Object>(){
-            //  @Mock
+        new MockUp<Request>(){
+            @Mock
+            public ArrayList<Request> getAllRequest(){
+                ArrayList<Request> allRequests = new ArrayList<>();
+                allRequests.add(sellerRequest);
+                return allRequests;
+            }
+        };
+        String[] sample = new String[6];
+        sample[0] = "0";
+        sample[1] = "1";
+        sample[2] = "2";
+        sample[3] = "3";
+        sample[4] = "4";
+        sample[5] = "5";
+        new Expectations(){
+            {
+                Request.getAllRequest();
+                sellerRequest.getRequestId(); result = "firstOne";
+                sellerRequest.getInformation(); result = sample;
+                sellerRequest.getUsername();
+                sellerRequest.deleteRequest();
+            }
+        };
+        managerController.acceptRequest("firstOne");
+    }
+    @Test
+    public void acceptRequest2() {
+        new MockUp<Request>(){
+            @Mock
+            public ArrayList<Request> getAllRequest(){
+                ArrayList<Request> allRequests = new ArrayList<>();
+                allRequests.add(offRequest);
+                return allRequests;
+            }
+        };
+        new MockUp<OffRequest>(){
+          @Mock
+          public ArrayList<Product> getOnSaleProducts(){
+            return null;
+          }
         };
         new Expectations(){
             {
-
+                Request.getAllRequest();
+                offRequest.getRequestId(); result = "firstOne";
+                offRequest.getOff(); result = off;
+                off.setOffStatus(ProductAndOffStatus.ACCEPTED);
+                offRequest.getIsEditing(); result = true;
+                offRequest.getOff(); result = off;
+                offRequest.getBeginTime(); result = new Date(2000 , 2 , 20);
+                off.setBeginTime(new Date(2000 , 2 , 20));
+                offRequest.getEndTime(); result = new Date(2020 , 2 , 20);
+                off.setEndTime(new Date(2020 , 2 , 20));
+                offRequest.getOffPercent(); result = 40;
+                off.setOffPercent(40);
+                offRequest.getOnSaleProducts();
+                off.setOnSaleProducts(null);
+                offRequest.deleteRequest();
             }
         };
-
-
+        managerController.acceptRequest("firstOne");
+    }
+    @Test
+    public void acceptRequest3() {
+        new MockUp<Request>(){
+            @Mock
+            public ArrayList<Request> getAllRequest(){
+                ArrayList<Request> allRequests = new ArrayList<>();
+                allRequests.add(offRequest);
+                return allRequests;
+            }
+        };
+        new Expectations(){
+            {
+                Request.getAllRequest();
+                sellerRequest.getRequestId(); result = "firstOne";
+            }
+        };
+    }    @Test
+    public void acceptRequest4() {
+        new MockUp<Request>(){
+            @Mock
+            public ArrayList<Request> getAllRequest(){
+                ArrayList<Request> allRequests = new ArrayList<>();
+                allRequests.add(offRequest);
+                return allRequests;
+            }
+        };
+        new Expectations(){
+            {
+                Request.getAllRequest();
+                sellerRequest.getRequestId(); result = "firstOne";
+            }
+        };
     }
 
     @Test
