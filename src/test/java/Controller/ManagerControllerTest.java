@@ -524,17 +524,42 @@ public class ManagerControllerTest {
             @Mock
             public ArrayList<Request> getAllRequest(){
                 ArrayList<Request> allRequests = new ArrayList<>();
-                allRequests.add(offRequest);
+                allRequests.add(productRequest);
                 return allRequests;
             }
         };
+        HashMap<String , String> sample = new HashMap();
+        sample.put("1" , "1");
+
         new Expectations(){
             {
                 Request.getAllRequest();
-                sellerRequest.getRequestId(); result = "firstOne";
+                productRequest.getRequestId(); result = "firstOne";
+                productRequest.getProduct(); result = product;
+                product.setProductStatus(ProductAndOffStatus.ACCEPTED);
+                productRequest.isEditing(); result = true;
+                productRequest.getProduct(); result = product;
+                productRequest.getAvailable(); result = 2;
+                product.setAvailable(2);
+                productRequest.getInformation();result = "information";
+                product.setInformation("information");
+                productRequest.getSpecialPropertiesRelatedToCategory(); result = sample;
+                product.setSpecialPropertiesRelatedToCategory(sample);
+                productRequest.getSeller();result = seller;
+                product.removeSeller(seller);
+                productRequest.getSeller();result = seller;
+                productRequest.getPrice(); result = 10;
+                product.addSeller(seller , 10);
+                productRequest.getPrice(); result = 10;
+                product.getMinimumPrice(); result = 20;
+                productRequest.getPrice(); result = 20;
+                product.setMinimumPrice(20);
+                productRequest.deleteRequest();
             }
         };
-    }    @Test
+        managerController.acceptRequest("firstOne");
+    }
+    @Test
     public void acceptRequest4() {
         new MockUp<Request>(){
             @Mock
