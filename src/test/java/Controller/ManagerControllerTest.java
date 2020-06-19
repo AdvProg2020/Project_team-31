@@ -266,17 +266,37 @@ public class ManagerControllerTest {
     }
 
     @Test
-    public void removeDiscountCode() {
-        new MockUp<Object>(){
-            //  @Mock
-        };
-        new Expectations(){
-            {
-
+    public void removeDiscountCode() throws Exception {
+        new MockUp<ManagerController>(){
+            @Mock
+            public DiscountCode getDiscountById(String discountId){
+                return discountCode;
             }
         };
-
-
+        new MockUp<DiscountCode>(){
+          @Mock
+          public HashMap<Customer , Integer>   getDiscountTimesForEachCustomer(){
+              HashMap<Customer , Integer> customerIntegerHashMap = new HashMap<>();
+              customerIntegerHashMap.put(customer , 10);
+              return customerIntegerHashMap;
+          }
+        };
+        ArrayList<DiscountCode> sample = new ArrayList<>();
+        sample.add(discountCode);
+        new Expectations(){
+            {
+                managerController.getDiscountById("firstONe");
+                discountCode.removeDiscountCode();
+                discountCode.getDiscountTimesForEachCustomer();
+                customer.getAllDiscountCodes();result = sample;
+                customer.removeDiscountCode(discountCode);
+            }
+        };
+        try {
+            managerController.removeDiscountCode("firstONe");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
