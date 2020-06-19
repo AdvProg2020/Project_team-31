@@ -26,6 +26,18 @@ public class ManagerControllerTest {
     DiscountCode discountCode;
     @Injectable
     Request request;
+    @Injectable
+    SellerRequest sellerRequest;
+    @Injectable
+    ProductRequest productRequest;
+    @Injectable
+    Product product;
+    @Injectable
+    Seller seller;
+    @Injectable
+    OffRequest offRequest;
+    @Injectable
+    Off off;
     @Test
     public void getInstance() {
         Assert.assertNotNull(ManagerController.getInstance());
@@ -332,17 +344,111 @@ public class ManagerControllerTest {
     }
 
     @Test
-    public void showRequestDetails() {
-        new MockUp<Object>(){
-            //  @Mock
+    public void showRequestDetails() throws Exception {
+        new MockUp<Request>(){
+          @Mock
+          public ArrayList<Request> getAllRequest(){
+              ArrayList<Request> allRequests = new ArrayList<>();
+              allRequests.add(request);
+              return allRequests;
+          }
         };
         new Expectations(){
             {
-
+                Request.getAllRequest();
+                request.getRequestId(); result = "secondOne";
             }
         };
+        try {
+            managerController.showRequestDetails("firstOne");
+        } catch (Exception e) {
+            assertEquals("invalid requestId" , e.getMessage());
+        }
+    }
+    @Test
+    public void showRequestDetails2() throws Exception {
+        new MockUp<Request>(){
+            @Mock
+            public ArrayList<Request> getAllRequest(){
+                ArrayList<Request> allRequests = new ArrayList<>();
+                allRequests.add(sellerRequest);
+                return allRequests;
+            }
+        };
+        String[] sample = new String[5];
+        sample[0] = "0";
+        sample[1] = "1";
+        sample[2] = "2";
+        sample[3] = "3";
+        sample[4] = "4";
+        new Expectations(){
+            {
+                Request.getAllRequest();
+                sellerRequest.getRequestId(); result = "firstOne";
+                sellerRequest.getUsername(); result = "hamed";
+                sellerRequest.getInformation();result = sample;times = 3;
+            }
+        };
+        try {
+            Assert.assertEquals("request to register a seller with username: " +  "hamed"  + ", firstName: " + "0" + ", lastName: " + "1" + "phoneNumber: " + "3" , managerController.showRequestDetails("firstOne"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-
+    @Test
+    public void showRequestDetails3() throws Exception {
+        new MockUp<Request>(){
+            @Mock
+            public ArrayList<Request> getAllRequest(){
+                ArrayList<Request> allRequests = new ArrayList<>();
+                allRequests.add(productRequest);
+                return allRequests;
+            }
+        };
+        new Expectations(){
+            {
+                Request.getAllRequest();
+                productRequest.getRequestId(); result = "firstOne";
+                productRequest.getProduct(); result = product;
+                product.getProductId(); result = "product";
+                productRequest.isEditing(); result = true;times = 2;
+                productRequest.getSeller(); result = seller;
+                seller.getUsername(); result = "hamed";
+                productRequest.getPrice(); result = 50;
+            }
+        };
+        try {
+            Assert.assertEquals( "request to create or edit product with id: " + "product" + ", isEditing: " + true + ", seller: " + "hamed" + ", newPrice: " + 50 , managerController.showRequestDetails("firstOne"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void showRequestDetails4() throws Exception {
+        new MockUp<Request>(){
+            @Mock
+            public ArrayList<Request> getAllRequest(){
+                ArrayList<Request> allRequests = new ArrayList<>();
+                allRequests.add(offRequest);
+                return allRequests;
+            }
+        };
+        new Expectations(){
+            {
+                Request.getAllRequest();
+                offRequest.getRequestId(); result = "firstOne";
+                offRequest.getOff();result = off;
+                off.getOffId(); result  = "offId";
+                offRequest.getIsEditing(); result = true;times = 2;
+                offRequest.getOffPercent(); result = 10;
+            }
+        };
+        try {
+            Assert.assertEquals( "request to create or edit off with id: " + "offId" + ", isEditing: " + true + ", newOffPercent: " + 10 , managerController.showRequestDetails("firstOne"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
