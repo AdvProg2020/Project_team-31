@@ -236,17 +236,33 @@ public class ManagerControllerTest {
 
 
     @Test
-    public void editDiscountCode() {
-        new MockUp<Object>(){
-            //  @Mock
-        };
-        new Expectations(){
-            {
-
+    public void editDiscountCode() throws Exception {
+        new MockUp<ManagerController>(){
+            @Mock
+            public DiscountCode getDiscountById(String discountId){
+                return discountCode;
             }
         };
-
-
+        new MockUp<ManagerController>(){
+            @Mock
+            public HashMap<Customer, Integer> changeNameToCustomer(HashMap<String, Integer> discountTimesForEachCustomer)
+            {
+                HashMap<Customer , Integer> customerIntegerHashMap = new HashMap<>();
+                customerIntegerHashMap.put(customer , 5);
+                return customerIntegerHashMap;
+            }
+        };
+        HashMap<Customer , Integer> customerIntegerHashMap = new HashMap<>();
+        customerIntegerHashMap.put(customer , 5);
+        new Expectations(){
+            {
+                managerController.getDiscountById("firstONe");
+                discountCode.setDiscountCode(new Date(2000 , 2 , 20) ,new Date(2020 , 2, 20) , 40 , 50 ,customerIntegerHashMap);
+            }
+        };
+        HashMap<String , Integer> sample = new HashMap<>();
+        sample.put("hamed" , 5);
+        managerController.editDiscountCode("firstONe" , new Date(2000 , 2 , 20) , new Date(2020 , 2, 20) , 40 , 50 , sample);
     }
 
     @Test
