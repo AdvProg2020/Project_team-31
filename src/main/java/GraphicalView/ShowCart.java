@@ -129,9 +129,6 @@ public class ShowCart implements Initializable {
         logout.setOnAction(event);
     }
 
-    public void back(ActionEvent actionEvent) {
-        runner.back();
-    }
 
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
@@ -186,5 +183,9 @@ public class ShowCart implements Initializable {
         }
         tableOfProducts.setItems(allProducts);
         totalPrice.setText("total price: " + CustomerController.getInstance().showTotalPrice(user.getCard()));
+    }
+
+    public void back(MouseEvent mouseEvent) {
+        runner.back();
     }
 }
