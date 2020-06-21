@@ -11,8 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-
-import javax.jws.soap.SOAPBinding;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,6 +23,7 @@ public class ShowCart implements Initializable {
     public TableColumn number;
     public TableColumn price;
     public TableColumn total;
+    private User user;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
@@ -148,10 +147,19 @@ public class ShowCart implements Initializable {
     }
 
     public void purchase(MouseEvent mouseEvent) {
-        if(dataBase.user == null) {
+        if(CustomerController.getInstance().showTotalPrice(user.getCard()) == 0) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "Cart is empty", ButtonType.OK);
+            error.show();
+        } else if(dataBase.user == null) {
             runner.changeScene("LoginMenu.fxml");
         } else {
-            // receive information scene
+            String message = CustomerController.getInstance().isAvailabilityOk(dataBase.user);
+            if(message.equalsIgnoreCase("ok")) {
+                runner.changeScene("ReceiveInformationForShopping.fxml");
+            } else {
+                Alert error = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+                error.show();
+            }
         }
     }
 
@@ -166,7 +174,7 @@ public class ShowCart implements Initializable {
     }
 
     private void setTableOfProducts() {
-        User user = dataBase.tempUser;
+        user = dataBase.tempUser;
         if(dataBase.user != null)
             user = dataBase.user;
         if(user.getCard() == null) {

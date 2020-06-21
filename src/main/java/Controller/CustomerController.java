@@ -122,6 +122,14 @@ public class CustomerController {
         return new BuyingLog("BuyingLog" + (Log.getNumberOfLogCreated() +1) , showTotalPrice(user.getCard()), (Customer) user, user.getCard().getProductsInThisCard(), information);
     }
 
+    public String isAvailabilityOk(User user) {
+        for (Product product : user.getCard().getProductsInThisCard().keySet()) {
+            if (product.getAvailable() < user.getCard().getProductsInThisCard().get(product).getNumber())
+                return "number of " + product.getName() + "is more than it's availability.";
+        }
+        return "Ok";
+    }
+
     public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws Exception {
         DiscountCode discount = ManagerController.getInstance().getDiscountById(discountCodeString);
         if (discount.getBeginTime().after(new Date()) || discount.getEndTime().before(new Date()))

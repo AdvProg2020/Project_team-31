@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.PutDiscountCode">
+      <TextField fx:id="discount" layoutX="203.0" layoutY="90.0" prefHeight="25.0" prefWidth="210.0" promptText="discount code" />
+      <Button fx:id="discountButton" layoutX="266.0" layoutY="137.0" mnemonicParsing="false" onMouseClicked="#putDiscount" text="add discount" />
+      <Button layoutX="351.0" layoutY="188.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#nextStep" text="next" />
+      <Button layoutX="203.0" layoutY="188.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#back" text="back" />
+</Pane>

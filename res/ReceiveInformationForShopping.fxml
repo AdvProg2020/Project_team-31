@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ReceiveInformationForShopping">
+      <TextArea fx:id="address" layoutX="58.0" layoutY="93.0" prefHeight="117.0" prefWidth="191.0" promptText="Address" wrapText="true" />
+      <TextField fx:id="phone" layoutX="273.0" layoutY="93.0" prefHeight="25.0" prefWidth="159.0" promptText="phone number" />
+      <Button layoutX="357.0" layoutY="175.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#nextStep" text="next" />
+      <Label layoutX="250.0" layoutY="24.0" text="receive information page" />
+   <Button layoutX="279.0" layoutY="175.0" minWidth="75" mnemonicParsing="false" text="back" onMouseClicked="#back" />
+</Pane>
