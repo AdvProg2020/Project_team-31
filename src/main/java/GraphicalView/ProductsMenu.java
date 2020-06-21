@@ -4,6 +4,8 @@ import Controller.ManagerController;
 import Controller.ProductController;
 import Model.Category;
 import Model.Product;
+import Model.Seller;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -66,7 +68,10 @@ public class ProductsMenu implements Initializable {
         viewColumn.setCellValueFactory(new PropertyValueFactory<>("views"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
         rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
-        new Product(null, "a", "M9", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, new HashMap<>(), new HashMap<>());
+        User user = new Seller("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234","samsung");
+        HashMap<Seller, Integer> sellers = new HashMap<>();
+        sellers.put((Seller)user, Integer.parseInt("50"));
+        new Product(null, "a", "M9", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10,sellers, new HashMap<>());
         new Product(null, "a", "M10", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, new HashMap<>(), new HashMap<>());
         tableOfProducts.setItems(getProducts("all"));
     }

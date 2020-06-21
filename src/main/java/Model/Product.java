@@ -60,7 +60,6 @@ public class Product implements Serializable {
         views = 0;
         rate = "0.0";
         offs = new ArrayList<>();
-        offs = null;
         numberOfProductCreated++;
         this.available = available;
         this.productId = productId;
