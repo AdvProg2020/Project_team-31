@@ -24,7 +24,3 @@
     -fx-background-radius: 10;
     -fx-opacity: 50;
 }
-.text-field :hover{
-    -fx-scale-y: 1.05;
-    -fx-scale-x: 1.05;
-}

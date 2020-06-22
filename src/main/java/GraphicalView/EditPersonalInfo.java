@@ -1,15 +1,14 @@
 package GraphicalView;
 
 import Controller.LoginController;
+import Controller.SellerController;
 import Model.Seller;
 import Model.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,19 +28,24 @@ public class EditPersonalInfo implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeFields();
+        try {
+            initializeFields();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         logoutAlert();
     }
 
-    private void initializeFields() {
+    private void initializeFields() throws Exception {
+        SellerController sellerController = SellerController.getInstance();
         String[] userData = dataBase.getUserInfo();
         firstName.setText(userData[0]);
         lastName.setText(userData[1]);
         email.setText(userData[3]);
         phoneNumber.setText(userData[4]);
-        password.setText(userData[2]);
+        password.setText(userData[5]);
         if (dataBase.user instanceof Seller)
-            companyName.setText(userData[5]);
+            companyName.setText(sellerController.showCompanyInformation(dataBase.user));
         else companyName.setText("PLEASE ENTER NOTHING!");
     }
 
@@ -60,8 +64,14 @@ public class EditPersonalInfo implements Initializable {
     }
 
     public void submit(ActionEvent actionEvent) {
-        loginController.editPersonalInformation(dataBase.user, createNewInfo());
-        back(null);
+        if (!isEmpty().equals("none")) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "please enter " + isEmpty(), ButtonType.OK);
+            error.show();
+        } else {
+            loginController.editPersonalInformation(dataBase.user, createNewInfo());
+            back(null);
+        }
+
     }
 
     private String[] createNewInfo() {
@@ -89,4 +99,19 @@ public class EditPersonalInfo implements Initializable {
         login.setOnAction(event);
     }
 
+    private String isEmpty() {
+        if (password.getText().equals(""))
+            return "password";
+        if (firstName.getText().equals(""))
+            return "firstName";
+        if (lastName.getText().equals(""))
+            return "lastName";
+        if (email.getText().equals(""))
+            return "email address";
+        if (phoneNumber.getText().equals(""))
+            return "phone number";
+        if (dataBase.user instanceof Seller && companyName.getText().equals(""))
+            return "company";
+        return "none";
+    }
 }
