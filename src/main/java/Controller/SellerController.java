@@ -45,6 +45,9 @@ public class SellerController {
         }
         return allSellingLogs;
     }
+    public ArrayList<SellingLog> showSalesHistoryByList(User user) {
+        return  ((Seller) user).getAllSellingLogs();
+    }
 
     public ArrayList<String> showBuyersOfThisProduct(User user, String productId) throws Exception {
         if(!(user instanceof Seller)) {

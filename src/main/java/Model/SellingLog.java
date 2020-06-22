@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Date;
 
-public class SellingLog extends Log{
+public class SellingLog extends Log {
     private int totalPriceArrived;
     private int amountOfOff;
     private Product buyingProducts;
@@ -20,6 +20,10 @@ public class SellingLog extends Log{
 
     public int getAmountOfOff() {
         return amountOfOff;
+    }
+
+    public String getProductName() {
+       return buyingProducts.getName();
     }
 
     public Product getBuyingProducts() {
