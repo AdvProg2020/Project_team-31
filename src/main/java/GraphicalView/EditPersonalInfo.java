@@ -30,6 +30,7 @@ public class EditPersonalInfo implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             initializeFields();
+            loginAlert();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +66,7 @@ public class EditPersonalInfo implements Initializable {
 
     public void submit(ActionEvent actionEvent) {
         if (!isEmpty().equals("none")) {
-            Alert error = new Alert(Alert.AlertType.ERROR, "please enter " + isEmpty(), ButtonType.OK);
+            Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isEmpty(), ButtonType.OK);
             error.show();
         } else {
             loginController.editPersonalInformation(dataBase.user, createNewInfo());
@@ -100,15 +101,15 @@ public class EditPersonalInfo implements Initializable {
     }
 
     private String isEmpty() {
-        if (password.getText().equals(""))
+        if (password.getText().equals("") || !password.getText().matches("^(?=.*\\d).{4,8}$"))
             return "password";
         if (firstName.getText().equals(""))
             return "firstName";
         if (lastName.getText().equals(""))
             return "lastName";
-        if (email.getText().equals(""))
+        if (email.getText().equals("") || !email.getText().matches("^(.+)@(.+)$"))
             return "email address";
-        if (phoneNumber.getText().equals(""))
+        if (phoneNumber.getText().equals("") || !phoneNumber.getText().matches("^[0-9]{6,14}$"))
             return "phone number";
         if (dataBase.user instanceof Seller && companyName.getText().equals(""))
             return "company";
