@@ -9,8 +9,11 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,11 +36,11 @@ public class CustomerUserArea implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         showPersonalInfo();
         showDiscountCodes();
-        logoutAlert();
         editPersonalInfoAlert();
         addBalanceDialog();
         buyingHistory();
         loginAlert();
+        logoutAlert();
     }
 
     private void showDiscountCodes() {

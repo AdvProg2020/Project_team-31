@@ -41,26 +41,23 @@ public class ShowCart implements Initializable {
 
     private void addShowButtonToTable() {
         TableColumn<ProductInCartInGui, Void> colBtn = new TableColumn("detail");
-        Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>> cellFactory = new Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>>() {
-            @Override
-            public TableCell<ProductInCartInGui, Void> call (final TableColumn<ProductInCartInGui, Void> param) {
-                final TableCell<ProductInCartInGui, Void> cell = new TableCell<ProductInCartInGui, Void>() {
-                    private final Button btn = new Button("show");
-                    {
-                        btn.setMinWidth(75);
-                        btn.setOnAction((ActionEvent event) -> {
-                            ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
-                            ProductsMenu.product = productInCartInGui.getProduct();
-                            runner.changeScene("ProductArea.fxml");
-                        });
-                    }
+        Callback<TableColumn<ProductInCartInGui, Void>, TableCell<ProductInCartInGui, Void>> cellFactory = param -> {
+            final TableCell<ProductInCartInGui, Void> cell = new TableCell<ProductInCartInGui, Void>() {
+                private final Button btn = new Button("show");
+                {
+                    btn.setMinWidth(75);
+                    btn.setOnAction((ActionEvent event) -> {
+                        ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
+                        ProductsMenu.product = productInCartInGui.getProduct();
+                        runner.changeScene("ProductArea.fxml");
+                    });
+                }
 
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                    }
-                };
-                return cell;
-            }
+                @Override
+                public void updateItem(Void item, boolean empty) {
+                }
+            };
+            return cell;
         };
         colBtn.setCellFactory(cellFactory);
         tableOfProducts.getColumns().add(colBtn);
