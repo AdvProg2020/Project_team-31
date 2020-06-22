@@ -224,6 +224,9 @@ public class ManagerController {
         }
         return information;
     }
+    public ArrayList<Category> showAllCategoriesByList() {
+      return Category.getAllCategories();
+    }
 
     public void addCategory(String name, ArrayList<String> features) {
         new Category(name, features);
