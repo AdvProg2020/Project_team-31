@@ -23,6 +23,9 @@ public class LoginMenu {
         } else {
             try {
                 DataBase.getInstance().user = LoginController.getInstance().login(usernameField.getText(), passwordField.getText(),DataBase.getInstance().tempUser.getCard());
+                Runner.getInstance().back();
+                Alert error = new Alert(Alert.AlertType.INFORMATION,"you have login successfully", ButtonType.OK);
+                error.show();
             } catch (Exception e) {
                 Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
                 error.show();

@@ -132,7 +132,7 @@ public class ProductArea implements Initializable {
                 productOff = off;
             }
         }
-        int p = product.getSellersOfThisProduct().get(LoginController.getUserByUsername(sellers.getValue().toString()));
+        int p = product.getSellersOfThisProduct().get(LoginController.getUserByUsername(String.valueOf(sellers.getValue())));
 
         if(productOff == null) {
             sellerPrice.setText("price: " + p + "\nThere is no off");

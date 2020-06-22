@@ -34,6 +34,7 @@ public class User implements Serializable {
     }
 
     public User() {
+        card = new Card();
     }
 
     public HashMap<String, String> getFilters() {

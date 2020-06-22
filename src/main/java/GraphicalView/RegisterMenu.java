@@ -61,6 +61,11 @@ public class RegisterMenu implements Initializable {
                 information[5] = companyField.getText();
                 try {
                     LoginController.getInstance().register(usernameField.getText(), (String) role.getValue(), information);
+                    DataBase.getInstance().pages.pop();
+                    DataBase.getInstance().pages.pop();
+                    Runner.getInstance().changeScene("LoginMenu.fxml");
+                    Alert error = new Alert(Alert.AlertType.INFORMATION,"You have registered successfully!", ButtonType.OK);
+                    error.show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
