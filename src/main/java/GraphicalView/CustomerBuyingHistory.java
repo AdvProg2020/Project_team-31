@@ -104,6 +104,31 @@ public class CustomerBuyingHistory implements Initializable {
 
 class BuyingLogShow {
     String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTotalPrice() {
+        return totalPrice;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public HashMap<Product, ProductInCard> getBuyingProducts() {
+        return buyingProducts;
+    }
+
+    public Button getButton() {
+        return button;
+    }
+
     String totalPrice;
     String discount;
     String date;
@@ -167,6 +192,19 @@ class BuyingLogShow {
 class ProductShowInLog {
     String productName;
     String number;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
     String seller;
 
     public ProductShowInLog(String productName, String number, String seller) {
