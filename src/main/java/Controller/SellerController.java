@@ -1,7 +1,10 @@
 package Controller;
 
 import Model.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -45,12 +48,13 @@ public class SellerController {
         }
         return allSellingLogs;
     }
+
     public ArrayList<SellingLog> showSalesHistoryByList(User user) {
-        return  ((Seller) user).getAllSellingLogs();
+        return ((Seller) user).getAllSellingLogs();
     }
 
     public ArrayList<String> showBuyersOfThisProduct(User user, String productId) throws Exception {
-        if(!(user instanceof Seller)) {
+        if (!(user instanceof Seller)) {
             throw new Exception("You aren't a seller");
         }
         if (ProductController.getProductById(productId) == null) {
@@ -68,7 +72,7 @@ public class SellerController {
     }
 
     public void removeProductFromUser(User user, String productId) throws Exception {
-        if(!(user instanceof Seller)) {
+        if (!(user instanceof Seller)) {
             throw new Exception("You aren't seller");
         }
         Product product = ProductController.getProductById(productId);
@@ -94,25 +98,31 @@ public class SellerController {
         return products;
     }
 
-    public ArrayList<String> getCategoryFeatures(String categoryName) throws Exception{
-        if(ManagerController.getCategoryByName(categoryName) == null ) {
-            throw new  Exception("Invalid categoryName");
+    public ArrayList<String> getCategoryFeatures(String categoryName) throws Exception {
+        if (ManagerController.getCategoryByName(categoryName) == null) {
+            throw new Exception("Invalid categoryName");
         }
         return ManagerController.getCategoryByName(categoryName).getSpecialProperties();
     }
 
 
-    public void addProduct(String[] productGeneralInformation, User user, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
+    public Product addProduct(String[] productGeneralInformation, User user, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
         HashMap<Seller, Integer> sellers = new HashMap<>();
         sellers.put((Seller) user, Integer.parseInt(productGeneralInformation[2]));
-        if(ManagerController.getCategoryByName(productGeneralInformation[3]) == null) {
+        if (ManagerController.getCategoryByName(productGeneralInformation[3]) == null) {
             throw new Exception("invalid categoryName");
         }
-        Product newProduct = new Product("Product" + (Product.getNumberOfProductCreated() + 1), productGeneralInformation[0], productGeneralInformation[1], ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4],Integer.parseInt(productGeneralInformation[5]), sellers, specialInformationRelatedToCategory);
+        Product newProduct = new Product("Product" + (Product.getNumberOfProductCreated() + 1), productGeneralInformation[0], productGeneralInformation[1], ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4], Integer.parseInt(productGeneralInformation[5]), sellers, specialInformationRelatedToCategory);
         newProduct.setMinimumPrice(Integer.parseInt(productGeneralInformation[2]));
         new ProductRequest("ProductRequest" + (Request.getNumberOfRequestCreated() + 1), newProduct, false);
         ManagerController.getCategoryByName(productGeneralInformation[3]).addProduct(newProduct);
         ((Seller) user).addProduct(newProduct);
+        return newProduct;
+    }
+
+    public void changeProductPhoto(Product product, File photo) {
+        ImageView imageView = new ImageView(new Image(photo.getAbsolutePath()));
+        product.setImageView(imageView);
     }
 
     public void editProduct(User user, String productId, int price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
@@ -175,7 +185,7 @@ public class SellerController {
             products.add(product);
         }
         for (Product product : products) {
-            if(!product.getSellersOfThisProduct().containsKey((Seller)user)) {
+            if (!product.getSellersOfThisProduct().containsKey((Seller) user)) {
                 throw new Exception("seller doesn't have some products");
             }
         }

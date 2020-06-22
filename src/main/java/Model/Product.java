@@ -51,6 +51,10 @@ public class Product implements Serializable {
         return imageView;
     }
 
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
     public String getRate() {
         return rate;
     }

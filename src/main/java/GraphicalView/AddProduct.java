@@ -1,33 +1,23 @@
 package GraphicalView;
 
-import Controller.ManagerController;
-import Controller.ProductController;
-import Controller.SellerController;
-import Model.Manager;
+import Controller.*;
+import Model.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AddProduct implements Initializable {
     public VBox choiceBoxContainer;
@@ -70,6 +60,21 @@ public class AddProduct implements Initializable {
     }
 
     public void submit(ActionEvent actionEvent) throws Exception {
+        SellerController sellerController = SellerController.getInstance();
+        if (isInvalid() != null) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isInvalid(), ButtonType.OK);
+            error.show();
+            return;
+        }
+        HashMap<String, String> dataToSend = new HashMap<>();
+        String[] generalData = setData(dataToSend);
+        Product product = sellerController.addProduct(generalData, dataBase.user, dataToSend);
+        if (photo != null) {
+            sellerController.changeProductPhoto(product, photo);
+        }
+    }
+
+    private String[] setData(HashMap<String, String> dataToSend) {
         String[] generalData = new String[6];
         generalData[0] = productName.getText();
         generalData[1] = companyName.getText();
@@ -77,11 +82,10 @@ public class AddProduct implements Initializable {
         generalData[4] = categoryName.getValue();
         generalData[0] = description.getText();
         generalData[0] = number.getText();
-        HashMap<String, String> dataToSend = new HashMap<>();
         for (Map.Entry<Label, TextField> entry : data.entrySet()) {
             dataToSend.put(entry.getKey().getText(), entry.getValue().getText());
         }
-        SellerController.getInstance().addProduct(generalData, dataBase.user, dataToSend);
+        return generalData;
     }
 
     public void back(ActionEvent actionEvent) {
@@ -91,7 +95,10 @@ public class AddProduct implements Initializable {
     public void selectFile(MouseEvent mouseEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("select photo");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpg Files", "*.jpg"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpeg Files", "*.jpeg"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bmp Files", "*.bmp"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("gif Files", "*.gif"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("png Files", "*.png"));
         photo = fileChooser.showOpenDialog(Runner.stage);
     }
 
@@ -112,6 +119,22 @@ public class AddProduct implements Initializable {
         categoryFeaturesButton.setOnAction(event);
     }
 
+    private String isInvalid() {
+        if (productName.getText().equals(""))
+            return "product name";
+        else if (companyName.getText().equals(""))
+            return "company name";
+        else if (price.getText().equals("") || !price.getText().matches("^\\d+$"))
+            return "price";
+        else if (description.getText().equals(""))
+            return "description";
+        else if (number.getText().equals("") || !number.getText().matches("^\\d+$") && Integer.parseInt(number.getText()) > 0)
+            return "number";
+        else if (categoryName.getValue().equals(""))
+            return "category name";
+        return null;
+    }
+
     class GetCategoryInfo {
         public void display() throws Exception {
             Stage window = new Stage();
@@ -128,7 +151,16 @@ public class AddProduct implements Initializable {
             }
             layout.getChildren().add(closeButton);
             closeButton.setOnAction(e -> {
-                window.close();
+                for (Node node : layout.getChildren()) {
+                    if (node instanceof TextField) {
+                        TextField textField = (TextField) node;
+                        if (textField.getText().equals("")) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText("please fill the blank text fields");
+                            alert.show();
+                        } else window.close();
+                    }
+                }
             });
             layout.setAlignment(Pos.CENTER);
             Scene scene = new Scene(layout);
