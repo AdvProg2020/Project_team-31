@@ -282,4 +282,11 @@ public class ProductController {
         }
         return null;
     }
+
+    public boolean isThereAnyProduct(String productName) {
+        for (Product product : Product.allProducts)
+            if (product.getName().equals(productName))
+                return true;
+        return false;
+    }
 }

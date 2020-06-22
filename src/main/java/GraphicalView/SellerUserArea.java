@@ -1,16 +1,22 @@
 package GraphicalView;
 
 import Controller.LoginController;
+import Controller.ProductController;
 import Controller.SellerController;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class SellerUserArea implements Initializable {
@@ -18,6 +24,7 @@ public class SellerUserArea implements Initializable {
     public Button editPersonaInfo;
     public Button logout;
     public Button login;
+    public Button addMeButton;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
@@ -108,5 +115,43 @@ public class SellerUserArea implements Initializable {
             }
         };
         login.setOnAction(event);
+    }
+
+    public void addMeButtonAlert(ActionEvent actionEvent) {
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("add seller");
+        ButtonType buttonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(buttonType, ButtonType.CANCEL);
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 150, 10, 10));
+        TextField productName = new TextField();
+        productName.setPromptText("product name"); //useful
+        TextField price = new TextField();
+        price.setPromptText("price");
+        dialog.getDialogPane().lookupButton(buttonType).disableProperty().bind(Bindings.createBooleanBinding(
+                () -> productName.getText().equals("") &&  price.getText().equals("") &&
+                        !ProductController.getInstance().isThereAnyProduct(productName.getText())
+        ));
+        price.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                price.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+        gridPane.add(productName, 0, 0);
+        gridPane.add(price, 2, 0);
+        dialog.getDialogPane().setContent(gridPane);
+        Platform.runLater(() -> productName.requestFocus());
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == buttonType) {
+                return new Pair<>(productName.getText(), price.getText());
+            }
+            return null;
+        });
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+        result.ifPresent(pair -> {
+            System.out.println("hello");
+        });
     }
 }
