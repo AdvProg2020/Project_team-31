@@ -37,20 +37,26 @@ public class ManageProducts implements Initializable {
     }
 
     private void AddChart() {
-//        TableColumn<BuyingLogShow, String> name = new TableColumn<>("name");
-//        name.setMinWidth(150);
-//        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-//
-//        TableColumn<BuyingLogShow, String> properties = new TableColumn<>("properties");
-//        properties.setMinWidth(350);
-//        properties.setCellValueFactory(new PropertyValueFactory<>("specialProperties"));
-//
-//        TableView tableView = new TableView();
-//        ManagerController managerController = ManagerController.getInstance();
-//        ObservableList<Category> categories = FXCollections.observableArrayList(managerController.showAllCategoriesByList());
-//        tableView.getColumns().addAll(name, properties);
-//        tableView.setItems(categories);
-//        gridPane.getChildren().add(tableView);
+        TableColumn<BuyingLogShow, String> productId = new TableColumn<>("productId");
+        productId.setMinWidth(150);
+        productId.setCellValueFactory(new PropertyValueFactory<>("productId"));
+
+        TableColumn<BuyingLogShow, Button> view = new TableColumn<>("view");
+        view.setMinWidth(100);
+        view.setCellValueFactory(new PropertyValueFactory<>("view"));
+
+        TableColumn<BuyingLogShow, Button> edit = new TableColumn<>("edit");
+        edit.setMinWidth(100);
+        edit.setCellValueFactory(new PropertyValueFactory<>("edit"));
+
+        TableColumn<BuyingLogShow, Button> delete = new TableColumn<>("delete");
+        delete.setMinWidth(100);
+        delete.setCellValueFactory(new PropertyValueFactory<>("delete"));
+
+        TableView tableView = new TableView();
+        tableView.getColumns().addAll(productId, view, edit, delete);
+        tableView.setItems(getProductInList());
+        gridPane.getChildren().add(tableView);
     }
 
     public void back(ActionEvent actionEvent) {
