@@ -425,11 +425,11 @@ public class MainMenu extends Menu {
     }
 
     private void addOff() throws Exception {
-        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+        System.out.println("please enter the start time by format(\"dd/MM/yyyy hh:mm\")");
         Date startDate = scanDate();
         if (startDate == null)
             return;
-        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        System.out.println("please enter the end time by format(\"dd/MM/yyyy hh:mm\")");
         Date endDate = scanDate();
         if (endDate == null)
             return;
@@ -453,11 +453,11 @@ public class MainMenu extends Menu {
     }
 
     private void editOff(String offId) throws Exception {
-        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+        System.out.println("please enter the start time by format(\"dd/MM/yyyy hh:mm\")");
         Date startDate = scanDate();
         if (startDate == null)
             return;
-        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        System.out.println("please enter the end time by format(\"dd/MM/yyyy hh:mm\")");
         Date endDate = scanDate();
         if (endDate == null)
             return;
@@ -490,7 +490,7 @@ public class MainMenu extends Menu {
     }
 
     private Date scanDate() throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm");
         String dateString = null;
         try {
             while (!(dateString = scanByRegex("^\\d{2}\\/\\d{2}\\/\\d{4}\\s+\\d{2}:\\d{2}$", "invalid date format")).equalsIgnoreCase("back")) {
@@ -686,11 +686,11 @@ public class MainMenu extends Menu {
     private void createDiscountCode() throws Exception {
         System.out.println("please enter the code : ");
         String code = scanner.nextLine().trim();
-        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+        System.out.println("please enter the start time by format(\"dd/MM/yyyy hh:mm\")");
         Date startDate = scanDate();
         if (startDate == null)
             return;
-        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        System.out.println("please enter the end time by format(\"dd/MM/yyyy hh:mm\")");
         Date endDate = scanDate();
         if (endDate == null)
             return;
@@ -784,11 +784,11 @@ public class MainMenu extends Menu {
     }
 
     private void editDiscountCode(String code) throws Exception {
-        System.out.println("please enter the start time by format(\"dd/mm/yyyy hh:mm\")");
+        System.out.println("please enter the start time by format(\"dd/MM/yyyy hh:mm\")");
         Date startDate = scanDate();
         if (startDate == null)
             return;
-        System.out.println("please enter the end time by format(\"dd/mm/yyyy hh:mm\")");
+        System.out.println("please enter the end time by format(\"dd/MM/yyyy hh:mm\")");
         Date endDate = scanDate();
         if (endDate == null)
             return;

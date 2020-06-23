@@ -1,10 +1,12 @@
 package GraphicalView;
 
 import Controller.SellerController;
+import Model.Off;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +26,17 @@ public class SellerEditOff implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loginAlert();
         logoutAlert();
+        initFields();
+    }
+
+    private void initFields() {
+        Off off=dataBase.editingOff;
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        String date = format.format(off.getBeginTime());
+        startDate.getEditor().setText(date);
+        date = format.format(off.getEndTime());
+        endDate.getEditor().setText(date);
+        percentage.setText(String.valueOf(off.getOffPercent()));
     }
 
     public void back(ActionEvent actionEvent) {
