@@ -43,23 +43,7 @@ public class CategoryTest {
     }
 
     @Test
-    public void getAllCategories() {
-        Category.getAllCategories().clear();
-        Category.getAllCategories().add(category);
-        ArrayList<Category> sample = new ArrayList<>();
-        sample.add(category);
-        Assert.assertEquals(sample , Category.getAllCategories());
-    }
-
-    @Test
     public void deleteCategory() {
-     /*   new MockUp<Category>(){
-          @Mock
-          public ArrayList<Category> getAllCategories(){
-              ArrayList<Category> sample = new ArrayList<>();
-              sample.add(category);
-          }
-        };*/
         new Expectations(){
             {
                 Category.getAllCategories().remove(category);
@@ -70,11 +54,6 @@ public class CategoryTest {
 
     @Test
     public void setSpecialProperties() {
-        new Expectations(){
-            {
-
-            }
-        };
         ArrayList<String> specialProperties = new ArrayList<>();
         specialProperties.add("good as hell");
         category.setSpecialProperties(specialProperties);
