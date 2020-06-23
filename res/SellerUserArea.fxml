@@ -24,7 +24,7 @@
             <children>
                 <Button fx:id="editPersonaInfo" mnemonicParsing="false" text="edit personal info" GridPane.rowIndex="0" />
                 <Button mnemonicParsing="false" onMouseClicked="#salesHistory" text="view sales history" GridPane.rowIndex="1" />
-                <Button mnemonicParsing="false" text="view offs" GridPane.rowIndex="2" />
+                <Button mnemonicParsing="false" onAction="#sellerOffsShow" text="view offs" GridPane.rowIndex="2" />
             </children>
             <columnConstraints>
                 <ColumnConstraints />

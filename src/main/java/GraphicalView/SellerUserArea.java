@@ -166,4 +166,8 @@ public class SellerUserArea implements Initializable {
     public void addOff(ActionEvent actionEvent) {
         runner.changeScene("SellerAddOff.fxml");
     }
+
+    public void sellerOffsShow(ActionEvent actionEvent) {
+        runner.changeScene("SellerViewOffs.fxml");
+    }
 }
