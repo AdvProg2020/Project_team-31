@@ -572,7 +572,7 @@ public class ManagerControllerTest {
         new Expectations(){
             {
                 Request.getAllRequest();
-                sellerRequest.getRequestId(); result = "firstOne";
+//                sellerRequest.getRequestId(); result = "firstOne";
             }
         };
     }
