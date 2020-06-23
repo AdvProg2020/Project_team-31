@@ -155,6 +155,11 @@ public class SellerController {
         return (String[]) offs.toArray();
     }
 
+    public ArrayList<Off> showAllOffsForGUI(User user) {
+        checkTimeOfOffs();
+        return ((Seller) user).getSellerOffs();
+    }
+
     public String[] showOff(User user, String offId) throws Exception {
         Off off = getOffById(offId);
         if (off == null)
