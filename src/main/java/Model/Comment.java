@@ -27,7 +27,6 @@ public class Comment {
     public Customer getCustomer() {
         return customer;
     }
-
     public Product getProduct() {
         return product;
     }
@@ -44,6 +43,9 @@ public class Comment {
         return commentContent;
     }
 
+    public CommentStatus getCommentStatus() {
+        return commentStatus;
+    }
 }
 
 enum CommentStatus{
