@@ -98,6 +98,10 @@ public class SellerController {
         return products;
     }
 
+    public ArrayList<Product> showProductsOfThisSellerForGUI(User user) {
+        return ((Seller) user).getOnSaleProducts();
+    }
+
     public ArrayList<String> getCategoryFeatures(String categoryName) throws Exception {
         if (ManagerController.getCategoryByName(categoryName) == null) {
             throw new Exception("Invalid categoryName");
