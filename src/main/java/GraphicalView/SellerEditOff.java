@@ -112,4 +112,13 @@ public class SellerEditOff implements Initializable {
             return "percentage";
         return null;
     }
+
+    public void removeProduct(ActionEvent actionEvent) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.getEditor().setPromptText("product ID");
+        dialog.setTitle("remove product");
+        dialog.setContentText("product ID : ");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(id -> products.remove(id));
+    }
 }
