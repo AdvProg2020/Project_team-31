@@ -68,4 +68,12 @@ public class ManagerUserArea implements Initializable {
     public void manageUsers(ActionEvent actionEvent) {
         runner.changeScene("ManageUsers.fxml");
     }
+
+    public void manageRequests(ActionEvent actionEvent) {
+        runner.changeScene("ManageRequests.fxml");
+    }
+
+    public void manageCategories(ActionEvent actionEvent) {
+        runner.changeScene("ManageCategories.fxml");
+    }
 }

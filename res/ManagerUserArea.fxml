@@ -23,8 +23,8 @@
                 </GridPane>
                 <GridPane GridPane.columnIndex="2">
                     <Button mnemonicParsing="false" onAction="#createDiscountCode" text="create discount code" GridPane.rowIndex="0" />
-                    <Button mnemonicParsing="false" text="manage requests" GridPane.rowIndex="1" />
-                    <Button mnemonicParsing="false" text="manage categories" GridPane.rowIndex="2" />
+                    <Button mnemonicParsing="false" onAction="#manageRequests" text="manage requests" GridPane.rowIndex="1" />
+                    <Button mnemonicParsing="false" onAction="#manageCategories" text="manage categories" GridPane.rowIndex="2" />
                     <columnConstraints>
                         <ColumnConstraints />
                     </columnConstraints>
