@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -101,6 +102,7 @@ class ProductViewForSellerInGUI {
     Button view;
     Button edit;
     Button delete;
+    static Runner runner = Runner.getInstance();
 
     public ProductViewForSellerInGUI(Product product, Button view, Button edit, Button delete) {
         this.product = product;
@@ -108,6 +110,28 @@ class ProductViewForSellerInGUI {
         this.view = view;
         this.edit = edit;
         this.delete = delete;
+        view.setOnAction(event -> viewProduct());
+        edit.setOnAction(event -> editProduct());
+        delete.setOnAction(event -> deleteProduct());
+    }
+
+    private void deleteProduct() {
+        try {
+            SellerController.getInstance().removeProductFromUser(DataBase.getInstance().user, productId);
+            runner.back();
+            runner.changeScene("ManageProducts.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void editProduct() {
+        runner.changeScene("EditProduct.fxml");
+    }
+
+    private void viewProduct() {
+        ProductsMenu.product = product;
+        runner.changeScene("ProductArea.fxml");
     }
 
     public Product getProduct() {
