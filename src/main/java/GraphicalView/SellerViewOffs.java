@@ -4,6 +4,7 @@ import Controller.ManagerController;
 import Controller.SellerController;
 import Model.Category;
 import Model.Off;
+import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -106,7 +107,6 @@ class ShowOffsOnGUI {
         this.offId = offId;
         this.showButton.setOnAction(event -> ShowOffsOnGUI.view(off));
         this.editButton.setOnAction(event -> ShowOffsOnGUI.edit(off));
-
     }
 
     private static void edit(Off off) {
@@ -114,7 +114,16 @@ class ShowOffsOnGUI {
     }
 
     private static void view(Off off) {
-        //...view off
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        String data = "off ID : " + off.getOffId() + "\n" +
+                "start time : " + off.getBeginTime() + "\n" +
+                "end time : " + off.getEndTime() + "\n" +
+                "off percentage : " + off.getOffPercent() + "\n" +
+                "products : \n";
+        for (Product product : off.getOnSaleProducts())
+            data += product.getName() + "\n";
+        message.setContentText(data);
+        message.show();
     }
 
     public Off getOff() {
