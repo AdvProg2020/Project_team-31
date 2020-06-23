@@ -1,6 +1,8 @@
 package GraphicalView;
 
 import Controller.ManagerController;
+import Controller.SellerController;
+import Model.Manager;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,6 +15,8 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -89,21 +93,40 @@ public class CreateDiscountCode implements Initializable {
         });
         Optional<Pair<String, String>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
+            if (pair.getKey().equals("") || pair.getValue().equals(""))
+                return;
             usernameAndNumber.put(pair.getKey(), Integer.parseInt(pair.getValue()));
         });
     }
 
     public void submit(ActionEvent actionEvent) throws Exception {
-        ManagerController controller = ManagerController.getInstance();
-        LocalDate localDate1 = startDate.getValue();
-        Instant instant = Instant.from(localDate1.atStartOfDay(ZoneId.systemDefault()));
-        Date startDate1 = Date.from(instant);
-        LocalDate localDate2 = endDate.getValue();
-        Instant instant2 = Instant.from(localDate2.atStartOfDay(ZoneId.systemDefault()));
-        Date endDate2 = Date.from(instant2);
-        int percent = Integer.parseInt(percentage.getText());
-        int maximumValue = Integer.parseInt(maximumPrice.getText());
-        controller.createDiscountCode(code.getText(), startDate1, endDate2, percent, maximumValue, usernameAndNumber);
+        if (isValid() != null) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isValid(), ButtonType.OK);
+            error.show();
+        } else if (getEndDate().before(getStartDate())) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "end date is before start date!", ButtonType.OK);
+            error.show();
+        } else if (getStartDate().before(new Date())) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "start date has passed!", ButtonType.OK);
+            error.show();
+        } else {
+            ManagerController controller = ManagerController.getInstance();
+            int percent = Integer.parseInt(percentage.getText());
+            int maximum = Integer.parseInt(maximumPrice.getText());
+            controller.createDiscountCode(code.getText(), getStartDate(), getEndDate(), percent, maximum, usernameAndNumber);
+        }
+    }
+
+    private Date getStartDate() throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        String dateString = startDate.getEditor().getText() + " 00:00";
+        return format.parse(dateString);
+    }
+
+    private Date getEndDate() throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        String dateString = endDate.getEditor().getText() + " 23:59";
+        return format.parse(dateString);
     }
 
     public void loginAlert() {
@@ -127,5 +150,19 @@ public class CreateDiscountCode implements Initializable {
             dataBase.logout();
         };
         logout.setOnAction(event);
+    }
+
+    private String isValid() {
+        if (code.getText().equals(""))
+            return "code";
+        else if (startDate.getEditor().getText().equals(""))
+            return "start date";
+        else if (endDate.getEditor().getText().equals(""))
+            return "end date";
+        else if (percentage.getText().equals(""))
+            return "percentage";
+        else if (maximumPrice.getText().equals(""))
+            return "maximum price";
+        return null;
     }
 }

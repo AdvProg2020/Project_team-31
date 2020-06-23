@@ -103,7 +103,12 @@ public class CustomerBuyingHistory implements Initializable {
 }
 
 class BuyingLogShow {
+    String totalPrice;
+    String discount;
+    String date;
+    Button button;
     String id;
+    HashMap<Product, ProductInCard> buyingProducts;
 
     public String getId() {
         return id;
@@ -128,12 +133,6 @@ class BuyingLogShow {
     public Button getButton() {
         return button;
     }
-
-    String totalPrice;
-    String discount;
-    String date;
-    HashMap<Product, ProductInCard> buyingProducts;
-    Button button;
 
     public BuyingLogShow(String id, String totalPrice, String discount, String date, HashMap<Product, ProductInCard> buyingProducts) {
         this.id = id;
