@@ -131,7 +131,7 @@ public class SellerUserArea implements Initializable {
         TextField price = new TextField();
         price.setPromptText("price");
         dialog.getDialogPane().lookupButton(buttonType).disableProperty().bind(Bindings.createBooleanBinding(
-                () -> productName.getText().equals("") &&  price.getText().equals("") &&
+                () -> productName.getText().equals("") && price.getText().equals("") &&
                         !ProductController.getInstance().isThereAnyProduct(productName.getText())
         ));
         price.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -153,5 +153,9 @@ public class SellerUserArea implements Initializable {
         result.ifPresent(pair -> {
             System.out.println("hello");
         });
+    }
+
+    public void addOff(ActionEvent actionEvent) {
+        runner.changeScene("SellerAddOff.fxml");
     }
 }

@@ -71,7 +71,7 @@
         </GridPane>
       <GridPane GridPane.columnIndex="3">
          <children>
-            <Button mnemonicParsing="false" text="add off" GridPane.rowIndex="0" />
+            <Button mnemonicParsing="false" onAction="#addOff" text="add off" GridPane.rowIndex="0" />
             <Button fx:id="addMeButton" mnemonicParsing="false" onAction="#addMeButtonAlert" text="add me to product" GridPane.rowIndex="1" />
          </children>
          <columnConstraints>
