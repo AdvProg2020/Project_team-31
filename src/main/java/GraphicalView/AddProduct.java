@@ -132,6 +132,8 @@ public class AddProduct implements Initializable {
             return "number";
         else if (categoryName.getValue().equals(""))
             return "category name";
+        else if (data.size() == 0)
+            return "category features";
         return null;
     }
 

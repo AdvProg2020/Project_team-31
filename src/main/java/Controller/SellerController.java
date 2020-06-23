@@ -129,7 +129,7 @@ public class SellerController {
         product.setImageView(imageView);
     }
 
-    public void editProduct(User user, String productId, int price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
+    public Product editProduct(User user, String productId, int price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
         Product product = ProductController.getProductById(productId);
         if (product == null)
             throw new Exception("There is'nt this Product");
@@ -137,6 +137,7 @@ public class SellerController {
             throw new Exception("Seller does'nt have this product");
         product.setProductStatus(ProductAndOffStatus.EDITING);
         (new ProductRequest("ProductRequest" + (Request.getNumberOfRequestCreated() + 1), product, true)).newProductFeatures((Seller) user, price, available, information, specialInformationRelatedToCategory);
+        return product;
     }
 
     public void removeProduct(String productId) throws Exception {
