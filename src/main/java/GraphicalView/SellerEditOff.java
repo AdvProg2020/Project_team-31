@@ -24,12 +24,17 @@ public class SellerEditOff implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loginAlert();
-        logoutAlert();
-        initFields();
+        try {
+            loginAlert();
+            logoutAlert();
+            initFields();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void initFields() {
+    private void initFields() throws Exception {
+        products=SellerController.getInstance().getOffProducts(dataBase.editingOff.getOffId());
         Off off=dataBase.editingOff;
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         String date = format.format(off.getBeginTime());
