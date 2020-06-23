@@ -5,6 +5,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,6 +14,9 @@ import java.util.ResourceBundle;
 public class SellerAddOff implements Initializable {
     public Button login;
     public Button logout;
+    public DatePicker startDate;
+    public DatePicker endDate;
+    public TextField percentage;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 

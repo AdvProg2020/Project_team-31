@@ -3,6 +3,7 @@ package GraphicalView;
 import Controller.LoginController;
 import Controller.ProductController;
 import Controller.SellerController;
+import Model.Product;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -131,7 +132,7 @@ public class SellerUserArea implements Initializable {
         TextField price = new TextField();
         price.setPromptText("price");
         dialog.getDialogPane().lookupButton(buttonType).disableProperty().bind(Bindings.createBooleanBinding(
-                () -> productName.getText().equals("") && price.getText().equals("") &&
+                () -> productName.getText().equals("") || price.getText().equals("") ||
                         !ProductController.getInstance().isThereAnyProduct(productName.getText())
         ));
         price.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -151,7 +152,14 @@ public class SellerUserArea implements Initializable {
         });
         Optional<Pair<String, String>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
-            System.out.println("hello");
+            try {
+                for (Product product : Product.allProducts) {
+                    System.out.println(product.getName());
+                }
+            SellerController.getInstance().addSellerToProduct(dataBase.user, productName.getText(), Integer.parseInt(price.getText()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 
