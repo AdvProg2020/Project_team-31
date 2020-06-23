@@ -1,4 +1,4 @@
-package View;
+package GraphicalView;
 
 public class ManageCategories {
 }

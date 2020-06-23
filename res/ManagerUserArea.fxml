@@ -11,7 +11,7 @@
                 <GridPane GridPane.columnIndex="1">
                     <Button mnemonicParsing="false" onAction="#editPersonalInfo" text="edit personal info" GridPane.rowIndex="0" />
                     <Button mnemonicParsing="false" onAction="#manageUsers" text="manage users" GridPane.rowIndex="1" />
-                    <Button mnemonicParsing="false" text="manage all products" GridPane.rowIndex="2" />
+                    <Button mnemonicParsing="false" onAction="#manageAllProducts" text="manage all products" GridPane.rowIndex="2" />
                     <columnConstraints>
                         <ColumnConstraints />
                     </columnConstraints>
