@@ -95,7 +95,7 @@ public class SellerAddOff implements Initializable {
         TextInputDialog dialog = new TextInputDialog();
         dialog.getEditor().setPromptText("product ID");
         dialog.setTitle("add product");
-        dialog.setContentText("priduct ID : ");
+        dialog.setContentText("product ID : ");
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(id ->products.add(id));
     }

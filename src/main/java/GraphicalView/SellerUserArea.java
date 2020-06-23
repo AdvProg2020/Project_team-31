@@ -156,7 +156,7 @@ public class SellerUserArea implements Initializable {
                 for (Product product : Product.allProducts) {
                     System.out.println(product.getName());
                 }
-            SellerController.getInstance().addSellerToProduct(dataBase.user, productName.getText(), Integer.parseInt(price.getText()));
+                SellerController.getInstance().addSellerToProduct(dataBase.user, productName.getText(), Integer.parseInt(price.getText()));
             } catch (Exception e) {
                 e.printStackTrace();
             }

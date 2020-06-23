@@ -1,11 +1,7 @@
 package GraphicalView;
 
 import Controller.LoginController;
-import Model.Card;
-import Model.Customer;
-import Model.Manager;
-import Model.Seller;
-import Model.User;
+import Model.*;
 
 import java.util.Calendar;
 import java.util.Stack;
@@ -15,6 +11,7 @@ public class DataBase {
     static Runner runner = Runner.getInstance();
     public Card card;
     LoginController loginController = LoginController.getInstance();
+    Off editingOff = null;
 
     public static DataBase getInstance() {
         if (dataBase == null)
@@ -40,12 +37,6 @@ public class DataBase {
     }
 
     public String[] getUserInfo() {
-        //first name
-        //last name
-        //password
-        //email
-        //phone number
-        //company name (?)
         return loginController.showPersonalInformation(user);
     }
 }
