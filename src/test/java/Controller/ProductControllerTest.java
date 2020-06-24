@@ -35,6 +35,44 @@ public class ProductControllerTest {
             @Mock
             public ArrayList<Product> getAllProducts(){
                 ArrayList<Product> products = new ArrayList<>();
+                products.add(product);
+                return products;
+            }
+        };
+        HashMap<String , String> filters = new HashMap<>();
+        filters.put("salam" , "hamed");
+        HashMap<String , String> specialPropertiesRelatedToCategory = new HashMap<>();
+        filters.put("keyset" , "hamed");
+        new Expectations(){
+            {
+                Product.getAllProducts();
+                user.getFilters();result = filters;
+                product.getSpecialPropertiesRelatedToCategory();result = specialPropertiesRelatedToCategory;
+         //       filters.keySet();
+                product.getViews();result = 20;
+                product.getName();result = "mobile";
+                product.getMinimumPrice(); result = 5;
+                product.getSumOfCustomersRate();result = 20;
+                product.getCustomersWhoRated();result = 10;
+
+
+  //              product.getCompany(); result = "sun";
+            }
+        };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("name=" + "mobile" + ", price=" + 5 + ", rate=" + 2);
+        try {
+            assertEquals(sample , productController.showProducts(user , null , "good"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void showProducts2() {
+        new MockUp<Product>(){
+            @Mock
+            public ArrayList<Product> getAllProducts(){
+                ArrayList<Product> products = new ArrayList<>();
                 return products;
             }
         };
@@ -43,7 +81,6 @@ public class ProductControllerTest {
         new Expectations(){
             {
                 Product.getAllProducts();
-//                user.getFilters();result = filters;
             }
         };
         try {
@@ -52,7 +89,6 @@ public class ProductControllerTest {
             assertEquals("There is no product with these filters" , e.getMessage());
         }
     }
-
     @Test
     public void showDigestOfProduct() {
         new MockUp<ManagerController>(){
