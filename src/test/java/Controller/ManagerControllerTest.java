@@ -40,6 +40,8 @@ public class ManagerControllerTest {
     Off off;
     @Injectable
     SellerOfProductRequest sellerOfProductRequest;
+    @Injectable
+    Category category;
     @Test
     public void getInstance() {
         Assert.assertNotNull(ManagerController.getInstance());
@@ -98,8 +100,11 @@ public class ManagerControllerTest {
 
     @Test
     public void createDiscountCodeAndChangeNameTOCustomer() {
-        new MockUp<Object>(){
-            //  @Mock
+        new MockUp<LoginController>(){
+            @Mock
+            public User getUserByUsername(String userName){
+                return null;
+            }
         };
         new Expectations(){
             {
@@ -608,16 +613,26 @@ public class ManagerControllerTest {
 
     @Test
     public void showAllCategories() {
-        new MockUp<Object>(){
-            //  @Mock
+        new MockUp<Category>(){
+              @Mock
+            public ArrayList<Category> getAllCategories(){
+                  ArrayList<Category> categories = new ArrayList<>();
+                  categories.add(category);
+                  return categories;
+              }
         };
+        ArrayList<String > specialProperties= new ArrayList<>();
+        specialProperties.add("salam");
         new Expectations(){
             {
-
+                Category.getAllCategories();
+                category.getName();result = "category";
+                category.getSpecialProperties();result =specialProperties;
             }
         };
-
-
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("name : " + "category" + ", specialProperties : " + specialProperties);
+        assertEquals(sample , managerController.showAllCategories());
     }
 
     @Test
