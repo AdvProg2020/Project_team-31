@@ -1,8 +1,6 @@
 package Controller;
 
-import Model.Category;
-import Model.Product;
-import Model.User;
+import Model.*;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mock;
@@ -23,6 +21,10 @@ public class ProductControllerTest {
     Product product;
     @Injectable
     Category category;
+    @Injectable
+    Seller seller;
+    @Injectable
+    Customer customer;
     ProductController productController = ProductController.getInstance();
     @Test
     public void getInstance() {
@@ -199,17 +201,30 @@ public class ProductControllerTest {
     }
     @Test
     public void showDigestOfProduct() {
-        new MockUp<ManagerController>(){
+        new MockUp<Product>(){
             @Mock
-            public Category getCategoryByName(String name){
-                return category;
+            public HashMap<Seller , Integer> getSellersOfThisProduct(){
+                HashMap<Seller ,Integer> sellers = new HashMap<>();
+                sellers.put(seller , 10);
+                return sellers;
             }
         };
         new Expectations(){
             {
-
+                product.addView();
+                product.getName();result = "mobile";
+                product.getSumOfCustomersRate();result = 20;
+                product.getCustomersWhoRated();result = 10;
+                product.getProductStatus(); result = ProductAndOffStatus.ACCEPTED;
+                product.getSellersOfThisProduct();
             }
         };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("name=" + "mobile");
+        sample.add("rate=" + 2);
+        sample.add("status=" + ProductAndOffStatus.ACCEPTED);
+        sample.add("seller: " + seller + ", price: " + 10);
+        assertEquals(sample , productController.showDigestOfProduct(product , customer) );
     }
 
     @Test
