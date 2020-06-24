@@ -205,5 +205,9 @@ public class Product implements Serializable{
         }
 
     }
+
+    public void setOffs(ArrayList<Off> offs) {
+        this.offs = offs;
+    }
 }
 
