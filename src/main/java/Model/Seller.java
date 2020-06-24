@@ -66,6 +66,10 @@ public class Seller extends User implements Serializable{
         this.onSaleProducts.add(product);
     }
 
+    public void setSellerOffs(ArrayList<Off> sellerOffs) {
+        this.sellerOffs = sellerOffs;
+    }
+
     public static void logToFile(){
         try{
             FileOutputStream file = new FileOutputStream("src/project files/allSellers.txt");
@@ -79,6 +83,7 @@ public class Seller extends User implements Serializable{
             e.printStackTrace();
         }
     }
+
     public static void fileToLog(){
         try{
             FileInputStream file = new FileInputStream("src/project files/allSellers.txt");
