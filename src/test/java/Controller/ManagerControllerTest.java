@@ -645,22 +645,31 @@ public class ManagerControllerTest {
 
             }
         };
-
-
     }
 
     @Test
     public void removeCategory() {
-        new MockUp<Object>(){
-            //  @Mock
+        new MockUp<ManagerController>(){
+              @Mock
+            public Category getCategoryByName(String name){
+                  return category;
+              }
         };
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        HashMap<Seller , Integer> sellerIntegerHashMap = new HashMap<>();
+        sellerIntegerHashMap.put(seller , 10);
         new Expectations(){
             {
-
+                ManagerController.getCategoryByName("category");
+                category.getProducts();result= products;
+                product.removeProduct();
+                product.getSellersOfThisProduct();result = sellerIntegerHashMap;
+                seller.removeProduct(product);
+                category.deleteCategory();
             }
         };
-
-
+        managerController.removeCategory("category");
     }
 
     @Test
