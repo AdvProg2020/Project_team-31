@@ -565,16 +565,31 @@ public class ManagerControllerTest {
             @Mock
             public ArrayList<Request> getAllRequest(){
                 ArrayList<Request> allRequests = new ArrayList<>();
-                allRequests.add(offRequest);
+                allRequests.add(sellerOfProductRequest);
                 return allRequests;
             }
         };
         new Expectations(){
             {
                 Request.getAllRequest();
-//                sellerRequest.getRequestId(); result = "firstOne";
+                sellerOfProductRequest.getRequestId(); result = "sellerOfProductRequest";
+                sellerOfProductRequest.getProduct();result = product;
+                sellerOfProductRequest.getSeller();result = seller;
+                sellerOfProductRequest.getPrice();result = 40;
+                product.addSeller(seller , 40);
+                sellerOfProductRequest.getSeller();result = seller;
+                sellerOfProductRequest.getProduct();result = product;
+                seller.addProduct(product);
+                sellerOfProductRequest.getProduct();result = product;
+                product.getMinimumPrice();result = 50;
+                sellerOfProductRequest.getPrice();result = 40;
+                sellerOfProductRequest.getProduct();result = product;
+                sellerOfProductRequest.getPrice();result = 40;
+                product.setMinimumPrice(40);
+                sellerOfProductRequest.deleteRequest();
             }
         };
+        managerController.acceptRequest("sellerOfProductRequest");
     }
 
     @Test
