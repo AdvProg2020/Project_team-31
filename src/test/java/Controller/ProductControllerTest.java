@@ -48,7 +48,6 @@ public class ProductControllerTest {
                 Product.getAllProducts();
                 user.getFilters();result = filters;
                 product.getSpecialPropertiesRelatedToCategory();result = specialPropertiesRelatedToCategory;
-         //       filters.keySet();
                 product.getViews();result = 20;
                 product.getName();result = "mobile";
                 product.getMinimumPrice(); result = 5;
@@ -87,6 +86,42 @@ public class ProductControllerTest {
             productController.showProducts(user , null , "good");
         } catch (Exception e) {
             assertEquals("There is no product with these filters" , e.getMessage());
+        }
+    }
+    @Test
+    public void showProducts3() {
+        new MockUp<ManagerController>(){
+            @Mock
+            public Category getCategoryByName(String name){
+                return category;
+            }
+        };
+        HashMap<String , String> filters = new HashMap<>();
+        filters.put("salam" , "hamed");
+        HashMap<String , String> specialPropertiesRelatedToCategory = new HashMap<>();
+        filters.put("keyset" , "hamed");
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        new Expectations(){
+            {
+                ManagerController.getCategoryByName("category");
+                category.getProducts();result = products;
+                user.getFilters();result = filters;
+                product.getSpecialPropertiesRelatedToCategory();result = specialPropertiesRelatedToCategory;
+                category.getSpecialProperties();result = specialPropertiesRelatedToCategory;times = 2;
+                product.getViews();result = 20;
+                product.getName();result = "mobile";
+                product.getMinimumPrice(); result = 5;
+                product.getSumOfCustomersRate();result = 20;
+                product.getCustomersWhoRated();result = 10;
+            }
+        };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("name=" + "mobile" + ", price=" + 5 + ", rate=" + 2);
+        try {
+            assertEquals(sample , productController.showProducts(user , "category" , null));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     @Test
