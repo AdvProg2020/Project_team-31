@@ -30,10 +30,4 @@ public class LogTest {
         Log log = new Log("logId" , new Date(2000 , 2 , 20) , customer);
         assertEquals("logId" , log.getLogId());
     }
-
-    @Test
-    public void getNumberOfLogCreated() {
-        Log log = new Log("logId" , new Date(2000 , 2 , 20) , customer);
-        assertEquals(3 , Log.getNumberOfLogCreated());
-    }
 }

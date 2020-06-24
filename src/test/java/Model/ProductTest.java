@@ -113,6 +113,7 @@ public class ProductTest {
         HashMap<Seller , Integer> sellersOfThisProduct = new HashMap<>();
         sellersOfThisProduct.put(seller , 10);
         HashMap<String , String> specialPropertiesRelatedToCategory = new HashMap<>();
+        specialPropertiesRelatedToCategory.put("salam" , "hamed");
         Product product = new Product("product" , "mobile" , "sum" , category , "is perfect" , 5 ,sellersOfThisProduct , specialPropertiesRelatedToCategory );
         assertEquals(specialPropertiesRelatedToCategory , product.getSpecialPropertiesRelatedToCategory());
     }
@@ -122,8 +123,10 @@ public class ProductTest {
         HashMap<Seller , Integer> sellersOfThisProduct = new HashMap<>();
         sellersOfThisProduct.put(seller , 10);
         HashMap<String , String> specialPropertiesRelatedToCategory = new HashMap<>();
+        specialPropertiesRelatedToCategory.put("salam" , "hamed");
         Product product = new Product("product" , "mobile" , "sum" , category , "is perfect" , 5 ,sellersOfThisProduct , specialPropertiesRelatedToCategory );
-
+        product.removeSpecialFeature("salam");
+        assertEquals(new HashMap<String ,String>() , product.getSpecialPropertiesRelatedToCategory());
     }
 
     @Test
@@ -132,7 +135,9 @@ public class ProductTest {
         sellersOfThisProduct.put(seller , 10);
         HashMap<String , String> specialPropertiesRelatedToCategory = new HashMap<>();
         Product product = new Product("product" , "mobile" , "sum" , category , "is perfect" , 5 ,sellersOfThisProduct , specialPropertiesRelatedToCategory );
-
+        specialPropertiesRelatedToCategory.put("salam" , "hamed");
+        product.addSpecialFeature("salam" , "hamed");
+        assertEquals(specialPropertiesRelatedToCategory , product.getSpecialPropertiesRelatedToCategory());
     }
 
     @Test
@@ -313,6 +318,10 @@ public class ProductTest {
         sellersOfThisProduct.put(seller , 10);
         HashMap<String , String> specialPropertiesRelatedToCategory = new HashMap<>();
         Product product = new Product("product" , "mobile" , "sum" , category , "is perfect" , 5 ,sellersOfThisProduct , specialPropertiesRelatedToCategory );
+        HashMap<String , String> specialPropertiesRelatedToCategory2 = new HashMap<>();
+        specialPropertiesRelatedToCategory2.put("salam" , "hamed");
+        product.setSpecialPropertiesRelatedToCategory(specialPropertiesRelatedToCategory2);
+        assertEquals(specialPropertiesRelatedToCategory2 , product.getSpecialPropertiesRelatedToCategory());
 
     }
 
