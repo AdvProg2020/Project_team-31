@@ -70,9 +70,6 @@ public class SellerAddOff implements Initializable {
         } else if (getEndDate().before(getStartDate())) {
             Alert error = new Alert(Alert.AlertType.ERROR, "end date is before start date!", ButtonType.OK);
             error.show();
-        } else if (getStartDate().before(new Date())) {
-            Alert error = new Alert(Alert.AlertType.ERROR, "start date has passed!", ButtonType.OK);
-            error.show();
         } else {
             SellerController sellerController = SellerController.getInstance();
             sellerController.addOff(dataBase.user, products, getStartDate(), getEndDate(), Integer.parseInt(percentage.getText()));
@@ -97,7 +94,7 @@ public class SellerAddOff implements Initializable {
         dialog.setTitle("add product");
         dialog.setContentText("product ID : ");
         Optional<String> result = dialog.showAndWait();
-        result.ifPresent(id ->products.add(id));
+        result.ifPresent(id -> products.add(id));
     }
 
     private String isInvalid() {

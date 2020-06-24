@@ -34,8 +34,8 @@ public class SellerEditOff implements Initializable {
     }
 
     private void initFields() throws Exception {
-        products=SellerController.getInstance().getOffProducts(dataBase.editingOff.getOffId());
-        Off off=dataBase.editingOff;
+        products = SellerController.getInstance().getOffProducts(dataBase.editingOff.getOffId());
+        Off off = dataBase.editingOff;
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         String date = format.format(off.getBeginTime());
         startDate.getEditor().setText(date);
@@ -77,9 +77,6 @@ public class SellerEditOff implements Initializable {
             error.show();
         } else if (getEndDate().before(getStartDate())) {
             Alert error = new Alert(Alert.AlertType.ERROR, "end date is before start date!", ButtonType.OK);
-            error.show();
-        } else if (getStartDate().before(new Date())) {
-            Alert error = new Alert(Alert.AlertType.ERROR, "start date has passed!", ButtonType.OK);
             error.show();
         } else {
             SellerController sellerController = SellerController.getInstance();
