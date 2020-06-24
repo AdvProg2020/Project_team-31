@@ -125,6 +125,43 @@ public class ProductControllerTest {
         }
     }
     @Test
+    public void showProducts4() {
+        new MockUp<ManagerController>(){
+            @Mock
+            public Category getCategoryByName(String name){
+                return category;
+            }
+        };
+        HashMap<String , String> filters = new HashMap<>();
+        filters.put("salam" , "hamed");
+        HashMap<String , String> specialPropertiesRelatedToCategory = new HashMap<>();
+        filters.put("keyset" , "hamed");
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        new Expectations(){
+            {
+                ManagerController.getCategoryByName("category");
+                category.getProducts();result = products;
+                user.getFilters();result = filters;
+                product.getSpecialPropertiesRelatedToCategory();result = specialPropertiesRelatedToCategory;
+                category.getSpecialProperties();result = specialPropertiesRelatedToCategory;times = 2;
+                product.getSumOfCustomersRate();result = 20;
+                product.getCustomersWhoRated();result = 10;
+                product.getName();result = "mobile";
+                product.getMinimumPrice(); result = 5;
+                product.getSumOfCustomersRate();result = 20;
+                product.getCustomersWhoRated();result = 10;
+            }
+        };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("name=" + "mobile" + ", price=" + 5 + ", rate=" + 2);
+        try {
+            assertEquals(sample , productController.showProducts(user , "category" , "rate"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
     public void showDigestOfProduct() {
         new MockUp<ManagerController>(){
             @Mock
