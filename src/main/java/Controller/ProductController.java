@@ -21,7 +21,7 @@ public class ProductController {
         ArrayList<Product> products;
         Category category;
         if (categoryName == null) {
-            products = Product.allProducts;
+            products = Product.getAllProducts();
             category = null;
         } else {
             category = ManagerController.getCategoryByName(categoryName);
@@ -137,7 +137,7 @@ public class ProductController {
     public ArrayList<String> showOffProduct(User user, String sorting) throws Exception {
         SellerController.getInstance().checkTimeOfOffs();
         ArrayList<Product> offedProduct = new ArrayList<>();
-        for (Product product : Product.allProducts) {
+        for (Product product : Product.getAllProducts()) {
             if (product.getOffs().size() > 0) {
                 offedProduct.add(product);
             }
@@ -240,7 +240,7 @@ public class ProductController {
     }
 
     public static Product getProductById(String productId) {
-        for (Product product : Product.allProducts) {
+        for (Product product : Product.getAllProducts()) {
             if (product.getProductId().equals(productId))
                 return product;
         }

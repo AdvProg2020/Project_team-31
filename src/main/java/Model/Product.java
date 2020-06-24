@@ -20,7 +20,7 @@ public class Product implements Serializable{
     private String information;
     private int views;
     private HashMap<String , String > specialPropertiesRelatedToCategory;
-    public static ArrayList<Product> allProducts = new ArrayList<>();
+    private static ArrayList<Product> allProducts = new ArrayList<>();
     private static int numberOfProductCreated = 0;
 
     public Product(String productId, String name, String company, Category category, String information,int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
@@ -180,6 +180,7 @@ public class Product implements Serializable{
     public void setSpecialPropertiesRelatedToCategory(HashMap<String, String> specialPropertiesRelatedToCategory) {
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
     }
+
     public static void logToFile(){
         try{
             FileOutputStream file = new FileOutputStream("src/project files/allProducts.txt");
