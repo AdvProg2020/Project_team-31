@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.AddCategory">
+    <VBox fx:id="properties" layoutX="14.0" layoutY="14.0" prefHeight="265.0" prefWidth="161.0" />
+    <TextField fx:id="newFeature" layoutX="217.0" layoutY="108.0" promptText="add feature" />
+    <TextField fx:id="removingFeature" layoutX="410.0" layoutY="108.0" promptText="remove feature" />
+    <Button layoutX="217.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#addFeature" prefWidth="100" text="add" />
+    <Button layoutX="410.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#removeFeature" prefWidth="100" text="remove" />
+    <Button layoutX="217.0" layoutY="308.0" mnemonicParsing="false" onMouseClicked="#back" prefWidth="100" text="back" />
+   <TextField fx:id="categoryName" layoutX="217.0" layoutY="38.0" promptText="name" />
+   <Button layoutX="217.0" layoutY="238.0" mnemonicParsing="false" onMouseClicked="#create" prefWidth="100" text="create" />
+
+</Pane>

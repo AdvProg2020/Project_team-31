@@ -29,8 +29,6 @@
 }
 
 #mainMenuPane {
-    /*
     -fx-background-image: url("MainMenu.jpg");
--fx-background-size: auto;
-*/
+-fx-background-size: cover;
 }
