@@ -529,11 +529,19 @@ public class CustomerControllerTest {
         new MockUp<Object>(){
             // @Mock
         };
+        ArrayList<BuyingLog> buyingLogs = new ArrayList<>();
+        buyingLogs.add(buyingLog);
         new Expectations(){
             {
-
+                customer.getAllBuyingLogs();result = buyingLogs;
+                buyingLog.getLogId();result ="id";
+                buyingLog.getDate();result = new Date(2000 , 2, 20);
+                buyingLog.getTotalPrice();result = 10;
             }
         };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("Id: " + "id" + ", Date: " + new Date(2000 , 2, 20) + ", Price: " + 10);
+        assertEquals(sample , customerController.showAllOrders(customer));
     }
 
     @Test
