@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -282,6 +283,12 @@ public class ProductControllerTest {
 
     @Test
     public void showAvailableFiltersForUser() {
+        ArrayList<String> sample = new ArrayList<>();
+        sample.addAll(Arrays.asList("minimumPrice", "company", "name", "rate", "availability"));
+        assertEquals(sample , productController.showAvailableFiltersForUser(user , null));
+    }
+    @Test
+    public void showAvailableFiltersForUse2() {
         new MockUp<Object>(){
             // @Mock
         };
