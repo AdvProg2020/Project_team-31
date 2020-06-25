@@ -169,6 +169,11 @@ public class SellerControllerTest {
 
             }
         };
+        try {
+            sellerController.showBuyersOfThisProduct(user , "product");
+        } catch (Exception e) {
+            assertEquals( "You aren't a seller", e.getMessage());
+        }
     }
 
     @Test
