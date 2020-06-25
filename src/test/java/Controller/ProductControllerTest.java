@@ -467,14 +467,24 @@ public class ProductControllerTest {
 
     @Test
     public void disableFilterForUser() {
-        new MockUp<Object>(){
-            // @Mock
+        new MockUp<User>(){
+            @Mock
+            public HashMap<String , String> getFilters(){
+                HashMap<String, String> filters = new HashMap<>();
+                filters.put("good" , "perfect");
+                return filters;
+            }
         };
         new Expectations(){
             {
-
+                user.getFilters();
             }
         };
+        try {
+            productController.disableFilterForUser(user , "bad");
+        } catch (Exception e) {
+            assertEquals("User does not have this filter" , e.getMessage());
+        }
     }
 
     @Test
