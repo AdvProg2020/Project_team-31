@@ -36,9 +36,9 @@ public class Runner extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         initializeStage();
-        if (LoginController.getInstance().isThereAnyManager())
-            changeScene("MainMenu.fxml");
-        else runner.changeScene("RegisterMenu.fxml");
+        changeScene("MainMenu.fxml");
+        if (!LoginController.getInstance().isThereAnyManager())
+            runner.changeScene("RegisterMenu.fxml");
         primaryStage.show();
     }
 
