@@ -486,6 +486,28 @@ public class ProductControllerTest {
             assertEquals("User does not have this filter" , e.getMessage());
         }
     }
+    @Test
+    public void disableFilterForUser2() {
+        new MockUp<User>(){
+            @Mock
+            public HashMap<String , String> getFilters(){
+                HashMap<String, String> filters = new HashMap<>();
+                filters.put("good" , "perfect");
+                return filters;
+            }
+        };
+        new Expectations(){
+            {
+                user.getFilters();
+                user.removeFilter("good");
+            }
+        };
+        try {
+            productController.disableFilterForUser(user , "good");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void compareTwoProduct() {
