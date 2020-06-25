@@ -681,14 +681,32 @@ public class SellerControllerTest {
     }
     @Test
     public void addOff() {
-        new MockUp<Object>(){
-            //@Mock
+        new MockUp<SellerController>(){
+            @Mock
+            public void checkTimeOfOffs(){
+            }
         };
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String name){
+                return null;
+            }
+        };
+        ArrayList<Off> offs = new ArrayList<>();
+        offs.add(off);
         new Expectations(){
             {
 
             }
         };
+        ArrayList<String> productsId = new ArrayList<>();
+        productsId.add("product");
+        productsId.add("product2");
+        try {
+            sellerController.addOff(seller ,productsId , new Date(2000 , 2, 20) , new Date(2020 , 2 ,20) , 30);
+        } catch (Exception e) {
+            assertEquals( "some products doesn't exist", e.getMessage());
+        }
     }
 
     @Test
