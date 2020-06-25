@@ -37,6 +37,7 @@ public class DataBase {
         user = null;
         pages.clear();
         runner.changeScene("MainMenu.fxml");
+        runner.changeScene("MainMenu.fxml");
     }
 
     public String[] getUserInfo() {

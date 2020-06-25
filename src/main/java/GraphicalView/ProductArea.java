@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -41,10 +42,11 @@ public class ProductArea implements Initializable {
     public Label sellerPrice;
     public Button rateButton;
     public Button commentButton;
+    public ImageView image;
     private User user;
     private Product product;
     private CustomerController customerController = CustomerController.getInstance();
-    private ArrayList<String> commentsToString ;
+    private ArrayList<String> commentsToString;
 
 
     @Override
@@ -55,9 +57,9 @@ public class ProductArea implements Initializable {
         } else {
             user = DataBase.getInstance().tempUser;
         }
-        if(user.getCard() == null)
+        if (user.getCard() == null)
             user.setCard(new Card());
-        if(!(user instanceof Customer)) {
+        if (!(user instanceof Customer)) {
             rateButton.setDisable(true);
             commentButton.setDisable(true);
         }
@@ -80,7 +82,7 @@ public class ProductArea implements Initializable {
         key.setMinWidth(125);
         Label value = new Label("value");
         value.setMinWidth(125);
-        row.getChildren().addAll(key,value);
+        row.getChildren().addAll(key, value);
         specialProperties.getChildren().add(row);
         for (String s : product.getSpecialPropertiesRelatedToCategory().keySet()) {
             HBox r = new HBox();
@@ -88,7 +90,7 @@ public class ProductArea implements Initializable {
             k.setMinWidth(125);
             Label v = new Label(product.getSpecialPropertiesRelatedToCategory().get(s));
             v.setMinWidth(125);
-            r.getChildren().addAll(k,v);
+            r.getChildren().addAll(k, v);
             specialProperties.getChildren().add(r);
         }
     }
@@ -120,7 +122,7 @@ public class ProductArea implements Initializable {
     }
 
 
-    public void update(){
+    public void update() {
         rate.setText("rate: " + product.getRate());
         commentsList.getItems().clear();
         commentsToString = ProductController.getInstance().showCommentAboutProduct(product);
@@ -134,27 +136,27 @@ public class ProductArea implements Initializable {
     public void changeSeller(ActionEvent actionEvent) {
         Off productOff = null;
         for (Off off : product.getOffs()) {
-            if(off.getSeller().getUsername().equals(sellers.getValue())) {
+            if (off.getSeller().getUsername().equals(sellers.getValue())) {
                 productOff = off;
             }
         }
 
         int p = product.getSellersOfThisProduct().get(LoginController.getUserByUsername(String.valueOf(sellers.getValue())));
 
-        if(productOff == null) {
+        if (productOff == null) {
             sellerPrice.setText("price: " + p + "\nThere is no off");
         } else {
-            sellerPrice.setText("price: " + p + "\noff percent: " + productOff.getOffPercent() + ", new price: " + (p*(100 - productOff.getOffPercent())/100));
+            sellerPrice.setText("price: " + p + "\noff percent: " + productOff.getOffPercent() + ", new price: " + (p * (100 - productOff.getOffPercent()) / 100));
         }
     }
 
     public void addThisProductToCard(javafx.scene.input.MouseEvent mouseEvent) {
-        if(sellers.getValue() == null) {
+        if (sellers.getValue() == null) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please select seller!", ButtonType.OK);
             error.show();
         } else {
             try {
-                customerController.addProductToCard(user , DataBase.getInstance().tempUser.getCard() , product , sellers.getValue().toString());
+                customerController.addProductToCard(user, DataBase.getInstance().tempUser.getCard(), product, sellers.getValue().toString());
             } catch (Exception e) {
                 Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
                 error.show();
@@ -163,12 +165,12 @@ public class ProductArea implements Initializable {
     }
 
     public void rateThisProduct(javafx.scene.input.MouseEvent mouseEvent) {
-        if(ratePlease.getText().equals("")) {
+        if (ratePlease.getText().equals("")) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter number", ButtonType.OK);
             error.show();
         } else {
             try {
-                CustomerController.getInstance().rateProduct(user , product.getProductId() ,Integer.getInteger(ratePlease.getText()));
+                CustomerController.getInstance().rateProduct(user, product.getProductId(), Integer.getInteger(ratePlease.getText()));
                 update();
             } catch (Exception e) {
                 Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
@@ -179,11 +181,11 @@ public class ProductArea implements Initializable {
     }
 
     public void commentThisProduct(javafx.scene.input.MouseEvent mouseEvent) {
-        if(commentContent.getText().equals("")) {
+        if (commentContent.getText().equals("")) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please  write your comment", ButtonType.OK);
             error.show();
         } else {
-            ProductController.getInstance().addComment(user , product , CommentTitle.getText() , commentContent.getText() );
+            ProductController.getInstance().addComment(user, product, CommentTitle.getText(), commentContent.getText());
             update();
         }
     }

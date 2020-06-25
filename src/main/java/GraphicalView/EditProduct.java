@@ -36,7 +36,6 @@ public class EditProduct implements Initializable {
     public VBox choiceBoxContainer;
     public Button categoryFeaturesButton;
     HashMap<Label, TextField> data = new HashMap<>();
-    StringProperty categoryName = new SimpleStringProperty("");
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     Product product = ProductsMenu.product;
@@ -93,7 +92,7 @@ public class EditProduct implements Initializable {
             return "description";
         else if (number.getText().equals("") || !number.getText().matches("^\\d+$") && Integer.parseInt(number.getText()) > 0)
             return "number";
-        else if (categoryName.getValue().equals(""))
+        else if (choiceBox.getValue().equals(""))
             return "category name";
         else if (data.size() == 0)
             return "category features";
@@ -102,7 +101,7 @@ public class EditProduct implements Initializable {
 
     public void setCategoryFeatures() {
         EventHandler<ActionEvent> event = (e) -> {
-            if (categoryName.getValue() == null) {
+            if (choiceBox.getValue() == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("you have to select the category");
                 alert.show();
@@ -129,10 +128,9 @@ public class EditProduct implements Initializable {
 
     private void dropDownListSetUp() {
         choiceBox = new ChoiceBox<>();
-        ArrayList<String> categories = ManagerController.getInstance().showAllCategories();
+        ArrayList<String> categories = ManagerController.getInstance().showAllCategoriesForGUI();
         choiceBox.getItems().addAll(categories);
         choiceBoxContainer.getChildren().add(choiceBox);
-        categoryName.bind(choiceBox.valueProperty());
         choiceBox.setValue(product.getCategory().getName());
         choiceBox.setOnAction(event -> data.clear());
     }
@@ -143,7 +141,7 @@ public class EditProduct implements Initializable {
             window.initModality(Modality.APPLICATION_MODAL);
             window.setTitle("category info");
             VBox layout = new VBox(10);
-            ArrayList<String> features = SellerController.getInstance().getCategoryFeatures(categoryName.getValue());
+            ArrayList<String> features = SellerController.getInstance().getCategoryFeatures(choiceBox.getValue());
             Button closeButton = new Button("submit");
             for (String feature : features) {
                 Label label = new Label(feature);

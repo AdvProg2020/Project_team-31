@@ -29,7 +29,6 @@ public class AddProduct implements Initializable {
     public TextField number;
     Runner runner = Runner.getInstance();
     ChoiceBox<String> choiceBox;
-//    StringProperty categoryName = new SimpleStringProperty("");
     File photo;
     DataBase dataBase = DataBase.getInstance();
     HashMap<Label, TextField> data = new HashMap<>();
@@ -45,7 +44,6 @@ public class AddProduct implements Initializable {
         ArrayList<String> categories = ManagerController.getInstance().showAllCategoriesForGUI();
         choiceBox.getItems().addAll(categories);
         choiceBoxContainer.getChildren().add(choiceBox);
-//        categoryName.bind(choiceBox.valueProperty());
         Platform.runLater(() -> {
             SkinBase<ChoiceBox<String>> skin = (SkinBase<ChoiceBox<String>>) choiceBox.getSkin();
             for (Node child : skin.getChildren()) {
@@ -126,11 +124,11 @@ public class AddProduct implements Initializable {
             return "product name";
         else if (companyName.getText().equals(""))
             return "company name";
-        else if (price.getText().equals("") || !price.getText().matches("^\\d+$"))
+        else if (price.getText().equals("") || !price.getText().matches("^\\d+$") || Integer.parseInt(price.getText())>0)
             return "price";
         else if (description.getText().equals(""))
             return "description";
-        else if (number.getText().equals("") || !number.getText().matches("^\\d+$") && Integer.parseInt(number.getText()) > 0)
+        else if (number.getText().equals("") || !number.getText().matches("^\\d+$") || Integer.parseInt(number.getText()) > 0)
             return "number";
         else if (choiceBox.getValue().equals(""))
             return "category name";
