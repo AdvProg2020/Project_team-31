@@ -21,6 +21,8 @@ public class SellerControllerTest {
     @Injectable
     Seller seller;
     @Injectable
+    Seller seller2;
+    @Injectable
     User user;
     @Injectable
     Product product;
@@ -312,6 +314,39 @@ public class SellerControllerTest {
                 seller.getOnSaleProducts();result = products;
                 product.getSellersOfThisProduct();result = sellers;
                 sellerController.removeProduct("product");
+            }
+        };
+        try {
+            sellerController.removeProductFromUser(seller , "product");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void removeProductFromUser5() throws Exception {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return product;
+            }
+        };
+        new MockUp<SellerController>(){
+            @Mock
+            public void removeProduct(String product){
+            }
+        };
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        sellers.put(seller , 10);
+        sellers.put(seller2 , 20);
+        new Expectations(){
+            {
+                ProductController.getProductById("product");
+                seller.getOnSaleProducts();result = products;
+                product.getSellersOfThisProduct();result = sellers;
+                seller.removeProduct(product);
+                product.removeSeller(seller);
             }
         };
         try {
