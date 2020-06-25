@@ -543,12 +543,6 @@ public class CustomerControllerTest {
         sample.add("Id: " + "id" + ", Date: " + new Date(2000 , 2, 20) + ", Price: " + 10);
         assertEquals(sample , customerController.showAllOrders(customer));
     }
-
-    @Test
-    public void showAllOrdersByList() {
-
-    }
-
     @Test
     public void rateProduct() {
         new MockUp<ProductController>(){
@@ -557,15 +551,30 @@ public class CustomerControllerTest {
                 return null;
             }
         };
+        try {
+            customerController.rateProduct(customer , "id" , 30);
+        } catch (Exception e) {
+            assertEquals( "There is not product with this id", e.getMessage());
+        }
+    }
+    @Test
+    public void rateProduct2() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String id){
+                return product;
+            }
+        };
+        ArrayList<Product> products = new ArrayList<>();
         new Expectations(){
             {
-
+                customer.getRecentShoppingProducts();result = products;
             }
         };
         try {
             customerController.rateProduct(customer , "id" , 30);
         } catch (Exception e) {
-            assertEquals( "There is not product with this id", e.getMessage());
+            assertEquals( "Customer Does'nt buy this Product", e.getMessage());
         }
     }
 
