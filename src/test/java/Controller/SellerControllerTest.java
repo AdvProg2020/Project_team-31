@@ -859,6 +859,39 @@ public class SellerControllerTest {
             assertEquals("Seller does'nt have this off" , e.getMessage());
         }
     }
+    @Test
+    public void editOff3() {
+        new MockUp<SellerController>(){
+            @Mock
+            public Off getOffById(String id){
+                return off;
+            }
+        };
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String id){
+                return product;
+            }
+        };
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        new Expectations(){
+            {
+                off.getSeller();result = seller;
+                off.setOffStatus(ProductAndOffStatus.EDITING);
+                Request.getNumberOfRequestCreated();result = 10;
+                OffRequest sample = new OffRequest("OffRequest" + 10, off, true);
+                sample.setOff(new Date(2000 , 2 , 20) ,new Date(2020 , 2, 20) , 40 ,products );
+            }
+        };
+        ArrayList<String> productIds = new ArrayList<>();
+        productIds.add("product");
+        try {
+            sellerController.editOff(seller , "off" ,productIds ,new Date(2000 , 2 , 20) ,new Date(2020 , 2, 20) ,40);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void getOffById() {
