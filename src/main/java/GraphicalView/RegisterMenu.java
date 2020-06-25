@@ -74,9 +74,7 @@ public class RegisterMenu implements Initializable {
                         Runner.getInstance().back();
                         inform = new Alert(Alert.AlertType.INFORMATION, "You have added manager successfully!", ButtonType.OK);
                     } else {
-                        DataBase.getInstance().pages.pop();
-                        DataBase.getInstance().pages.pop();
-                        Runner.getInstance().changeScene("LoginMenu.fxml");
+                        Runner.getInstance().back();
                         inform = new Alert(Alert.AlertType.INFORMATION, "You have registered successfully!", ButtonType.OK);
                     }
                     inform.show();
