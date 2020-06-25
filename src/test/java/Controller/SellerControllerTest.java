@@ -161,18 +161,29 @@ public class SellerControllerTest {
 
     @Test
     public void showBuyersOfThisProduct() {
-        new MockUp<Object>(){
-            //@Mock
-        };
-        new Expectations(){
-            {
-
-            }
-        };
         try {
             sellerController.showBuyersOfThisProduct(user , "product");
         } catch (Exception e) {
             assertEquals( "You aren't a seller", e.getMessage());
+        }
+    }
+    @Test
+    public void showBuyersOfThisProduct2() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return null;
+            }
+        };
+        new Expectations(){
+            {
+                ProductController.getProductById("product");
+            }
+        };
+        try {
+            sellerController.showBuyersOfThisProduct(seller , "product");
+        } catch (Exception e) {
+            assertEquals( "This product doesn't Exist", e.getMessage());
         }
     }
 
