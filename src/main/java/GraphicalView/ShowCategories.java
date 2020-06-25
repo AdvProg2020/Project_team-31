@@ -24,12 +24,15 @@ public class ShowCategories implements Initializable {
     public Button login;
     public GridPane gridPane;
     static Category categoryToEdit;
+    public Button addCategory;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showCategories();
+        addCategory.setDisable(!(dataBase.user instanceof Manager));
+        addCategory.setOnMouseClicked(e -> runner.changeScene("AddCategory.fxml"));
         loginAlert();
         logoutAlert();
     }
@@ -62,7 +65,7 @@ public class ShowCategories implements Initializable {
 
                     {
                         btn.setMinWidth(75);
-                        btn.setDisable(dataBase.user instanceof Manager);
+                        btn.setDisable(!(dataBase.user instanceof Manager));
                         btn.setOnAction((ActionEvent event) -> {
                             categoryToEdit = getTableView().getItems().get(getIndex());
                             runner.changeScene("EditCategory.fxml");
