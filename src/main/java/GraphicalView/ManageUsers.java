@@ -1,7 +1,6 @@
 package GraphicalView;
 
 import Controller.ManagerController;
-import Model.Product;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,10 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.omg.CORBA.INITIALIZE;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -88,7 +85,7 @@ public class ManageUsers implements Initializable {
         gridPane.setMinWidth(200);
         gridPane.setVgap(10);
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(new Label("Are you sure to delete" + deletingUser.getUsername() + "?"), 0, 0);
+        gridPane.add(new Label("Are you sure to delete " + deletingUser.getUsername() + "?"), 0, 0);
         Button cancel = new Button("Cancel");
         cancel.setMinWidth(100);
         cancel.setOnMouseClicked(e -> warningStage.close());
