@@ -29,6 +29,8 @@ public class SellerControllerTest {
     @Injectable
     Customer customer;
     @Injectable
+    Category category;
+    @Injectable
     SellingLog sellingLog;
     @Test
     public void getInstance() {
@@ -398,6 +400,32 @@ public class SellerControllerTest {
             sellerController.getCategoryFeatures("category");
         } catch (Exception e) {
             assertEquals( "Invalid categoryName" , e.getMessage());
+        }
+    }
+    @Test
+    public void getCategoryFeatures2() {
+        new MockUp<ManagerController>(){
+            @Mock
+            public Category getCategoryByName(String name){
+                return category;
+            }
+        };
+        ArrayList<String> specialProperties = new ArrayList<>();
+        specialProperties.add("very well");
+        new Expectations(){
+            {
+                ManagerController.getCategoryByName("category");
+                category.getSpecialProperties();result = specialProperties;
+                ManagerController.getCategoryByName("category");
+            }
+        };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("very well");
+        try {
+            assertEquals(sample , sellerController.getCategoryFeatures("category"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
