@@ -1,5 +1,6 @@
 package GraphicalView;
 
+import Controller.LoginController;
 import Model.Customer;
 import Model.Manager;
 import Model.Seller;
@@ -35,7 +36,9 @@ public class Runner extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         initializeStage();
-        changeScene("MainMenu.fxml");
+        if (LoginController.getInstance().isThereAnyManager())
+            changeScene("MainMenu.fxml");
+        else runner.changeScene("RegisterMenu.fxml");
         primaryStage.show();
     }
 

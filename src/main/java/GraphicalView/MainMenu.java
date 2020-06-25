@@ -26,12 +26,6 @@ public class MainMenu implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         logoutAlert();
         loginAlert();
-        firstManager();
-    }
-
-    private void firstManager() {
-        if (!LoginController.getInstance().isThereAnyManager())
-            runner.changeScene("RegisterMenu.fxml");
     }
 
 
