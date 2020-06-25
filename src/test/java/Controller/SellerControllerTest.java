@@ -940,13 +940,21 @@ public class SellerControllerTest {
 
     @Test
     public void getOffProducts() {
-        new MockUp<Object>(){
-            //@Mock
+        new MockUp<SellerController>(){
+            @Mock
+            public Off getOffById(String id){
+                return null;
+            }
         };
         new Expectations(){
             {
 
             }
         };
+        try {
+            sellerController.getOffProducts("off");
+        } catch (Exception e) {
+            assertEquals("there isn'n any off with this Id!" , e.getMessage());
+        }
     }
 }
