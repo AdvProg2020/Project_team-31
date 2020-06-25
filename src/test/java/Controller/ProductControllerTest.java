@@ -25,6 +25,8 @@ public class ProductControllerTest {
     @Injectable
     Seller seller;
     @Injectable
+    Product product2;
+    @Injectable
     Off off;
     @Injectable
     Customer customer;
@@ -511,14 +513,22 @@ public class ProductControllerTest {
 
     @Test
     public void compareTwoProduct() {
-        new MockUp<Object>(){
-            // @Mock
+        new MockUp<ProductController>(){
+             @Mock
+            public Product getProductById(String Id){
+                 return null;
+             }
         };
         new Expectations(){
             {
-
+                ProductController.getProductById("product2");
             }
         };
+        try {
+            productController.compareTwoProduct(product , "Product2");
+        } catch (Exception e) {
+            assertEquals("second product doesn't exist" ,e.getMessage());
+        }
     }
 
     @Test
