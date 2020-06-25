@@ -27,8 +27,8 @@
     -fx-background-radius: 10;
     -fx-opacity: 50;
 }
-
-#mainMenuPane {
-    -fx-background-image: url("MainMenu.jpg");
-    -fx-background-size: auto;
+#welcome{
+    -fx-font-size: 45px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ff1a1a;
 }
