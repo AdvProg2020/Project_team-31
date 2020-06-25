@@ -208,6 +208,38 @@ public class SellerControllerTest {
             assertEquals( "Seller does'nt have this product", e.getMessage());
         }
     }
+    @Test
+    public void showBuyersOfThisProduct4() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return product;
+            }
+        };
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        ArrayList<SellingLog> sellingLogs = new ArrayList<>();
+        sellingLogs.add(sellingLog);
+        new Expectations(){
+            {
+                ProductController.getProductById("product");
+                seller.getOnSaleProducts();result = products;
+                ProductController.getProductById("product");
+                seller.getAllSellingLogs();result = sellingLogs;
+                sellingLog.getBuyingProducts();result = product;
+                product.getProductId();result = "product";
+                sellingLog.getCustomer();result = customer;
+                customer.getUsername();result = "customer";
+            }
+        };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("customer");
+        try {
+            assertEquals(sample ,sellerController.showBuyersOfThisProduct(seller , "product") );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void removeProductFromUser() {
