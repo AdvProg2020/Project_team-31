@@ -40,9 +40,6 @@ public class ProductsMenu implements Initializable {
     public static Product product;
 
     public void setCategories() {
-        ArrayList<String> features = new ArrayList<>();
-        features.add("rom");
-        ManagerController.getInstance().addCategory("mobile", features);
         ArrayList<String> listOfCategories = (ArrayList<String>) Category.getAllCategories().stream()
                 .map(e -> e.getName())
                 .collect(Collectors.toList());
