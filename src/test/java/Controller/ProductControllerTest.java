@@ -373,6 +373,59 @@ public class ProductControllerTest {
            assertEquals("there is no off with this filters" , e.getMessage());
         }
     }
+    @Test
+    public void showOffProduct2() {
+        new MockUp<SellerController>(){
+            @Mock
+            public void checkTimeOfOffs(){
+
+            }
+        };
+        new MockUp<Product>(){
+            @Mock
+            public ArrayList<Product> getAllProducts(){
+                ArrayList<Product> products = new ArrayList<>();
+                products.add(product);
+                return products;
+            }
+        };
+        new MockUp<User>(){
+            @Mock
+            public HashMap<String , String> getFilters(){
+                HashMap<String, String> filters = new HashMap<>();
+                filters.put("good" , "perfect");
+                return filters;
+            }
+        };
+        ArrayList<Off> offs = new ArrayList<>();
+        offs.add(off);
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        sellers.put(seller , 40);
+        new Expectations(){
+            {
+                SellerController.getInstance().checkTimeOfOffs();
+                Product.getAllProducts();
+                product.getOffs();result = offs;
+                user.getFilters();
+                product.getViews();result = 2;
+                product.getOffs();result = offs;
+                product.getProductId(); result = "product";
+                off.getSeller();result = seller;
+                seller.getUsername();result = "seller";
+                product.getSellersOfThisProduct();result = sellers;
+                off.getSeller();result = seller;
+                off.getOffPercent();result = 55;
+            }
+        };
+        ArrayList<String> offsArray = new ArrayList<>();
+        offsArray.add("productId:" + "product" + ", seller:" +"seller"  + ", original price: " + 40  + ", offPercent: " + 55);
+
+        try {
+           assertEquals(offsArray ,productController.showOffProduct(user , "nothing") );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void clearFilters() {
