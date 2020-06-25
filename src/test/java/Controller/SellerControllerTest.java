@@ -558,15 +558,35 @@ public class SellerControllerTest {
                 return null;
             }
         };
+        try {
+            sellerController.removeProduct("product");
+        } catch (Exception e) {
+            assertEquals("There is not product with this id" , e.getMessage());
+        }
+    }
+    @Test
+    public void removeProduct2() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return product;
+            }
+        };
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        sellers.put(seller , 10);
         new Expectations(){
             {
-
+                product.getSellersOfThisProduct();result = sellers;
+                seller.removeProduct(product);
+                product.removeProduct();
+                product.getCategory();result = category;
+                category.removeProduct(product);
             }
         };
         try {
             sellerController.removeProduct("product");
         } catch (Exception e) {
-            assertEquals("There is not product with this id" , e.getMessage());
+            e.printStackTrace();
         }
     }
 
