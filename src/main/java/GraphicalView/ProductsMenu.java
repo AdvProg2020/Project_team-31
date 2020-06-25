@@ -40,9 +40,6 @@ public class ProductsMenu implements Initializable {
     public static Product product;
 
     public void setCategories() {
-        ArrayList<String> features = new ArrayList<>();
-        features.add("rom");
-        ManagerController.getInstance().addCategory("mobile", features);
         ArrayList<String> listOfCategories = (ArrayList<String>) Category.getAllCategories().stream()
                 .map(e -> e.getName())
                 .collect(Collectors.toList());
@@ -68,11 +65,6 @@ public class ProductsMenu implements Initializable {
         viewColumn.setCellValueFactory(new PropertyValueFactory<>("views"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
         rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
-        User user = new Seller("mohammadali", "kakavand", "mali", "myemail", "999", "1234","samsung");
-        HashMap<Seller, Integer> sellers = new HashMap<>();
-        sellers.put((Seller)user, Integer.parseInt("50"));
-        new Product(null, "a", "M9", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10,sellers, new HashMap<>()).setMinimumPrice(50);
-        new Product(null, "ab", "M10", "GLX", ManagerController.getCategoryByName("mobile"), "good", 10, new HashMap<>(), new HashMap<>());
         tableOfProducts.setItems(getProducts("all"));
     }
 
