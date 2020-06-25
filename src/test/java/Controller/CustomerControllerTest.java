@@ -369,7 +369,7 @@ public class CustomerControllerTest {
         }
     }
 
-    /* @Test
+     @Test
      public void putDiscount3() {
          new MockUp<ManagerController>() {
              @Mock
@@ -379,15 +379,9 @@ public class CustomerControllerTest {
          };
          new MockUp<DiscountCode>() {
              @Mock
-             void getDiscountById(String id) {
-                 return discountCode;
-             }
-         };
-         new MockUp<DiscountCode>() {
-             @Mock
              HashMap<User , Integer> getDiscountTimesForEachCustomer() {
                  HashMap<User , Integer> userIntegerHashMap = new HashMap<>();
-                 userIntegerHashMap.put(user , 2);
+                 userIntegerHashMap.put(customer , 2);
                  return userIntegerHashMap;            }
          };
          new Expectations(){
@@ -396,19 +390,33 @@ public class CustomerControllerTest {
                  discountCode.getEndTime(); result =  new Date(1000 , 10 , 1);
                  discountCode.getMaximumDiscount(); result = 20;
                  discountCode.getDiscountPercent(); result = 20;
-               //  discountCode.decreaseDiscountTimesForEachCustomer((Customer) user);
+                 discountCode.decreaseDiscountTimesForEachCustomer(customer);
              }
          };
          try {
-             customerController.putDiscount(user , buyingLog , "secondOne");
+             customerController.putDiscount(customer , buyingLog , "secondOne");
          } catch (Exception e) {
              e.printStackTrace();
          }
 
-         }*/
+         }
     @Test
     public void payMoney() {
-
+        new MockUp<Object>(){
+         //   @Mock
+        };
+        new Expectations(){
+            {
+                buyingLog.getTotalPrice(); result = 9;
+                buyingLog.getDiscountAmount();result = 5;
+                customer.getCredit();result = 2;
+            }
+        };
+        try {
+            customerController.payMoney(customer , buyingLog);
+        } catch (Exception e) {
+            assertEquals( "Credit of money is not enough", e.getMessage());
+        }
     }
 
     @Test
