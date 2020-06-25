@@ -12,7 +12,7 @@ public class DataBase {
     public Card card;
     LoginController loginController = LoginController.getInstance();
     Off editingOff = null;
-    DiscountCode editingDiscountCode=null;
+    DiscountCode editingDiscountCode = null;
     boolean isAddingManager = false;
 
     public static DataBase getInstance() {
@@ -30,7 +30,8 @@ public class DataBase {
 
     //    User user = new Customer("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234");
 //    User user = new Seller("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234", "samsung");
-      User user = new Manager("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234");
+//      User user = new Manager("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234");
+    User user=null;
 
     public void logout() {
         user = null;

@@ -1,5 +1,7 @@
 package GraphicalView;
 
+import Controller.LoginController;
+import Controller.ManagerController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -22,10 +24,14 @@ public class MainMenu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//         if there is not any manager make one...
-        ///////////////////////////////////////////////////////
         logoutAlert();
         loginAlert();
+        firstManager();
+    }
+
+    private void firstManager() {
+        if (!LoginController.getInstance().isThereAnyManager())
+            runner.changeScene("RegisterMenu.fxml");
     }
 
 
