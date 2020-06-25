@@ -268,6 +268,27 @@ public class SellerControllerTest {
             assertEquals( "There is not this product", e.getMessage());
         }
     }
+    @Test
+    public void removeProductFromUser3() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return product;
+            }
+        };
+        ArrayList<Product> products = new ArrayList<>();
+        new Expectations(){
+            {
+                ProductController.getProductById("product");
+                seller.getOnSaleProducts();result = products;
+            }
+        };
+        try {
+            sellerController.removeProductFromUser(seller , "product");
+        } catch (Exception e) {
+            assertEquals( "Seller does'nt have this product", e.getMessage());
+        }
+    }
 
     @Test
     public void showProductsOfThisSeller() {
