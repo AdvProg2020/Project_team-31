@@ -768,14 +768,32 @@ public class SellerControllerTest {
 
     @Test
     public void checkTimeOfOffs() {
-        new MockUp<Object>(){
-            //@Mock
+        new MockUp<Off>(){
+            @Mock
+            public ArrayList<Off> getAllOffs(){
+                ArrayList<Off> offs = new ArrayList<>();
+                offs.add(off);
+                return offs;
+            }
         };
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        ArrayList<Off> offs = new ArrayList<>();
+        offs.add(off);
         new Expectations(){
             {
+                off.getEndTime();result = new Date();
+                off.getOffStatus();result = ProductAndOffStatus.ACCEPTED;
+                off.removeOff();
+                off.getSeller();result = seller;
+                seller.removeOffFromThisSeller(off);
+                off.getOnSaleProducts();result = products;
+                product.getOffs();result = offs;
+                product.removeOff(off);
 
             }
         };
+        sellerController.checkTimeOfOffs();
     }
 
     @Test
