@@ -946,15 +946,34 @@ public class SellerControllerTest {
                 return null;
             }
         };
-        new Expectations(){
-            {
-
-            }
-        };
         try {
             sellerController.getOffProducts("off");
         } catch (Exception e) {
             assertEquals("there isn'n any off with this Id!" , e.getMessage());
+        }
+    }
+    @Test
+    public void getOffProducts2() {
+        new MockUp<SellerController>(){
+            @Mock
+            public Off getOffById(String id){
+                return off;
+            }
+        };
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        new Expectations(){
+            {
+                off.getOnSaleProducts();result = products;
+                product.getProductId();result = "product";
+            }
+        };
+        ArrayList<String> ids = new ArrayList<>();
+        ids.add("product");
+        try {
+            assertEquals(ids ,sellerController.getOffProducts("off") );
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
