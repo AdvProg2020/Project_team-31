@@ -12,6 +12,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.HashMap;
+
 import static org.junit.Assert.*;
 @RunWith(JMockit.class)
 public class SellerControllerTest {
@@ -20,6 +22,8 @@ public class SellerControllerTest {
     Seller seller;
     @Injectable
     User user;
+    @Injectable
+    Product product;
     @Test
     public void getInstance() {
         Assert.assertNotNull(SellerController.getInstance());
@@ -75,6 +79,28 @@ public class SellerControllerTest {
             sellerController.addSellerToProduct(seller , "product" , 500);
         } catch (Exception e) {
             assertEquals("productId is invalid" , e.getMessage());
+        }
+    }
+    @Test
+    public void addSellerToProduct3() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return product;
+            }
+        };
+        HashMap<Seller  , Integer> sellers = new HashMap<>();
+        sellers.put(seller , 10);
+        new Expectations(){
+            {
+                ProductController.getProductById("product");
+                product.getSellersOfThisProduct();result = sellers;
+            }
+        };
+        try {
+            sellerController.addSellerToProduct(seller , "product" , 500);
+        } catch (Exception e) {
+            assertEquals("seller has product" , e.getMessage());
         }
     }
 
