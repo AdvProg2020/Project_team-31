@@ -289,6 +289,37 @@ public class SellerControllerTest {
             assertEquals( "Seller does'nt have this product", e.getMessage());
         }
     }
+    @Test
+    public void removeProductFromUser4() throws Exception {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return product;
+            }
+        };
+        new MockUp<SellerController>(){
+            @Mock
+            public void removeProduct(String product){
+            }
+        };
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        sellers.put(seller , 10);
+        new Expectations(){
+            {
+                ProductController.getProductById("product");
+                seller.getOnSaleProducts();result = products;
+                product.getSellersOfThisProduct();result = sellers;
+                sellerController.removeProduct("product");
+            }
+        };
+        try {
+            sellerController.removeProductFromUser(seller , "product");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void showProductsOfThisSeller() {
