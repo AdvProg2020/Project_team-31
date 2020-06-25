@@ -602,24 +602,21 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void showBalanceForCustomer() {
-        new Expectations(){
-            {
-                user.getCredit();
-            }
-        };
-        customerController.showBalanceForCustomer(user);
-    }
-
-    @Test
     public void showDiscountCodes() {
-        new MockUp<Object>(){
-            // @Mock
-        };
+        ArrayList<DiscountCode> discountCodes = new ArrayList<>();
+        discountCodes.add(discountCode);
         new Expectations(){
             {
-
+                customer.getAllDiscountCodes();result = discountCodes;
+                discountCode.getDiscountCode();result = "discount";
+                discountCode.getDiscountPercent();result = 10;
+                discountCode.getMaximumDiscount();result = 20;
+                discountCode.getBeginTime();result = new Date(2000 , 2 ,20);
+                discountCode.getEndTime();result = new Date(2020 , 2 ,20);
             }
         };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("Code=" +"discount"  + ", percent=" + 10 + ", maximum=" + 20 + ", BeginTime=" + new Date(2000 , 2 ,20) + ", EndTime=" + new Date(2020 , 2 ,20));
+        assertEquals(sample , customerController.showDiscountCodes(customer));
     }
 }
