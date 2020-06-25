@@ -930,14 +930,12 @@ public class SellerControllerTest {
 
     @Test
     public void showBalanceOfSeller() {
-        new MockUp<Object>(){
-            //@Mock
-        };
         new Expectations(){
             {
-
+                user.getCredit();result = 10;
             }
         };
+        assertEquals(10 , sellerController.showBalanceOfSeller(user));
     }
 
     @Test
