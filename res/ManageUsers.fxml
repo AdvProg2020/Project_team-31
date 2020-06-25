@@ -3,14 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ManageUsers">
-    <TableView fx:id="tableOfUsers" layoutX="14.0" layoutY="14.0" prefHeight="241.0" prefWidth="279.0">
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ManageUsers">
+    <TableView fx:id="tableOfUsers" layoutX="14.0" layoutY="14.0" prefHeight="270.0" prefWidth="400">
         <columns>
-            <TableColumn fx:id="userNameColumn" prefWidth="75.0" text="username"/>
-            <TableColumn fx:id="nameColumn" prefWidth="75.0" text="firstName"/>
-            <TableColumn fx:id="lastColumn" prefWidth="75.0" text="lastName"/>
+            <TableColumn fx:id="userNameColumn" prefWidth="100" text="username" />
+            <TableColumn fx:id="nameColumn" prefWidth="100" text="firstName" />
+            <TableColumn fx:id="lastColumn" prefWidth="100" text="lastName" />
         </columns>
     </TableView>
-</AnchorPane>
+   <Button layoutX="450.0" layoutY="49.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#back" text="back" />
+   <Button layoutX="450.0" layoutY="91.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#AddManager" text="add manager" />
+</Pane>

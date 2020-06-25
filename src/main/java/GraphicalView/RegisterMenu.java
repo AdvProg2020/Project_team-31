@@ -21,9 +21,10 @@ public class RegisterMenu implements Initializable {
     public TextField emailField;
     public TextField phoneField;
     public TextField companyField;
+    private boolean isAddingManager;
 
     public void changeRole(ActionEvent actionEvent) {
-        if(role.getValue().equals("seller"))
+        if (role.getValue().equals("seller"))
             companyField.setDisable(false);
         else
             companyField.setDisable(true);
@@ -32,24 +33,30 @@ public class RegisterMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        isAddingManager = DataBase.getInstance().isAddingManager;
         role.setValue("customer");
+        if (isAddingManager) {
+            role.setValue("manager");
+            role.setDisable(true);
+        }
         companyField.setDisable(true);
     }
 
     public void back(MouseEvent mouseEvent) {
+        DataBase.getInstance().isAddingManager = false;
         Runner.getInstance().back();
     }
 
     public void registerRequest(MouseEvent mouseEvent) {
-        if(!isEmpty().equals("none")) {
-            Alert error = new Alert(Alert.AlertType.ERROR,"please enter " + isEmpty() , ButtonType.OK);
+        if (!isEmpty().equals("none")) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "please enter " + isEmpty(), ButtonType.OK);
             error.show();
         } else {
-            if(role.getValue().equals("manager") && LoginController.getInstance().isThereAnyManager()) {
-                Alert error = new Alert(Alert.AlertType.ERROR,"One manager registered before", ButtonType.OK);
+            if (role.getValue().equals("manager") && LoginController.getInstance().isThereAnyManager() && !isAddingManager) {
+                Alert error = new Alert(Alert.AlertType.ERROR, "One manager registered before", ButtonType.OK);
                 error.show();
             } else if (!LoginController.getInstance().isUsernameFree(usernameField.getText())) {
-                Alert error = new Alert(Alert.AlertType.ERROR,"This username is token before", ButtonType.OK);
+                Alert error = new Alert(Alert.AlertType.ERROR, "This username is token before", ButtonType.OK);
                 error.show();
             } else {
                 String information[] = new String[6];
@@ -61,11 +68,19 @@ public class RegisterMenu implements Initializable {
                 information[5] = companyField.getText();
                 try {
                     LoginController.getInstance().register(usernameField.getText(), (String) role.getValue(), information);
-                    DataBase.getInstance().pages.pop();
-                    DataBase.getInstance().pages.pop();
-                    Runner.getInstance().changeScene("LoginMenu.fxml");
-                    Alert error = new Alert(Alert.AlertType.INFORMATION,"You have registered successfully!", ButtonType.OK);
-                    error.show();
+                    Alert inform = null;
+                    if (isAddingManager) {
+                        DataBase.getInstance().isAddingManager = false;
+                        Runner.getInstance().back();
+                        inform = new Alert(Alert.AlertType.INFORMATION, "You have added manager successfully!", ButtonType.OK);
+                    } else {
+                        DataBase.getInstance().pages.pop();
+                        DataBase.getInstance().pages.pop();
+                        Runner.getInstance().changeScene("LoginMenu.fxml");
+                        inform = new Alert(Alert.AlertType.INFORMATION, "You have registered successfully!", ButtonType.OK);
+                    }
+                    inform.show();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -73,20 +88,20 @@ public class RegisterMenu implements Initializable {
         }
     }
 
-    private String  isEmpty() {
-        if(usernameField.getText().equals(""))
+    private String isEmpty() {
+        if (usernameField.getText().equals(""))
             return "username";
-        if(passwordField.getText().equals(""))
+        if (passwordField.getText().equals(""))
             return "password";
-        if(firstNameField.getText().equals(""))
+        if (firstNameField.getText().equals(""))
             return "firstName";
-        if(lastNameField.getText().equals(""))
+        if (lastNameField.getText().equals(""))
             return "lastName";
-        if(emailField.getText().equals(""))
+        if (emailField.getText().equals(""))
             return "email address";
-        if(phoneField.getText().equals(""))
+        if (phoneField.getText().equals(""))
             return "phone number";
-        if(role.getValue().equals("seller") && companyField.getText().equals(""))
+        if (role.getValue().equals("seller") && companyField.getText().equals(""))
             return "company";
         return "none";
     }
