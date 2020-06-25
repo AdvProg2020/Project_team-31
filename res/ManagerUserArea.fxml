@@ -35,7 +35,7 @@
                     </rowConstraints>
                 </GridPane>
                 <GridPane GridPane.columnIndex="3">
-                    <Button mnemonicParsing="false" onMouseClicked="#editDiscountCode" text="edit discount code" GridPane.rowIndex="0" />
+                    <Button mnemonicParsing="false" onAction="#viewDiscountCodes"  text="view discount codes" GridPane.rowIndex="0" />
                     <columnConstraints>
                         <ColumnConstraints />
                     </columnConstraints>

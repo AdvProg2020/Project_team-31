@@ -61,10 +61,6 @@ public class ManagerUserArea implements Initializable {
         runner.changeScene("CreateDiscountCode.fxml");
     }
 
-    public void editDiscountCode(MouseEvent mouseEvent) {
-        runner.changeScene("EditDiscountCode.fxml");
-    }
-
     public void manageUsers(ActionEvent actionEvent) {
         runner.changeScene("ManageUsers.fxml");
     }
@@ -79,5 +75,9 @@ public class ManagerUserArea implements Initializable {
 
     public void manageAllProducts(ActionEvent actionEvent) {
         runner.changeScene("ManageAllProducts.fxml");
+    }
+
+    public void viewDiscountCodes(ActionEvent actionEvent) {
+        runner.changeScene("ManagerViewDiscountCodes.fxml");
     }
 }
