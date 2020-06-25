@@ -546,26 +546,27 @@ public class CustomerControllerTest {
 
     @Test
     public void showAllOrdersByList() {
-        new MockUp<Object>(){
-            // @Mock
-        };
-        new Expectations(){
-            {
 
-            }
-        };
     }
 
     @Test
     public void rateProduct() {
-        new MockUp<Object>(){
-            // @Mock
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String id){
+                return null;
+            }
         };
         new Expectations(){
             {
 
             }
         };
+        try {
+            customerController.rateProduct(customer , "id" , 30);
+        } catch (Exception e) {
+            assertEquals( "There is not product with this id", e.getMessage());
+        }
     }
 
     @Test
