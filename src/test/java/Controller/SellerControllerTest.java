@@ -31,7 +31,7 @@ public class SellerControllerTest {
     ProductRequest productRequest;
     @Injectable
     SellingLog sellingLog;
-    @Injectable
+    @Mocked
     Off off;
     @Test
     public void getInstance() {
@@ -594,8 +594,10 @@ public class SellerControllerTest {
 
     @Test
     public void showAllOffs() {
-        new MockUp<Object>(){
-            //@Mock
+        new MockUp<SellerController>(){
+            @Mock
+            public void checkTimeOfOffs(){
+            }
         };
         ArrayList<Off> offArrayList = new ArrayList<>();
         offArrayList.add(off);
@@ -726,6 +728,41 @@ public class SellerControllerTest {
             sellerController.addOff(seller ,productsId , new Date(2000 , 2, 20) , new Date(2020 , 2 ,20) , 30);
         } catch (Exception e) {
             assertEquals( "seller doesn't have some products", e.getMessage());
+        }
+    }
+    @Test
+    public void addOf3() {
+        new MockUp<SellerController>(){
+            @Mock
+            public void checkTimeOfOffs(){
+            }
+        };
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String name){
+                return product;
+            }
+        };
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        sellers.put(seller , 10);
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        new Expectations(){
+            {
+                product.getSellersOfThisProduct();result = sellers;
+                Off.getNumberOfOffsCreated();result = 7;
+                Off sample = new Off(seller, "Off" + 8, new Date(2000 , 2, 20), new Date(2020 , 2 ,20), 30, products);
+                Request.getNumberOfRequestCreated();result = 9;
+                new OffRequest("OffRequest" + 10, off, false);
+                seller.addOffToThisSeller(sample);
+            }
+        };
+        ArrayList<String> productsId = new ArrayList<>();
+        productsId.add("product");
+        try {
+            sellerController.addOff(seller ,productsId , new Date(2000 , 2, 20) , new Date(2020 , 2 ,20) , 30);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
