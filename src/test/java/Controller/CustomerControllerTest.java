@@ -21,7 +21,7 @@ public class CustomerControllerTest {
     CustomerController customerController = CustomerController.getInstance();
     @Injectable
     Product product;
-    @Injectable
+    @Mocked
     Card card;
     @Mocked
     ProductInCard productInCard;
@@ -35,8 +35,6 @@ public class CustomerControllerTest {
     BuyingLog buyingLog;
     @Injectable
     DiscountCode discountCode;
-
-
     @Test
     public void addCredit() {
         new Expectations(){
@@ -54,14 +52,39 @@ public class CustomerControllerTest {
 
     @Test
     public void createCard() {
+        new MockUp<Object>(){
+         // @Mock
+        };
+        new Expectations(){
+            {
+                new Card();times = 1;
+            }
+        };
+        assertNotNull( customerController.createCard());
     }
 
     @Test
     public void showCard() {
+        new MockUp<Object>(){
+            // @Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void changeNumberOfProductInCard() {
+        new MockUp<Object>(){
+            // @Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
 
     }
 
@@ -378,14 +401,38 @@ public class CustomerControllerTest {
 
     @Test
     public void showAllOrders() {
+        new MockUp<Object>(){
+            // @Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void showAllOrdersByList() {
+        new MockUp<Object>(){
+            // @Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void rateProduct() {
+        new MockUp<Object>(){
+            // @Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
@@ -400,5 +447,13 @@ public class CustomerControllerTest {
 
     @Test
     public void showDiscountCodes() {
+        new MockUp<Object>(){
+            // @Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 }

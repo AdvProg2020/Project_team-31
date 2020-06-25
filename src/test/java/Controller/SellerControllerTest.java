@@ -782,7 +782,9 @@ public class SellerControllerTest {
         offs.add(off);
         new Expectations(){
             {
-                off.getEndTime();result = new Date();
+                Date date = new Date();
+                date.setTime(100000);
+                off.getEndTime();result = date;
                 off.getOffStatus();result = ProductAndOffStatus.ACCEPTED;
                 off.removeOff();
                 off.getSeller();result = seller;
@@ -812,7 +814,9 @@ public class SellerControllerTest {
         new Expectations(){
             {
                 off.getEndTime();result = new Date(2000 , 2 ,20);
-                off.getBeginTime();result = new Date();
+                Date date = new Date();
+                date.setTime(100000);
+                off.getBeginTime();result = date;
                 off.getOffStatus();result = ProductAndOffStatus.ACCEPTED;
                 off.getOnSaleProducts();result = products;
                 product.getOffs();result = offs;
