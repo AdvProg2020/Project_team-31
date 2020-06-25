@@ -289,14 +289,27 @@ public class ProductControllerTest {
     }
     @Test
     public void showAvailableFiltersForUse2() {
-        new MockUp<Object>(){
-            // @Mock
+        new MockUp<ManagerController>(){
+             @Mock
+            public Category getCategoryByName(String name){
+                 return category;
+             }
         };
+        ArrayList<String> sample2 = new ArrayList<>();
+        sample2.addAll(Arrays.asList("salam" , "hamed" , "mamad" , "kaka"));
         new Expectations(){
             {
-
+                ManagerController.getCategoryByName("category");
+                category.getSpecialProperties();result = sample2;
             }
         };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("salam");
+        sample.add("hamed");
+        sample.add("mamad");
+        sample.add("kaka");
+        sample.addAll(Arrays.asList("minimumPrice", "company", "name", "rate", "availability"));
+        assertEquals(sample , productController.showAvailableFiltersForUser(user , "category"));
     }
 
     @Test
