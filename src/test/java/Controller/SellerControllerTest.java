@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Product;
+import Model.Request;
 import Model.Seller;
 import Model.User;
 import mockit.Expectations;
@@ -101,6 +102,34 @@ public class SellerControllerTest {
             sellerController.addSellerToProduct(seller , "product" , 500);
         } catch (Exception e) {
             assertEquals("seller has product" , e.getMessage());
+        }
+    }
+    @Test
+    public void addSellerToProduct4() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return product;
+            }
+        };
+        new MockUp<Request>(){
+            @Mock
+            public int getNumberOfRequestCreated(){
+                return 10;
+            }
+        };
+        HashMap<Seller  , Integer> sellers = new HashMap<>();
+        new Expectations(){
+            {
+                ProductController.getProductById("product");
+                product.getSellersOfThisProduct();result = sellers;
+                Request.getNumberOfRequestCreated();
+            }
+        };
+        try {
+            sellerController.addSellerToProduct(seller , "product" , 500);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
