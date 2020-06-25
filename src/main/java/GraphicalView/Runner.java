@@ -41,8 +41,8 @@ public class Runner extends Application {
 
     private void initializeStage() {
         stage.setTitle("My shop");
-        stage.setResizable(false);
 //         stage.setFullScreen(true);
+//        stage.setResizable(false);
         stage.setWidth(800);
         stage.setHeight(600);
     }

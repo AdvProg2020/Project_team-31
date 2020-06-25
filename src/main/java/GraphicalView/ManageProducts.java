@@ -126,6 +126,7 @@ class ProductViewForSellerInGUI {
     }
 
     private void editProduct() {
+        ProductsMenu.product = product;
         runner.changeScene("EditProduct.fxml");
     }
 
