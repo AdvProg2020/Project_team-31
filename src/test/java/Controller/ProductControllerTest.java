@@ -603,9 +603,6 @@ public class ProductControllerTest {
 
     @Test
     public void addComment() {
-        new MockUp<Object>(){
-            // @Mock
-        };
         ArrayList<Product> products = new ArrayList<>();
         products.add(product);
         products.add(product2);
@@ -619,13 +616,22 @@ public class ProductControllerTest {
 
     @Test
     public void getProductById() {
-        new MockUp<Object>(){
-            // @Mock
+        new MockUp<Product>(){
+             @Mock
+            public ArrayList<Product> getAllProducts(){
+                 ArrayList<Product> products = new ArrayList<>();
+                 products.add(product);
+                 products.add(product2);
+                 return products;
+             }
         };
         new Expectations(){
             {
-
+                Product.getAllProducts();
+                product.getProductId();result ="product";
+                product2.getProductId();result = "product2";
             }
         };
+        assertEquals(product2 , ProductController.getProductById("product2"));
     }
 }
