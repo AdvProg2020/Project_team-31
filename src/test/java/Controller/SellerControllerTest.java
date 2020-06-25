@@ -1,13 +1,15 @@
 package Controller;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class SellerControllerTest {
-
+    SellerController sellerController = SellerController.getInstance();
     @Test
     public void getInstance() {
+        Assert.assertNotNull(SellerController.getInstance());
     }
 
     @Test
