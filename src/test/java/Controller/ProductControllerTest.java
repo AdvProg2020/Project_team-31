@@ -317,11 +317,16 @@ public class ProductControllerTest {
         new MockUp<Object>(){
             // @Mock
         };
+        HashMap<String , String> filters = new HashMap<>();
+        filters.put("good" , "perfect");
         new Expectations(){
             {
-
+                user.getFilters();result = filters;
+                user.removeFilter("good");
+                user.addFilter("good" , "bad");
             }
         };
+        productController.addFilterForUser(user , "good" , "bad");
     }
 
     @Test
