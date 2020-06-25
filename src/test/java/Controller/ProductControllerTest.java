@@ -9,7 +9,6 @@ import mockit.integration.junit4.JMockit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -448,14 +447,22 @@ public class ProductControllerTest {
 
     @Test
     public void showCurrentFilters() {
-        new MockUp<Object>(){
-            // @Mock
+        new MockUp<User>(){
+            @Mock
+            public HashMap<String , String> getFilters(){
+                HashMap<String, String> filters = new HashMap<>();
+                filters.put("good" , "perfect");
+                return filters;
+            }
         };
         new Expectations(){
             {
-
+                user.getFilters();
             }
         };
+        HashMap<String, String> sample = new HashMap<>();
+        sample.put("good" , "perfect");
+        assertEquals(sample , productController.showCurrentFilters(user));
     }
 
     @Test

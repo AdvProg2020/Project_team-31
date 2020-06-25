@@ -199,7 +199,7 @@ public class ProductController {
         }
     }
 
-    public HashMap<String, String> ShowCurrentFilters(User user) {
+    public HashMap<String, String> showCurrentFilters(User user) {
         return user.getFilters();
     }
 

@@ -146,7 +146,7 @@ public class ProductMenu extends Menu {
     }
 
     private void showCurrentFilters() {
-        HashMap<String, String> filters = productController.ShowCurrentFilters(userForFilter());
+        HashMap<String, String> filters = productController.showCurrentFilters(userForFilter());
         System.out.println("current filters : ");
         for (Map.Entry<String, String> entry : filters.entrySet()) {
             System.out.println(entry.getKey() + "      " + entry.getValue());
