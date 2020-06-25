@@ -647,7 +647,38 @@ public class SellerControllerTest {
             assertEquals("Seller doesn't have this off" , e.getMessage());
         }
     }
-
+    @Test
+    public void showOff3() {
+        new MockUp<SellerController>(){
+            @Mock
+            public Off getOffById(String name){
+                return off;
+            }
+        };
+        new Expectations(){
+            {
+                off.getSeller();result = seller;
+                off.getOffStatus();result = ProductAndOffStatus.CREATING;
+                off.getBeginTime();result = new Date(2000 , 2 ,20);
+                off.getEndTime();result = new Date(2020 , 2 ,20);
+                off.getOffPercent();result = 80;
+                off.getOnSaleProducts();result = product;
+                product.getProductId();result = "product";
+                product.getName();result = "mobile";
+            }
+        };
+        ArrayList<String> information = new ArrayList<>();
+        information.add(String.valueOf(ProductAndOffStatus.CREATING));
+        information.add(String.valueOf(new Date(2000 , 2 ,20)));
+        information.add(String.valueOf(new Date(2020 , 2 ,20)));
+        information.add(String.valueOf(80));
+        information.add("[id: " + "product" + ", name: " + "mobile]");
+        try {
+            assertEquals(information.toArray() ,sellerController.showOff(seller , "off") );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Test
     public void addOff() {
         new MockUp<Object>(){

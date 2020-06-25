@@ -158,7 +158,7 @@ public class SellerController {
                 .map(product -> "id: " + product.getProductId() + ", name: " + product.getName())
                 .collect(Collectors.toList());
         information.add(Arrays.toString(products.toArray()));
-        return (String[]) information.toArray();
+        return information.toArray(new String[information.size()]);
     }
 
     public void addOff(User user, ArrayList<String> productsId, Date beginTime, Date endTime, int percent) throws Exception {
