@@ -21,6 +21,7 @@ import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ManageProducts implements Initializable {
     public Button login;
@@ -117,7 +118,11 @@ class ProductViewForSellerInGUI {
 
     private void deleteProduct() {
         try {
-            SellerController.getInstance().removeProductFromUser(DataBase.getInstance().user, productId);
+            if (DataBase.getInstance().user instanceof Seller)
+                SellerController.getInstance().removeProductFromUser(DataBase.getInstance().user, productId);
+            else {
+                SellerController.getInstance().removeProduct(productId);
+            }
             runner.back();
             runner.changeScene("ManageProducts.fxml");
         } catch (Exception e) {
