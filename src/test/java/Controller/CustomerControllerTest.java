@@ -52,9 +52,6 @@ public class CustomerControllerTest {
 
     @Test
     public void createCard() {
-        new MockUp<Object>(){
-         // @Mock
-        };
         new Expectations(){
             {
                 new Card();times = 1;
@@ -65,14 +62,40 @@ public class CustomerControllerTest {
 
     @Test
     public void showCard() {
-        new MockUp<Object>(){
-            // @Mock
-        };
-        new Expectations(){
-            {
-
+        new MockUp<CustomerController>(){
+            @Mock
+            public int showTotalPrice(Card card){
+                return 10;
             }
         };
+        new MockUp<User>(){
+            @Mock
+            public String getUsername(){
+                return "seller";
+            }
+        };
+        HashMap<Product , ProductInCard> productsInCard = new HashMap<>();
+        productsInCard.put(product , productInCard);
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        sellers.put(seller1 , 10);
+        new Expectations(){
+            {
+                user.getCard();result = card;
+                card.getProductsInThisCard();result = productsInCard;times = 2;
+                product.getProductId();result = "id";
+                product.getName();result = "product";
+                product.getSellersOfThisProduct();result = sellers;
+                productInCard.getSeller();result = seller1;
+                productInCard.getNumber();result = 3;times = 1;
+                productInCard.getSeller();result = seller1;times =1;
+                seller1.getUsername();
+                customerController.showTotalPrice(card);times = 1;
+            }
+        };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add(1 + "productId: " + "id" + ", name: " + "product" + ", price: " + 10 + ", numberOfProduct: " + 3 + ", seller" + "seller");
+        sample.add("totalPrice: " + 10);
+        assertEquals(sample , customerController.showCard(user ,card ));
     }
 
     @Test
