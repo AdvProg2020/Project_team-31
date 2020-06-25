@@ -51,14 +51,11 @@ public class SellerControllerTest {
 
     @Test
     public void addSellerToProduct() {
-        new MockUp<Object>(){
-            //@Mock
-        };
-        new Expectations(){
-            {
-
-            }
-        };
+        try {
+            sellerController.addSellerToProduct(user , "product" , 500);
+        } catch (Exception e) {
+            assertEquals("You can't be a seller" , e.getMessage());
+        }
     }
 
     @Test
