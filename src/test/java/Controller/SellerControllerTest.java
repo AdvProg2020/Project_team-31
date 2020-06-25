@@ -251,6 +251,11 @@ public class SellerControllerTest {
 
             }
         };
+        try {
+            sellerController.removeProductFromUser(user , "product");
+        } catch (Exception e) {
+            assertEquals( "You aren't seller", e.getMessage());
+        }
     }
 
     @Test
