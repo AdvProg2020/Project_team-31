@@ -830,17 +830,33 @@ public class SellerControllerTest {
                 return null;
             }
         };
-        new Expectations(){
-            {
-
-            }
-        };
         ArrayList<String> productIds = new ArrayList<>();
         productIds.add("product");
         try {
             sellerController.editOff(seller , "off" ,productIds ,new Date(2000 , 2 , 20) ,new Date(2020 , 2, 20) ,40);
         } catch (Exception e) {
             assertEquals("Off doesn't exist" , e.getMessage());
+        }
+    }
+    @Test
+    public void editOff2() {
+        new MockUp<SellerController>(){
+            @Mock
+            public Off getOffById(String id){
+                return off;
+            }
+        };
+        new Expectations(){
+            {
+                off.getSeller();result = seller;
+            }
+        };
+        ArrayList<String> productIds = new ArrayList<>();
+        productIds.add("product");
+        try {
+            sellerController.editOff(null , "off" ,productIds ,new Date(2000 , 2 , 20) ,new Date(2020 , 2, 20) ,40);
+        } catch (Exception e) {
+            assertEquals("Seller does'nt have this off" , e.getMessage());
         }
     }
 
