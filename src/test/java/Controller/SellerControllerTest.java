@@ -1,12 +1,21 @@
 package Controller;
 
+import Model.Seller;
+import Model.User;
+import mockit.Injectable;
+import mockit.integration.junit4.JMockit;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
-
+@RunWith(JMockit.class)
 public class SellerControllerTest {
     SellerController sellerController = SellerController.getInstance();
+    @Injectable
+    Seller seller;
+    @Injectable
+    User user;
     @Test
     public void getInstance() {
         Assert.assertNotNull(SellerController.getInstance());
@@ -14,6 +23,11 @@ public class SellerControllerTest {
 
     @Test
     public void showCompanyInformation() {
+        try {
+            sellerController.showCompanyInformation(user);
+        } catch (Exception e) {
+            assertEquals("You aren't seller" ,e.getMessage() );
+        }
     }
 
     @Test
