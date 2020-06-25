@@ -606,11 +606,15 @@ public class ProductControllerTest {
         new MockUp<Object>(){
             // @Mock
         };
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        products.add(product2);
         new Expectations(){
             {
-
+                customer.getRecentShoppingProducts();result = products;
             }
         };
+        productController.addComment(customer , product2 , "Title" , "content");
     }
 
     @Test
