@@ -532,6 +532,49 @@ public class ProductControllerTest {
     }
 
     @Test
+    public void compareTwoProduct2() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return product2;
+            }
+        };
+        HashMap<String , String> filters = new HashMap<>();
+        filters.put("new" , "old");
+        HashMap<String , String> filters2 = new HashMap<>();
+        filters2.put("new" , "older");
+        new Expectations(){
+            {
+                ProductController.getProductById("product2");
+                product.getName();result = "product1";
+                product2.getName();result = "product2";
+                product.getMinimumPrice();result = 20;
+                product2.getMinimumPrice();result = 10;
+                product.getSumOfCustomersRate();result = 20;
+                product.getCustomersWhoRated();result= 10;
+                product2.getSumOfCustomersRate();result = 50;
+                product2.getCustomersWhoRated();result= 5;
+                product.getViews();result = 4;
+                product2.getViews();result = 5;
+                product.getSpecialPropertiesRelatedToCategory();result = filters;
+                product2.getSpecialPropertiesRelatedToCategory();result = filters2;
+                product.getSpecialPropertiesRelatedToCategory();result = filters;
+                product2.getSpecialPropertiesRelatedToCategory();result = filters2;
+            }
+        };
+        ArrayList<String> information = new ArrayList<>();
+        information.add("name:1-" + "product1" + ";2-" + "product2");
+        information.add("minimumPrice:1-" + 20 + ";2-" +10 );
+        information.add("rate:1-" + 2.0 + ";2-" + 10.0);
+        information.add("views:1-" + 4 + ";2-" + 5);
+        information.add("new" + ":1-" + "old" + ";2-" + "older");
+        try {
+            assertEquals(information , productController.compareTwoProduct(product , "Product2"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
     public void showCommentAboutProduct() {
         new MockUp<Object>(){
             // @Mock
