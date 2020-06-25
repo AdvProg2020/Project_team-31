@@ -31,6 +31,8 @@ public class SellerControllerTest {
     ProductRequest productRequest;
     @Injectable
     SellingLog sellingLog;
+    @Injectable
+    Off off;
     @Test
     public void getInstance() {
         Assert.assertNotNull(SellerController.getInstance());
@@ -595,11 +597,21 @@ public class SellerControllerTest {
         new MockUp<Object>(){
             //@Mock
         };
+        ArrayList<Off> offArrayList = new ArrayList<>();
+        offArrayList.add(off);
         new Expectations(){
             {
-
+                seller.getSellerOffs();result = offArrayList;
+                off.getOffId();result = "off";
+                off.getBeginTime();result = new Date(2000, 2, 20);
+                off.getEndTime();result = new Date(2020 , 2 ,20);
+                off.getOffPercent();result = 12;
+                off.getOffStatus();result = ProductAndOffStatus.CREATING;
             }
         };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("id: " + "off" + ", beginTime: " + new Date(2000, 2, 20) + ",endTime: " + new Date(2020 , 2 ,20) + ", offPercent: " + 12 + ", status: " + ProductAndOffStatus.CREATING);
+        assertEquals(sample.toArray() , sellerController.showAllOffs(seller));
     }
 
     @Test

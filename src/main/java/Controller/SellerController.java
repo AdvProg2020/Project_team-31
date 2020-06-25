@@ -139,7 +139,7 @@ public class SellerController {
         for (Off sellerOff : ((Seller) user).getSellerOffs()) {
             offs.add("id: " + sellerOff.getOffId() + ", beginTime: " + sellerOff.getBeginTime() + ",endTime: " + sellerOff.getEndTime() + ", offPercent: " + sellerOff.getOffPercent() + ", status: " + sellerOff.getOffStatus());
         }
-        return (String[]) offs.toArray();
+        return offs.toArray(new String[offs.size()]);
     }
 
     public String[] showOff(User user, String offId) throws Exception {
