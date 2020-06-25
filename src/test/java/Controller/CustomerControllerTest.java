@@ -485,19 +485,22 @@ public class CustomerControllerTest {
         customerController.createSellingLog(buyingLog);
     }
 
-   /* @Test
+    @Test
     public void showOrder() {
+        ArrayList<BuyingLog> buyingLogs = new ArrayList<>();
+        buyingLogs.add(buyingLog);
         new Expectations(){
             {
-
+                customer.getAllBuyingLogs();result = buyingLogs;
+                buyingLog.getLogId();result = "secondOne";
             }
         };
         try {
-            customerController.showOrder(user , "firstOrder");
+            customerController.showOrder(customer , "firstOrder");
         } catch (Exception e) {
-            e.printStackTrace();
+            assertEquals("There is not order with this id!", e.getMessage());
         }
-    }*/
+    }
 
     @Test
     public void showAllOrders() {
