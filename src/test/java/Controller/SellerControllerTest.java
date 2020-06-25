@@ -359,9 +359,6 @@ public class SellerControllerTest {
 
     @Test
     public void showProductsOfThisSeller() {
-        new MockUp<Object>(){
-            //@Mock
-        };
         ArrayList<Product> onSaleProducts = new ArrayList<>();
         onSaleProducts.add(product);
         HashMap<Seller , Integer> sellers = new HashMap<>();
@@ -485,14 +482,24 @@ public class SellerControllerTest {
 
     @Test
     public void editProduct() {
-        new MockUp<Object>(){
-            //@Mock
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return null;
+            }
         };
+        HashMap<String, String> specialInformationRelatedToCategory = new HashMap<>();
+        specialInformationRelatedToCategory.put("good" , "perfect");
         new Expectations(){
             {
 
             }
         };
+        try {
+            sellerController.editProduct(seller , "product" , 10 , 200 , "is good" , specialInformationRelatedToCategory);
+        } catch (Exception e) {
+            assertEquals( "There is'nt this Product", e.getMessage());
+        }
     }
 
     @Test
