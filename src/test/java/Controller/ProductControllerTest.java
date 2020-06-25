@@ -24,6 +24,8 @@ public class ProductControllerTest {
     @Injectable
     Seller seller;
     @Injectable
+    Off off;
+    @Injectable
     Customer customer;
     ProductController productController = ProductController.getInstance();
     @Test
@@ -229,14 +231,53 @@ public class ProductControllerTest {
 
     @Test
     public void showAttributesOfProduct() {
-        new MockUp<Object>(){
-            // @Mock
-        };
-        new Expectations(){
-            {
+        new MockUp<SellerController>(){
+            @Mock
+            public void checkTimeOfOffs(){
 
             }
         };
+        HashMap<String , String> specialPropertiesRelatedToCategory = new HashMap<>();
+        specialPropertiesRelatedToCategory.put("salam" , "hamed");
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        sellers.put(seller , 10);
+        ArrayList<Off> offs = new ArrayList<>();
+        offs.add(off);
+        new Expectations(){
+            {
+                SellerController.getInstance().checkTimeOfOffs();
+                product.getProductStatus(); result = ProductAndOffStatus.ACCEPTED;
+                product.getInformation(); result = "is good";
+                product.getMinimumPrice(); result = 10;
+                product.getCategory();result = category;
+                category.getName(); result ="category";
+                product.getSumOfCustomersRate();result = 20;
+                product.getCustomersWhoRated();result= 10;
+                product.getAvailable(); result = 5;
+                product.getViews();result = 5;
+                product.getSpecialPropertiesRelatedToCategory();result = specialPropertiesRelatedToCategory;times = 2;
+                product.getSellersOfThisProduct();result = sellers;
+                seller.getUsername();result = "seller";
+                product.getSellersOfThisProduct();result = sellers;
+                product.getOffs();result = offs;
+                off.getSeller();result = seller;
+                seller.getUsername();result = "seller";
+                off.getOffId();result = "off";
+                off.getOffPercent();result = 20;
+            }
+        };
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("status: " +ProductAndOffStatus.ACCEPTED );
+        attributes.add("information: " +"is good" );
+        attributes.add("minimumPrice: " +10 );
+        attributes.add("category: " + "category");
+        attributes.add("rate:" + 2 );
+        attributes.add("available:" + 5);
+        attributes.add("views:" + 5);
+        attributes.add("salam" + ": " + "hamed");
+        attributes.add("seller: " + "seller" + ", price: " + 10);
+        attributes.add("seller: " + "seller" + ", id: " + "off" + ", percent: " + 20);
+        assertEquals(attributes , productController.showAttributesOfProduct(product));
     }
 
     @Test
