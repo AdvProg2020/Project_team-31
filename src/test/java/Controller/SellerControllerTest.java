@@ -910,6 +910,23 @@ public class SellerControllerTest {
         };
         assertEquals(off , sellerController.getOffById("off"));
     }
+    @Test
+    public void getOffById2() {
+        new MockUp<Off>(){
+            @Mock
+            public ArrayList<Off> getAllOffs(){
+                ArrayList<Off> offs = new ArrayList<>();
+                offs.add(off);
+                return offs;
+            }
+        };
+        new Expectations(){
+            {
+                off.getOffId();result = "OffId";
+            }
+        };
+        assertEquals(null , sellerController.getOffById("off"));
+    }
 
     @Test
     public void showBalanceOfSeller() {
