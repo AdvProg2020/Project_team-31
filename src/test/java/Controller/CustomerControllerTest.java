@@ -118,6 +118,33 @@ public class CustomerControllerTest {
             assertEquals( "There is not any product with this id", e.getMessage());
         }
     }
+    @Test
+    public void changeNumberOfProductInCard2() {
+        new MockUp<ProductController>(){
+             @Mock
+            public Product getProductById(String name){
+                 return product;
+             }
+        };
+        HashMap<Product, ProductInCard> products = new HashMap<>();
+        products.put(product , productInCard);
+        new Expectations(){
+            {
+                user.getCard();result = card;
+                card.getProductsInThisCard();result = products;
+                product.getAvailable();result = 8;
+                productInCard.getNumber();result = 5;times = 2;
+                productInCard.changeNumberOfProduct(2);
+                productInCard.getNumber();result = 0;
+                card.removeProductFromCard(product);
+            }
+        };
+        try {
+            customerController.changeNumberOfProductInCard(user , card , "product" , 2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void addProductToCard(){
