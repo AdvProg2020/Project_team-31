@@ -429,14 +429,21 @@ public class ProductControllerTest {
 
     @Test
     public void clearFilters() {
-        new MockUp<Object>(){
-            // @Mock
+        new MockUp<User>(){
+            @Mock
+            public HashMap<String , String> getFilters(){
+                HashMap<String, String> filters = new HashMap<>();
+                filters.put("good" , "perfect");
+                return filters;
+            }
         };
         new Expectations(){
             {
-
+                user.getFilters();
+                user.removeFilter("good");
             }
         };
+        productController.clearFilters(user);
     }
 
     @Test
