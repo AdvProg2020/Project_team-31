@@ -106,9 +106,6 @@ public class CreateDiscountCode implements Initializable {
         } else if (getEndDate().before(getStartDate())) {
             Alert error = new Alert(Alert.AlertType.ERROR, "end date is before start date!", ButtonType.OK);
             error.show();
-        } else if (getStartDate().before(new Date())) {
-            Alert error = new Alert(Alert.AlertType.ERROR, "start date has passed!", ButtonType.OK);
-            error.show();
         } else {
             ManagerController controller = ManagerController.getInstance();
             int percent = Integer.parseInt(percentage.getText());
