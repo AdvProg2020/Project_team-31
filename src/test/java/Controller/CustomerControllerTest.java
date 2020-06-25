@@ -501,6 +501,28 @@ public class CustomerControllerTest {
             assertEquals("There is not order with this id!", e.getMessage());
         }
     }
+    @Test
+    public void showOrder2() {
+        ArrayList<BuyingLog> buyingLogs = new ArrayList<>();
+        buyingLogs.add(buyingLog);
+        HashMap<Product , ProductInCard> hamed = new HashMap<>();
+        hamed.put(product , productInCard);
+        new Expectations(){
+            {
+                customer.getAllBuyingLogs();result = buyingLogs;
+                buyingLog.getLogId();result = "firstOrder";times = 2;
+                buyingLog.getDate();result = new Date(2000 , 2, 20);
+                buyingLog.getTotalPrice();result = 30;
+                buyingLog.getBuyingProducts();result = hamed;
+            }
+        };
+        try {
+            String result = "Id: " + "firstOrder" + ", Date: " + new Date(2000 , 2 ,20) + ", Price: " +30  + ", Products: " + hamed.keySet();
+            assertEquals(result ,customerController.showOrder(customer , "firstOrder") );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void showAllOrders() {
