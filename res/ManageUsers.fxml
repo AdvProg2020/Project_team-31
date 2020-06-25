@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="GraphicalView.ManageUsers"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ManageUsers">
+    <TableView fx:id="tableOfUsers" layoutX="14.0" layoutY="14.0" prefHeight="241.0" prefWidth="279.0">
+        <columns>
+            <TableColumn fx:id="userNameColumn" prefWidth="75.0" text="username"/>
+            <TableColumn fx:id="nameColumn" prefWidth="75.0" text="firstName"/>
+            <TableColumn fx:id="lastColumn" prefWidth="75.0" text="lastName"/>
+        </columns>
+    </TableView>
 </AnchorPane>
