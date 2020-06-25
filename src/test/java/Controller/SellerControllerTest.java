@@ -501,6 +501,28 @@ public class SellerControllerTest {
             assertEquals( "There is'nt this Product", e.getMessage());
         }
     }
+    @Test
+    public void editProduct2() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return product;
+            }
+        };
+        HashMap<String, String> specialInformationRelatedToCategory = new HashMap<>();
+        specialInformationRelatedToCategory.put("good" , "perfect");
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        new Expectations(){
+            {
+                product.getSellersOfThisProduct();result = sellers;
+            }
+        };
+        try {
+            sellerController.editProduct(seller , "product" , 10 , 200 , "is good" , specialInformationRelatedToCategory);
+        } catch (Exception e) {
+            assertEquals( "Seller does'nt have this product", e.getMessage());
+        }
+    }
 
     @Test
     public void removeProduct() {
