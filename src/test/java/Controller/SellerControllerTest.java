@@ -616,14 +616,22 @@ public class SellerControllerTest {
 
     @Test
     public void showOff() {
-        new MockUp<Object>(){
-            //@Mock
+        new MockUp<SellerController>(){
+            @Mock
+            public Off getOffById(String name){
+                return null;
+            }
         };
         new Expectations(){
             {
 
             }
         };
+        try {
+            sellerController.showOff(seller , "off");
+        } catch (Exception e) {
+            assertEquals("Id is invalid" , e.getMessage());
+        }
     }
 
     @Test
