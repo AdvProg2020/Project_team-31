@@ -523,17 +523,51 @@ public class SellerControllerTest {
             assertEquals( "Seller does'nt have this product", e.getMessage());
         }
     }
+    @Test
+    public void editProduct3() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return product;
+            }
+        };
+        HashMap<String, String> specialInformationRelatedToCategory = new HashMap<>();
+        specialInformationRelatedToCategory.put("good" , "perfect");
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        sellers.put(seller , 10);
+        new Expectations(){
+            {
+                product.getSellersOfThisProduct();result = sellers;
+                product.setProductStatus(ProductAndOffStatus.EDITING);
+                Request.getNumberOfRequestCreated();result = 9;
+                new ProductRequest("ProductRequest" + 10, product, true).newProductFeatures(seller , 10 , 200 , "is good" , specialInformationRelatedToCategory);times = 1;
+            }
+        };
+        try {
+            sellerController.editProduct(seller , "product" , 10 , 200 , "is good" , specialInformationRelatedToCategory);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void removeProduct() {
-        new MockUp<Object>(){
-            //@Mock
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return null;
+            }
         };
         new Expectations(){
             {
 
             }
         };
+        try {
+            sellerController.removeProduct("product");
+        } catch (Exception e) {
+            assertEquals("There is not product with this id" , e.getMessage());
+        }
     }
 
     @Test
