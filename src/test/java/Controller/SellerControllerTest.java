@@ -323,7 +323,7 @@ public class SellerControllerTest {
         }
     }
     @Test
-    public void removeProductFromUser5() throws Exception {
+    public void removeProductFromUser5() {
         new MockUp<ProductController>(){
             @Mock
             public Product getProductById(String Id){
@@ -361,11 +361,24 @@ public class SellerControllerTest {
         new MockUp<Object>(){
             //@Mock
         };
+        ArrayList<Product> onSaleProducts = new ArrayList<>();
+        onSaleProducts.add(product);
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        sellers.put(seller , 10);
+        sellers.put(seller2 , 20);
         new Expectations(){
             {
-
+                seller.getOnSaleProducts();result = onSaleProducts;
+                product.getName();result = "product";
+                product.getSellersOfThisProduct();result = sellers;
+                product.getSumOfCustomersRate();result = 50;
+                product.getCustomersWhoRated();result = 5;
+                product.getProductStatus();result =ProductAndOffStatus.ACCEPTED;
             }
         };
+        ArrayList<String> products = new ArrayList<>();
+        products.add("name=" + "product" + ", price=" + 10 + ", rate=" + (1.0 * 10) + ", status=" + ProductAndOffStatus.ACCEPTED);
+        assertEquals(products , sellerController.showProductsOfThisSeller(seller));
     }
 
     @Test
