@@ -622,15 +622,29 @@ public class SellerControllerTest {
                 return null;
             }
         };
+        try {
+            sellerController.showOff(seller , "off");
+        } catch (Exception e) {
+            assertEquals("Id is invalid" , e.getMessage());
+        }
+    }
+    @Test
+    public void showOff2() {
+        new MockUp<SellerController>(){
+            @Mock
+            public Off getOffById(String name){
+                return off;
+            }
+        };
         new Expectations(){
             {
-
+                off.getSeller();result = seller2;
             }
         };
         try {
             sellerController.showOff(seller , "off");
         } catch (Exception e) {
-            assertEquals("Id is invalid" , e.getMessage());
+            assertEquals("Seller doesn't have this off" , e.getMessage());
         }
     }
 
