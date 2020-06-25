@@ -1,14 +1,8 @@
 package GraphicalView;
 
-import Controller.ManagerController;
 import Controller.ProductController;
-import Controller.SellerController;
-import GraphicalView.DataBase;
-import GraphicalView.ProductsMenu;
-import GraphicalView.Runner;
-import Model.Category;
 import Model.Product;
-import Model.Seller;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,8 +14,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-
-import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
