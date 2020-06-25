@@ -2,7 +2,10 @@ package Controller;
 
 import Model.Seller;
 import Model.User;
+import mockit.Expectations;
 import mockit.Injectable;
+import mockit.Mock;
+import mockit.MockUp;
 import mockit.integration.junit4.JMockit;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,72 +32,224 @@ public class SellerControllerTest {
             assertEquals("You aren't seller" ,e.getMessage() );
         }
     }
+    @Test
+    public void showCompanyInformation2() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+                seller.getCompanyName();result ="company";
+            }
+        };
+        try {
+            assertEquals("company" , sellerController.showCompanyInformation(seller));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void addSellerToProduct() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void showSalesHistory() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void showBuyersOfThisProduct() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void removeProductFromUser() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void showProductsOfThisSeller() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void getCategoryFeatures() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void addProduct() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void editProduct() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void removeProduct() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void showAllOffs() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void showOff() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void addOff() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void checkTimeOfOffs() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void editOff() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void getOffById() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void showBalanceOfSeller() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 
     @Test
     public void getOffProducts() {
+        new MockUp<Object>(){
+            //@Mock
+        };
+        new Expectations(){
+            {
+
+            }
+        };
     }
 }
