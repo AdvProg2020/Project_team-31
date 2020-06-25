@@ -1,10 +1,7 @@
 package Controller;
 
 import Model.*;
-import mockit.Expectations;
-import mockit.Injectable;
-import mockit.Mock;
-import mockit.MockUp;
+import mockit.*;
 import mockit.integration.junit4.JMockit;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,12 +21,14 @@ public class SellerControllerTest {
     Seller seller2;
     @Injectable
     User user;
-    @Injectable
+    @Mocked
     Product product;
     @Injectable
     Customer customer;
     @Injectable
     Category category;
+    @Mocked
+    ProductRequest productRequest;
     @Injectable
     SellingLog sellingLog;
     @Test
@@ -445,6 +444,42 @@ public class SellerControllerTest {
             sellerController.addProduct(information , seller , specialInformationRelatedToCategory);
         } catch (Exception e) {
             assertEquals( "invalid categoryName" , e.getMessage());
+        }
+    }
+    @Test
+    public void addProduct2() {
+        new MockUp<ManagerController>(){
+            @Mock
+            public Category getCategoryByName(String name){
+                return category;
+            }
+        };
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        sellers.put(seller , 20);
+        HashMap<String, String> specialInformationRelatedToCategory = new HashMap<>();
+
+        new Expectations(){
+            {
+                Product.getNumberOfProductCreated();result = 2;
+                new Product("Product3", "", "", category, "", 30, sellers,specialInformationRelatedToCategory );
+                product.setMinimumPrice(20);
+                Request.getNumberOfRequestCreated();result = 5;
+                new ProductRequest("ProductRequest" + 6, product, false);
+                seller.addProduct(product);times = 1;
+            }
+        };
+        String[] information = new String[7];
+        information[0] = "";
+        information[1] = "";
+        information[4] = "";
+        information[5] = "30";
+        information[6] = "";
+        information[2] = "20";
+        information[3] = "category";
+        try {
+            sellerController.addProduct(information , seller , specialInformationRelatedToCategory);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
