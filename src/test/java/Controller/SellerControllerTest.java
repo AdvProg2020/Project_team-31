@@ -431,14 +431,21 @@ public class SellerControllerTest {
 
     @Test
     public void addProduct() {
-        new MockUp<Object>(){
-            //@Mock
-        };
-        new Expectations(){
-            {
-
+        new MockUp<ManagerController>(){
+            @Mock
+            public Category getCategoryByName(String name){
+                return null;
             }
         };
+        HashMap<String, String> specialInformationRelatedToCategory = new HashMap<>();
+        String[] information = new String[4];
+        information[2] = "20";
+        information[3] = "category";
+        try {
+            sellerController.addProduct(information , seller , specialInformationRelatedToCategory);
+        } catch (Exception e) {
+            assertEquals( "invalid categoryName" , e.getMessage());
+        }
     }
 
     @Test
