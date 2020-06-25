@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductsMenu">
+<Pane  stylesheets="@/Style.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductsMenu">
         <ButtonBar prefHeight="40.0" prefWidth="200.0">
             <buttons>
                 <Button mnemonicParsing="false" onMouseClicked="#filterRequest" text="filters" />
