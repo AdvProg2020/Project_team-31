@@ -243,18 +243,29 @@ public class SellerControllerTest {
 
     @Test
     public void removeProductFromUser() {
-        new MockUp<Object>(){
-            //@Mock
-        };
-        new Expectations(){
-            {
-
-            }
-        };
         try {
             sellerController.removeProductFromUser(user , "product");
         } catch (Exception e) {
             assertEquals( "You aren't seller", e.getMessage());
+        }
+    }
+    @Test
+    public void removeProductFromUser2() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return null;
+            }
+        };
+        new Expectations(){
+            {
+                ProductController.getProductById("product");
+            }
+        };
+        try {
+            sellerController.removeProductFromUser(seller , "product");
+        } catch (Exception e) {
+            assertEquals( "There is not this product", e.getMessage());
         }
     }
 
