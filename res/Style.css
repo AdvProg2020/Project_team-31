@@ -27,4 +27,8 @@
     -fx-background-radius: 10;
     -fx-opacity: 50;
 }
-
+#welcome{
+    -fx-font-size: 45px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ff1a1a;
+}
