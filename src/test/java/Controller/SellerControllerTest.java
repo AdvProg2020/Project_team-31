@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Product;
-import Model.Request;
-import Model.Seller;
-import Model.User;
+import Model.*;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mock;
@@ -13,6 +10,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -25,6 +24,10 @@ public class SellerControllerTest {
     User user;
     @Injectable
     Product product;
+    @Injectable
+    Customer customer;
+    @Injectable
+    SellingLog sellingLog;
     @Test
     public void getInstance() {
         Assert.assertNotNull(SellerController.getInstance());
@@ -138,11 +141,22 @@ public class SellerControllerTest {
         new MockUp<Object>(){
             //@Mock
         };
+        ArrayList<SellingLog> sellingLogs = new ArrayList<>();
+        sellingLogs.add(sellingLog);
         new Expectations(){
             {
+                seller.getAllSellingLogs();result = sellingLogs;
+                sellingLog.getLogId();result = "sellingLog";
+                sellingLog.getDate();result = new Date(2020 , 2 ,20);
+                sellingLog.getTotalPriceArrived();result = 50;
+                sellingLog.getCustomer();result = customer;
+                customer.getUsername();result = "customer";
 
             }
         };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("Id: " + "sellingLog" + ", Date: " + new Date(2020 , 2 ,20) + ", Price: " + 50 + ", CustomerId: " + "customer");
+        assertEquals(sample , sellerController.showSalesHistory(seller));
     }
 
     @Test
