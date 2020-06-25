@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Product;
 import Model.Seller;
 import Model.User;
 import mockit.Expectations;
@@ -55,6 +56,25 @@ public class SellerControllerTest {
             sellerController.addSellerToProduct(user , "product" , 500);
         } catch (Exception e) {
             assertEquals("You can't be a seller" , e.getMessage());
+        }
+    }
+    @Test
+    public void addSellerToProduct2() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String Id){
+                return null;
+            }
+        };
+        new Expectations(){
+            {
+                ProductController.getProductById("product");
+            }
+        };
+        try {
+            sellerController.addSellerToProduct(seller , "product" , 500);
+        } catch (Exception e) {
+            assertEquals("productId is invalid" , e.getMessage());
         }
     }
 
