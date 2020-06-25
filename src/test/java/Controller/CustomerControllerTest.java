@@ -577,6 +577,29 @@ public class CustomerControllerTest {
             assertEquals( "Customer Does'nt buy this Product", e.getMessage());
         }
     }
+    @Test
+    public void rateProduct3() {
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String id){
+                return product;
+            }
+        };
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        new Expectations(){
+            {
+                customer.getRecentShoppingProducts();result = products;
+                product.addNumberOfCustomerWhoRated();
+                product.addSumOfCustomersRate(30);
+            }
+        };
+        try {
+            customerController.rateProduct(customer , "id" , 30);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void showBalanceForCustomer() {
