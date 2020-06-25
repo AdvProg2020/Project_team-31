@@ -895,14 +895,20 @@ public class SellerControllerTest {
 
     @Test
     public void getOffById() {
-        new MockUp<Object>(){
-            //@Mock
+        new MockUp<Off>(){
+            @Mock
+            public ArrayList<Off> getAllOffs(){
+                ArrayList<Off> offs = new ArrayList<>();
+                offs.add(off);
+                return offs;
+            }
         };
         new Expectations(){
             {
-
+                off.getOffId();result = "off";
             }
         };
+        assertEquals(off , sellerController.getOffById("off"));
     }
 
     @Test
