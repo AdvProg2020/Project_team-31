@@ -402,9 +402,6 @@ public class CustomerControllerTest {
          }
     @Test
     public void payMoney() {
-        new MockUp<Object>(){
-         //   @Mock
-        };
         new Expectations(){
             {
                 buyingLog.getTotalPrice(); result = 9;
@@ -416,6 +413,41 @@ public class CustomerControllerTest {
             customerController.payMoney(customer , buyingLog);
         } catch (Exception e) {
             assertEquals( "Credit of money is not enough", e.getMessage());
+        }
+    }
+    @Test
+    public void payMoney2() {
+        new MockUp<BuyingLog>(){
+               @Mock
+            public void finishBuying(Date date){
+               }
+        };
+        new MockUp<CustomerController>(){
+            @Mock
+            public void createSellingLog(BuyingLog buyingLog){
+            }
+        };
+        HashMap<Product , ProductInCard> hamed = new HashMap<>();
+        hamed.put(product , productInCard);
+        new Expectations(){
+            {
+                buyingLog.getTotalPrice(); result = 9;
+                buyingLog.getDiscountAmount();result = 5;
+                customer.getCredit();result = 10;
+                buyingLog.finishBuying(new Date());
+                buyingLog.getTotalPrice(); result = 9;
+                buyingLog.getDiscountAmount();result = 5;
+                customer.payMoney(4);
+                customer.addBuyingLog(buyingLog);
+                buyingLog.getBuyingProducts();result = hamed;
+                customer.addRecentShoppingProducts(hamed.keySet());
+                customer.setCard(new Card());
+            }
+        };
+        try {
+            customerController.payMoney(customer , buyingLog);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
