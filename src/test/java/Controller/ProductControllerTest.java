@@ -29,6 +29,8 @@ public class ProductControllerTest {
     @Injectable
     Off off;
     @Injectable
+    Comment comment;
+    @Injectable
     Customer customer;
     ProductController productController = ProductController.getInstance();
     @Test
@@ -576,14 +578,27 @@ public class ProductControllerTest {
     }
     @Test
     public void showCommentAboutProduct() {
-        new MockUp<Object>(){
-            // @Mock
+        new MockUp<Product>(){
+             @Mock
+            public ArrayList<Comment> getAllComments(){
+                 ArrayList<Comment> comments = new ArrayList<>();
+                 comments.add(comment);
+                 return comments;
+             }
         };
         new Expectations(){
             {
-
+                product.getAllComments();
+                comment.getCommentTitle();result = "commentTitle";
+                comment.getCommentContent();result = "commentContent";
+                comment.getCustomer();result = customer;
+                customer.getUsername();result = "customer";
+                comment.getIsBuyer();result = true;
             }
         };
+        ArrayList<String> sample = new ArrayList<>();
+        sample.add("title: " + "commentTitle" + ", content: " + "commentContent" + ", customer: " + "customer" + ", is buyer: " +true );
+        assertEquals(sample , productController.showCommentAboutProduct(product));
     }
 
     @Test
