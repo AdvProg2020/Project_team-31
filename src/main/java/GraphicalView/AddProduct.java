@@ -29,7 +29,7 @@ public class AddProduct implements Initializable {
     public TextField number;
     Runner runner = Runner.getInstance();
     ChoiceBox<String> choiceBox;
-    StringProperty categoryName = new SimpleStringProperty("");
+//    StringProperty categoryName = new SimpleStringProperty("");
     File photo;
     DataBase dataBase = DataBase.getInstance();
     HashMap<Label, TextField> data = new HashMap<>();
@@ -42,10 +42,10 @@ public class AddProduct implements Initializable {
 
     private void dropDownListSetUp() {
         choiceBox = new ChoiceBox<>();
-        ArrayList<String> categories = ManagerController.getInstance().showAllCategories();
+        ArrayList<String> categories = ManagerController.getInstance().showAllCategoriesForGUI();
         choiceBox.getItems().addAll(categories);
         choiceBoxContainer.getChildren().add(choiceBox);
-        categoryName.bind(choiceBox.valueProperty());
+//        categoryName.bind(choiceBox.valueProperty());
         Platform.runLater(() -> {
             SkinBase<ChoiceBox<String>> skin = (SkinBase<ChoiceBox<String>>) choiceBox.getSkin();
             for (Node child : skin.getChildren()) {
@@ -69,6 +69,8 @@ public class AddProduct implements Initializable {
         HashMap<String, String> dataToSend = new HashMap<>();
         String[] generalData = setData(dataToSend);
         Product product = sellerController.addProduct(generalData, dataBase.user, dataToSend);
+        new Alert(Alert.AlertType.INFORMATION, "product created successfully", ButtonType.OK).show();
+        runner.back();
         if (photo != null) {
             sellerController.changeProductPhoto(product, photo);
         }
@@ -78,15 +80,15 @@ public class AddProduct implements Initializable {
         String[] generalData = new String[6];
         generalData[0] = productName.getText();
         generalData[1] = companyName.getText();
-        generalData[3] = price.getText();
-        generalData[4] = categoryName.getValue();
-        generalData[0] = description.getText();
-        generalData[0] = number.getText();
+        generalData[2] = price.getText();
+        generalData[3] = choiceBox.getValue();
+        generalData[4] = description.getText();
+        generalData[5] = number.getText();
         for (Map.Entry<Label, TextField> entry : data.entrySet()) {
             dataToSend.put(entry.getKey().getText(), entry.getValue().getText());
         }
         return generalData;
-    }
+}
 
     public void back(ActionEvent actionEvent) {
         runner.back();
@@ -104,7 +106,7 @@ public class AddProduct implements Initializable {
 
     public void setCategoryFeatures() {
         EventHandler<ActionEvent> event = (e) -> {
-            if (categoryName.getValue() == null) {
+            if (choiceBox.getValue() == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("you have to select the category");
                 alert.show();
@@ -130,7 +132,7 @@ public class AddProduct implements Initializable {
             return "description";
         else if (number.getText().equals("") || !number.getText().matches("^\\d+$") && Integer.parseInt(number.getText()) > 0)
             return "number";
-        else if (categoryName.getValue().equals(""))
+        else if (choiceBox.getValue().equals(""))
             return "category name";
         else if (data.size() == 0)
             return "category features";
@@ -143,7 +145,7 @@ public class AddProduct implements Initializable {
             window.initModality(Modality.APPLICATION_MODAL);
             window.setTitle("category info");
             VBox layout = new VBox(10);
-            ArrayList<String> features = SellerController.getInstance().getCategoryFeatures(categoryName.getValue());
+            ArrayList<String> features = SellerController.getInstance().getCategoryFeatures(choiceBox.getValue());
             Button closeButton = new Button("submit");
             for (String feature : features) {
                 Label label = new Label(feature);

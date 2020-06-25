@@ -24,9 +24,16 @@ public class CustomerController {
         return (new Card());
     }
 
+    public Customer getCustomerByUsername(String username) {
+        for (Customer customer : Customer.getAllCustomers())
+            if (customer.getUsername().equals(username))
+                return customer;
+        return null;
+    }
+
     public ArrayList<String> showCard(User user, Card savedCard) {
         Card card = savedCard;
-        if(user != null) {
+        if (user != null) {
             card = user.getCard();
         }
         ArrayList<String> arrayOfInformation = new ArrayList<>();
@@ -68,9 +75,9 @@ public class CustomerController {
         }
     }
 
-    public void addProductToCard(User user,Card savedCard, Product product, String sellerUsername) throws Exception {
+    public void addProductToCard(User user, Card savedCard, Product product, String sellerUsername) throws Exception {
         Card card = savedCard;
-        if(user != null) {
+        if (user != null) {
             card = user.getCard();
         }
         if (product.getProductStatus() == ProductAndOffStatus.CREATING)
@@ -119,7 +126,7 @@ public class CustomerController {
             if (product.getAvailable() < user.getCard().getProductsInThisCard().get(product).getNumber())
                 throw new Exception("number of " + product.getName() + "is more than it's availability.");
         }
-        return new BuyingLog("BuyingLog" + (Log.getNumberOfLogCreated() +1) , showTotalPrice(user.getCard()), (Customer) user, user.getCard().getProductsInThisCard(), information);
+        return new BuyingLog("BuyingLog" + (Log.getNumberOfLogCreated() + 1), showTotalPrice(user.getCard()), (Customer) user, user.getCard().getProductsInThisCard(), information);
     }
 
     public String isAvailabilityOk(User user) {
@@ -168,7 +175,7 @@ public class CustomerController {
             int originalPrice = product.getSellersOfThisProduct().get(seller) * productInCard.getNumber();
             int offAmount = originalPrice * percent / 100;
             seller.getMoney(originalPrice - offAmount);
-            seller.addSellingLog(new SellingLog("SellingLog" + (Log.getNumberOfLogCreated() +1), buyingLog.getDate() ,originalPrice - offAmount, offAmount, product, buyingLog.getCustomer()));
+            seller.addSellingLog(new SellingLog("SellingLog" + (Log.getNumberOfLogCreated() + 1), buyingLog.getDate(), originalPrice - offAmount, offAmount, product, buyingLog.getCustomer()));
             product.decreaseNumberOfProduct(productInCard.getNumber());
         }
     }
@@ -194,7 +201,7 @@ public class CustomerController {
 
     public void rateProduct(User user, String productId, int rate) throws Exception {
         Product product = ProductController.getProductById(productId);
-        if(product == null) {
+        if (product == null) {
             throw new Exception("There is not product with this id");
         }
         if (!((Customer) user).getRecentShoppingProducts().contains(product))

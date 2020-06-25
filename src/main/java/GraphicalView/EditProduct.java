@@ -74,6 +74,8 @@ public class EditProduct implements Initializable {
         int price = Integer.parseInt(this.price.getText());
         int available = Integer.parseInt(this.number.getText());
         Product product = sellerController.editProduct(dataBase.user, id, price, available, description.getText(),dataToSend);
+        new Alert(Alert.AlertType.INFORMATION, "product created successfully", ButtonType.OK).show();
+        runner.back();
         if (photo != null) {
             sellerController.changeProductPhoto(product, photo);
         }

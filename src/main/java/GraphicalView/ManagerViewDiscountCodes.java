@@ -1,8 +1,6 @@
 package GraphicalView;
 
 import Controller.ManagerController;
-import Model.Category;
-import Model.Customer;
 import Model.DiscountCode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,8 +16,6 @@ import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ManagerViewDiscountCodes implements Initializable {
@@ -38,31 +34,31 @@ public class ManagerViewDiscountCodes implements Initializable {
 
     private void addChart() {
         TableColumn<DiscountCodeViewOnGUI, String> code = new TableColumn<>("code");
-        code.setMinWidth(150);
+        code.setMinWidth(50);
         code.setCellValueFactory(new PropertyValueFactory<>("code"));
 
         TableColumn<DiscountCodeViewOnGUI, String> beginTime = new TableColumn<>("begin time");
-        beginTime.setMinWidth(150);
+        beginTime.setMinWidth(50);
         beginTime.setCellValueFactory(new PropertyValueFactory<>("beginTime"));
 
         TableColumn<DiscountCodeViewOnGUI, String> endTime = new TableColumn<>("end time");
-        endTime.setMinWidth(150);
+        endTime.setMinWidth(50);
         endTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
 
         TableColumn<DiscountCodeViewOnGUI, String> discountPercent = new TableColumn<>("discount percent");
-        discountPercent.setMinWidth(150);
+        discountPercent.setMinWidth(50);
         discountPercent.setCellValueFactory(new PropertyValueFactory<>("discountPercent"));
 
         TableColumn<DiscountCodeViewOnGUI, String> maximumDiscount = new TableColumn<>("maximum discount");
-        maximumDiscount.setMinWidth(150);
+        maximumDiscount.setMinWidth(50);
         maximumDiscount.setCellValueFactory(new PropertyValueFactory<>("maximumDiscount"));
 
         TableColumn<DiscountCodeViewOnGUI, Button> showCustomers = new TableColumn<>("show customers");
-        showCustomers.setMinWidth(150);
+        showCustomers.setMinWidth(50);
         showCustomers.setCellValueFactory(new PropertyValueFactory<>("showCustomers"));
 
         TableColumn<DiscountCodeViewOnGUI, Button> edit = new TableColumn<>("edit");
-        edit.setMinWidth(150);
+        edit.setMinWidth(50);
         edit.setCellValueFactory(new PropertyValueFactory<>("edit"));
 
         TableView tableView = new TableView();
@@ -104,55 +100,5 @@ public class ManagerViewDiscountCodes implements Initializable {
             }
         };
         login.setOnAction(event);
-    }
-
-}
-
-class DiscountCodeViewOnGUI {
-    DiscountCode discountCode;
-    Button showCustomers;
-    Button edit;
-
-    public DiscountCodeViewOnGUI(DiscountCode discountCode) {
-        this.discountCode = discountCode;
-        this.showCustomers = new Button("show customers");
-        this.edit = new Button("edit");
-        showCustomers.setOnAction(event -> show());
-        edit.setOnAction(event -> edit());
-    }
-
-    private void edit() {
-        DataBase.dataBase.editingDiscountCode = discountCode;
-        Runner.runner.changeScene("EditDiscountCode.fxml");
-    }
-
-    private void show() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("customers");
-        String data = "customers and number that they can use code : \n";
-        for (Map.Entry<Customer, Integer> entry : discountCode.getDiscountTimesForEachCustomer().entrySet())
-            data += entry.getKey().getUsername() + "--->" + entry.getValue() + "\n";
-        alert.setContentText(data);
-        alert.showAndWait();
-    }
-
-    public String getCode() {
-        return discountCode.getDiscountCode();
-    }
-
-    public String getBeginTime() {
-        return discountCode.getBeginTime().toString();
-    }
-
-    public String getEndTime() {
-        return discountCode.getEndTime().toString();
-    }
-
-    public String getDiscountPercent() {
-        return String.valueOf(discountCode.getDiscountPercent());
-    }
-
-    public String getMaximumDiscount() {
-        return String.valueOf(discountCode.getMaximumDiscount());
     }
 }
