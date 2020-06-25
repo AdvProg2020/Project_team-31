@@ -103,12 +103,20 @@ public class CustomerControllerTest {
         new MockUp<Object>(){
             // @Mock
         };
+        HashMap<Product, ProductInCard> products = new HashMap<>();
+        products.put(product , productInCard);
         new Expectations(){
             {
-
+                user.getCard();result = card;
+                card.getProductsInThisCard();result = products;
+                ProductController.getProductById("product");result = null;
             }
         };
-
+        try {
+            customerController.changeNumberOfProductInCard(user , card , "product" , 2);
+        } catch (Exception e) {
+            assertEquals( "There is not any product with this id", e.getMessage());
+        }
     }
 
     @Test
