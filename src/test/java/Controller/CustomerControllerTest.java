@@ -282,7 +282,7 @@ public class CustomerControllerTest {
             Assert.assertEquals("number of mobile is more than it's availability." ,e.getMessage() );
         }
     }
-   /* @Test
+    @Test
     public void createBuyingLog2() {
         new MockUp<Card>(){
             @Mock
@@ -298,24 +298,26 @@ public class CustomerControllerTest {
                 return 20;
             }
         };
+        HashMap<Product , ProductInCard> products = new HashMap<>();
+        products.put(product , productInCard);
         new Expectations(){
             {
-                user.getCard(); result = card;
+                customer.getCard(); result = card;
                 product.getAvailable(); result = 5;
-                user.getCard(); result = card;
+                customer.getCard(); result = card;
                 productInCard.getNumber(); result = 4;
-                user.getCard(); result = card;
-              //  user.getCard(); result = card; minTimes = 2;
+                customer.getCard(); result = card;times = 2;
+                card.getProductsInThisCard();
 
             }
         };
         String[] information = new String[6];
         try {
-            Assert.assertNotNull(customerController.createBuyingLog(user , information ));
+            Assert.assertNotNull(customerController.createBuyingLog(customer , information ));
         } catch (Exception e) {
-            Assert.assertEquals("number of mobileis more than it's availability." ,e.getMessage() );
+            e.printStackTrace();
         }
-    }*/
+    }
 
     @Test
     public void putDiscount() {
