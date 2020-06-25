@@ -692,13 +692,6 @@ public class SellerControllerTest {
                 return null;
             }
         };
-        ArrayList<Off> offs = new ArrayList<>();
-        offs.add(off);
-        new Expectations(){
-            {
-
-            }
-        };
         ArrayList<String> productsId = new ArrayList<>();
         productsId.add("product");
         productsId.add("product2");
@@ -706,6 +699,33 @@ public class SellerControllerTest {
             sellerController.addOff(seller ,productsId , new Date(2000 , 2, 20) , new Date(2020 , 2 ,20) , 30);
         } catch (Exception e) {
             assertEquals( "some products doesn't exist", e.getMessage());
+        }
+    }
+    @Test
+    public void addOf2() {
+        new MockUp<SellerController>(){
+            @Mock
+            public void checkTimeOfOffs(){
+            }
+        };
+        new MockUp<ProductController>(){
+            @Mock
+            public Product getProductById(String name){
+                return product;
+            }
+        };
+        HashMap<Seller , Integer> sellers = new HashMap<>();
+        new Expectations(){
+            {
+                product.getSellersOfThisProduct();result = sellers;
+            }
+        };
+        ArrayList<String> productsId = new ArrayList<>();
+        productsId.add("product");
+        try {
+            sellerController.addOff(seller ,productsId , new Date(2000 , 2, 20) , new Date(2020 , 2 ,20) , 30);
+        } catch (Exception e) {
+            assertEquals( "seller doesn't have some products", e.getMessage());
         }
     }
 
