@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.EditCategory">
+    <VBox fx:id="properties" layoutX="14.0" layoutY="14.0" prefHeight="265.0" prefWidth="161.0" />
+    <TextField fx:id="oldName" layoutX="227.0" layoutY="65.0" promptText="old name" />
+    <TextField fx:id="newName" layoutX="420.0" layoutY="65.0" promptText="changed name" />
+    <TextField fx:id="newFeature" layoutX="227.0" layoutY="179.0" promptText="new feature" />
+    <TextField fx:id="removingFeature" layoutX="420.0" layoutY="179.0" promptText="removing feature" />
+   <Button layoutX="357.0" layoutY="112.0" mnemonicParsing="false" onMouseClicked="#change" prefWidth="100" text="change" />
+   <Button layoutX="227.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#add" prefWidth="100" text="add" />
+   <Button layoutX="427.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#remove" prefWidth="100" text="remove" />
+   <Button layoutX="227.0" layoutY="308.0" mnemonicParsing="false" onMouseClicked="#back" prefWidth="100" text="back" />
+    
+</Pane>

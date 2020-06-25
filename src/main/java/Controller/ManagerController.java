@@ -77,7 +77,7 @@ public class ManagerController {
         return "code:" + discount.getDiscountCode() + ", beginTime:" + discount.getBeginTime() + ", endTime:" + discount.getEndTime() + ", percent:" + discount.getDiscountPercent();
     }
 
-    public DiscountCode getDiscountById(String discountId) throws Exception{
+    public DiscountCode getDiscountById(String discountId) throws Exception {
         for (DiscountCode discount : DiscountCode.getAllDiscountCodes()) {
             if (discount.getDiscountCode().equals(discountId))
                 return discount;
@@ -91,7 +91,7 @@ public class ManagerController {
         discount.setDiscountCode(beginTime, endTime, discountPercent, maximumDiscount, timesForEachCustomer);
     }
 
-    public void removeDiscountCode(String discountCode) throws Exception{
+    public void removeDiscountCode(String discountCode) throws Exception {
         DiscountCode discount = getDiscountById(discountCode);
         discount.removeDiscountCode();
         for (Customer customer : discount.getDiscountTimesForEachCustomer().keySet()) {
@@ -100,7 +100,7 @@ public class ManagerController {
         }
     }
 
-    public ArrayList<String> showAllRequests() throws Exception{
+    public ArrayList<String> showAllRequests() throws Exception {
         ArrayList<String> arrayOfRequest = new ArrayList<>();
         for (Request request : Request.getAllRequest()) {
             arrayOfRequest.add("RequestId: " + request.getRequestId() + ", " + showRequestDetails(request.getRequestId()));
@@ -108,32 +108,32 @@ public class ManagerController {
         return arrayOfRequest;
     }
 
-    public String showRequestDetails(String requestId) throws Exception{
+    public String showRequestDetails(String requestId) throws Exception {
         Request request = getRequestById(requestId);
-        if(request == null) {
+        if (request == null) {
             throw new Exception("invalid requestId");
         }
-        if(request instanceof SellerRequest) {
+        if (request instanceof SellerRequest) {
             return "request to register a seller with username: " + ((SellerRequest) request).getUsername() + ", firstName: " + ((SellerRequest) request).getInformation()[0] + ", lastName: " + ((SellerRequest) request).getInformation()[1] + "phoneNumber: " + ((SellerRequest) request).getInformation()[3];
-        } else if(request instanceof ProductRequest) {
+        } else if (request instanceof ProductRequest) {
             String detail;
             detail = "request to create or edit product with id: " + ((ProductRequest) request).getProduct().getProductId() + ", isEditing: " + ((ProductRequest) request).isEditing();
-            if(((ProductRequest) request).isEditing()) {
-                detail += ( ", seller: " + ((ProductRequest) request).getSeller().getUsername() + ", newPrice: " + ((ProductRequest) request).getPrice());
+            if (((ProductRequest) request).isEditing()) {
+                detail += (", seller: " + ((ProductRequest) request).getSeller().getUsername() + ", newPrice: " + ((ProductRequest) request).getPrice());
             } else {
                 for (Seller seller : ((ProductRequest) request).getProduct().getSellersOfThisProduct().keySet())
                     detail += (", seller: " + seller.getUsername() + ", price: " + ((ProductRequest) request).getProduct().getSellersOfThisProduct().get(seller));
             }
-            return  detail;
-        } else if(request instanceof OffRequest) {
+            return detail;
+        } else if (request instanceof OffRequest) {
             String detail;
             detail = ("request to create or edit off with id: " + ((OffRequest) request).getOff().getOffId() + ", isEditing: " + ((OffRequest) request).getIsEditing());
-            if(((OffRequest) request).getIsEditing()) {
+            if (((OffRequest) request).getIsEditing()) {
                 detail += (", newOffPercent: " + ((OffRequest) request).getOffPercent());
             } else {
                 detail += (", offPercent: " + ((OffRequest) request).getOff().getOffPercent());
             }
-            return  detail;
+            return detail;
         } else {
             return "request to add a seller to a product with id: " + ((SellerOfProductRequest) request).getProduct().getProductId() + ", seller: " + ((SellerOfProductRequest) request).getSeller().getUsername() + ", price: " + ((SellerOfProductRequest) request).getPrice();
         }
@@ -154,10 +154,10 @@ public class ManagerController {
             if (((ProductRequest) request).isEditing()) {
                 completeEditingProduct((ProductRequest) request);
             }
-        } else if (request instanceof  SellerOfProductRequest) {
+        } else if (request instanceof SellerOfProductRequest) {
             ((SellerOfProductRequest) request).getProduct().addSeller(((SellerOfProductRequest) request).getSeller(), ((SellerOfProductRequest) request).getPrice());
             ((SellerOfProductRequest) request).getSeller().addProduct(((SellerOfProductRequest) request).getProduct());
-            if(((SellerOfProductRequest) request).getProduct().getMinimumPrice() > ((SellerOfProductRequest) request).getPrice()) {
+            if (((SellerOfProductRequest) request).getProduct().getMinimumPrice() > ((SellerOfProductRequest) request).getPrice()) {
                 ((SellerOfProductRequest) request).getProduct().setMinimumPrice(((SellerOfProductRequest) request).getPrice());
             }
         }
@@ -224,8 +224,9 @@ public class ManagerController {
         }
         return information;
     }
+
     public ArrayList<Category> showAllCategoriesByList() {
-      return Category.getAllCategories();
+        return Category.getAllCategories();
     }
 
     public void addCategory(String name, ArrayList<String> features) {
@@ -251,6 +252,25 @@ public class ManagerController {
                 if (!newFeatures.contains(s)) {
                     product.removeSpecialFeature(s);
                 }
+            }
+        }
+    }
+
+    public void addFeature(Category category, String newFeature) {
+        ArrayList<String> features = new ArrayList<>();
+        features.addAll(category.getSpecialProperties());
+        features.add(newFeature);
+        category.setSpecialProperties(features);
+    }
+
+    public void removeFeature(Category category, String removedFeature) {
+        ArrayList<String> features = new ArrayList<>();
+        features.addAll(category.getSpecialProperties());
+        features.remove(removedFeature);
+        category.setSpecialProperties(features);
+        for (Product product : category.getProducts()) {
+            if(product.getSpecialPropertiesRelatedToCategory().containsKey(removedFeature)) {
+                product.removeSpecialFeature(removedFeature);
             }
         }
     }

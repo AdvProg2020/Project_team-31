@@ -39,6 +39,8 @@ public class ProductArea implements Initializable {
     public Label available;
     public ChoiceBox sellers;
     public Label sellerPrice;
+    public Button rateButton;
+    public Button commentButton;
     private User user;
     private Product product;
     private CustomerController customerController = CustomerController.getInstance();
@@ -55,6 +57,10 @@ public class ProductArea implements Initializable {
         }
         if(user.getCard() == null)
             user.setCard(new Card());
+        if(!(user instanceof Customer)) {
+            rateButton.setDisable(true);
+            commentButton.setDisable(true);
+        }
         available.setText("availability: " + product.getAvailable());
         status.setText("status: " + product.getProductStatus());
         view.setText("views: " + product.getViews());
@@ -132,6 +138,7 @@ public class ProductArea implements Initializable {
                 productOff = off;
             }
         }
+
         int p = product.getSellersOfThisProduct().get(LoginController.getUserByUsername(String.valueOf(sellers.getValue())));
 
         if(productOff == null) {

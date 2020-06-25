@@ -70,11 +70,11 @@ public class ManagerUserArea implements Initializable {
     }
 
     public void manageRequests(ActionEvent actionEvent) {
-        runner.changeScene("ManageRequests.fxml");
+        runner.changeScene("RequestMenu.fxml");
     }
 
     public void manageCategories(ActionEvent actionEvent) {
-        runner.changeScene("ManageCategories.fxml");
+        runner.changeScene("ShowCategories.fxml");
     }
 
     public void manageAllProducts(ActionEvent actionEvent) {

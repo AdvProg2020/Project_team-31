@@ -24,9 +24,9 @@
 
    <Label fx:id="information" layoutX="29.0" layoutY="152.0" maxWidth="190" text="information" wrapText="true" />
 
-   <Button layoutX="420.0" layoutY="15.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#rateThisProduct" text="rate" />
+   <Button fx:id="rateButton" layoutX="420.0" layoutY="15.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#rateThisProduct" text="rate" />
 
-   <Button layoutX="420.0" layoutY="128.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#commentThisProduct" text="comment" />
+   <Button fx:id="commentButton" layoutX="420.0" layoutY="128.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#commentThisProduct" text="comment" />
 
    <TextArea fx:id="commentContent" layoutX="517.0" layoutY="95.0" prefHeight="65.0" prefWidth="149.0" promptText="Content" wrapText="true" />
 
