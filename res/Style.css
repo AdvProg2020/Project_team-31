@@ -28,7 +28,3 @@
     -fx-opacity: 50;
 }
 
-#mainMenuPane {
-    -fx-background-image: url("MainMenu.jpg");
-    -fx-background-size: auto;
-}

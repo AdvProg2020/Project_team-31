@@ -72,6 +72,11 @@ public class ManagerController {
         return arrayOfDiscount;
     }
 
+    public ArrayList<DiscountCode> showAllDiscountCodesForGUI() {
+        return DiscountCode.getAllDiscountCodes();
+
+    }
+
     public String showDiscount(String discountId) throws Exception {
         DiscountCode discount = getDiscountById(discountId);
         return "code:" + discount.getDiscountCode() + ", beginTime:" + discount.getBeginTime() + ", endTime:" + discount.getEndTime() + ", percent:" + discount.getDiscountPercent();
@@ -269,7 +274,7 @@ public class ManagerController {
         features.remove(removedFeature);
         category.setSpecialProperties(features);
         for (Product product : category.getProducts()) {
-            if(product.getSpecialPropertiesRelatedToCategory().containsKey(removedFeature)) {
+            if (product.getSpecialPropertiesRelatedToCategory().containsKey(removedFeature)) {
                 product.removeSpecialFeature(removedFeature);
             }
         }
