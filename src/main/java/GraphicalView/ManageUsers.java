@@ -78,6 +78,9 @@ public class ManageUsers implements Initializable {
     }
 
     private void deleteUser() {
+        if(deletingUser.equals(DataBase.getInstance().user)) {
+            return;
+        }
         Stage warningStage = new Stage();
         Group root = new Group();
         GridPane gridPane = new GridPane();
@@ -108,5 +111,14 @@ public class ManageUsers implements Initializable {
     private void delete() {
         ManagerController.getInstance().deleteUser(deletingUser.getUsername());
         setTableOfUsers();
+    }
+
+    public void back(MouseEvent mouseEvent) {
+        Runner.getInstance().back();
+    }
+
+    public void AddManager(MouseEvent mouseEvent) {
+        DataBase.getInstance().isAddingManager = true;
+        Runner.getInstance().changeScene("RegisterMenu.fxml");
     }
 }
