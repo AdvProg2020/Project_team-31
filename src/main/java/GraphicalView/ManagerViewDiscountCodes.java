@@ -2,6 +2,7 @@ package GraphicalView;
 
 import Controller.ManagerController;
 import Model.Category;
+import Model.Customer;
 import Model.DiscountCode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,8 @@ import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ManagerViewDiscountCodes implements Initializable {
@@ -119,11 +122,18 @@ class DiscountCodeViewOnGUI {
     }
 
     private void edit() {
-        //...
+        DataBase.dataBase.editingDiscountCode = discountCode;
+        Runner.runner.changeScene("EditDiscountCode.fxml");
     }
 
     private void show() {
-        //...
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("customers");
+        String data = "customers and number that they can use code : \n";
+        for (Map.Entry<Customer, Integer> entry : discountCode.getDiscountTimesForEachCustomer().entrySet())
+            data += entry.getKey().getUsername() + "--->" + entry.getValue() + "\n";
+        alert.setContentText(data);
+        alert.showAndWait();
     }
 
     public String getCode() {
