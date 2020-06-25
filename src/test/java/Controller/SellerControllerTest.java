@@ -383,14 +383,22 @@ public class SellerControllerTest {
 
     @Test
     public void getCategoryFeatures() {
-        new MockUp<Object>(){
-            //@Mock
+        new MockUp<ManagerController>(){
+            @Mock
+            public Category getCategoryByName(String name){
+                return null;
+            }
         };
         new Expectations(){
             {
-
+                ManagerController.getCategoryByName("category");
             }
         };
+        try {
+            sellerController.getCategoryFeatures("category");
+        } catch (Exception e) {
+            assertEquals( "Invalid categoryName" , e.getMessage());
+        }
     }
 
     @Test
