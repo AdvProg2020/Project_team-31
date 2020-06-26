@@ -37,7 +37,7 @@ public class OffMenu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addButtonToTable();
-        imageColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
+        imageColumn.setCellValueFactory(new PropertyValueFactory<>("imageViewSmall"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         viewColumn.setCellValueFactory(new PropertyValueFactory<>("view"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -83,5 +83,8 @@ public class OffMenu implements Initializable {
         ObservableList<OffedProduct> products = FXCollections.observableArrayList();
         products.addAll(ProductController.getInstance().showOffProductInGui());
         tableOfProducts.setItems(products);
+    }
+
+    public void filterRequest(MouseEvent mouseEvent) {
     }
 }
