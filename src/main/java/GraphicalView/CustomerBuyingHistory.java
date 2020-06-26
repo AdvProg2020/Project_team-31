@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 import javafx.util.Pair;
@@ -99,6 +100,10 @@ public class CustomerBuyingHistory implements Initializable {
             showingLogs.add(new BuyingLogShow(log.getLogId(), price, discount, date, log.getBuyingProducts()));
         }
         return showingLogs;
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
     }
 }
 

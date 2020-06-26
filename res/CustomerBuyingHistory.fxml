@@ -19,12 +19,14 @@
               <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
               <children>
                   <Button fx:id="logout" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0" text="logout" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                   <Button fx:id="login" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0" text="login" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#back" prefHeight="20.0" prefWidth="70.0" text="back" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#back" prefHeight="20.0" prefWidth="70.0" text="back" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" text="User Area" GridPane.rowIndex="3" onMouseClicked="#userArea"/>
               </children>
           </GridPane>
       </children>
