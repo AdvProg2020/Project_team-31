@@ -1,6 +1,7 @@
 package GraphicalView;
 
 import Controller.LoginController;
+import Controller.ManagerController;
 import Controller.SaveAndLoadFiles;
 import Model.Customer;
 import Model.Manager;
@@ -50,10 +51,10 @@ public class Runner extends Application {
         initializeStage();
         changeScene("MainMenu.fxml");
         changeScene("MainMenu.fxml");
-        if (!LoginController.getInstance().isThereAnyManager()) ;
-        runner.changeScene("RegisterMenu.fxml");
+        if (LoginController.getInstance().isThereAnyManager())
+            popup();
+        else runner.changeScene("RegisterMenu.fxml");
         primaryStage.show();
-        popup();
 //        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 //            @Override
 //            public void handle(WindowEvent e) {
@@ -64,8 +65,6 @@ public class Runner extends Application {
     }
 
     private void popup() {
-        if (dataBase.user != null)
-            return;
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("hello!");
