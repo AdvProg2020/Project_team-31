@@ -22,9 +22,10 @@
         </VBox>
         <GridPane GridPane.columnIndex="1">
             <children>
-                <Button fx:id="editPersonaInfo" mnemonicParsing="false" text="edit personal info" GridPane.rowIndex="0" />
-                <Button mnemonicParsing="false" onMouseClicked="#salesHistory" text="view sales history" GridPane.rowIndex="1" />
-                <Button mnemonicParsing="false" onAction="#sellerOffsShow" text="view offs" GridPane.rowIndex="2" />
+                <Button fx:id="editPersonaInfo" mnemonicParsing="false" prefWidth="150.0" text="edit personal info" GridPane.rowIndex="0" />
+                <Button mnemonicParsing="false" onMouseClicked="#salesHistory" prefWidth="150.0" text="view sales history" GridPane.rowIndex="1" />
+                <Button mnemonicParsing="false" onAction="#sellerOffsShow" prefWidth="150.0" text="view offs" GridPane.rowIndex="2" />
+            <Button fx:id="addMeButton" mnemonicParsing="false" onAction="#addMeButtonAlert" prefWidth="170.0" text="add me to product" GridPane.rowIndex="3" />
             </children>
             <columnConstraints>
                 <ColumnConstraints />
@@ -38,9 +39,10 @@
         </GridPane>
         <GridPane GridPane.columnIndex="2">
             <children>
-                <Button mnemonicParsing="false" onMouseClicked="#addProduct" text="add product" GridPane.rowIndex="0" />
-                <Button mnemonicParsing="false" onAction="#manageProducts" text="manage products" GridPane.rowIndex="4" />
-                <Button mnemonicParsing="false" onMouseClicked="#showCategories" text="show categories" GridPane.rowIndex="3" />
+                <Button mnemonicParsing="false" onMouseClicked="#addProduct" prefWidth="150.0" text="add product" GridPane.rowIndex="0" />
+                <Button mnemonicParsing="false" onAction="#manageProducts" prefWidth="150.0" text="manage products" GridPane.rowIndex="4" />
+                <Button mnemonicParsing="false" onMouseClicked="#showCategories" prefWidth="150.0" text="show categories" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#addOff" prefWidth="170.0" text="add off" GridPane.rowIndex="1" />
             </children>
             <columnConstraints>
                 <ColumnConstraints />
@@ -53,11 +55,11 @@
                 <RowConstraints />
             </rowConstraints>
         </GridPane>
-        <GridPane GridPane.columnIndex="4">
+        <GridPane GridPane.columnIndex="3">
             <children>
-                <Button fx:id="login" mnemonicParsing="false" text="login" GridPane.rowIndex="1" />
-                <Button fx:id="logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="2" />
-                <Button mnemonicParsing="false" onMouseClicked="#back" text="back" GridPane.rowIndex="3" />
+                <Button fx:id="login" mnemonicParsing="false" prefWidth="80.0" text="login" GridPane.rowIndex="1" />
+                <Button fx:id="logout" mnemonicParsing="false" prefWidth="80.0" text="logout" GridPane.rowIndex="2" />
+                <Button mnemonicParsing="false" onMouseClicked="#back" prefHeight="55.0" prefWidth="80.0" text="back" GridPane.rowIndex="3" />
             </children>
             <columnConstraints>
                 <ColumnConstraints />
@@ -69,17 +71,5 @@
                 <RowConstraints />
             </rowConstraints>
         </GridPane>
-      <GridPane GridPane.columnIndex="3">
-         <children>
-            <Button mnemonicParsing="false" onAction="#addOff" text="add off" GridPane.rowIndex="0" />
-            <Button fx:id="addMeButton" mnemonicParsing="false" onAction="#addMeButtonAlert" text="add me to product" GridPane.rowIndex="1" />
-         </children>
-         <columnConstraints>
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints></GridPane>
     </children>
 </GridPane>

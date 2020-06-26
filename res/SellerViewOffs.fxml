@@ -14,10 +14,10 @@
 <children>
     <VBox GridPane.columnIndex="1">
         <children>
-            <Button fx:id="logout" mnemonicParsing="false" text="logout" />
-            <Button fx:id="login" mnemonicParsing="false" text="login" />
-            <Button mnemonicParsing="false" onAction="#back" text="back" />
-            <Button mnemonicParsing="false" text="User Area" onMouseClicked="#userArea" />
+            <Button fx:id="logout" mnemonicParsing="false" prefWidth="90.0" text="logout" />
+            <Button fx:id="login" mnemonicParsing="false" prefWidth="90.0" text="login" />
+            <Button mnemonicParsing="false" onAction="#back" prefWidth="90.0" text="back" />
+            <Button mnemonicParsing="false" onMouseClicked="#userArea" prefWidth="90.0" text="User Area" />
         </children>
     </VBox>
 </children>
