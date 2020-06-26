@@ -78,7 +78,7 @@ public class ProductArea implements Initializable {
     }
 
     private void setImage() {
-        if (product.getImage() != null) {
+        if (product.getImageFile() != null) {
             image.setImage(product.getImage());
             image.setFitWidth(100);
             image.setFitHeight(100);

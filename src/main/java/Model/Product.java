@@ -79,7 +79,7 @@ public class Product implements Serializable {
 //        return imageView;
 //    }
 
-    public String getImageFileURL() {
+    public String getImageFile() {
         return imageFile;
     }
 public Image getImage(){
