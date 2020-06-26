@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class SellerController {
-    static File myfiles = null;
+    public static File myfiles = null;
     private static SellerController sellerControllerInstance = new SellerController();
 
     private SellerController() {
