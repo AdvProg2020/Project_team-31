@@ -49,7 +49,7 @@
                       <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#back" prefWidth="90.0" text="back" GridPane.rowIndex="2" />
                       <Button fx:id="login" mnemonicParsing="false" prefWidth="90.0" text="login" />
                       <Button fx:id="logout" mnemonicParsing="false" prefWidth="90.0" text="logout" GridPane.rowIndex="1" />
-               <Button mnemonicParsing="false" onMouseClicked="#userArea" prefWidth="90.0" text="User Area" GridPane.rowIndex="3" />
+               <Button mnemonicParsing="false"  prefWidth="90.0" text="User Area" GridPane.rowIndex="3" />
                   </children>
                   <columnConstraints>
                       <ColumnConstraints />
