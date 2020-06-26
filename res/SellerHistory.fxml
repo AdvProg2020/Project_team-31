@@ -23,10 +23,10 @@
             <RowConstraints maxHeight="94.99999618530273" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
               </rowConstraints>
               <children>
-                  <Button fx:id="logout" mnemonicParsing="false" text="logout" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                  <Button fx:id="login" mnemonicParsing="false" text="login" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#back" text="back" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" text="User Area" GridPane.rowIndex="3" onMouseClicked="#userArea"/>
+                  <Button fx:id="logout" mnemonicParsing="false" prefWidth="120.0" text="logout" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                  <Button fx:id="login" mnemonicParsing="false" prefWidth="120.0" text="login" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#back" prefWidth="120.0" text="back" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onMouseClicked="#userArea" prefWidth="120.0" text="User Area" GridPane.rowIndex="3" />
               </children>
           </GridPane>
       </children>

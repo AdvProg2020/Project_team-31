@@ -9,9 +9,9 @@
             <children>
                 <Label fx:id="personalInfo" GridPane.columnIndex="0" />
                 <GridPane GridPane.columnIndex="1">
-                    <Button mnemonicParsing="false" onAction="#editPersonalInfo" text="edit personal info" GridPane.rowIndex="0" />
-                    <Button mnemonicParsing="false" onAction="#manageUsers" text="manage users" GridPane.rowIndex="1" />
-                    <Button mnemonicParsing="false" onAction="#manageAllProducts" text="manage all products" GridPane.rowIndex="2" />
+                    <Button mnemonicParsing="false" onAction="#editPersonalInfo" prefWidth="150.0" text="edit personal info" GridPane.rowIndex="0" />
+                    <Button mnemonicParsing="false" onAction="#manageUsers" prefWidth="150.0" text="manage users" GridPane.rowIndex="1" />
+                    <Button mnemonicParsing="false" onAction="#manageAllProducts" prefWidth="150.0" text="manage all products" GridPane.rowIndex="2" />
                     <columnConstraints>
                         <ColumnConstraints />
                     </columnConstraints>
@@ -22,9 +22,10 @@
                     </rowConstraints>
                 </GridPane>
                 <GridPane GridPane.columnIndex="2">
-                    <Button mnemonicParsing="false" onAction="#createDiscountCode" text="create discount code" GridPane.rowIndex="0" />
-                    <Button mnemonicParsing="false" onAction="#manageRequests" text="manage requests" GridPane.rowIndex="1" />
-                    <Button mnemonicParsing="false" onAction="#manageCategories" text="manage categories" GridPane.rowIndex="2" />
+                    <Button mnemonicParsing="false" onAction="#createDiscountCode" prefWidth="150.0" text="create discount code" GridPane.rowIndex="0" />
+                    <Button mnemonicParsing="false" onAction="#manageRequests" prefWidth="150.0" text="manage requests" GridPane.rowIndex="1" />
+                    <Button mnemonicParsing="false" onAction="#manageCategories" prefWidth="150.0" text="manage categories" GridPane.rowIndex="2" />
+                    <Button mnemonicParsing="false" onAction="#viewDiscountCodes" prefWidth="150.0" text="view discount codes" GridPane.rowIndex="3" />
                     <columnConstraints>
                         <ColumnConstraints />
                     </columnConstraints>
@@ -32,23 +33,13 @@
                         <RowConstraints />
                         <RowConstraints />
                         <RowConstraints />
+                  <RowConstraints />
                     </rowConstraints>
                 </GridPane>
                 <GridPane GridPane.columnIndex="3">
-                    <Button mnemonicParsing="false" onAction="#viewDiscountCodes"  text="view discount codes" GridPane.rowIndex="0" />
-                    <columnConstraints>
-                        <ColumnConstraints />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                    </rowConstraints>
-                </GridPane>
-                <GridPane GridPane.columnIndex="4">
-                    <Button mnemonicParsing="false" text="login" GridPane.rowIndex="0" />
-                    <Button fx:id="logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
-                    <Button mnemonicParsing="false" onMouseClicked="#back" text="back" GridPane.rowIndex="2" />
+                    <Button mnemonicParsing="false" prefWidth="70.0" text="login" GridPane.rowIndex="0" />
+                    <Button fx:id="logout" mnemonicParsing="false" prefWidth="70.0" text="logout" GridPane.rowIndex="1" />
+                    <Button mnemonicParsing="false" onMouseClicked="#back" prefWidth="70.0" text="back" GridPane.rowIndex="2" />
                     <columnConstraints>
                         <ColumnConstraints />
                     </columnConstraints>

@@ -18,7 +18,7 @@
                   <children>
                       <Label fx:id="personalInfo" />
                       <Label fx:id="discountCode" GridPane.rowIndex="2" />
-                      <Button fx:id="addBalance" mnemonicParsing="false" text="add balance" GridPane.rowIndex="3" />
+                      <Button fx:id="addBalance" mnemonicParsing="false" prefHeight="20.0" prefWidth="100.0" text="add balance" GridPane.rowIndex="3" />
                   </children>
                   <columnConstraints>
                       <ColumnConstraints />
@@ -31,9 +31,9 @@
                   </rowConstraints>
               </GridPane>
               <GridPane GridPane.columnIndex="1">
-                  <Button fx:id="cartButton" mnemonicParsing="false" onAction="#showCart" text="view cart" GridPane.rowIndex="0" />
-                  <Button fx:id="buyingHistoryButton" mnemonicParsing="false" text="buying history" GridPane.rowIndex="1" />
-                  <Button fx:id="editPersonalInfo" mnemonicParsing="false" text="edit personal info" GridPane.rowIndex="3" />
+                  <Button fx:id="cartButton" mnemonicParsing="false" onAction="#showCart" prefHeight="20.0" prefWidth="150.0" text="view cart" GridPane.rowIndex="0" />
+                  <Button fx:id="buyingHistoryButton" mnemonicParsing="false" prefWidth="150.0" text="buying history" GridPane.rowIndex="1" />
+                  <Button fx:id="editPersonalInfo" mnemonicParsing="false" prefHeight="20.0" prefWidth="150.0" text="edit personal info" GridPane.rowIndex="3" />
                   <columnConstraints>
                       <ColumnConstraints />
                   </columnConstraints>
@@ -46,10 +46,10 @@
               </GridPane>
               <GridPane GridPane.columnIndex="2">
                   <children>
-                      <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#back" text="back" GridPane.rowIndex="2" />
-                      <Button fx:id="login" mnemonicParsing="false" text="login" />
-                      <Button fx:id="logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
-               <Button mnemonicParsing="false" text="User Area" GridPane.rowIndex="3" onMouseClicked="#userArea"/>
+                      <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#back" prefWidth="90.0" text="back" GridPane.rowIndex="2" />
+                      <Button fx:id="login" mnemonicParsing="false" prefWidth="90.0" text="login" />
+                      <Button fx:id="logout" mnemonicParsing="false" prefWidth="90.0" text="logout" GridPane.rowIndex="1" />
+               <Button mnemonicParsing="false" onMouseClicked="#userArea" prefWidth="90.0" text="User Area" GridPane.rowIndex="3" />
                   </children>
                   <columnConstraints>
                       <ColumnConstraints />

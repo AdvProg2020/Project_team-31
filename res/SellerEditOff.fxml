@@ -36,20 +36,24 @@
                 </VBox>
                 <HBox prefHeight="173.0" prefWidth="281.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#back" text="back" />
-                        <Button mnemonicParsing="false" onAction="#addProduct" text="add product" />
-                        <Button mnemonicParsing="false" onAction="#removeProduct" text="remove product" />
-                        <Button mnemonicParsing="false" onAction="#submit" text="submit" />
-                        <VBox prefHeight="96.0" prefWidth="56.0">
+                  <VBox>
+                     <children>
+                              <Button mnemonicParsing="false" onAction="#removeProduct" prefWidth="120.0" text="remove product" />
+                              <Button mnemonicParsing="false" onAction="#addProduct" prefWidth="120.0" text="add product" />
+                              <Button mnemonicParsing="false" onAction="#back" prefWidth="120.0" text="back" />
+                     </children>
+                  </VBox>
+                        <VBox prefHeight="96.0" prefWidth="100.0">
                             <children>
-                                <Button fx:id="login" mnemonicParsing="false" text="login" />
-                                <Button fx:id="logout" mnemonicParsing="false" text="logout" />
+                                <Button fx:id="login" mnemonicParsing="false" prefWidth="120.0" text="login" />
+                                <Button fx:id="logout" mnemonicParsing="false" prefWidth="120.0" text="logout" />
+                              <Button mnemonicParsing="false" onAction="#submit" prefWidth="120.0" text="submit" />
                             </children>
                         </VBox>
                     </children>
                 </HBox>
             </children>
         </GridPane>
-      <Button layoutX="262.0" layoutY="295.0" mnemonicParsing="false" text="User Area" onMouseClicked="#userArea"/>
+      <Button layoutX="262.0" layoutY="295.0" mnemonicParsing="false" onMouseClicked="#userArea" text="User Area" />
     </children>
 </Pane>
