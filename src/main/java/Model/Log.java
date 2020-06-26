@@ -10,18 +10,13 @@ public class Log implements Serializable {
     protected Date date;
     protected String customerId;
     protected DeliveryStatus deliveryStatus;
-    private static int numberOfLogCreated = 0;
+
 
     public Log(String logId, Date date, Customer customer) {
-        numberOfLogCreated++;
         this.logId = logId;
         this.date = date;
         customerId = customer.getUsername();
         this.deliveryStatus = DeliveryStatus.ready;
-    }
-
-    public static int getNumberOfLogCreated() {
-        return numberOfLogCreated;
     }
 
     public Date getDate() {

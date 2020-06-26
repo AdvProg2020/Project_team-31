@@ -1,21 +1,24 @@
 package Model;
 
+import javafx.fxml.Initializable;
+
 import java.io.*;
 import java.util.ArrayList;
 
 public abstract class Request implements Serializable {
     protected String requestId;
     protected static ArrayList<Request> allRequests = new ArrayList<>();
-    private static int numberOfRequestCreated = 0;
 
     public Request(String requestId) {
-        numberOfRequestCreated ++;
         this.requestId = requestId;
         allRequests.add(this);
     }
 
     public static int getNumberOfRequestCreated() {
-        return numberOfRequestCreated;
+        if(allRequests.size() == 0) {
+            return 0;
+        }
+        return Integer.parseInt(allRequests.get(allRequests.size()-1).getRequestId().substring(7));
     }
 
     public static ArrayList<Request> getAllRequest() {

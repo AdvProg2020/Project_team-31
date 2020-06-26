@@ -30,13 +30,11 @@ public class Product implements Serializable {
     private int views;
     private HashMap<String, String> specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts = new ArrayList<>();
-    private static int numberOfProductCreated = 0;
 
     public Product(String productId, String name, String company, Category category, String information, int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
         rate = "0.0";
         offs = new ArrayList<>();
-        numberOfProductCreated++;
         this.available = available;
         this.productId = productId;
         this.name = name;
@@ -118,8 +116,10 @@ public Image getImage(){
         return allProducts;
     }
 
-    public static int getNumberOfProductCreated() {
-        return numberOfProductCreated;
+   public static int getNumberOfProductCreated() {
+        if(allProducts.size() == 0)
+            return 0;
+        return Integer.parseInt(allProducts.get(allProducts.size()-1).getProductId().substring(7));
     }
 
     public int getMinimumPrice() {

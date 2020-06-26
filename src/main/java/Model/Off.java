@@ -16,10 +16,8 @@ public class Off implements Serializable {
     private String seller;
     private ProductAndOffStatus offStatus;
     private static ArrayList<Off> allOffs = new ArrayList<>();
-    private static int numberOfOffsCreated = 0;
 
     public Off(Seller seller, String offId, Date beginTime, Date endTime, int offAmount, ArrayList<Product> products) {
-        numberOfOffsCreated++;
         this.seller = seller.getUsername();
         this.offId = offId;
         this.beginTime = beginTime;
@@ -34,7 +32,10 @@ public class Off implements Serializable {
     }
 
     public static int getNumberOfOffsCreated() {
-        return numberOfOffsCreated;
+        if(allOffs.size() == 0)
+            return 0;
+
+        return Integer.parseInt(allOffs.get(allOffs.size()-1).offId.substring(3));
     }
 
     public Date getBeginTime() {

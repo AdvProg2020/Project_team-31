@@ -44,7 +44,7 @@ public class SellerController {
         if (product.getSellersOfThisProduct().containsKey(user)) {
             throw new Exception("seller has product");
         }
-        new SellerOfProductRequest("SellerOfProductRequest" + (Request.getNumberOfRequestCreated() + 1), (Seller) user, product, price);
+        new SellerOfProductRequest("Request" + (Request.getNumberOfRequestCreated() + 1), (Seller) user, product, price);
     }
 
     public ArrayList<String> showSalesHistory(User user) {
@@ -124,7 +124,7 @@ public class SellerController {
         }
         Product newProduct = new Product("Product" + (Product.getNumberOfProductCreated() + 1), productGeneralInformation[0], productGeneralInformation[1], ManagerController.getCategoryByName(productGeneralInformation[3]), productGeneralInformation[4], Integer.parseInt(productGeneralInformation[5]), sellers, specialInformationRelatedToCategory);
         newProduct.setMinimumPrice(Integer.parseInt(productGeneralInformation[2]));
-        new ProductRequest("ProductRequest" + (Request.getNumberOfRequestCreated() + 1), newProduct, false);
+        new ProductRequest("Request" + (Request.getNumberOfRequestCreated() + 1), newProduct, false);
         ManagerController.getCategoryByName(productGeneralInformation[3]).addProduct(newProduct);
         ((Seller) user).addProduct(newProduct);
         return newProduct;
@@ -153,7 +153,7 @@ public class SellerController {
         if (!product.getSellersOfThisProduct().keySet().contains((Seller) user))
             throw new Exception("Seller does'nt have this product");
         product.setProductStatus(ProductAndOffStatus.EDITING);
-        (new ProductRequest("ProductRequest" + (Request.getNumberOfRequestCreated() + 1), product, true)).newProductFeatures((Seller) user, price, available, information, specialInformationRelatedToCategory);
+        (new ProductRequest("Request" + (Request.getNumberOfRequestCreated() + 1), product, true)).newProductFeatures((Seller) user, price, available, information, specialInformationRelatedToCategory);
         return product;
     }
 
@@ -217,7 +217,7 @@ public class SellerController {
             }
         }
         Off newOff = new Off((Seller) user, "Off" + (Off.getNumberOfOffsCreated() + 1), beginTime, endTime, percent, products);
-        new OffRequest("OffRequest" + (Request.getNumberOfRequestCreated() + 1), newOff, false);
+        new OffRequest("Request" + (Request.getNumberOfRequestCreated() + 1), newOff, false);
         ((Seller) user).addOffToThisSeller(newOff);
     }
 
@@ -260,7 +260,7 @@ public class SellerController {
                 .map(ProductController::getProductById)
                 .collect(Collectors.toList());
         off.setOffStatus(ProductAndOffStatus.EDITING);
-        (new OffRequest("OffRequest" + (Request.getNumberOfRequestCreated() + 1), off, true)).setOff(beginTime, endTime, percent, newProducts);
+        (new OffRequest("Request" + (Request.getNumberOfRequestCreated() + 1), off, true)).setOff(beginTime, endTime, percent, newProducts);
     }
 
     public Off getOffById(String id) {
