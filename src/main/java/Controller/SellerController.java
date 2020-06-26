@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class SellerController {
-    public  File myfiles = null;
+    public File myfiles = null;
     private static SellerController sellerControllerInstance = new SellerController();
 
     private SellerController() {
@@ -151,7 +151,7 @@ public class SellerController {
 
     public void tempPhoto() {
         for (Product product : Product.allProducts) {
-            if (product.getImageFile()==null)
+            if (product.getImageFile() == null)
                 product.setImageFile("Product0.jpeg");
         }
     }
