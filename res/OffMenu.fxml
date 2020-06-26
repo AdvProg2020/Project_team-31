@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane minWidth="597.0" prefHeight="381.0" prefWidth="597.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.OffMenu">
-    <TableView fx:id="tableOfProducts" layoutY="7.0" minWidth="200.0" prefHeight="322.0" prefWidth="527.0" stylesheets="@/Style.css">
+<Pane minWidth="597.0" prefHeight="381.0" prefWidth="597.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.OffMenu" stylesheets="@/Style.css">
+    <TableView fx:id="tableOfProducts" layoutY="7.0" minWidth="200.0" prefHeight="322.0" prefWidth="527.0" >
         <columns>
             <TableColumn fx:id="imageColumn" prefWidth="75.0" text="image" />
             <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name" />

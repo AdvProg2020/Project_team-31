@@ -7,15 +7,20 @@ import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,6 +33,8 @@ public class OffMenu implements Initializable {
     public TableColumn timeColumn;
     public TableColumn percentColumn;
     public TableView tableOfProducts;
+    public static TableView tempTable;
+    public static Stage filterStageToSave;
 
     public void back(MouseEvent mouseEvent) {
         Runner.buttonSound();
@@ -36,6 +43,7 @@ public class OffMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        tempTable = tableOfProducts;
         Runner.getInstance().changeMusic("OffMenu");
         addButtonToTable();
         imageColumn.setCellValueFactory(new PropertyValueFactory<>("imageViewSmall"));
@@ -80,12 +88,28 @@ public class OffMenu implements Initializable {
         tableOfProducts.getColumns().add(colBtn);
     }
 
-    private void setOffedProducts() {
+    public static void setOffedProducts() {
         ObservableList<OffedProduct> products = FXCollections.observableArrayList();
-        products.addAll(ProductController.getInstance().showOffProductInGui());
-        tableOfProducts.setItems(products);
+        if(DataBase.getInstance().user != null)
+            products.addAll(ProductController.getInstance().showOffProductInGui(DataBase.getInstance().user));
+        else
+            products.addAll(ProductController.getInstance().showOffProductInGui(DataBase.getInstance().tempUser));
+        tempTable.setItems(products);
     }
 
     public void filterRequest(MouseEvent mouseEvent) {
+        Runner.buttonSound();
+        Stage filterStage = new Stage();
+        URL url = getClass().getClassLoader().getResource("FilterOffs.fxml");
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        filterStage.setScene(new Scene(root));
+        filterStage.setTitle("filters");
+        filterStageToSave = filterStage;
+        filterStage.show();
     }
 }

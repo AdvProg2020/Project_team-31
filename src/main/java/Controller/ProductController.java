@@ -180,7 +180,7 @@ public class ProductController {
         return offs;
     }
 
-    public ArrayList<OffedProduct> showOffProductInGui() {
+    public ArrayList<OffedProduct> showOffProductInGui(User user) {
         SellerController.getInstance().checkTimeOfOffs();
         ArrayList<OffedProduct> offedProduct = new ArrayList<>();
         for (Off off : Off.getAllOffs()) {
@@ -188,13 +188,18 @@ public class ProductController {
                 offedProduct.add(new OffedProduct(saleProduct, off.getEndTime(), saleProduct.getSellersOfThisProduct().get(off.getSeller()), off.getOffPercent()));
             }
         }
-        return offedProduct;
+
+        ArrayList<OffedProduct> filteredProducts;
+        filteredProducts = (ArrayList<OffedProduct>) offedProduct.stream()
+                .filter(product -> isContainThisProduct(user.getFilters(), product.getProduct(), null))
+                .collect(Collectors.toList());
+        return filteredProducts;
     }
 
     private Boolean isContainThisProduct(HashMap<String, String> filters, Product product, Category category) {
         HashMap<String, String> specialPropertiesOfProduct = product.getSpecialPropertiesRelatedToCategory();
         for (String key : filters.keySet()) {
-            if (category != null) {
+            if (category != null && !category.equals("all")) {
                 if (category.getSpecialProperties().contains(key) && specialPropertiesOfProduct.keySet().contains(key)) {
                     if (!doesMatchWithFilter(filters.get(key), specialPropertiesOfProduct.get(key)))
                         return false;
