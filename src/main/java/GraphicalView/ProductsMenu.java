@@ -60,7 +60,7 @@ public class ProductsMenu implements Initializable {
         tempTable = tableOfProducts;
         setCategories();
         addButtonToTable();
-        imageColumn.setCellValueFactory(new PropertyValueFactory<>("imageView"));
+        imageColumn.setCellValueFactory(new PropertyValueFactory<>("imageViewSmall"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         viewColumn.setCellValueFactory(new PropertyValueFactory<>("views"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));

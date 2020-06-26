@@ -126,8 +126,8 @@ public class SellerController {
     }
 
     public void changeProductPhoto(Product product, File photo) throws IOException {
-        ImageView imageView = new ImageView(new Image(photo.toURI().toString()));
-        product.setImageView(imageView);
+        Image image=new Image(photo.toURI().toString());
+        product.setImage(image);
     }
 
     public Product editProduct(User user, String productId, int price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {

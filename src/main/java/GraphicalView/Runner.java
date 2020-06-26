@@ -37,7 +37,7 @@ public class Runner extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        SaveAndLoadFiles.start();
+//        SaveAndLoadFiles.start();
         stage = primaryStage;
         initializeStage();
         changeScene("MainMenu.fxml");
@@ -45,13 +45,13 @@ public class Runner extends Application {
         if (!LoginController.getInstance().isThereAnyManager())
             runner.changeScene("RegisterMenu.fxml");
         primaryStage.show();
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-                SaveAndLoadFiles.end();
-                System.exit(0);
-            }
-        });
+//        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//            @Override
+//            public void handle(WindowEvent e) {
+//                SaveAndLoadFiles.end();
+//                System.exit(0);
+//            }
+//        });
     }
 
     private void initializeStage() {

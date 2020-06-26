@@ -1,5 +1,6 @@
 package Model;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.*;
@@ -7,11 +8,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Product implements Serializable {
-    private ImageView imageView;
+    private Image image;
     private String productId;
     private String name;
     private String company;
-    private String  rate;
+    private String rate;
     private HashMap<Seller, Integer> sellersOfThisProduct;
     private int minimumPrice;
     private int customersWhoRated;
@@ -47,36 +48,30 @@ public class Product implements Serializable {
         allProducts.add(this);
     }
 
-    public ImageView getImageView() {
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public ImageView getImageViewBig() {
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(70);
+        imageView.setFitWidth(70);
         return imageView;
     }
 
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
+    public ImageView getImageViewSmall() {
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
+        return imageView;
     }
 
     public String getRate() {
         return rate;
-    }
-
-    public Product(ImageView imageView, String productId, String name, String company, Category category, String information, int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
-        this.imageView = imageView;
-        views = 0;
-        rate = "0.0";
-        offs = new ArrayList<>();
-        numberOfProductCreated++;
-        this.available = available;
-        this.productId = productId;
-        this.name = name;
-        this.company = company;
-        this.sellersOfThisProduct = new HashMap<>();
-        this.sellersOfThisProduct = sellersOfThisProduct;
-        this.category = category;
-        this.productStatus = ProductAndOffStatus.CREATING;
-        this.information = information;
-        this.specialPropertiesRelatedToCategory = new HashMap<>();
-        this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
-        allProducts.add(this);
     }
 
     public static ArrayList<Product> getAllProducts() {

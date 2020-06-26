@@ -16,7 +16,7 @@ public class OffedProduct {
 
     public OffedProduct(Product product,Date endTime, int price, int percent) {
         this.product = product;
-        image = product.getImageView();
+        image = product.getImageViewSmall();
         name = product.getName();
         view = product.getViews();
         this.price = price;

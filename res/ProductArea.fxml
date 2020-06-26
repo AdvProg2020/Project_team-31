@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane prefHeight="400.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductArea">
+<Pane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductArea">
     <Button fx:id="addToCardButton" layoutX="268.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#addThisProductToCard" text="add to cart" />
 
     <Label fx:id="productName" layoutX="29.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" text="name:" />
@@ -22,13 +23,13 @@
 
     <ListView fx:id="commentsList" layoutX="348.0" layoutY="166.0" prefHeight="234.0" prefWidth="324.0" />
 
-   <Label fx:id="information" layoutX="29.0" layoutY="152.0" maxWidth="190" text="information" wrapText="true" />
+    <Label fx:id="information" layoutX="29.0" layoutY="152.0" maxWidth="190" text="information" wrapText="true" />
 
-   <Button fx:id="rateButton" layoutX="420.0" layoutY="15.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#rateThisProduct" text="rate" />
+    <Button fx:id="rateButton" layoutX="420.0" layoutY="15.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#rateThisProduct" text="rate" />
 
-   <Button fx:id="commentButton" layoutX="420.0" layoutY="128.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#commentThisProduct" text="comment" />
+    <Button fx:id="commentButton" layoutX="420.0" layoutY="128.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#commentThisProduct" text="comment" />
 
-   <TextArea fx:id="commentContent" layoutX="517.0" layoutY="95.0" prefHeight="65.0" prefWidth="149.0" promptText="Content" wrapText="true" />
+    <TextArea fx:id="commentContent" layoutX="517.0" layoutY="95.0" prefHeight="65.0" prefWidth="149.0" promptText="Content" wrapText="true" />
 
     <ChoiceBox fx:id="sellers" layoutX="231.0" layoutY="50.0" onAction="#changeSeller" prefWidth="150.0" />
 
@@ -44,5 +45,7 @@
 
     <Label fx:id="available" layoutX="29.0" layoutY="119.0" text="availability" />
 
-   <Button layoutX="219.0" layoutY="353.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#back" text="back" />
+    <Button layoutX="219.0" layoutY="353.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#back" text="back" />
+
+    <ImageView fx:id="image" fitHeight="100.0" fitWidth="100.0" layoutX="680" pickOnBounds="true" preserveRatio="true" />
 </Pane>
