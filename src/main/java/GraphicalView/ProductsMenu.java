@@ -2,6 +2,7 @@ package GraphicalView;
 
 import Controller.ManagerController;
 import Controller.ProductController;
+import Controller.SellerController;
 import Model.Category;
 import Model.Product;
 import Model.Seller;
@@ -61,6 +62,7 @@ public class ProductsMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        SellerController.getInstance().tempPhoto();
         loginAlert();
         logoutAlert();
         Runner.getInstance().changeMusic("ProductMenu");
