@@ -1,10 +1,13 @@
 package Model;
 
+import Controller.LoginController;
+import Controller.ProductController;
+
 import java.util.HashMap;
 
 public class ProductRequest extends Request {
-    private Product product;
-    private Seller seller;
+    private String product;
+    private String seller;
     private int price;
     private int available;
     private String information;
@@ -14,12 +17,12 @@ public class ProductRequest extends Request {
 
     public ProductRequest(String id, Product product , boolean isEditing) {
         super(id);
-        this.product = product;
+        this.product = product.getProductId();
         this.isEditing = isEditing;
         specialPropertiesRelatedToCategory = new HashMap<>();
     }
     public void newProductFeatures(Seller seller, int price , int available , String information , HashMap<String , String> specialPropertiesRelatedToCategory){
-        this.seller = seller;
+        this.seller = seller.getUsername();
         this.price = price;
         this.available = available;
         this.information = information;
@@ -27,7 +30,7 @@ public class ProductRequest extends Request {
     }
 
     public Seller getSeller() {
-        return seller;
+        return (Seller) LoginController.getUserByUsername(seller);
     }
 
     public int getPrice() {
@@ -51,6 +54,6 @@ public class ProductRequest extends Request {
     }
 
     public Product getProduct() {
-        return product;
+        return ProductController.getProductById(product);
     }
 }

@@ -1,31 +1,37 @@
 package Model;
 
+import Controller.ProductController;
+import Controller.SellerController;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 public class OffRequest extends Request {
-    private Off off;
+    private String offId;
     private Date beginTime;
     private Date endTime;
     private int offPercent;
-    private ArrayList<Product> onSaleProducts;
+    private ArrayList<String> onSaleProducts;
     private boolean isEditing;
 
     public OffRequest(String id, Off off , boolean isEditing) {
         super(id);
-        this.off = off;
+        this.offId = off.getOffId();
         this.isEditing = isEditing;
     }
 
     public Off getOff() {
-        return off;
+        return SellerController.getInstance().getOffById(offId);
     }
 
     public void setOff(Date beginTime , Date endTime , int offPercent , ArrayList<Product> onSaleProducts){
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.offPercent = offPercent;
-        this.onSaleProducts = onSaleProducts;
+        this.onSaleProducts = new ArrayList<>();
+        for (Product product : onSaleProducts) {
+            this.onSaleProducts.add(product.getProductId());
+        }
     }
 
     public Date getBeginTime() {
@@ -41,7 +47,11 @@ public class OffRequest extends Request {
     }
 
     public ArrayList<Product> getOnSaleProducts() {
-        return onSaleProducts;
+        ArrayList<Product> output = new ArrayList<>();
+        for (String onSaleProduct : onSaleProducts) {
+            output.add(ProductController.getProductById(onSaleProduct));
+        }
+        return output;
     }
 
     public boolean getIsEditing() {

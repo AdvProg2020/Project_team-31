@@ -272,7 +272,7 @@ public class ProductController {
     }
 
     public void addComment(User user, Product product, String title, String content) {
-        product.addComment(new Comment((Customer) user, product, title, content, ((Customer) user).getRecentShoppingProducts().contains(product)));
+        product.addComment(new Comment((Customer) user, title, content, ((Customer) user).getRecentShoppingProducts().contains(product)));
     }
 
     public static Product getProductById(String productId) {
