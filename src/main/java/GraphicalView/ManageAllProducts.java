@@ -32,6 +32,7 @@ public class ManageAllProducts implements Initializable {
         AddChart();
     }
 
+
     private void AddChart() {
         TableColumn<BuyingLogShow, String> productId = new TableColumn<>("productId");
         productId.setMinWidth(150);

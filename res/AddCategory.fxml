@@ -12,5 +12,8 @@
     <Button layoutX="217.0" layoutY="308.0" mnemonicParsing="false" onMouseClicked="#back" prefWidth="100" text="back" />
    <TextField fx:id="categoryName" layoutX="217.0" layoutY="38.0" promptText="name" />
    <Button layoutX="217.0" layoutY="238.0" mnemonicParsing="false" onMouseClicked="#create" prefWidth="100" text="create" />
+   <Button fx:id="login" layoutX="367.0" layoutY="240.0" minWidth="100" mnemonicParsing="false" text="login" />
+   <Button fx:id="logout" layoutX="486.0" layoutY="238.0" minWidth="100" mnemonicParsing="false" text="logout" />
+   <Button layoutX="409.0" layoutY="309.0" minWidth="100" mnemonicParsing="false" text="User Area" onMouseClicked="#userArea" />
 
 </Pane>

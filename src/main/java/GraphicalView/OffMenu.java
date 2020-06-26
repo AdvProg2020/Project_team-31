@@ -7,14 +7,12 @@ import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -35,6 +33,8 @@ public class OffMenu implements Initializable {
     public TableView tableOfProducts;
     public static TableView tempTable;
     public static Stage filterStageToSave;
+    public Button login;
+    public Button logout;
 
     public void back(MouseEvent mouseEvent) {
         Runner.buttonSound();
@@ -43,6 +43,8 @@ public class OffMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loginAlert();
+        logoutAlert();
         tempTable = tableOfProducts;
         Runner.getInstance().changeMusic("OffMenu");
         addButtonToTable();
@@ -54,6 +56,34 @@ public class OffMenu implements Initializable {
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         percentColumn.setCellValueFactory(new PropertyValueFactory<>("percent"));
         setOffedProducts();
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
+
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (DataBase.getInstance().user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                Runner.getInstance().changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            message.setContentText("you logged out successfully");
+            message.show();
+            DataBase.getInstance().logout();
+        };
+        logout.setOnAction(event);
     }
 
     private void addButtonToTable() {

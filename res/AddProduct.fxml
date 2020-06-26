@@ -49,9 +49,10 @@
                 </VBox>
                 <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <children>
-                        <VBox fx:id="choiceBoxContainer" prefHeight="200.0" prefWidth="200.0">
+                        <VBox fx:id="choiceBoxContainer" prefHeight="99.0" prefWidth="200.0">
                             <children>
                                 <Label text=" " />
+                            <Button fx:id="categoryFeaturesButton" mnemonicParsing="false" text="set category features" />
                             </children>
                         </VBox>
                         <VBox>
@@ -64,7 +65,13 @@
                     </children>
                 </HBox>
                 <Button mnemonicParsing="false" onMouseClicked="#selectFile" text="select photo" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                <Button fx:id="categoryFeaturesButton" mnemonicParsing="false" text="set category features" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <HBox prefHeight="41.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <Button fx:id="login" minWidth="75" mnemonicParsing="false" text="login" />
+                  <Button fx:id="logout" minWidth="75" mnemonicParsing="false" text="logout" />
+                  <Button minWidth="75" mnemonicParsing="false" text="userArea" onMouseClicked="#userArea"/>
+               </children>
+            </HBox>
             </children>
         </GridPane>
     </children>

@@ -4,16 +4,22 @@ import GraphicalView.DataBase;
 import GraphicalView.Runner;
 import Model.Customer;
 import Model.DiscountCode;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 
+import java.net.URL;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class DiscountCodeViewOnGUI {
     DiscountCode discountCode;
     Button showCustomers;
     Button edit;
-DataBase dataBase=DataBase.getInstance();
+    DataBase dataBase=DataBase.getInstance();
     public Button getShowCustomers() {
         return showCustomers;
     }
@@ -64,4 +70,5 @@ DataBase dataBase=DataBase.getInstance();
     public String getMaximumDiscount() {
         return String.valueOf(discountCode.getMaximumDiscount());
     }
+
 }

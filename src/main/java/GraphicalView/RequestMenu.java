@@ -5,11 +5,9 @@ import Model.Request;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
@@ -21,12 +19,44 @@ public class RequestMenu implements Initializable {
     public TableColumn idColumn;
     public TableView tableOfRequest;
     public static Request request;
+    public Button logout;
+    public Button login;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loginAlert();
+        logoutAlert();
         idColumn.setCellValueFactory(new PropertyValueFactory<>("requestId"));
         addButton();
         setTable();
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
+
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (DataBase.getInstance().user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                Runner.getInstance().changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            message.setContentText("you logged out successfully");
+            message.show();
+            DataBase.getInstance().logout();
+        };
+        logout.setOnAction(event);
     }
 
     private void setTable() {

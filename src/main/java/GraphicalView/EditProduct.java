@@ -35,6 +35,7 @@ public class EditProduct implements Initializable {
     public TextField number;
     public VBox choiceBoxContainer;
     public Button categoryFeaturesButton;
+    public Button logout;
     HashMap<Label, TextField> data = new HashMap<>();
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
@@ -44,9 +45,25 @@ public class EditProduct implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logoutAlert();
         setCategoryFeatures();
         dropDownListSetUp();
         initValues();
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            message.setContentText("you logged out successfully");
+            message.show();
+            DataBase.getInstance().logout();
+        };
+        logout.setOnAction(event);
     }
 
     private void initValues() {

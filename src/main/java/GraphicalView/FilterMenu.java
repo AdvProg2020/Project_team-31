@@ -3,6 +3,8 @@ package GraphicalView;
 import Controller.ProductController;
 import Model.User;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;

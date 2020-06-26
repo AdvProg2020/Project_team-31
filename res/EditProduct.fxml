@@ -1,77 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-      prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.EditProduct">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.EditProduct">
     <children>
-        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                  prefHeight="400.0" prefWidth="600.0">
+        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="132" minHeight="10.0" prefHeight="131.99999237060547" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="134" minHeight="10.0" prefHeight="97.33334096272787" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="211.6" minHeight="0.0" prefHeight="70.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="225.3" minHeight="13.666666666666686" prefHeight="101.33333333333331"/>
+                <RowConstraints maxHeight="132" minHeight="10.0" prefHeight="131.99999237060547" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="134" minHeight="10.0" prefHeight="97.33334096272787" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="211.6" minHeight="0.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="225.3" minHeight="13.666666666666686" prefHeight="101.33333333333331" />
             </rowConstraints>
             <children>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <children>
-                        <Label text="product name"/>
-                        <TextField fx:id="productName"/>
+                        <Label text="product name" />
+                        <TextField fx:id="productName" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                     <children>
-                        <Label text="company name"/>
-                        <TextField fx:id="companyName"/>
+                        <Label text="company name" />
+                        <TextField fx:id="companyName" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
                     <children>
-                        <Label text="price"/>
-                        <TextField fx:id="price"/>
+                        <Label text="price" />
+                        <TextField fx:id="price" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                     <children>
-                        <Label text="description : "/>
-                        <TextArea fx:id="description" prefHeight="96.0" prefWidth="300.0"/>
+                        <Label text="description : " />
+                        <TextArea fx:id="description" prefHeight="96.0" prefWidth="300.0" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <children>
-                        <Label text="product available number"/>
-                        <TextField fx:id="number"/>
+                        <Label text="product available number" />
+                        <TextField fx:id="number" />
                     </children>
                 </VBox>
                 <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <children>
                         <VBox fx:id="choiceBoxContainer" prefHeight="200.0" prefWidth="200.0">
                             <children>
-                                <Label text=" "/>
+                                <Label text=" " />
+                            <Button fx:id="categoryFeaturesButton" mnemonicParsing="false" text="set category features" />
                             </children>
                         </VBox>
                         <VBox>
                             <children>
-                                <Label text=" "/>
-                                <Button mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="97.0"
-                                        text="back"/>
-                                <Button mnemonicParsing="false" onAction="#submit" prefHeight="25.0" prefWidth="98.0"
-                                        text="submit"/>
+                                <Label text=" " />
+                                <Button mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="97.0" text="back" />
+                                <Button mnemonicParsing="false" onAction="#submit" prefHeight="25.0" prefWidth="98.0" text="submit" />
                             </children>
                         </VBox>
                     </children>
                 </HBox>
-                <Button mnemonicParsing="false" onMouseClicked="#selectFile" text="select photo"
-                        GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3"
-                        GridPane.valignment="CENTER"/>
-                <Button fx:id="categoryFeaturesButton" mnemonicParsing="false" text="set category features"
-                        GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3"
-                        GridPane.valignment="CENTER"/>
+                <Button mnemonicParsing="false" onMouseClicked="#selectFile" text="select photo" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <Button fx:id="logout" mnemonicParsing="false" text="logout" />
+                  <Button mnemonicParsing="false" text="User Area" onMouseClicked="#userArea"/>
+               </children>
+            </HBox>
             </children>
         </GridPane>
     </children>

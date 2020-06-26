@@ -25,16 +25,33 @@ public class ManageUsers implements Initializable {
     public TableView tableOfUsers;
     public TableColumn userNameColumn;
     public TableColumn lastColumn;
+    public Button logout;
     private User deletingUser;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logoutAlert();
         userNameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         lastColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         addButtonToTable();
         setTableOfUsers();
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            message.setContentText("you logged out successfully");
+            message.show();
+            DataBase.getInstance().logout();
+        };
+        logout.setOnAction(event);
     }
 
     private void setTableOfUsers() {

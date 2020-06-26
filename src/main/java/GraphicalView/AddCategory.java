@@ -1,21 +1,25 @@
 package GraphicalView;
 
 import Controller.ManagerController;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class AddCategory {
+public class AddCategory implements Initializable {
     public VBox properties;
     public TextField newFeature;
     public TextField removingFeature;
     public TextField categoryName;
     public ArrayList<String> features = new ArrayList<>();
+    public Button login;
+    public Button logout;
 
     public void create(MouseEvent mouseEvent) {
         Alert alert;
@@ -71,5 +75,39 @@ public class AddCategory {
         for (String s : features) {
             properties.getChildren().add(new Label(s));
         }
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
+
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (DataBase.getInstance().user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                Runner.getInstance().changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            message.setContentText("you logged out successfully");
+            message.show();
+            DataBase.getInstance().logout();
+        };
+        logout.setOnAction(event);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        loginAlert();
+        logoutAlert();
     }
 }

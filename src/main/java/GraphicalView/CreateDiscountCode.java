@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
@@ -183,5 +184,9 @@ public class CreateDiscountCode implements Initializable {
         else if (maximumPrice.getText().equals(""))
             return "maximum price";
         return null;
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
     }
 }

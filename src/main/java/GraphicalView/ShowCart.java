@@ -29,6 +29,8 @@ public class ShowCart implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loginAlert();
+        logoutAlert();
         addShowButtonToTable();
         addDecreaseButtonToTable();
         addIncreaseButtonToTable();

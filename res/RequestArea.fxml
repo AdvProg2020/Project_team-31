@@ -3,10 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.RequestArea">
-      <VBox fx:id="detail" layoutX="14.0" layoutY="14.0" prefHeight="289.0" prefWidth="267.0" stylesheets="@/Style.css"/>
-      <Button layoutX="319.0" layoutY="39.0" mnemonicParsing="false" text="accept" minWidth="75" onMouseClicked="#accept" />
-      <Button layoutX="319.0" layoutY="88.0" mnemonicParsing="false" text="decline" minWidth="75" onMouseClicked="#decline"/>
-      <Button layoutX="319.0" layoutY="134.0" mnemonicParsing="false" text="back" minWidth="75" onMouseClicked="#back"/>
+<Pane stylesheets="@/Style.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.RequestArea">
+      <VBox fx:id="detail" layoutX="14.0" layoutY="14.0" prefHeight="289.0" prefWidth="267.0" />
+      <Button layoutX="319.0" layoutY="39.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#accept" text="accept" />
+      <Button layoutX="319.0" layoutY="88.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#decline" text="decline" />
+      <Button layoutX="319.0" layoutY="134.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#back" text="back" />
+   <Button fx:id="logout" layoutX="319.0" layoutY="175.0" mnemonicParsing="false" text="logout" minWidth="75"/>
+   <Button layoutX="319.0" layoutY="217.0" mnemonicParsing="false" text="User Area" onMouseClicked="#userArea"/>
 </Pane>
