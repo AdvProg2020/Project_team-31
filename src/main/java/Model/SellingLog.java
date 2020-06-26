@@ -1,17 +1,19 @@
 package Model;
 
+import Controller.ProductController;
+
 import java.util.Date;
 
 public class SellingLog extends Log {
     private int totalPriceArrived;
     private int amountOfOff;
-    private Product buyingProducts;
+    private String buyingProduct;
 
     public SellingLog(String id, Date date, int totalPriceArrived, int amountOfOff, Product buyingProducts, Customer customer) {
         super(id, date, customer);
         this.totalPriceArrived = totalPriceArrived;
         this.amountOfOff = amountOfOff;
-        this.buyingProducts = buyingProducts;
+        this.buyingProduct = buyingProducts.getProductId();
     }
 
     public int getTotalPriceArrived() {
@@ -23,10 +25,10 @@ public class SellingLog extends Log {
     }
 
     public String getProductName() {
-       return buyingProducts.getName();
+        return ProductController.getProductById(buyingProduct).getName();
     }
 
     public Product getBuyingProducts() {
-        return buyingProducts;
+        return ProductController.getProductById(buyingProduct);
     }
 }

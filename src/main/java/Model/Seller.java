@@ -1,13 +1,18 @@
 package Model;
 
+import Controller.ProductController;
+import Controller.SellerController;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 
 public class Seller extends User implements Serializable{
     private String companyName;
     private ArrayList<SellingLog> allSellingLogs;
-    private ArrayList<Product> onSaleProducts;
-    private ArrayList<Off> sellerOffs;
+    private ArrayList<String> onSaleProducts;
+    private ArrayList<String> sellerOffs;
     private static ArrayList<Seller> allSellers = new ArrayList<>();
 
     public Seller(String name, String lastName, String username, String emailAddress, String  phoneNumber, String password, String companyName) {
@@ -19,15 +24,19 @@ public class Seller extends User implements Serializable{
     }
 
     public ArrayList<Off> getSellerOffs() {
-        return sellerOffs;
+        ArrayList<Off> output = new ArrayList<>();
+        for (String offId : sellerOffs) {
+            output.add(SellerController.getInstance().getOffById(offId));
+        }
+        return output;
     }
 
     public void addOffToThisSeller(Off newOff) {
-        sellerOffs.add(newOff);
+        sellerOffs.add(newOff.getOffId());
     }
 
     public void removeOffFromThisSeller(Off removingOff) {
-        sellerOffs.remove(removingOff);
+        sellerOffs.remove(removingOff.getOffId());
     }
 
     public void setCompanyName(String companyName) {
@@ -39,7 +48,7 @@ public class Seller extends User implements Serializable{
     }
 
     public void removeProduct(Product product){
-        this.onSaleProducts.remove(product);
+        this.onSaleProducts.remove(product.getProductId());
     }
 
     public static ArrayList<Seller> getAllSellers() {
@@ -59,11 +68,15 @@ public class Seller extends User implements Serializable{
     }
 
     public ArrayList<Product> getOnSaleProducts() {
-        return this.onSaleProducts;
+        ArrayList<Product> outPut = new ArrayList<>();
+        for (String product : onSaleProducts) {
+            outPut.add(ProductController.getProductById(product));
+        }
+        return outPut;
     }
 
     public  void  addProduct(Product product){
-        this.onSaleProducts.add(product);
+        this.onSaleProducts.add(product.getProductId());
     }
 
     public static void logToFile(){

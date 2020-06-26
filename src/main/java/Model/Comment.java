@@ -1,7 +1,9 @@
 package Model;
 
+import Controller.LoginController;
+
 public class Comment {
-    private Customer customer;
+    private String customer;
     private String commentTitle;
     private String commentContent;
     private Boolean isBuyer;
@@ -9,7 +11,7 @@ public class Comment {
 
     public Comment(Customer customer, String commentTitle, String commentContent, Boolean isBuyer) {
         this.isBuyer = isBuyer;
-        this.customer = customer;
+        this.customer = customer.getUsername();
         this.commentTitle = commentTitle;
         this.commentContent = commentContent;
         this.commentStatus = CommentStatus.waiting;
@@ -23,7 +25,7 @@ public class Comment {
     }
 
     public Customer getCustomer() {
-        return customer;
+        return (Customer) LoginController.getUserByUsername(customer);
     }
 
     public String getCommentTitle() {

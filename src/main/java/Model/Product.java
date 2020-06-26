@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.ManagerController;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -16,7 +17,7 @@ public class Product implements Serializable {
     private HashMap<Seller, Integer> sellersOfThisProduct;
     private int minimumPrice;
     private int customersWhoRated;
-    private Category category;
+    private String categoryName;
     private int sumOfCustomersRate;
     private ArrayList<Comment> allComments = new ArrayList<>();
     private ArrayList<Off> offs;
@@ -40,7 +41,7 @@ public class Product implements Serializable {
         this.company = company;
         this.sellersOfThisProduct = new HashMap<>();
         this.sellersOfThisProduct = sellersOfThisProduct;
-        this.category = category;
+        this.categoryName = category.getName();
         this.productStatus = ProductAndOffStatus.CREATING;
         this.information = information;
         this.specialPropertiesRelatedToCategory = new HashMap<>();
@@ -191,7 +192,7 @@ public class Product implements Serializable {
     }
 
     public Category getCategory() {
-        return category;
+        return ManagerController.getCategoryByName(categoryName);
     }
 
     public void addComment(Comment comment) {

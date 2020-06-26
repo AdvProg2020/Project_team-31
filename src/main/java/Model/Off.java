@@ -1,5 +1,8 @@
 package Model;
 
+import Controller.LoginController;
+import Controller.ProductController;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,22 +12,24 @@ public class Off implements Serializable {
     private Date beginTime;
     private Date endTime;
     private int offPercent;
-    private ArrayList<Product> onSaleProducts;
-    private Seller seller;
+    private ArrayList<String> onSaleProducts;
+    private String seller;
     private ProductAndOffStatus offStatus;
     private static ArrayList<Off> allOffs = new ArrayList<>();
     private static int numberOfOffsCreated = 0;
 
     public Off(Seller seller, String offId, Date beginTime, Date endTime, int offAmount, ArrayList<Product> products) {
         numberOfOffsCreated++;
-        this.seller = seller;
+        this.seller = seller.getUsername();
         this.offId = offId;
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.offPercent = offAmount;
         this.offStatus = ProductAndOffStatus.CREATING;
         this.onSaleProducts = new ArrayList<>();
-        this.onSaleProducts = products;
+        for (Product product : products) {
+            onSaleProducts.add(product.getProductId());
+        }
         allOffs.add(this);
     }
 
@@ -45,7 +50,11 @@ public class Off implements Serializable {
     }
 
     public ArrayList<Product> getOnSaleProducts() {
-        return onSaleProducts;
+        ArrayList<Product> output = new ArrayList<>();
+        for (String saleProduct : onSaleProducts) {
+            output.add(ProductController.getProductById(saleProduct));
+        }
+        return output;
     }
 
     public void removeOff() {
@@ -57,7 +66,7 @@ public class Off implements Serializable {
     }
 
     public Seller getSeller() {
-        return seller;
+        return (Seller) LoginController.getUserByUsername(seller);
     }
 
     public static ArrayList<Off> getAllOffs() {
@@ -85,8 +94,12 @@ public class Off implements Serializable {
     }
 
     public void setOnSaleProducts(ArrayList<Product> onSaleProducts) {
-        this.onSaleProducts = onSaleProducts;
+        this.onSaleProducts = new ArrayList<>();
+        for (Product product : onSaleProducts) {
+            this.onSaleProducts.add(product.getProductId());
+        }
     }
+
     public static void logToFile(){
         try{
             FileOutputStream file = new FileOutputStream("src/project files/allOffs.txt");
