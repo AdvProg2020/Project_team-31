@@ -58,6 +58,8 @@ public class Product implements Serializable {
 
     public ImageView getImageViewBig() {
         ImageView imageView = new ImageView(image);
+        if (available == 0)
+            imageView.setOpacity(0.5);
         imageView.setFitHeight(70);
         imageView.setFitWidth(70);
         return imageView;
@@ -65,6 +67,8 @@ public class Product implements Serializable {
 
     public ImageView getImageViewSmall() {
         ImageView imageView = new ImageView(image);
+        if (available == 0)
+            imageView.setOpacity(0.5);
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         return imageView;
