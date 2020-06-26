@@ -3,9 +3,13 @@ package Controller;
 import Model.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,6 +17,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class SellerController {
+    static File myfiles = null;
     private static SellerController sellerControllerInstance = new SellerController();
 
     private SellerController() {
@@ -126,8 +131,19 @@ public class SellerController {
     }
 
     public void changeProductPhoto(Product product, File photo) throws IOException {
-        Image image=new Image(photo.toURI().toString());
-        product.setImage(image);
+        String ext1 = FilenameUtils.getExtension(photo.toURI().toString());
+        String path = product.getProductId() + "." + ext1;
+        product.setImageFile(path);
+        byte[] fileContent = Files.readAllBytes(photo.toPath());
+        if (myfiles == null) {
+            myfiles = new File("Photos");
+            myfiles.mkdirs();
+        }
+        File tmp = new File(myfiles, path);
+        tmp.createNewFile();
+        OutputStream out = new FileOutputStream(tmp);
+        out.write(fileContent);
+        out.close();
     }
 
     public Product editProduct(User user, String productId, int price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {
