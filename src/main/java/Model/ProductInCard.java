@@ -1,18 +1,21 @@
 package Model;
 
+import Controller.LoginController;
+import Controller.ProductController;
+
 public class ProductInCard {
-    private Product product;
+    private String productId;
     private int number;
-    private Seller seller;
+    private String sellerId;
 
     public ProductInCard(Product product, Seller seller) {
-        this.product = product;
-        this.seller = seller;
+        productId = product.getProductId();
+        sellerId = seller.getUsername();
         number = 1;
     }
 
     public Product getProduct() {
-        return product;
+        return ProductController.getProductById(productId);
     }
 
     public void changeNumberOfProduct(int i) {
@@ -24,6 +27,6 @@ public class ProductInCard {
     }
 
     public Seller getSeller() {
-        return seller;
+        return (Seller) LoginController.getUserByUsername(sellerId);
     }
 }

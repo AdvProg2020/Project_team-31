@@ -1,11 +1,13 @@
 package Model;
 
+import Controller.LoginController;
+
 import java.util.Date;
 
 public class Log {
     protected String logId;
     protected Date date;
-    protected Customer customer;
+    protected String customerId;
     protected DeliveryStatus deliveryStatus;
     private static int numberOfLogCreated = 0;
 
@@ -13,7 +15,7 @@ public class Log {
         numberOfLogCreated++;
         this.logId = logId;
         this.date = date;
-        this.customer = customer;
+        customerId = customer.getUsername();
         this.deliveryStatus = DeliveryStatus.ready;
     }
 
@@ -26,7 +28,7 @@ public class Log {
     }
 
     public Customer getCustomer() {
-        return customer;
+        return (Customer) LoginController.getUserByUsername(customerId);
     }
 
     public String getLogId() {

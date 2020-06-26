@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.ProductController;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,16 +9,17 @@ import java.util.HashMap;
 public class BuyingLog extends Log{
     private int totalPrice;
     private int discountAmount;
-    private HashMap<Product, ProductInCard> buyingProducts;
+    private HashMap<String, ProductInCard> buyingProducts;
     private String[] personalInformation;
 
     public BuyingLog(String id, int totalPrice, Customer customer, HashMap<Product, ProductInCard> buyingProducts, String[] personalInformation) {
         super(id, null, customer);
         this.totalPrice = totalPrice;
         this.discountAmount = 0;
-        this.customer = customer;
         this.buyingProducts  = new HashMap<>();
-        this.buyingProducts = buyingProducts;
+        for (Product product : buyingProducts.keySet()) {
+            this.buyingProducts.put(product.getProductId(),buyingProducts.get(product));
+        }
         this.personalInformation = personalInformation;
     }
 
@@ -37,6 +40,10 @@ public class BuyingLog extends Log{
     }
 
     public HashMap<Product, ProductInCard> getBuyingProducts() {
-        return buyingProducts;
+        HashMap<Product, ProductInCard> output = new HashMap<>();
+        for (String s : buyingProducts.keySet()) {
+            output.put(ProductController.getProductById(s), buyingProducts.get(s));
+        }
+        return output;
     }
 }
