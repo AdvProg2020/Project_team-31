@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Product implements Serializable {
-    private Image image;
+    //    private Image image;
+    private String imageFile;
     private String productId;
     private String name;
     private String company;
@@ -52,16 +53,46 @@ public class Product implements Serializable {
         allProducts.add(this);
     }
 
-    public Image getImage() {
-        return image;
-    }
+//    public Image getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(Image image) {
+//        this.image = image;
+//    }
+//
+//    public ImageView getImageViewBig() {
+//        ImageView imageView = new ImageView(image);
+//        if (available == 0)
+//            imageView.setOpacity(0.5);
+//        imageView.setFitHeight(70);
+//        imageView.setFitWidth(70);
+//        return imageView;
+//    }
+//
+//    public ImageView getImageViewSmall() {
+//        ImageView imageView = new ImageView(image);
+//        if (available == 0)
+//            imageView.setOpacity(0.5);
+//        imageView.setFitHeight(30);
+//        imageView.setFitWidth(30);
+//        return imageView;
+//    }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public String getImageFile() {
+        return imageFile;
+    }
+public Image getImage(){
+    System.out.println(imageFile);
+    return new Image(imageFile);
+}
+    public void setImageFile(String imageFile) {
+        this.imageFile = imageFile;
     }
 
     public ImageView getImageViewBig() {
-        ImageView imageView = new ImageView(image);
+        System.out.println(imageFile);
+        ImageView imageView = new ImageView( new Image(imageFile));
         if (available == 0)
             imageView.setOpacity(0.5);
         imageView.setFitHeight(70);
@@ -70,13 +101,15 @@ public class Product implements Serializable {
     }
 
     public ImageView getImageViewSmall() {
-        ImageView imageView = new ImageView(image);
+        System.out.println(imageFile);
+        ImageView imageView = new ImageView( new Image(imageFile));
         if (available == 0)
             imageView.setOpacity(0.5);
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         return imageView;
     }
+
 
     public String getRate() {
         return rate;
