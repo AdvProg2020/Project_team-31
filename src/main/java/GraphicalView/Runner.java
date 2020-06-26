@@ -1,10 +1,12 @@
 package GraphicalView;
 
 import Controller.LoginController;
+import Controller.SaveAndLoadFiles;
 import Model.Customer;
 import Model.Manager;
 import Model.Seller;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,6 +19,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,10 +48,10 @@ public class Runner extends Application {
         initializeStage();
         changeScene("MainMenu.fxml");
         changeScene("MainMenu.fxml");
+        primaryStage.show();
         if (LoginController.getInstance().isThereAnyManager())
             popup();
         else runner.changeScene("RegisterMenu.fxml");
-        primaryStage.show();
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
@@ -78,7 +81,7 @@ public class Runner extends Application {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
         window.setScene(scene);
-        window.showAndWait();
+        window.show();
     }
 
     private void initializeStage() {
