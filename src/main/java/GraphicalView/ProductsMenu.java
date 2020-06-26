@@ -58,6 +58,7 @@ public class ProductsMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Runner.getInstance().changeMusic("ProductMenu");
         tempTable = tableOfProducts;
         setCategories();
         addButtonToTable();

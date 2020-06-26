@@ -20,6 +20,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +31,14 @@ public class Runner extends Application {
     public static Runner runner = null;
     public static Stage stage;
     DataBase dataBase = DataBase.getInstance();
-    static Media media = new Media(new File("src/ButtonSound.mp3").toURI().toString());
+    static Media media = new Media(new File("src/Music/ButtonSound.mp3").toURI().toString());
+    Media media1 = new Media(new File("src/Music/1.mp3").toURI().toString());
+    Media media2 = new Media(new File("src/Music/2.mp3").toURI().toString());
+    Media media3 = new Media(new File("src/Music/3.mp3").toURI().toString());
+    Media media4 = new Media(new File("src/Music/4.mp3").toURI().toString());
+    MediaPlayer mediaPlayer;
+    int musicNumber;
+
     public static Runner getInstance() {
         if (runner == null)
             runner = new Runner();
@@ -43,15 +52,15 @@ public class Runner extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-       SaveAndLoadFiles.start();
+        SaveAndLoadFiles.start();
         stage = primaryStage;
         initializeStage();
         changeScene("MainMenu.fxml");
         changeScene("MainMenu.fxml");
+        primaryStage.show();
         if (LoginController.getInstance().isThereAnyManager())
             popup();
         else runner.changeScene("RegisterMenu.fxml");
-        primaryStage.show();
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
@@ -59,6 +68,37 @@ public class Runner extends Application {
                 System.exit(0);
             }
         });
+    }
+
+    public void changeMusic(String pageName) {
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
+        switch (pageName) {
+            case "MainMenu":
+                if (musicNumber != 1)
+                    mediaPlayer = new MediaPlayer(media1);
+                musicNumber = 1;
+                break;
+            case "OffMenu":
+                if (musicNumber != 2)
+                    mediaPlayer = new MediaPlayer(media2);
+                musicNumber = 2;
+                break;
+            case "ProductMenu":
+                if (musicNumber != 3)
+                    mediaPlayer = new MediaPlayer(media3);
+                musicNumber = 3;
+                break;
+            case "UserArea":
+                if (musicNumber != 4)
+                    mediaPlayer = new MediaPlayer(media4);
+                musicNumber = 4;
+        }
+        mediaPlayer.setOnEndOfMedia(() -> {
+            mediaPlayer.seek(Duration.ZERO);
+            mediaPlayer.play();
+        });
+        mediaPlayer.play();
     }
 
     private void popup() {
@@ -81,7 +121,7 @@ public class Runner extends Application {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
         window.setScene(scene);
-        window.showAndWait();
+        window.show();
     }
 
     private void initializeStage() {
@@ -115,6 +155,7 @@ public class Runner extends Application {
     public static void buttonSound() {
         MediaPlayer player = new MediaPlayer(media);
         player.play();
+
     }
 
     public void back() {

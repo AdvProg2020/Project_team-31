@@ -20,6 +20,7 @@ public class ManagerUserArea implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        runner.changeMusic("UserArea");
         logoutAlert();
         showPersonalInfo();
     }
