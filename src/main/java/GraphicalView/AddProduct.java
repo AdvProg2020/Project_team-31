@@ -86,7 +86,7 @@ public class AddProduct implements Initializable {
             dataToSend.put(entry.getKey().getText(), entry.getValue().getText());
         }
         return generalData;
-}
+    }
 
     public void back(ActionEvent actionEvent) {
         runner.back();
@@ -124,11 +124,11 @@ public class AddProduct implements Initializable {
             return "product name";
         else if (companyName.getText().equals(""))
             return "company name";
-        else if (price.getText().equals("") || !price.getText().matches("^\\d+$") || Integer.parseInt(price.getText())>0)
+        else if (price.getText().equals("") || !price.getText().matches("^\\d+$") || Integer.parseInt(price.getText()) < 0)
             return "price";
         else if (description.getText().equals(""))
             return "description";
-        else if (number.getText().equals("") || !number.getText().matches("^\\d+$") || Integer.parseInt(number.getText()) > 0)
+        else if (number.getText().equals("") || !number.getText().matches("^\\d+$") || Integer.parseInt(number.getText()) < 0)
             return "number";
         else if (choiceBox.getValue().equals(""))
             return "category name";
