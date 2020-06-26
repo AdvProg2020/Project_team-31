@@ -61,6 +61,7 @@ public class SellerUserArea implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         runner.back();
     }
 
@@ -68,7 +69,10 @@ public class SellerUserArea implements Initializable {
     private void editPersonalInfoAlert() {
         if (dataBase.user == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            EventHandler<ActionEvent> event = (e) -> alert.show();
+            EventHandler<ActionEvent> event = (e) -> {
+                Runner.buttonSound();
+                alert.show();
+            };
             editPersonaInfo.setOnAction(event);
             alert.setContentText("You have to login");
         } else {
@@ -81,6 +85,7 @@ public class SellerUserArea implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user == null) {
                 error.setContentText("You have not logged in!");
                 error.show();
@@ -94,20 +99,24 @@ public class SellerUserArea implements Initializable {
     }
 
     public void salesHistory(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         runner.changeScene("SellerHistory.fxml");
     }
 
     public void showCategories(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         runner.changeScene("ShowCategories.fxml");
     }
 
     public void addProduct(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         runner.changeScene("AddProduct.fxml");
     }
 
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user != null) {
                 error.setContentText("You have logged in!");
                 error.show();
@@ -119,6 +128,7 @@ public class SellerUserArea implements Initializable {
     }
 
     public void addMeButtonAlert(ActionEvent actionEvent) {
+        Runner.buttonSound();
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("add seller");
         ButtonType buttonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
@@ -164,14 +174,17 @@ public class SellerUserArea implements Initializable {
     }
 
     public void addOff(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("SellerAddOff.fxml");
     }
 
     public void sellerOffsShow(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("SellerViewOffs.fxml");
     }
 
     public void manageProducts(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("ManageProducts.fxml");
     }
 }

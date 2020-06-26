@@ -34,6 +34,7 @@ public class MainMenu implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user == null) {
                 error.setContentText("You have not logged in!");
                 error.show();
@@ -47,12 +48,14 @@ public class MainMenu implements Initializable {
     }
 
     public void userAreaChangeScene(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         runner.setUserAreaScene();
     }
 
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user != null) {
                 error.setContentText("You have logged in!");
                 error.show();
@@ -64,10 +67,12 @@ public class MainMenu implements Initializable {
     }
 
     public void products(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().changeScene("Products.fxml");
     }
 
     public void offs(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().changeScene("OffMenu.fxml");
     }
 }

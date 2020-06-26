@@ -62,12 +62,14 @@ public class ManageProducts implements Initializable {
     }
 
     public void back(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.back();
     }
 
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user != null) {
                 error.setContentText("You have logged in!");
                 error.show();
@@ -81,6 +83,7 @@ public class ManageProducts implements Initializable {
     private void logoutAlert() {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             message.setContentText("you logged out successfully");
             message.show();
             dataBase.logout();

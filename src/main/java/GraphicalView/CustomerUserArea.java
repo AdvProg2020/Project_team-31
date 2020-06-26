@@ -74,7 +74,10 @@ public class CustomerUserArea implements Initializable {
     private void addBalanceDialog() {
         if (dataBase.user == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            EventHandler<ActionEvent> event = (e) -> alert.show();
+            EventHandler<ActionEvent> event = (e) -> {
+                Runner.buttonSound();
+                alert.show();
+            };
             addBalance.setOnAction(event);
             alert.setContentText("You have to login");
         } else {
@@ -82,12 +85,16 @@ public class CustomerUserArea implements Initializable {
             getNumber.getEditor().setPromptText("how mach do you want to add?");
             data.bind(getNumber.getEditor().textProperty());
             Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
-            EventHandler<ActionEvent> addBalanceEvent = (e) -> addBalance();
+            EventHandler<ActionEvent> addBalanceEvent = (e) -> {
+                Runner.buttonSound();
+                addBalance();};
             okButton.setOnAction(addBalanceEvent);
             TextField inputField = getNumber.getEditor();
             BooleanBinding isInvalid = Bindings.createBooleanBinding(() -> isInvalid(inputField.getText()), inputField.textProperty());
             okButton.disableProperty().bind(isInvalid);
-            EventHandler<ActionEvent> event = (e) -> getNumber.show();
+            EventHandler<ActionEvent> event = (e) ->{
+                Runner.buttonSound();
+                getNumber.show();};
             addBalance.setOnAction(event);
         }
     }
@@ -110,11 +117,15 @@ public class CustomerUserArea implements Initializable {
     private void editPersonalInfoAlert() {
         if (dataBase.user == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            EventHandler<ActionEvent> event = (e) -> alert.show();
+            EventHandler<ActionEvent> event = (e) -> {
+                Runner.buttonSound();
+                alert.show();};
             editPersonalInfo.setOnAction(event);
             alert.setContentText("You have to login");
         } else {
-            EventHandler<ActionEvent> event = (e) -> runner.changeScene("EditPersonalInfo.fxml");
+            EventHandler<ActionEvent> event = (e) -> {
+                Runner.buttonSound();
+                runner.changeScene("EditPersonalInfo.fxml");};
             editPersonalInfo.setOnAction(event);
         }
     }
@@ -123,6 +134,7 @@ public class CustomerUserArea implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user == null) {
                 error.setContentText("You have not logged in!");
                 error.show();
@@ -136,6 +148,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         runner.back();
     }
 
@@ -143,6 +156,7 @@ public class CustomerUserArea implements Initializable {
     public void buyingHistory() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user == null) {
                 error.setContentText("You have not logged in!");
                 error.show();
@@ -156,6 +170,7 @@ public class CustomerUserArea implements Initializable {
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user != null) {
                 error.setContentText("You have logged in!");
                 error.show();
@@ -167,6 +182,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     public void showCart(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("ShowCart.fxml");
     }
 

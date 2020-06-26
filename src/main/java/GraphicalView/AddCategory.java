@@ -18,7 +18,8 @@ public class AddCategory {
     public ArrayList<String> features = new ArrayList<>();
 
     public void create(MouseEvent mouseEvent) {
-        Alert alert = null;
+        Alert alert;
+        Runner.buttonSound();
         if(categoryName.getText().equals("")) {
             alert = new Alert(Alert.AlertType.ERROR, "please write category name", ButtonType.OK);
         } else if(features.size() == 0) {
@@ -32,10 +33,12 @@ public class AddCategory {
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().back();
     }
 
     public void addFeature(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if(newFeature.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "please fill field", ButtonType.OK);
             alert.show();
@@ -49,6 +52,7 @@ public class AddCategory {
     }
 
     public void removeFeature(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if(removingFeature.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "please fill field", ButtonType.OK);
             alert.show();

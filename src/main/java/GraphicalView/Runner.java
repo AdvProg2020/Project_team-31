@@ -1,30 +1,24 @@
 package GraphicalView;
 
 import Controller.LoginController;
-import Controller.ManagerController;
-import Controller.SaveAndLoadFiles;
 import Model.Customer;
 import Model.Manager;
 import Model.Seller;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -32,7 +26,7 @@ public class Runner extends Application {
     public static Runner runner = null;
     public static Stage stage;
     DataBase dataBase = DataBase.getInstance();
-
+    static Media media = new Media(new File("src/ButtonSound.mp3").toURI().toString());
     public static Runner getInstance() {
         if (runner == null)
             runner = new Runner();
@@ -113,6 +107,11 @@ public class Runner extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void buttonSound() {
+        MediaPlayer player = new MediaPlayer(media);
+        player.play();
     }
 
     public void back() {

@@ -107,6 +107,7 @@ public class ProductArea implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
             if (DataBase.getInstance().user != null) {
+                Runner.buttonSound();
                 error.setContentText("You have logged in!");
                 error.show();
             } else {
@@ -120,6 +121,7 @@ public class ProductArea implements Initializable {
     public void logout() {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             message.setContentText("you logged out successfully");
             message.show();
             DataBase.getInstance().logout();
@@ -141,6 +143,7 @@ public class ProductArea implements Initializable {
     }
 
     public void changeSeller(ActionEvent actionEvent) {
+        Runner.buttonSound();
         Off productOff = null;
         for (Off off : product.getOffs()) {
             if (off.getSeller().getUsername().equals(sellers.getValue())) {
@@ -158,6 +161,7 @@ public class ProductArea implements Initializable {
     }
 
     public void addThisProductToCard(javafx.scene.input.MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if (sellers.getValue() == null) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please select seller!", ButtonType.OK);
             error.show();
@@ -172,6 +176,7 @@ public class ProductArea implements Initializable {
     }
 
     public void rateThisProduct(javafx.scene.input.MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if (ratePlease.getText().equals("")) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter number", ButtonType.OK);
             error.show();
@@ -188,6 +193,7 @@ public class ProductArea implements Initializable {
     }
 
     public void commentThisProduct(javafx.scene.input.MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if (commentContent.getText().equals("")) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please  write your comment", ButtonType.OK);
             error.show();
@@ -198,6 +204,7 @@ public class ProductArea implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().back();
     }
 }

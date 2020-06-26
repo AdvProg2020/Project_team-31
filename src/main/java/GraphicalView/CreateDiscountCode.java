@@ -62,10 +62,12 @@ public class CreateDiscountCode implements Initializable {
     }
 
     public void back(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.back();
     }
 
     public void addCustomer(ActionEvent actionEvent) {
+        Runner.buttonSound();
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("add customer");
         ButtonType loginButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
@@ -110,6 +112,7 @@ public class CreateDiscountCode implements Initializable {
     }
 
     public void submit(ActionEvent actionEvent) throws Exception {
+        Runner.buttonSound();
         if (isValid() != null) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isValid(), ButtonType.OK);
             error.show();
@@ -160,6 +163,7 @@ public class CreateDiscountCode implements Initializable {
     private void logoutAlert() {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             message.setContentText("you logged out successfully");
             message.show();
             dataBase.logout();

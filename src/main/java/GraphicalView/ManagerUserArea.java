@@ -27,6 +27,7 @@ public class ManagerUserArea implements Initializable {
     private void logoutAlert() {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             message.setContentText("you logged out successfully");
             message.show();
             dataBase.logout();
@@ -35,10 +36,12 @@ public class ManagerUserArea implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         runner.back();
     }
 
     public void editPersonalInfo(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("EditPersonalInfo.fxml");
     }
 
@@ -58,26 +61,32 @@ public class ManagerUserArea implements Initializable {
     }
 
     public void createDiscountCode(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("CreateDiscountCode.fxml");
     }
 
     public void manageUsers(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("ManageUsers.fxml");
     }
 
     public void manageRequests(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("RequestMenu.fxml");
     }
 
     public void manageCategories(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("ShowCategories.fxml");
     }
 
     public void manageAllProducts(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("ManageAllProducts.fxml");
     }
 
     public void viewDiscountCodes(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.changeScene("ManagerViewDiscountCodes.fxml");
     }
 }

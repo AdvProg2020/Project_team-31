@@ -39,6 +39,7 @@ public class EditCategory implements Initializable {
     }
 
     public void change(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Alert alert = null;
         if (!category.getSpecialProperties().contains(oldName.getText())) {
             alert = new Alert(Alert.AlertType.ERROR, "This category doesn't have this feature to change", ButtonType.OK);
@@ -55,6 +56,7 @@ public class EditCategory implements Initializable {
     }
 
     public void add(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Alert alert = null;
         if (newFeature.getText().equals("")) {
             alert = new Alert(Alert.AlertType.ERROR, "please fill field", ButtonType.OK);
@@ -69,6 +71,7 @@ public class EditCategory implements Initializable {
     }
 
         public void remove (MouseEvent mouseEvent){
+            Runner.buttonSound();
             Alert alert = null;
             if(removingFeature.getText().equals("")) {
                 alert = new Alert(Alert.AlertType.ERROR, "please fill field", ButtonType.OK);
@@ -83,6 +86,7 @@ public class EditCategory implements Initializable {
         }
 
         public void back (MouseEvent mouseEvent){
-        Runner.getInstance().back();
+            Runner.buttonSound();
+            Runner.getInstance().back();
         }
     }

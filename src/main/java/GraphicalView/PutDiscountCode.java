@@ -12,6 +12,7 @@ public class PutDiscountCode {
     public Button discountButton;
 
     public void putDiscount(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if(discount.getText().equals("")) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please write code" , ButtonType.OK);
             error.show();
@@ -29,10 +30,12 @@ public class PutDiscountCode {
     }
 
     public void nextStep(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().changeScene("PayMoney.fxml");
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().back();
     }
 }

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ManageUsers">
-    <TableView fx:id="tableOfUsers" layoutX="14.0" layoutY="14.0" prefHeight="270.0" prefWidth="400">
+    <TableView fx:id="tableOfUsers" stylesheets="@/Style.css" layoutX="14.0" layoutY="14.0" prefHeight="270.0" prefWidth="400">
         <columns>
             <TableColumn fx:id="userNameColumn" prefWidth="100" text="username" />
             <TableColumn fx:id="nameColumn" prefWidth="100" text="firstName" />

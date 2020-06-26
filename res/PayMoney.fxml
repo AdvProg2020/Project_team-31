@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.PayMoneyPage">
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.PayMoneyPage" stylesheets="@/Style.css">
    <children>
       <Button layoutX="263.0" layoutY="175.0" mnemonicParsing="false" text="pay money" onMouseClicked="#payMoney"/>
    </children>
