@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import javax.xml.crypto.Data;
@@ -97,5 +98,9 @@ public class ManageProducts implements Initializable {
         for (Product product : allProducts)
             list.add(new ProductViewForSellerInGUI(product, new Button("view"), new Button("edit"), new Button("delete")));
         return list;
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
     }
 }

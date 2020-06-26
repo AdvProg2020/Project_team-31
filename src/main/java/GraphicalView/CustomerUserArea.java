@@ -186,5 +186,4 @@ public class CustomerUserArea implements Initializable {
         Runner.buttonSound();
         runner.changeScene("ShowCart.fxml");
     }
-
 }

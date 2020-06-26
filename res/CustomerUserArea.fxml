@@ -49,7 +49,6 @@
                       <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#back" text="back" GridPane.rowIndex="2" />
                       <Button fx:id="login" mnemonicParsing="false" text="login" />
                       <Button fx:id="logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="1" />
-               <Button mnemonicParsing="false" text="User Area" GridPane.rowIndex="3" onMouseClicked="#userArea"/>
                   </children>
                   <columnConstraints>
                       <ColumnConstraints />

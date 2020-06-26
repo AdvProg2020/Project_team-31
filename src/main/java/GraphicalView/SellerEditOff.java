@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.text.ParseException;
@@ -128,5 +129,9 @@ public class SellerEditOff implements Initializable {
         dialog.setContentText("product ID : ");
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(id -> products.remove(id));
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
     }
 }

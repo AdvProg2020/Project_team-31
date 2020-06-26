@@ -119,4 +119,8 @@ public class EditPersonalInfo implements Initializable {
             return "company";
         return "none";
     }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
 }

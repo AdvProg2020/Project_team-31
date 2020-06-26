@@ -191,4 +191,8 @@ public class ShowCart implements Initializable {
     public void back(MouseEvent mouseEvent) {
         runner.back();
     }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
 }
