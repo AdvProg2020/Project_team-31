@@ -15,7 +15,7 @@ public class LoginController {
     }
 
     public User createTempUser() {
-        return new User(null);
+        return new User();
     }
 
     public void register(String username, String role, String[] information) throws Exception {

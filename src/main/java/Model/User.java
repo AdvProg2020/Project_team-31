@@ -28,13 +28,9 @@ public class User implements Serializable {
         filters = new HashMap<>();
     }
 
-    public User(String nullString) {
-        name = nullString;
-        filters = new HashMap<>();
-    }
-
     public User() {
         card = new Card();
+        filters = new HashMap<>();
     }
 
     public HashMap<String, String> getFilters() {

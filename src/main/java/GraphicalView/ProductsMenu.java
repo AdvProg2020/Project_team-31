@@ -127,7 +127,6 @@ public class ProductsMenu implements Initializable {
             root = FXMLLoader.load(url);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("not found");
         }
         filterStage.setScene(new Scene(root));
         filterStage.setTitle("filters");

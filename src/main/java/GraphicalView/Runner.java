@@ -1,10 +1,12 @@
 package GraphicalView;
 
 import Controller.LoginController;
+import Controller.SaveAndLoadFiles;
 import Model.Customer;
 import Model.Manager;
 import Model.Seller;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,12 +37,20 @@ public class Runner extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        SaveAndLoadFiles.start();
         stage = primaryStage;
         initializeStage();
         changeScene("MainMenu.fxml");
         if (!LoginController.getInstance().isThereAnyManager())
             runner.changeScene("RegisterMenu.fxml");
         primaryStage.show();
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+                SaveAndLoadFiles.end();
+                System.exit(0);
+            }
+        });
     }
 
     private void initializeStage() {

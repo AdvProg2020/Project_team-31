@@ -26,7 +26,6 @@ public class FilterMenu implements Initializable {
             user = DataBase.getInstance().user;
         else
             user = DataBase.getInstance().tempUser;
-        HashMap<String, String> current = user.getFilters();
         setCurrentFilters();
         available.setItems(FXCollections.observableList(ProductController.getInstance().showAvailableFiltersForUserGui(ProductsMenu.categoryName)));
     }
