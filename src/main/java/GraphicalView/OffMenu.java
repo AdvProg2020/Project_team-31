@@ -36,6 +36,7 @@ public class OffMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Runner.getInstance().changeMusic("OffMenu");
         addButtonToTable();
         imageColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

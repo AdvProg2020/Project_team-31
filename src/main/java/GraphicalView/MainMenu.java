@@ -27,6 +27,7 @@ public class MainMenu implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         logoutAlert();
         loginAlert();
+        runner.changeMusic("MainMenu");
     }
 
 
