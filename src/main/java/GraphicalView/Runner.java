@@ -10,9 +10,17 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -42,9 +50,10 @@ public class Runner extends Application {
         initializeStage();
         changeScene("MainMenu.fxml");
         changeScene("MainMenu.fxml");
-        if (!LoginController.getInstance().isThereAnyManager())
-            runner.changeScene("RegisterMenu.fxml");
+        if (!LoginController.getInstance().isThereAnyManager()) ;
+        runner.changeScene("RegisterMenu.fxml");
         primaryStage.show();
+        popup();
 //        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 //            @Override
 //            public void handle(WindowEvent e) {
@@ -52,6 +61,31 @@ public class Runner extends Application {
 //                System.exit(0);
 //            }
 //        });
+    }
+
+    private void popup() {
+        if (dataBase.user != null)
+            return;
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("hello!");
+        window.setMinWidth(350);
+        window.setMinHeight(100);
+        window.setResizable(false);
+        Label label = new Label();
+        label.setText("find best products in our app!");
+        Button closeButton = new Button("register now!");
+        closeButton.setOnAction(e -> {
+            changeScene("RegisterMenu.fxml");
+            window.close();
+        });
+        VBox layout = new VBox(20);
+        layout.setPadding(new Insets(20));
+        layout.getChildren().addAll(label, closeButton);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
     }
 
     private void initializeStage() {
