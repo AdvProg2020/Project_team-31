@@ -99,7 +99,6 @@ public class Product implements Serializable {
         return imageView;
     }
 
-
     public String getRate() {
         return rate;
     }
