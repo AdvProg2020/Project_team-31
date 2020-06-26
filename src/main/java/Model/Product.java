@@ -1,6 +1,8 @@
 package Model;
 
+import Controller.LoginController;
 import Controller.ManagerController;
+import Controller.SellerController;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -14,13 +16,13 @@ public class Product implements Serializable {
     private String name;
     private String company;
     private String rate;
-    private HashMap<Seller, Integer> sellersOfThisProduct;
+    private HashMap<String, Integer> sellersOfThisProduct;
     private int minimumPrice;
     private int customersWhoRated;
     private String categoryName;
     private int sumOfCustomersRate;
     private ArrayList<Comment> allComments = new ArrayList<>();
-    private ArrayList<Off> offs;
+    private ArrayList<String> offs;
     private int available;
     private ProductAndOffStatus productStatus;
     private String information;
@@ -33,14 +35,15 @@ public class Product implements Serializable {
         views = 0;
         rate = "0.0";
         offs = new ArrayList<>();
-        offs = null;
         numberOfProductCreated++;
         this.available = available;
         this.productId = productId;
         this.name = name;
         this.company = company;
         this.sellersOfThisProduct = new HashMap<>();
-        this.sellersOfThisProduct = sellersOfThisProduct;
+        for (Seller seller : sellersOfThisProduct.keySet()) {
+            this.sellersOfThisProduct.put(seller.getUsername(), sellersOfThisProduct.get(seller));
+        }
         this.categoryName = category.getName();
         this.productStatus = ProductAndOffStatus.CREATING;
         this.information = information;
@@ -96,23 +99,27 @@ public class Product implements Serializable {
     }
 
     public ArrayList<Off> getOffs() {
-        return offs;
+        ArrayList<Off> output = new ArrayList<>();
+        for (String s : offs) {
+            output.add(SellerController.getInstance().getOffById(s));
+        }
+        return output;
     }
 
     public void addOff(Off off) {
-        offs.add(off);
+        offs.add(off.getOffId());
     }
 
     public void removeOff(Off off) {
-        offs.remove(off);
+        offs.remove(off.getOffId());
     }
 
     public void removeSeller(Seller seller) {
-        sellersOfThisProduct.remove(seller);
+        sellersOfThisProduct.remove(seller.getUsername());
     }
 
     public void addSeller(Seller seller, int price) {
-        sellersOfThisProduct.put(seller, price);
+        sellersOfThisProduct.put(seller.getUsername(), price);
     }
 
     public HashMap<String, String> getSpecialPropertiesRelatedToCategory() {
@@ -148,7 +155,11 @@ public class Product implements Serializable {
     }
 
     public HashMap<Seller, Integer> getSellersOfThisProduct() {
-        return sellersOfThisProduct;
+        HashMap<Seller, Integer> output = new HashMap<>();
+        for (String s : sellersOfThisProduct.keySet()) {
+            output.put((Seller) LoginController.getUserByUsername(s), sellersOfThisProduct.get(s));
+        }
+        return output;
     }
 
     public int getAvailable() {

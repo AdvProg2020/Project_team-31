@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.ProductController;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -7,7 +9,7 @@ public class Category implements Serializable{
     private static ArrayList<Category> allCategories = new ArrayList<>();
     private String name;
     private ArrayList<String> specialProperties;
-    private ArrayList<Product> products;
+    private ArrayList<String> products;
 
     public Category(String name, ArrayList<String> specialProperties) {
         this.name = name;
@@ -18,7 +20,11 @@ public class Category implements Serializable{
     }
 
     public ArrayList<Product> getProducts() {
-        return products;
+        ArrayList<Product> output = new ArrayList<>();
+        for (String s : products) {
+            output.add(ProductController.getProductById(s));
+        }
+        return output;
     }
 
     public String getName() {
@@ -30,7 +36,7 @@ public class Category implements Serializable{
     }
 
     public void addProduct(Product product){
-        this.products.add(product);
+        this.products.add(product.getProductId());
     }
 
     public static ArrayList<Category> getAllCategories() {
@@ -46,7 +52,7 @@ public class Category implements Serializable{
     }
 
     public void removeProduct(Product product){
-        products.remove(product);
+        products.remove(product.getProductId());
     }
 
     public static void logToFile(){

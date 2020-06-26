@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.LoginController;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,7 +14,7 @@ public class DiscountCode implements Serializable{
     private Date endTime;
     private int discountPercent;
     private int maximumDiscount;
-    private HashMap<Customer , Integer> discountTimesForEachCustomer;
+    private HashMap<String , Integer> discountTimesForEachCustomer;
 
     public DiscountCode(String discountCode) {
         this.discountCode = discountCode;
@@ -41,13 +43,17 @@ public class DiscountCode implements Serializable{
     }
 
     public HashMap<Customer, Integer> getDiscountTimesForEachCustomer() {
-        return discountTimesForEachCustomer;
+        HashMap<Customer, Integer> output = new HashMap<>();
+        for (String s : discountTimesForEachCustomer.keySet()) {
+            output.put((Customer) LoginController.getUserByUsername(s), discountTimesForEachCustomer.get(s));
+        }
+        return output;
     }
 
     public void decreaseDiscountTimesForEachCustomer(Customer customer) {
-        int i = discountTimesForEachCustomer.get(customer);
-        discountTimesForEachCustomer.remove(customer);
-        discountTimesForEachCustomer.put(customer,i-1);
+        int i = discountTimesForEachCustomer.get(customer.getUsername());
+        discountTimesForEachCustomer.remove(customer.getUsername());
+        discountTimesForEachCustomer.put(customer.getUsername(),i-1);
     }
 
     public static ArrayList<DiscountCode> getAllDiscountCodes() {
@@ -63,7 +69,9 @@ public class DiscountCode implements Serializable{
         this.endTime = endTime;
         this.discountPercent = discountPercent;
         this.maximumDiscount = maximumDiscount;
-        this.discountTimesForEachCustomer = discountTimesForEachCustomer;
+        for (Customer customer : discountTimesForEachCustomer.keySet()) {
+            this.discountTimesForEachCustomer.put(customer.getUsername(), discountTimesForEachCustomer.get(customer));
+        }
     }
     public static void logToFile(){
         try{
