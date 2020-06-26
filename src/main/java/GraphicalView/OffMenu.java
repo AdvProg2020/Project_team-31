@@ -1,6 +1,7 @@
 package GraphicalView;
 
 import Controller.ProductController;
+import Controller.SellerController;
 import Model.Off;
 import Model.OffedProduct;
 import Model.Product;
@@ -43,6 +44,7 @@ public class OffMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        SellerController.getInstance().tempPhoto();
         loginAlert();
         logoutAlert();
         tempTable = tableOfProducts;

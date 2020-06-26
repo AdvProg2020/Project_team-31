@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class SellerController {
-    public static File myfiles = null;
+    public File myfiles = null;
     private static SellerController sellerControllerInstance = new SellerController();
 
     private SellerController() {
@@ -134,6 +134,7 @@ public class SellerController {
         String ext1 = FilenameUtils.getExtension(photo.toURI().toString());
         String path = product.getProductId() + "." + ext1;
         product.setImageFile(path);
+        System.out.println(path);
         byte[] fileContent = Files.readAllBytes(photo.toPath());
         if (myfiles == null) {
             myfiles = new File("Photos");
@@ -143,7 +144,16 @@ public class SellerController {
         tmp.createNewFile();
         OutputStream out = new FileOutputStream(tmp);
         out.write(fileContent);
+        out.flush();
         out.close();
+        product.setImage(new Image(photo.toURI().toString()));
+    }
+
+    public void tempPhoto() {
+        for (Product product : Product.allProducts) {
+            if (product.getImageFile() == null)
+                product.setImageFile("Product0.jpeg");
+        }
     }
 
     public Product editProduct(User user, String productId, int price, int available, String information, HashMap<String, String> specialInformationRelatedToCategory) throws Exception {

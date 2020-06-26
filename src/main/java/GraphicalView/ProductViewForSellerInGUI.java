@@ -35,7 +35,7 @@ public class ProductViewForSellerInGUI {
                 SellerController.getInstance().removeProduct(productId);
             }
             runner.back();
-            runner.changeScene("ManageProducts.fxml");
+//            runner.changeScene("ManageProducts.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }
