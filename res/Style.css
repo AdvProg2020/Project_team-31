@@ -33,3 +33,7 @@
     -fx-font-weight: bold;
     -fx-text-fill: #ff1a1a;
 }
+#mainMenuPane{
+    -fx-background-image: url("MainMenu.jpg");
+    -fx-background-size: cover;
+}
