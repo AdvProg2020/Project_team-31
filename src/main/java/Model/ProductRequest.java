@@ -3,9 +3,10 @@ package Model;
 import Controller.LoginController;
 import Controller.ProductController;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class ProductRequest extends Request {
+public class ProductRequest extends Request implements Serializable {
     private String product;
     private String seller;
     private int price;

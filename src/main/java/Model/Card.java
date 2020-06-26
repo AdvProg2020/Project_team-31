@@ -2,9 +2,10 @@ package Model;
 
 import Controller.ProductController;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Card {
+public class Card implements Serializable {
     private HashMap<String, ProductInCard> productsInThisCard;
 
     public Card() {

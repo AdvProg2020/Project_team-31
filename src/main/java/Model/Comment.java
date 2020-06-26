@@ -2,7 +2,9 @@ package Model;
 
 import Controller.LoginController;
 
-public class Comment {
+import java.io.Serializable;
+
+public class Comment implements Serializable {
     private String customer;
     private String commentTitle;
     private String commentContent;

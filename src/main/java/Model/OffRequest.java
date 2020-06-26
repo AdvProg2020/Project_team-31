@@ -3,10 +3,11 @@ package Model;
 import Controller.ProductController;
 import Controller.SellerController;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class OffRequest extends Request {
+public class OffRequest extends Request implements Serializable {
     private String offId;
     private Date beginTime;
     private Date endTime;

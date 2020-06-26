@@ -2,9 +2,10 @@ package Model;
 
 import Controller.ProductController;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SellingLog extends Log {
+public class SellingLog extends Log implements Serializable {
     private int totalPriceArrived;
     private int amountOfOff;
     private String buyingProduct;

@@ -3,7 +3,9 @@ package Model;
 import Controller.LoginController;
 import Controller.ProductController;
 
-public class ProductInCard {
+import java.io.Serializable;
+
+public class ProductInCard implements Serializable {
     private String productId;
     private int number;
     private String sellerId;

@@ -2,9 +2,10 @@ package Model;
 
 import Controller.LoginController;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Log {
+public class Log implements Serializable {
     protected String logId;
     protected Date date;
     protected String customerId;

@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SellerRequest extends Request {
+public class SellerRequest extends Request implements Serializable {
     private String username;
     private String[] information;
 

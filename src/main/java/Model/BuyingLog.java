@@ -2,11 +2,12 @@ package Model;
 
 import Controller.ProductController;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class BuyingLog extends Log{
+public class BuyingLog extends Log implements Serializable {
     private int totalPrice;
     private int discountAmount;
     private HashMap<String, ProductInCard> buyingProducts;

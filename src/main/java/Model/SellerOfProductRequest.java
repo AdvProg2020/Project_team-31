@@ -3,7 +3,9 @@ package Model;
 import Controller.LoginController;
 import Controller.ProductController;
 
-public class SellerOfProductRequest extends Request{
+import java.io.Serializable;
+
+public class SellerOfProductRequest extends Request implements Serializable {
     private String seller;
     private String product;
     private int price;
