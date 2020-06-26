@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <Pane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductArea">
-    <Button fx:id="addToCardButton" layoutX="268.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#addThisProductToCard" text="add to cart" />
+    <Button fx:id="addToCardButton" stylesheets="@/Style.css" layoutX="268.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#addThisProductToCard" text="add to cart" />
 
     <Label fx:id="productName" layoutX="29.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" text="name:" />
 
