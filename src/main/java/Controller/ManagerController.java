@@ -230,6 +230,15 @@ public class ManagerController {
         return information;
     }
 
+    public ArrayList<String> showAllCategoriesForGUI() {
+        ArrayList<Category> allCategories = Category.getAllCategories();
+        ArrayList<String> information = new ArrayList<>();
+        for (Category category : allCategories) {
+            information.add(category.getName());
+        }
+        return information;
+    }
+
     public ArrayList<Category> showAllCategoriesByList() {
         return Category.getAllCategories();
     }

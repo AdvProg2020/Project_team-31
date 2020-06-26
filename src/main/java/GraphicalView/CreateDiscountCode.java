@@ -1,7 +1,9 @@
 package GraphicalView;
 
+import Controller.CustomerController;
 import Controller.ManagerController;
 import Controller.SellerController;
+import Model.Customer;
 import Model.Manager;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -95,7 +97,15 @@ public class CreateDiscountCode implements Initializable {
         result.ifPresent(pair -> {
             if (pair.getKey().equals("") || pair.getValue().equals(""))
                 return;
+            CustomerController controller=CustomerController.getInstance();
+            if(controller.getCustomerByUsername(pair.getKey())==null){
+                Alert error = new Alert(Alert.AlertType.ERROR, "there is not any customer with this username", ButtonType.OK);
+                error.show();
+                return;
+            }
             usernameAndNumber.put(pair.getKey(), Integer.parseInt(pair.getValue()));
+            Alert error = new Alert(Alert.AlertType.INFORMATION, "customer added successfully", ButtonType.OK);
+            error.show();
         });
     }
 
@@ -110,7 +120,15 @@ public class CreateDiscountCode implements Initializable {
             ManagerController controller = ManagerController.getInstance();
             int percent = Integer.parseInt(percentage.getText());
             int maximum = Integer.parseInt(maximumPrice.getText());
-            controller.createDiscountCode(code.getText(), getStartDate(), getEndDate(), percent, maximum, usernameAndNumber);
+            try {
+                controller.createDiscountCode(code.getText(), getStartDate(), getEndDate(), percent, maximum, usernameAndNumber);
+                Alert error = new Alert(Alert.AlertType.INFORMATION, "discount code created successfully!", ButtonType.OK);
+                runner.back();
+                error.show();
+            }catch (Exception e){
+                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                error.show();
+            }
         }
     }
 

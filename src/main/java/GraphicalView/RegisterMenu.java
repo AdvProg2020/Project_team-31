@@ -44,14 +44,14 @@ public class RegisterMenu implements Initializable {
     }
 
     private void firstManager() {
-        if (!LoginController.getInstance().isThereAnyManager()){
+        if (!LoginController.getInstance().isThereAnyManager()) {
             role.setValue("manager");
             role.setDisable(true);
         }
     }
 
     public void back(MouseEvent mouseEvent) {
-        if(LoginController.getInstance().isThereAnyManager()) {
+        if (LoginController.getInstance().isThereAnyManager()) {
             DataBase.getInstance().isAddingManager = false;
             Runner.getInstance().back();
         }
@@ -84,12 +84,10 @@ public class RegisterMenu implements Initializable {
                         Runner.getInstance().back();
                         inform = new Alert(Alert.AlertType.INFORMATION, "You have added manager successfully!", ButtonType.OK);
                     } else {
-//                        DataBase.getInstance().pages.pop();
                         Runner.getInstance().back();
                         inform = new Alert(Alert.AlertType.INFORMATION, "You have registered successfully!", ButtonType.OK);
                     }
                     inform.show();
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

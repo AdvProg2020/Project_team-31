@@ -12,7 +12,7 @@ public class DataBase {
     public Card card;
     LoginController loginController = LoginController.getInstance();
     Off editingOff = null;
-    DiscountCode editingDiscountCode = null;
+     public DiscountCode editingDiscountCode = null;
     boolean isAddingManager = false;
 
     public static DataBase getInstance() {
@@ -36,6 +36,7 @@ public class DataBase {
     public void logout() {
         user = null;
         pages.clear();
+        runner.changeScene("MainMenu.fxml");
         runner.changeScene("MainMenu.fxml");
     }
 

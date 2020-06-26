@@ -1,5 +1,6 @@
 package GraphicalView;
 
+import Controller.CustomerController;
 import Controller.ManagerController;
 import Model.DiscountCode;
 import javafx.application.Platform;
@@ -117,7 +118,15 @@ public class EditDiscountCode implements Initializable {
             ManagerController controller = ManagerController.getInstance();
             int percent = Integer.parseInt(percentage.getText());
             int maximum = Integer.parseInt(maximumPrice.getText());
-            controller.editDiscountCode(code.getText(), getStartDate(), getEndDate(), percent, maximum, usernameAndNumber);
+            try {
+                controller.editDiscountCode(code.getText(), getStartDate(), getEndDate(), percent, maximum, usernameAndNumber);
+                Alert error = new Alert(Alert.AlertType.INFORMATION, "discount code edited successfully!", ButtonType.OK);
+                runner.back();
+                error.show();
+            }catch (Exception e){
+                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                error.show();
+            }
         }
     }
 
@@ -136,38 +145,22 @@ public class EditDiscountCode implements Initializable {
     }
 
     public void removeCustomer(ActionEvent actionEvent) {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle("add customer");
-        ButtonType loginButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(20, 150, 10, 10));
-        TextField username = new TextField();
-        username.setPromptText("customer username"); //useful
-        TextField number = new TextField();
-        number.setPromptText("number");
-        number.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                number.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
-        gridPane.add(username, 0, 0);
-        gridPane.add(number, 2, 0);
-        dialog.getDialogPane().setContent(gridPane);
-        Platform.runLater(() -> username.requestFocus());
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == loginButtonType) {
-                return new Pair<>(username.getText(), number.getText());
-            }
-            return null;
-        });
-        Optional<Pair<String, String>> result = dialog.showAndWait();
-        result.ifPresent(pair -> {
-            if (pair.getKey().equals("") || pair.getValue().equals(""))
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("remove customer");
+        dialog.setContentText("Please enter the customer's username :");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name ->{
+            if (name.equals(""))
                 return;
-            usernameAndNumber.remove(pair.getKey(), Integer.parseInt(pair.getValue()));
+            CustomerController controller=CustomerController.getInstance();
+            if(controller.getCustomerByUsername(name)==null){
+                Alert error = new Alert(Alert.AlertType.ERROR, "there is not any customer with this username", ButtonType.OK);
+                error.show();
+                return;
+            }
+            usernameAndNumber.remove(name);
+            Alert error = new Alert(Alert.AlertType.INFORMATION, "customer removed successfully", ButtonType.OK);
+            error.show();
         });
     }
 
@@ -203,7 +196,15 @@ public class EditDiscountCode implements Initializable {
         result.ifPresent(pair -> {
             if (pair.getKey().equals("") || pair.getValue().equals(""))
                 return;
+            CustomerController controller=CustomerController.getInstance();
+            if(controller.getCustomerByUsername(pair.getKey())==null){
+                Alert error = new Alert(Alert.AlertType.ERROR, "there is not any customer with this username", ButtonType.OK);
+                error.show();
+                return;
+            }
             usernameAndNumber.put(pair.getKey(), Integer.parseInt(pair.getValue()));
+            Alert error = new Alert(Alert.AlertType.INFORMATION, "customer added successfully", ButtonType.OK);
+            error.show();
         });
     }
 

@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -124,8 +125,8 @@ public class SellerController {
         return newProduct;
     }
 
-    public void changeProductPhoto(Product product, File photo) {
-        ImageView imageView = new ImageView(new Image(photo.getAbsolutePath()));
+    public void changeProductPhoto(Product product, File photo) throws IOException {
+        ImageView imageView = new ImageView(new Image(photo.toURI().toString()));
         product.setImageView(imageView);
     }
 
