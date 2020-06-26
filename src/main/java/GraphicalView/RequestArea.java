@@ -2,7 +2,11 @@ package GraphicalView;
 
 import Controller.ManagerController;
 import Model.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -13,10 +17,12 @@ import java.util.stream.Collectors;
 
 public class RequestArea implements Initializable {
     public VBox detail;
+    public Button logout;
     Request request;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logoutAlert();
         request = RequestMenu.request;
         if (request instanceof SellerRequest) {
             setSellerRequest();
@@ -27,6 +33,21 @@ public class RequestArea implements Initializable {
         } else {
             setSellerOfProductRequest();
         }
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            message.setContentText("you logged out successfully");
+            message.show();
+            DataBase.getInstance().logout();
+        };
+        logout.setOnAction(event);
     }
 
     private void setSellerRequest() {

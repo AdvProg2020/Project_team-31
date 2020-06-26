@@ -9,6 +9,7 @@ import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -38,6 +39,8 @@ public class ProductsMenu implements Initializable {
     public static Stage filterStageToSave;
     public TableColumn imageColumn;
     public static Product product;
+    public Button login;
+    public Button logout;
 
     public void setCategories() {
         ArrayList<String> listOfCategories = (ArrayList<String>) Category.getAllCategories().stream()
@@ -58,6 +61,8 @@ public class ProductsMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loginAlert();
+        logoutAlert();
         Runner.getInstance().changeMusic("ProductMenu");
         tempTable = tableOfProducts;
         setCategories();
@@ -68,6 +73,34 @@ public class ProductsMenu implements Initializable {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
         rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
         tableOfProducts.setItems(getProducts("all"));
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
+
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (DataBase.getInstance().user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                Runner.getInstance().changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            message.setContentText("you logged out successfully");
+            message.show();
+            DataBase.getInstance().logout();
+        };
+        logout.setOnAction(event);
     }
 
     private void addButtonToTable() {

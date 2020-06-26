@@ -4,24 +4,24 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductArea">
-    <Button fx:id="addToCardButton" stylesheets="@/Style.css" layoutX="268.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#addThisProductToCard" text="add to cart" />
+<Pane prefHeight="400.0" prefWidth="800.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductArea">
+    <Button fx:id="addToCardButton" layoutX="268.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#addThisProductToCard" text="add to cart" />
 
     <Label fx:id="productName" layoutX="29.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" text="name:" />
 
     <Label fx:id="rate" layoutX="29.0" layoutY="50.0" prefHeight="27.0" prefWidth="43.0" text="rate:" />
 
-    <TextField fx:id="ratePlease" layoutX="517.0" layoutY="15.0" promptText="Enter number [0-5]" />
+    <TextField fx:id="ratePlease" layoutX="517.0" layoutY="15.0" prefHeight="30.0" prefWidth="149.0" promptText="Enter number [0-5]" />
 
-    <TextField fx:id="CommentTitle" layoutX="517.0" layoutY="63.0" promptText="Title" />
+    <TextField fx:id="CommentTitle" layoutX="517.0" layoutY="63.0" prefHeight="30.0" prefWidth="149.0" promptText="Title" />
 
     <VBox fx:id="specialProperties" layoutX="21.0" layoutY="215.0" prefHeight="27.0" prefWidth="250" />
 
-    <Button fx:id="loginButton" layoutX="117.0" layoutY="353.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#login" text="login" />
+    <Button fx:id="login" layoutX="117.0" layoutY="353.0" minWidth="75" mnemonicParsing="false" text="login" />
 
-    <Button fx:id="logoutButton" layoutX="21.0" layoutY="353.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#logout" text="logout" />
+    <Button fx:id="logout" layoutX="21.0" layoutY="353.0" minWidth="75" mnemonicParsing="false" text="logout" />
 
-    <ListView fx:id="commentsList" layoutX="348.0" layoutY="166.0" prefHeight="234.0" prefWidth="324.0" />
+    <ListView fx:id="commentsList" layoutX="371.0" layoutY="166.0" prefHeight="212.0" prefWidth="301.0" />
 
     <Label fx:id="information" layoutX="29.0" layoutY="152.0" maxWidth="190" text="information" wrapText="true" />
 
@@ -47,5 +47,7 @@
 
     <Button layoutX="219.0" layoutY="353.0" minWidth="75" mnemonicParsing="false" onMouseClicked="#back" text="back" />
 
-    <ImageView fx:id="image" fitHeight="100.0" fitWidth="100.0" layoutX="680" pickOnBounds="true" preserveRatio="true" />
+    <ImageView fx:id="image" fitHeight="100.0" fitWidth="100.0" layoutX="686.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+
+    <Button layoutX="219.0" layoutY="308.0" mnemonicParsing="false" text="User Area" onMouseClicked="#userArea"/>
 </Pane>

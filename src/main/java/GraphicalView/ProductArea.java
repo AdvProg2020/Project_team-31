@@ -28,8 +28,8 @@ public class ProductArea implements Initializable {
     public Label price;
     public Label rate;
     public TextField ratePlease;
-    public Button logoutButton;
-    public Button loginButton;
+    public Button logout;
+    public Button login;
     public TextField CommentTitle;
     public ListView commentsList;
     public Label information;
@@ -51,6 +51,8 @@ public class ProductArea implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loginAlert();
+        logoutAlert();
         product = ProductsMenu.product;
         if (DataBase.getInstance().user != null) {
             user = DataBase.getInstance().user;
@@ -77,6 +79,34 @@ public class ProductArea implements Initializable {
         setImage();
     }
 
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
+
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (DataBase.getInstance().user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                Runner.getInstance().changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            message.setContentText("you logged out successfully");
+            message.show();
+            DataBase.getInstance().logout();
+        };
+        logout.setOnAction(event);
+    }
+
     private void setImage() {
         image.setImage(product.getImage());
         image.setFitWidth(100);
@@ -101,35 +131,6 @@ public class ProductArea implements Initializable {
             specialProperties.getChildren().add(r);
         }
     }
-
-
-    public void login() {
-        Alert error = new Alert(Alert.AlertType.ERROR);
-        EventHandler<ActionEvent> event = (e) -> {
-            if (DataBase.getInstance().user != null) {
-                Runner.buttonSound();
-                error.setContentText("You have logged in!");
-                error.show();
-            } else {
-                Runner.getInstance().changeScene("LoginMenu.fxml");
-            }
-        };
-        loginButton.setOnAction(event);
-
-    }
-
-    public void logout() {
-        Alert message = new Alert(Alert.AlertType.INFORMATION);
-        EventHandler<ActionEvent> event = (e) -> {
-            Runner.buttonSound();
-            message.setContentText("you logged out successfully");
-            message.show();
-            DataBase.getInstance().logout();
-        };
-        logoutButton.setOnAction(event);
-
-    }
-
 
     public void update() {
         rate.setText("rate: " + product.getRate());

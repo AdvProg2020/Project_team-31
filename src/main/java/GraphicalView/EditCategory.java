@@ -2,11 +2,10 @@ package GraphicalView;
 
 import Controller.ManagerController;
 import Model.Category;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
@@ -20,13 +19,45 @@ public class EditCategory implements Initializable {
     public TextField oldName;
     public TextField newFeature;
     public TextField removingFeature;
+    public Button login;
+    public Button logout;
     private Category category;
     private ManagerController managerController = ManagerController.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loginAlert();
+        logoutAlert();
         category = ShowCategories.categoryToEdit;
         setProperties();
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
+
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (DataBase.getInstance().user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                Runner.getInstance().changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            message.setContentText("you logged out successfully");
+            message.show();
+            DataBase.getInstance().logout();
+        };
+        logout.setOnAction(event);
     }
 
     private void setProperties() {

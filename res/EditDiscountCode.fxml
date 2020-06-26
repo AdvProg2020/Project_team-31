@@ -62,5 +62,6 @@
                 </HBox>
             </children>
         </GridPane>
+      <Button layoutX="262.0" layoutY="309.0" mnemonicParsing="false" text="user area" onMouseClicked="#userArea"/>
     </children>
 </Pane>

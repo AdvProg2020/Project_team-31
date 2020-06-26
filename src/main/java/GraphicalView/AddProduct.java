@@ -33,6 +33,8 @@ public class AddProduct implements Initializable {
     public TextField price;
     public TextArea description;
     public TextField number;
+    public Button login;
+    public Button logout;
     Runner runner = Runner.getInstance();
     ChoiceBox<String> choiceBox;
     File photo;
@@ -41,6 +43,8 @@ public class AddProduct implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loginAlert();
+        logoutAlert();
         dropDownListSetUp();
         setCategoryFeatures();
     }
@@ -180,5 +184,33 @@ public class AddProduct implements Initializable {
             window.setScene(scene);
             window.showAndWait();
         }
+    }
+
+    public void userArea(MouseEvent mouseEvent) {
+        Runner.getInstance().setUserAreaScene();
+    }
+
+    public void loginAlert() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        EventHandler<ActionEvent> event = (e) -> {
+            if (DataBase.getInstance().user != null) {
+                error.setContentText("You have logged in!");
+                error.show();
+            } else {
+                Runner.getInstance().changeScene("LoginMenu.fxml");
+            }
+        };
+        login.setOnAction(event);
+    }
+
+    private void logoutAlert() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            message.setContentText("you logged out successfully");
+            message.show();
+            DataBase.getInstance().logout();
+        };
+        logout.setOnAction(event);
     }
 }

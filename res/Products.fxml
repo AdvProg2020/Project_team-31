@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane  stylesheets="@/Style.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductsMenu">
+<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ProductsMenu">
         <ButtonBar prefHeight="40.0" prefWidth="200.0">
             <buttons>
                 <Button mnemonicParsing="false" onMouseClicked="#filterRequest" text="filters" />
@@ -28,4 +28,7 @@
                 <TableColumn fx:id="rateColumn" prefWidth="75" text="Rate" />
             </columns>
         </TableView>
+   <Button fx:id="login" layoutX="513.0" layoutY="27.0" mnemonicParsing="false" text="login" minWidth="75"/>
+   <Button fx:id="logout" layoutX="513.0" layoutY="70.0" mnemonicParsing="false" text="logout" minWidth="75"/>
+   <Button layoutX="512.0" layoutY="118.0" mnemonicParsing="false" text="User Area" onMouseClicked="#userArea"/>
 </Pane>
