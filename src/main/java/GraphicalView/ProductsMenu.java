@@ -51,6 +51,7 @@ public class ProductsMenu implements Initializable {
     }
 
     public void changeCategory(ActionEvent actionEvent) {
+        Runner.buttonSound();
         tableOfProducts.setItems(getProducts((String) category.getValue()));
         categoryName = (String) category.getValue();
     }
@@ -79,6 +80,7 @@ public class ProductsMenu implements Initializable {
                     {
                         btn.setMinWidth(75);
                         btn.setOnAction((ActionEvent event) -> {
+                            Runner.buttonSound();
                             product = getTableView().getItems().get(getIndex());
                             showDetail();
                         });
@@ -116,10 +118,12 @@ public class ProductsMenu implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().back();
     }
 
     public void filterRequest(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Stage filterStage = new Stage();
         URL url = getClass().getClassLoader().getResource("Filters.fxml");
         Parent root = null;

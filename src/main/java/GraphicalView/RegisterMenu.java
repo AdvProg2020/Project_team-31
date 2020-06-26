@@ -51,6 +51,7 @@ public class RegisterMenu implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if (LoginController.getInstance().isThereAnyManager()) {
             DataBase.getInstance().isAddingManager = false;
             Runner.getInstance().back();
@@ -58,6 +59,7 @@ public class RegisterMenu implements Initializable {
     }
 
     public void registerRequest(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if (!isEmpty().equals("none")) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter " + isEmpty(), ButtonType.OK);
             error.show();

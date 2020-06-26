@@ -42,11 +42,13 @@ public class ProductViewForSellerInGUI {
     }
 
     private void editProduct() {
+        Runner.buttonSound();
         ProductsMenu.product = product;
         runner.changeScene("EditProduct.fxml");
     }
 
     private void viewProduct() {
+        Runner.buttonSound();
         ProductsMenu.product = product;
         runner.changeScene("ProductArea.fxml");
     }

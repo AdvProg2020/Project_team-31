@@ -55,6 +55,7 @@ public class EditDiscountCode implements Initializable {
     }
 
     public void back(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.back();
     }
 
@@ -62,6 +63,7 @@ public class EditDiscountCode implements Initializable {
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user != null) {
                 error.setContentText("You have logged in!");
                 error.show();
@@ -88,6 +90,7 @@ public class EditDiscountCode implements Initializable {
     private void logoutAlert() {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             message.setContentText("you logged out successfully");
             message.show();
             dataBase.logout();
@@ -108,6 +111,7 @@ public class EditDiscountCode implements Initializable {
     }
 
     public void submit(ActionEvent actionEvent) throws Exception {
+        Runner.buttonSound();
         if (isValid() != null) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isValid(), ButtonType.OK);
             error.show();
@@ -145,6 +149,7 @@ public class EditDiscountCode implements Initializable {
     }
 
     public void removeCustomer(ActionEvent actionEvent) {
+        Runner.buttonSound();
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("remove customer");
         dialog.setContentText("Please enter the customer's username :");
@@ -165,6 +170,7 @@ public class EditDiscountCode implements Initializable {
     }
 
     public void addCustomer(ActionEvent actionEvent) {
+        Runner.buttonSound();
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("add customer");
         ButtonType loginButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);

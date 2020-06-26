@@ -14,6 +14,7 @@ public class ReceiveInformationForShopping {
     public static BuyingLog buyingLog;
 
     public void nextStep(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if(address.getText().equals("") || phone.getText().equals("")) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please complete all data", ButtonType.OK);
             error.show();
@@ -32,6 +33,7 @@ public class ReceiveInformationForShopping {
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().back();
     }
 }

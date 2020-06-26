@@ -142,6 +142,7 @@ class BuyingLogShow {
         this.buyingProducts = buyingProducts;
         button = new Button("show");
         button.setOnAction(event -> {
+            Runner.buttonSound();
             this.showProducts();
         });
     }

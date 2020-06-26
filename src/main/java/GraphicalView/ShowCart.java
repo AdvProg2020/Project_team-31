@@ -47,6 +47,7 @@ public class ShowCart implements Initializable {
                 {
                     btn.setMinWidth(75);
                     btn.setOnAction((ActionEvent event) -> {
+                        Runner.buttonSound();
                         ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
                         ProductsMenu.product = productInCartInGui.getProduct();
                         runner.changeScene("ProductArea.fxml");
@@ -119,6 +120,7 @@ public class ShowCart implements Initializable {
     private void logoutAlert() {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             message.setContentText("you logged out successfully");
             message.show();
             dataBase.logout();
@@ -130,6 +132,7 @@ public class ShowCart implements Initializable {
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user != null) {
                 error.setContentText("You have logged in!");
                 error.show();
@@ -141,6 +144,7 @@ public class ShowCart implements Initializable {
     }
 
     public void purchase(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if(CustomerController.getInstance().showTotalPrice(user.getCard()) == 0) {
             Alert error = new Alert(Alert.AlertType.ERROR, "Cart is empty", ButtonType.OK);
             error.show();

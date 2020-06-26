@@ -13,10 +13,12 @@ public class LoginMenu {
     public PasswordField passwordField;
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().back();
     }
 
     public void loginRequest(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if(usernameField.getText().equals("") || passwordField.getText().equals("")) {
             Alert emptyField = new Alert(Alert.AlertType.ERROR, "please fill fields", ButtonType.OK);
             emptyField.show();
@@ -34,6 +36,7 @@ public class LoginMenu {
     }
 
     public void register(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().changeScene("RegisterMenu.fxml");
     }
 }

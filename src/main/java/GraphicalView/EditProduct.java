@@ -58,10 +58,12 @@ public class EditProduct implements Initializable {
     }
 
     public void back(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.back();
     }
 
     public void submit(ActionEvent actionEvent) throws Exception {
+        Runner.buttonSound();
         SellerController sellerController = SellerController.getInstance();
         if (isInvalid() != null) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isInvalid(), ButtonType.OK);
@@ -101,6 +103,7 @@ public class EditProduct implements Initializable {
 
     public void setCategoryFeatures() {
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (choiceBox.getValue() == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("you have to select the category");
@@ -117,6 +120,7 @@ public class EditProduct implements Initializable {
     }
 
     public void selectFile(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("select photo");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpeg Files", "*.jpeg"));

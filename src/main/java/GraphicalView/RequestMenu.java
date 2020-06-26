@@ -46,6 +46,7 @@ public class RequestMenu implements Initializable {
                     {
                         btn.setMinWidth(75);
                         btn.setOnAction((ActionEvent event) -> {
+                            Runner.buttonSound();
                             request = getTableView().getItems().get(getIndex());
                             showDetail();
                         });
@@ -69,10 +70,12 @@ public class RequestMenu implements Initializable {
     }
 
     private void showDetail() {
+        Runner.buttonSound();
         Runner.getInstance().changeScene("RequestArea.fxml");
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().back();
     }
 }

@@ -53,6 +53,7 @@ public class EditPersonalInfo implements Initializable {
     private void logoutAlert() {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             message.setContentText("you logged out successfully");
             message.show();
             dataBase.logout();
@@ -61,10 +62,12 @@ public class EditPersonalInfo implements Initializable {
     }
 
     public void back(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.back();
     }
 
     public void submit(ActionEvent actionEvent) {
+        Runner.buttonSound();
         if (!isEmpty().equals("none")) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isEmpty(), ButtonType.OK);
             error.show();
@@ -90,6 +93,7 @@ public class EditPersonalInfo implements Initializable {
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user != null) {
                 error.setContentText("You have logged in!");
                 error.show();

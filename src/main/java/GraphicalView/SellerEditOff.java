@@ -45,12 +45,14 @@ public class SellerEditOff implements Initializable {
     }
 
     public void back(ActionEvent actionEvent) {
+        Runner.buttonSound();
         runner.back();
     }
 
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             if (dataBase.user != null) {
                 error.setContentText("You have logged in!");
                 error.show();
@@ -64,6 +66,7 @@ public class SellerEditOff implements Initializable {
     private void logoutAlert() {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
             message.setContentText("you logged out successfully");
             message.show();
             dataBase.logout();
@@ -72,6 +75,7 @@ public class SellerEditOff implements Initializable {
     }
 
     public void submit(ActionEvent actionEvent) throws Exception {
+        Runner.buttonSound();
         if (isInvalid() != null) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isInvalid(), ButtonType.OK);
             error.show();
@@ -97,6 +101,7 @@ public class SellerEditOff implements Initializable {
     }
 
     public void addProduct(ActionEvent actionEvent) {
+        Runner.buttonSound();
         TextInputDialog dialog = new TextInputDialog();
         dialog.getEditor().setPromptText("product ID");
         dialog.setTitle("add product");
@@ -116,6 +121,7 @@ public class SellerEditOff implements Initializable {
     }
 
     public void removeProduct(ActionEvent actionEvent) {
+        Runner.buttonSound();
         TextInputDialog dialog = new TextInputDialog();
         dialog.getEditor().setPromptText("product ID");
         dialog.setTitle("remove product");

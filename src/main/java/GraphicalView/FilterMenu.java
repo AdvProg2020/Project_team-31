@@ -54,6 +54,7 @@ public class FilterMenu implements Initializable {
     }
 
     public void setNewFilter(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if (available.getValue() == null) {
             Alert emptyField = new Alert(Alert.AlertType.ERROR, "select key please!", ButtonType.OK);
             emptyField.show();
@@ -68,6 +69,7 @@ public class FilterMenu implements Initializable {
     }
 
     public void removeFilter(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         if (disable.getValue() == null) {
             Alert emptyField = new Alert(Alert.AlertType.ERROR, "select key please!", ButtonType.OK);
             emptyField.show();
@@ -83,6 +85,7 @@ public class FilterMenu implements Initializable {
     }
 
     public void exit(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         ProductsMenu.filterStageToSave.close();
     }
 }

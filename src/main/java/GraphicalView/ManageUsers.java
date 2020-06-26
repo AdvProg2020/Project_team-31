@@ -95,6 +95,7 @@ public class ManageUsers implements Initializable {
         Ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                Runner.buttonSound();
                 delete();
                 warningStage.close();
             }
@@ -111,10 +112,12 @@ public class ManageUsers implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         Runner.getInstance().back();
     }
 
     public void AddManager(MouseEvent mouseEvent) {
+        Runner.buttonSound();
         DataBase.getInstance().isAddingManager = true;
         Runner.getInstance().changeScene("RegisterMenu.fxml");
     }
