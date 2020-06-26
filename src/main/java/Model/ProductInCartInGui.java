@@ -29,4 +29,20 @@ public class ProductInCartInGui {
     public Product getProduct() {
         return product;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
 }

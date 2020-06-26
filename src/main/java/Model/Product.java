@@ -110,7 +110,6 @@ public Image getImage(){
         return imageView;
     }
 
-
     public String getRate() {
         return rate;
     }

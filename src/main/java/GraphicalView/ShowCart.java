@@ -180,7 +180,7 @@ public class ShowCart implements Initializable {
         if(user.getCard() == null) {
             user.setCard(new Card());
         }
-        ObservableList allProducts = FXCollections.observableArrayList();
+        ObservableList<ProductInCartInGui> allProducts = FXCollections.observableArrayList();
         for (ProductInCard productInCard : user.getCard().getProductsInThisCard().values()) {
             allProducts.addAll(new ProductInCartInGui(productInCard));
         }
