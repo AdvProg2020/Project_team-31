@@ -68,15 +68,15 @@ public class SellerViewOffs implements Initializable {
     }
 
     private void showOffs() {
-        TableColumn<BuyingLogShow, String> id = new TableColumn<>("off ID");
+        TableColumn<ShowOffsOnGUI, String> id = new TableColumn<>("off ID");
         id.setMinWidth(150);
         id.setCellValueFactory(new PropertyValueFactory<>("offId"));
 
-        TableColumn<BuyingLogShow, Button> showButton = new TableColumn<>("show");
+        TableColumn<ShowOffsOnGUI, Button> showButton = new TableColumn<>("show");
         showButton.setMinWidth(150);
         showButton.setCellValueFactory(new PropertyValueFactory<>("showButton"));
 
-        TableColumn<BuyingLogShow, Button> editButton = new TableColumn<>("edit");
+        TableColumn<ShowOffsOnGUI, Button> editButton = new TableColumn<>("edit");
         editButton.setMinWidth(150);
         editButton.setCellValueFactory(new PropertyValueFactory<>("editButton"));
 

@@ -21,8 +21,8 @@ public class ShowOffsOnGUI {
     }
 
     private static void edit(Off off) {
-        Runner.getInstance().changeScene("SellerEditOff.fxml");
         DataBase.getInstance().editingOff = off;
+        Runner.getInstance().changeScene("SellerEditOff.fxml");
     }
 
     private static void view(Off off) {
