@@ -98,6 +98,7 @@ public class Product implements Serializable {
     }
 
     public String getRate() {
+        rate = String.valueOf(1.0 * this.sumOfCustomersRate / getCustomersWhoRated());
         return rate;
     }
 

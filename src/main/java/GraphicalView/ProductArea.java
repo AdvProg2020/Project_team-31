@@ -185,7 +185,7 @@ public class ProductArea implements Initializable {
             error.show();
         } else {
             try {
-                CustomerController.getInstance().rateProduct(user, product.getProductId(), Integer.getInteger(ratePlease.getText()));
+                CustomerController.getInstance().rateProduct(user, product.getProductId(), Integer.parseInt(ratePlease.getText()));
                 update();
             } catch (Exception e) {
                 Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);

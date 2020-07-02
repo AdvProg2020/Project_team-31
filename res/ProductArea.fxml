@@ -9,7 +9,7 @@
 
     <Label fx:id="productName" layoutX="29.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" text="name:" />
 
-    <Label fx:id="rate" layoutX="29.0" layoutY="50.0" prefHeight="27.0" prefWidth="43.0" text="rate:" />
+    <Label fx:id="rate" layoutX="29.0" layoutY="50.0" prefHeight="27.0" minWidth="43.0" text="rate:" />
 
     <TextField fx:id="ratePlease" layoutX="517.0" layoutY="15.0" prefHeight="30.0" prefWidth="149.0" promptText="Enter number [0-5]" />
 
