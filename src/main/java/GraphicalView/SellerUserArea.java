@@ -139,13 +139,9 @@ public class SellerUserArea implements Initializable {
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(20, 150, 10, 10));
         TextField productName = new TextField();
-        productName.setPromptText("product name"); //useful
+        productName.setPromptText("product Id"); //useful
         TextField price = new TextField();
         price.setPromptText("price");
-        dialog.getDialogPane().lookupButton(buttonType).disableProperty().bind(Bindings.createBooleanBinding(
-                () -> productName.getText().equals("") || price.getText().equals("") ||
-                        !ProductController.getInstance().isThereAnyProduct(productName.getText())
-        ));
         price.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 price.setText(newValue.replaceAll("[^\\d]", ""));
@@ -164,12 +160,12 @@ public class SellerUserArea implements Initializable {
         Optional<Pair<String, String>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
             try {
-                for (Product product : Product.allProducts) {
-                    System.out.println(product.getName());
-                }
                 SellerController.getInstance().addSellerToProduct(dataBase.user, productName.getText(), Integer.parseInt(price.getText()));
             } catch (Exception e) {
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
             }
         });
     }
