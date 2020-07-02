@@ -37,7 +37,7 @@ public class ShowCart implements Initializable {
         productName.setCellValueFactory(new PropertyValueFactory<>("name"));
         number.setCellValueFactory(new PropertyValueFactory<>("number"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        total.setCellValueFactory(new PropertyValueFactory<>("total"));
+        total.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         setTableOfProducts();
     }
 
@@ -58,6 +58,12 @@ public class ShowCart implements Initializable {
 
                 @Override
                 public void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn);
+                    }
                 }
             };
             return cell;
@@ -83,6 +89,12 @@ public class ShowCart implements Initializable {
                     }
                     @Override
                     public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
                     }
                 };
                 return cell;
@@ -109,6 +121,12 @@ public class ShowCart implements Initializable {
                     }
                     @Override
                     public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
                     }
                 };
                 return cell;
@@ -129,7 +147,6 @@ public class ShowCart implements Initializable {
         };
         logout.setOnAction(event);
     }
-
 
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
@@ -182,7 +199,7 @@ public class ShowCart implements Initializable {
         }
         ObservableList<ProductInCartInGui> allProducts = FXCollections.observableArrayList();
         for (ProductInCard productInCard : user.getCard().getProductsInThisCard().values()) {
-            allProducts.addAll(new ProductInCartInGui(productInCard));
+            allProducts.add(new ProductInCartInGui(productInCard));
         }
         tableOfProducts.setItems(allProducts);
         totalPrice.setText("total price: " + CustomerController.getInstance().showTotalPrice(user.getCard()));
