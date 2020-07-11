@@ -26,10 +26,8 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import javafx.stage.WindowEvent;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.Socket;
 import java.net.URL;
 
 public class Runner extends Application {
@@ -57,7 +55,7 @@ public class Runner extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        SaveAndLoadFiles.start();
+        connect();
         stage = primaryStage;
         initializeStage();
         changeScene("MainMenu.fxml");
@@ -66,13 +64,17 @@ public class Runner extends Application {
         if (LoginController.getInstance().isThereAnyManager())
             popup();
         else runner.changeScene("RegisterMenu.fxml");
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-                SaveAndLoadFiles.end();
-                System.exit(0);
-            }
-        });
+    }
+
+    public void connect() {
+        try {
+            dataBase.socket = new Socket("127.0.0.1", 8888);
+            System.out.println("Successfully connected to server!");
+            dataBase.dataInputStream = new DataInputStream(new BufferedInputStream(dataBase.socket.getInputStream()));
+            dataBase.dataOutputStream = new DataOutputStream(new BufferedOutputStream(dataBase.socket.getOutputStream()));
+        } catch (IOException e) {
+            System.err.println("Error starting client!");
+        }
     }
 
     public void changeMusic(String pageName) {

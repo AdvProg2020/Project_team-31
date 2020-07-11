@@ -3,6 +3,9 @@ package GraphicalView;
 import Controller.LoginController;
 import Model.*;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
 import java.util.Calendar;
 import java.util.Stack;
 
@@ -14,7 +17,9 @@ public class DataBase {
     Off editingOff = null;
      public DiscountCode editingDiscountCode = null;
     boolean isAddingManager = false;
-
+    Socket socket;
+    DataOutputStream dataOutputStream;
+    DataInputStream dataInputStream;
     public static DataBase getInstance() {
         if (dataBase == null)
             dataBase = new DataBase();
