@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Product implements Serializable {
-    private transient Image image;
-    private String imageFile;
+//    private transient Image image;
+//    private String imageFile;
     private String productId;
     private String name;
     private String company;
@@ -50,52 +50,52 @@ public class Product implements Serializable {
         this.specialPropertiesRelatedToCategory = specialPropertiesRelatedToCategory;
         allProducts.add(this);
     }
-
-    public String getImageFile() {
-        return imageFile;
-    }
-
-    public Image getImage() {
-        if (image != null)
-            return image;
-        return new Image(imageFile);
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public void setImageFile(String imageFile) {
-        this.imageFile = imageFile;
-    }
-
-    public ImageView getImageViewBig() {
-        ImageView imageView;
-        if (image != null) {
-            imageView = new ImageView(image);
-        } else {
-            imageView = new ImageView(new Image(imageFile));
-        }
-        if (available == 0)
-            imageView.setOpacity(0.5);
-        imageView.setFitHeight(70);
-        imageView.setFitWidth(70);
-        return imageView;
-    }
-
-    public ImageView getImageViewSmall() {
-        ImageView imageView;
-        if (image != null) {
-            imageView = new ImageView(image);
-        } else {
-            imageView = new ImageView(new Image(imageFile));
-        }
-        if (available == 0)
-            imageView.setOpacity(0.5);
-        imageView.setFitHeight(30);
-        imageView.setFitWidth(30);
-        return imageView;
-    }
+//
+//    public String getImageFile() {
+//        return imageFile;
+//    }
+//
+//    public Image getImage() {
+//        if (image != null)
+//            return image;
+//        return new Image(imageFile);
+//    }
+//
+//    public void setImage(Image image) {
+//        this.image = image;
+//    }
+//
+//    public void setImageFile(String imageFile) {
+//        this.imageFile = imageFile;
+//    }
+//
+//    public ImageView getImageViewBig() {
+//        ImageView imageView;
+//        if (image != null) {
+//            imageView = new ImageView(image);
+//        } else {
+//            imageView = new ImageView(new Image(imageFile));
+//        }
+//        if (available == 0)
+//            imageView.setOpacity(0.5);
+//        imageView.setFitHeight(70);
+//        imageView.setFitWidth(70);
+//        return imageView;
+//    }
+//
+//    public ImageView getImageViewSmall() {
+//        ImageView imageView;
+//        if (image != null) {
+//            imageView = new ImageView(image);
+//        } else {
+//            imageView = new ImageView(new Image(imageFile));
+//        }
+//        if (available == 0)
+//            imageView.setOpacity(0.5);
+//        imageView.setFitHeight(30);
+//        imageView.setFitWidth(30);
+//        return imageView;
+//    }
 
     public String getRate() {
         rate = String.valueOf(1.0 * this.sumOfCustomersRate / getCustomersWhoRated());
