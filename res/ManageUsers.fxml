@@ -12,7 +12,8 @@
         </columns>
     </TableView>
    <Button layoutX="450.0" layoutY="122.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#back" text="back" />
-   <Button layoutX="450.0" layoutY="21.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#AddManager" text="add manager" />
+    <Button layoutX="450.0" layoutY="21.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#AddManager" text="add manager" />
+    <Button layoutX="450.0" layoutY="201.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#addSupporter" text="add supporter" />
    <Button fx:id="logout" layoutX="450.0" layoutY="164.0" minWidth="100" mnemonicParsing="false" text="logout" />
    <Button layoutX="450.0" layoutY="83.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#userArea" text="User Area" />
 </Pane>

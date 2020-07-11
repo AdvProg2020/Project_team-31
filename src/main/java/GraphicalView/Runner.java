@@ -6,6 +6,7 @@ import Controller.SellerController;
 import Model.Customer;
 import Model.Manager;
 import Model.Seller;
+import Model.Supporter;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -144,6 +145,8 @@ public class Runner extends Application {
             changeScene("SellerUserArea.fxml");
         else if (dataBase.user instanceof Manager)
             changeScene("ManagerUserArea.fxml");
+        else if (dataBase.user instanceof Supporter)
+            changeScene("SupporterUserArea.fxml");
     }
 
     public void changeScene(String pageName) {
