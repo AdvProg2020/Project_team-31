@@ -1,6 +1,8 @@
 package Server;
 
 import Controller.SaveAndLoadFiles;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -18,7 +20,7 @@ public class ServerRunner {
     }
 
     public static void run() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(8888);
+        ServerSocket serverSocket = new ServerSocket(8080);
         while (true) {
             Socket clientSocket;
             try {
@@ -39,10 +41,12 @@ public class ServerRunner {
         private Socket clientSocket;
         private DataOutputStream dataOutputStream;
         private DataInputStream dataInputStream;
+        private String token;
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
             this.clientSocket = clientSocket;
             this.dataInputStream = dataInputStream;
             this.dataOutputStream = dataOutputStream;
+            token = "null";
         }
 
         @Override
@@ -51,7 +55,35 @@ public class ServerRunner {
         }
 
         private void handleRequest() {
+            while (true) {
+                String request = null;
+                String output = "";
+                try {
+                    request = dataInputStream.readUTF();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                JsonObject jsonObject = (JsonObject) new JsonParser().parse(request);
+                if(!jsonObject.get("token").equals(token)) {
+                    output = getStringOfWrongToken();
+                }
 
+
+
+                try {
+                    dataOutputStream.writeUTF(output);
+                    dataOutputStream.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private String getStringOfWrongToken() {
+            System.out.println("token is invalid");
+            JsonObject isInvalid = new JsonObject();
+            isInvalid.addProperty("isValid", false);
+            return String.valueOf(isInvalid);
         }
     }
 }

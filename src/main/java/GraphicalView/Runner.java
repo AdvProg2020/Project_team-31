@@ -69,7 +69,7 @@ public class Runner extends Application {
 
     public void connect() {
         try {
-            dataBase.socket = new Socket("127.0.0.1", 8888);
+            dataBase.socket = new Socket("127.0.0.1", 8080);
             System.out.println("Successfully connected to server!");
             dataBase.dataInputStream = new DataInputStream(new BufferedInputStream(dataBase.socket.getInputStream()));
             dataBase.dataOutputStream = new DataOutputStream(new BufferedOutputStream(dataBase.socket.getOutputStream()));
