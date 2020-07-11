@@ -44,7 +44,7 @@ public class OffMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SellerController.getInstance().tempPhoto();
+//        SellerController.getInstance().tempPhoto();
         loginAlert();
         logoutAlert();
         tempTable = tableOfProducts;

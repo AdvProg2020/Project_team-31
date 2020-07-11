@@ -62,7 +62,7 @@ public class ProductsMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SellerController.getInstance().tempPhoto();
+//        SellerController.getInstance().tempPhoto();
         loginAlert();
         logoutAlert();
         Runner.getInstance().changeMusic("ProductMenu");

@@ -80,9 +80,9 @@ public class AddProduct implements Initializable {
         Product product = sellerController.addProduct(generalData, dataBase.user, dataToSend);
         new Alert(Alert.AlertType.INFORMATION, "product created successfully", ButtonType.OK).show();
         runner.back();
-        if (photo != null) {
-            sellerController.changeProductPhoto(product, photo);
-        }
+//        if (photo != null) {
+//            sellerController.changeProductPhoto(product, photo);
+//        }
     }
 
     private String[] setData(HashMap<String, String> dataToSend) {

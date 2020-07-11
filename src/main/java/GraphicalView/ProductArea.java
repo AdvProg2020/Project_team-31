@@ -76,7 +76,7 @@ public class ProductArea implements Initializable {
         ObservableList arrayOfSellers = FXCollections.observableArrayList();
         arrayOfSellers.addAll(product.getSellersOfThisProduct().keySet().stream().map(e -> e.getUsername()).collect(Collectors.toList()));
         sellers.setItems(arrayOfSellers);
-        setImage();
+//        setImage();
     }
 
     public void userArea(MouseEvent mouseEvent) {
@@ -107,13 +107,13 @@ public class ProductArea implements Initializable {
         logout.setOnAction(event);
     }
 
-    private void setImage() {
-        if (product.getImageFile() != null) {
-            image.setImage(product.getImage());
-            image.setFitWidth(100);
-            image.setFitHeight(100);
-        }
-    }
+//    private void setImage() {
+//        if (product.getImageFile() != null) {
+//            image.setImage(product.getImage());
+//            image.setFitWidth(100);
+//            image.setFitHeight(100);
+//        }
+//    }
 
     private void setSpecialProperties() {
         HBox row = new HBox();

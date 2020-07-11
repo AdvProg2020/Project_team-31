@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class OffedProduct {
     private Product product;
-    private Image image;
+//    private Image image;
     private String name;
     private int view;
     private int price;
@@ -17,7 +17,7 @@ public class OffedProduct {
 
     public OffedProduct(Product product,Date endTime, int price, int percent) {
         this.product = product;
-        image = product.getImage();
+//        image = product.getImage();
         name = product.getName();
         view = product.getViews();
         this.price = price;
@@ -30,14 +30,14 @@ public class OffedProduct {
         return product;
     }
 
-    public ImageView getImageViewSmall() {
-        ImageView imageView = new ImageView(image);
-        if (product.getAvailable() == 0)
-            imageView.setOpacity(0.5);
-        imageView.setFitHeight(30);
-        imageView.setFitWidth(30);
-        return imageView;
-    }
+//    public ImageView getImageViewSmall() {
+//        ImageView imageView = new ImageView(image);
+//        if (product.getAvailable() == 0)
+//            imageView.setOpacity(0.5);
+//        imageView.setFitHeight(30);
+//        imageView.setFitWidth(30);
+//        return imageView;
+//    }
 
     public String getName() {
         return name;
