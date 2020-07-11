@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="313.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.AddSupporter" stylesheets="@/Style.css">
+    <TextField fx:id="usernameField" layoutX="15.0" layoutY="75.0" prefWidth="200" promptText="username"/>
+    <TextField fx:id="passwordField" layoutX="248.0" layoutY="75.0" prefWidth="200" promptText="password"/>
+    <TextField fx:id="firstNameField" layoutX="15.0" layoutY="126.0" prefHeight="25.0" prefWidth="200"
+               promptText="firstName"/>
+    <TextField fx:id="lastNameField" layoutX="248.0" layoutY="126.0" prefHeight="25.0" prefWidth="200"
+               promptText="lastName"/>
+    <TextField fx:id="emailField" layoutX="15.0" layoutY="175.0" prefWidth="200" promptText="email address"/>
+    <TextField fx:id="phoneField" layoutX="248.0" layoutY="175.0" prefWidth="200" promptText="phone number"/>
+    <Button layoutX="49.0" layoutY="238.0" mnemonicParsing="false" onMouseClicked="#back" prefWidth="100" text="back"/>
+    <Button layoutX="257.0" layoutY="238.0" mnemonicParsing="false" onMouseClicked="#registerRequest" prefWidth="100"
+            text="register"/>
+
+</Pane>

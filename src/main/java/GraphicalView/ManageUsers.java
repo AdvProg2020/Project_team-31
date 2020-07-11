@@ -1,6 +1,7 @@
 package GraphicalView;
 
 import Controller.ManagerController;
+import Controller.SellerController;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,15 +10,19 @@ import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ManageUsers implements Initializable {
@@ -137,5 +142,10 @@ public class ManageUsers implements Initializable {
         Runner.buttonSound();
         DataBase.getInstance().isAddingManager = true;
         Runner.getInstance().changeScene("RegisterMenu.fxml");
+    }
+
+    public void addSupporter(MouseEvent mouseEvent) {
+        Runner.buttonSound();
+        Runner.getInstance().changeScene("AddSupporter.fxml");
     }
 }
