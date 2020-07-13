@@ -1,7 +1,5 @@
 package GraphicalView;
 
-import Controller.LoginController;
-import Controller.ManagerController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;

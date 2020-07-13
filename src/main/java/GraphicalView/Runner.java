@@ -1,12 +1,11 @@
 package GraphicalView;
 
-import Controller.LoginController;
-import Controller.SaveAndLoadFiles;
-import Controller.SellerController;
 import Model.Customer;
 import Model.Manager;
 import Model.Seller;
 import Model.Supporter;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -62,9 +61,13 @@ public class Runner extends Application {
         changeScene("MainMenu.fxml");
         changeScene("MainMenu.fxml");
         primaryStage.show();
-        if (LoginController.getInstance().isThereAnyManager())
+        if (isThereAnyManager())
             popup();
         else runner.changeScene("RegisterMenu.fxml");
+    }
+
+    private boolean isThereAnyManager() {
+        return false;
     }
 
     public void connect() {
@@ -179,6 +182,9 @@ public class Runner extends Application {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+    public JsonObject jsonMaker(String token, boolean isValid,String controller,String command){
+//mamad please implement
     }
 
 }
