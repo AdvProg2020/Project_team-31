@@ -86,4 +86,13 @@ public class ServerRunner {
             return String.valueOf(isInvalid);
         }
     }
+    public static JsonObject jsonMaker(String token, boolean isValid, String controller, String command) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token", token);
+        jsonObject.addProperty("isValid", isValid);
+        jsonObject.addProperty("controller", controller);
+        jsonObject.addProperty("command", command);
+        return jsonObject;
+
+    }
 }
