@@ -6,6 +6,7 @@ import Model.Seller;
 import Model.Supporter;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -66,8 +67,9 @@ public class Runner extends Application {
         else runner.changeScene("RegisterMenu.fxml");
     }
 
-    private boolean isThereAnyManager() {
-        return false;
+    private boolean isThereAnyManager() throws IOException {
+        dataBase.dataOutputStream.writeUTF(jsonMaker("", true, "login", "isThereAnyManager").toString());
+        return jsonParser(dataBase.dataInputStream.readUTF()).get("managerStatus").getAsBoolean();
     }
 
     public void connect() {
@@ -194,4 +196,8 @@ public class Runner extends Application {
 
     }
 
+    public JsonObject jsonParser(String json) {
+        return (JsonObject) new JsonParser().parse(json);
+
+    }
 }
