@@ -7,37 +7,37 @@ public class Process {
         String answer = null;
         String controller = jsonObject.get("controller").toString();
         if (controller.equals("customer")) {
-            answer = customerConrollerProcess(jsonObject);
+            answer = customerControllerProcess(jsonObject);
         } else if (controller.equals("login")) {
-            answer = loginConrollerProcess(jsonObject);
+            answer = loginControllerProcess(jsonObject);
         } else if (controller.equals("manager")) {
-            answer = managerConrollerProcess(jsonObject);
+            answer = managerControllerProcess(jsonObject);
         } else if (controller.equals("product")) {
-            answer = productConrollerProcess(jsonObject);
+            answer = productControllerProcess(jsonObject);
         } else if (controller.equals("seller")) {
-            answer = sellerConrollerProcess(jsonObject);
+            answer = sellerControllerProcess(jsonObject);
         } else System.out.println("controller not found!!!");
         return answer;
 
     }
 
-    private String customerConrollerProcess(JsonObject jsonObject) {
+    private String customerControllerProcess(JsonObject jsonObject) {
         return null;
     }
 
-    private String loginConrollerProcess(JsonObject jsonObject) {
+    private String loginControllerProcess(JsonObject jsonObject) {
         return null;
     }
 
-    private String managerConrollerProcess(JsonObject jsonObject) {
+    private String managerControllerProcess(JsonObject jsonObject) {
         return null;
     }
 
-    private String productConrollerProcess(JsonObject jsonObject) {
+    private String productControllerProcess(JsonObject jsonObject) {
         return null;
     }
 
-    private String sellerConrollerProcess(JsonObject jsonObject) {
+    private String sellerControllerProcess(JsonObject jsonObject) {
         return null;
     }
 

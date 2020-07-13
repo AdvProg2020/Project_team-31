@@ -68,8 +68,8 @@ public class ServerRunner {
                 JsonObject jsonObject = (JsonObject) new JsonParser().parse(request);
                 if (!jsonObject.get("token").equals(token)) {
                     output = getStringOfWrongToken();
-                }
-                output = process.answerClient(jsonObject);
+                } else
+                    output = process.answerClient(jsonObject);
                 try {
                     dataOutputStream.writeUTF(output);
                     dataOutputStream.flush();
