@@ -2,6 +2,10 @@ package GraphicalView;
 
 import Controller.CustomerController;
 import Controller.LoginController;
+
+import Model.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -49,11 +54,26 @@ public class CustomerUserArea implements Initializable {
             discountCode.textProperty().setValue("no discount code yet!\n you have to log in first!");
             return;
         }
-        ArrayList<String> information = CustomerController.getInstance().showDiscountCodes(dataBase.user);
+        ArrayList<String> information = ShowDiscountCodes(dataBase.user);
         String toShow = "your discount codes : \n";
         for (String info : information)
             toShow += info + "\n";
         discountCode.textProperty().setValue(toShow);
+    }
+
+    private ArrayList<String> ShowDiscountCodes(User user) {
+        try {
+//        return   CustomerController.getInstance().showDiscountCodes(dataBase.user);
+            JsonObject jsonObject = runner.jsonMaker("customer", "showDiscountCodes");
+            jsonObject.addProperty("username", user.getUsername());
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            String data = dataBase.dataInputStream.readUTF();
+            ArrayList<String> codes = new Gson().fromJson(data, ArrayList.class);
+            return codes;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void showPersonalInfo() {
@@ -88,14 +108,16 @@ public class CustomerUserArea implements Initializable {
             Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
             EventHandler<ActionEvent> addBalanceEvent = (e) -> {
                 Runner.buttonSound();
-                addBalance();};
+                addBalance();
+            };
             okButton.setOnAction(addBalanceEvent);
             TextField inputField = getNumber.getEditor();
             BooleanBinding isInvalid = Bindings.createBooleanBinding(() -> isInvalid(inputField.getText()), inputField.textProperty());
             okButton.disableProperty().bind(isInvalid);
-            EventHandler<ActionEvent> event = (e) ->{
+            EventHandler<ActionEvent> event = (e) -> {
                 Runner.buttonSound();
-                getNumber.show();};
+                getNumber.show();
+            };
             addBalance.setOnAction(event);
         }
     }
@@ -120,13 +142,15 @@ public class CustomerUserArea implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             EventHandler<ActionEvent> event = (e) -> {
                 Runner.buttonSound();
-                alert.show();};
+                alert.show();
+            };
             editPersonalInfo.setOnAction(event);
             alert.setContentText("You have to login");
         } else {
             EventHandler<ActionEvent> event = (e) -> {
                 Runner.buttonSound();
-                runner.changeScene("EditPersonalInfo.fxml");};
+                runner.changeScene("EditPersonalInfo.fxml");
+            };
             editPersonalInfo.setOnAction(event);
         }
     }

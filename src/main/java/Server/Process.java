@@ -40,8 +40,8 @@ public class Process {
     private String customerControllerProcess(JsonObject jsonObject) {
         String answer = null;
         String command = jsonObject.get("command").toString();
-        if (command.equals("")) {
-
+        if (command.equals("showDiscountCodes")) {
+            answer=customerControllerProcess.showDiscountCodes(jsonObject);
         }
         return answer;
     }
@@ -53,7 +53,7 @@ public class Process {
         if (command.equals("isThereAnyManager"))
             answer = loginControllerProcess.managerStatus();
         else if (command.equals("showPersonalInformation"))
-            answer=loginControllerProcess.showPersonalInformation(jsonObject);
+            answer = loginControllerProcess.showPersonalInformation(jsonObject);
         return answer;
     }
 

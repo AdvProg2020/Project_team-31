@@ -1,6 +1,5 @@
 package GraphicalView;
 
-import Controller.LoginController;
 import Model.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -17,7 +16,6 @@ public class DataBase {
     public static DataBase dataBase = null;
     static Runner runner = Runner.getInstance();
     public Card card;
-    //    LoginController loginController = LoginController.getInstance();
     Off editingOff = null;
     public DiscountCode editingDiscountCode = null;
     boolean isAddingManager = false;
@@ -52,7 +50,9 @@ public class DataBase {
     }
 
     public String[] getUserInfo() throws IOException {
-        dataOutputStream.writeUTF(runner.jsonMaker("login", "showPersonalInformation").toString());
+        JsonObject dataToSend=runner.jsonMaker("login", "showPersonalInformation");
+        dataToSend.addProperty("username",user.getUsername());
+        dataOutputStream.writeUTF(dataToSend.toString());
         dataOutputStream.flush();
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(dataInputStream.readUTF());
         jsonObject.get("data").getAsJsonArray().get(0).getAsString();
