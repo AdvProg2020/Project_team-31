@@ -1,5 +1,7 @@
 package Server;
 
+import Controller.LoginController;
+import Model.User;
 import com.google.gson.JsonObject;
 
 public class Process {
@@ -48,9 +50,10 @@ public class Process {
     private String loginControllerProcess(JsonObject jsonObject) {
         String answer = null;
         String command = jsonObject.get("command").getAsString();
-        if (command.equals("isThereAnyManager")) {
+        if (command.equals("isThereAnyManager"))
             answer = loginControllerProcess.managerStatus();
-        }
+        else if (command.equals("showPersonalInformation"))
+            answer=loginControllerProcess.showPersonalInformation(jsonObject);
         return answer;
     }
 

@@ -1,6 +1,8 @@
 package Server;
 
+import Controller.LoginController;
 import Controller.SaveAndLoadFiles;
+import Model.User;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -55,7 +57,6 @@ public class ServerRunner {
         public void run() {
             handleRequest();
         }
-
         private void handleRequest() {
             while (true) {
                 String request = null;
