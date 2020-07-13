@@ -42,6 +42,8 @@ public class ServerRunner {
         private DataOutputStream dataOutputStream;
         private DataInputStream dataInputStream;
         private String token;
+        Process process = new Process();
+
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
             this.clientSocket = clientSocket;
             this.dataInputStream = dataInputStream;
@@ -64,12 +66,10 @@ public class ServerRunner {
                     e.printStackTrace();
                 }
                 JsonObject jsonObject = (JsonObject) new JsonParser().parse(request);
-                if(!jsonObject.get("token").equals(token)) {
+                if (!jsonObject.get("token").equals(token)) {
                     output = getStringOfWrongToken();
                 }
-
-
-
+                output = process.answerClient(jsonObject);
                 try {
                     dataOutputStream.writeUTF(output);
                     dataOutputStream.flush();
