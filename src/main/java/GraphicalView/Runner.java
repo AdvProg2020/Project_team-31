@@ -59,17 +59,21 @@ public class Runner extends Application {
         connect();
         stage = primaryStage;
         initializeStage();
+        System.out.println("1");
         changeScene("MainMenu.fxml");
         changeScene("MainMenu.fxml");
+        System.out.println("2");
         primaryStage.show();
+        System.out.println("3");
         if (isThereAnyManager())
             popup();
         else runner.changeScene("RegisterMenu.fxml");
+        System.out.println("4");
     }
 
     private boolean isThereAnyManager() throws IOException {
         dataBase.dataOutputStream.writeUTF(jsonMaker("", true, "login", "isThereAnyManager").toString());
-        return jsonParser(dataBase.dataInputStream.readUTF()).get("managerStatus").getAsBoolean();
+        return  jsonParser(dataBase.dataInputStream.readUTF()).get("managerStatus").getAsBoolean();
     }
 
     public void connect() {

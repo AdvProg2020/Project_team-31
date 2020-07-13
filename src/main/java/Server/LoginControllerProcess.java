@@ -1,6 +1,10 @@
 package Server;
 
+import Controller.LoginController;
+import com.google.gson.JsonObject;
+
 public class LoginControllerProcess {
+    LoginController loginController=LoginController.getInstance();
     private static LoginControllerProcess instance;
 
     public static LoginControllerProcess getInstance() {
@@ -10,5 +14,11 @@ public class LoginControllerProcess {
     }
 
     private LoginControllerProcess() {
+    }
+
+    public String managerStatus() {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("managerStatus", loginController.isThereAnyManager());
+        return jsonObject.toString();
     }
 }

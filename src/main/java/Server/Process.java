@@ -48,7 +48,8 @@ public class Process {
     private String loginControllerProcess(JsonObject jsonObject) {
         String answer = null;
         String command = jsonObject.get("command").toString();
-        if (command.equals("")) {
+        if (command.equals("isThereAnyManager")) {
+            return loginControllerProcess.managerStatus();
         }
         return answer;
     }
