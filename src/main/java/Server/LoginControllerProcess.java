@@ -17,7 +17,6 @@ public class LoginControllerProcess {
     }
 
     public String managerStatus() {
-        System.out.println("manager");
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("managerStatus", loginController.isThereAnyManager());
         return jsonObject.toString();

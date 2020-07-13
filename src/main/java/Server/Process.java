@@ -11,8 +11,8 @@ public class Process {
 
     public String answerClient(JsonObject jsonObject) {
         String answer = null;
-        String controller = jsonObject.get("controller").toString();
-        switch (controller.substring(1,controller.length()-1)) {
+        String controller = jsonObject.get("controller").getAsString();
+        switch (controller) {
             case "customer":
                 answer = customerControllerProcess(jsonObject);
                 break;
@@ -47,12 +47,9 @@ public class Process {
     /////////////////////////////////////////////////////////////////////////////////
     private String loginControllerProcess(JsonObject jsonObject) {
         String answer = null;
-        System.out.println("command --> "+ jsonObject.get("command"));
-        String command = jsonObject.get("command").toString();
-        switch (command.substring(1,command.length()-1)) {
-            case "isThereAnyManager":
-                answer = loginControllerProcess.managerStatus();
-                break;
+        String command = jsonObject.get("command").getAsString();
+        if (command.equals("isThereAnyManager")) {
+            answer = loginControllerProcess.managerStatus();
         }
         return answer;
     }
