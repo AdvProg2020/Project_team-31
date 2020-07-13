@@ -59,16 +59,12 @@ public class Runner extends Application {
         connect();
         stage = primaryStage;
         initializeStage();
-        System.out.println("1");
         changeScene("MainMenu.fxml");
         changeScene("MainMenu.fxml");
-        System.out.println("2");
         primaryStage.show();
-        System.out.println("3");
         if (isThereAnyManager())
             popup();
         else runner.changeScene("RegisterMenu.fxml");
-        System.out.println("4");
     }
 
     private boolean isThereAnyManager() throws IOException {

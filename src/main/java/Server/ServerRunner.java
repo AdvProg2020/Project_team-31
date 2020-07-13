@@ -66,11 +66,11 @@ public class ServerRunner {
                     e.printStackTrace();
                 }
                 JsonObject jsonObject = (JsonObject) new JsonParser().parse(request);
-                System.out.println("resid");
                 if (!jsonObject.get("token").toString().equals(token)) {
                     output = getStringOfWrongToken();
-                } else
+                } else {
                     output = process.answerClient(jsonObject);
+                }
                 try {
                     dataOutputStream.writeUTF(output);
                     dataOutputStream.flush();
