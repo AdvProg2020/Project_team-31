@@ -37,8 +37,8 @@ public class Process {
 
     private String customerControllerProcess(JsonObject jsonObject) {
         String answer = null;
-        String controller = jsonObject.get("command").toString();
-        if (controller.equals("")) {
+        String command = jsonObject.get("command").toString();
+        if (command.equals("")) {
 
         }
         return answer;
@@ -47,8 +47,8 @@ public class Process {
     /////////////////////////////////////////////////////////////////////////////////
     private String loginControllerProcess(JsonObject jsonObject) {
         String answer = null;
-        String controller = jsonObject.get("command").toString();
-        if (controller.equals("")) {
+        String command = jsonObject.get("command").toString();
+        if (command.equals("")) {
         }
         return answer;
     }
@@ -56,8 +56,8 @@ public class Process {
     /////////////////////////////////////////////////////////////////////////////////
     private String managerControllerProcess(JsonObject jsonObject) {
         String answer = null;
-        String controller = jsonObject.get("command").toString();
-        if (controller.equals("")) {
+        String command = jsonObject.get("command").toString();
+        if (command.equals("")) {
         }
         return answer;
     }
@@ -65,8 +65,8 @@ public class Process {
     /////////////////////////////////////////////////////////////////////////////////
     private String productControllerProcess(JsonObject jsonObject) {
         String answer = null;
-        String controller = jsonObject.get("command").toString();
-        if (controller.equals("")) {
+        String command = jsonObject.get("command").toString();
+        if (command.equals("")) {
         }
         return answer;
     }
@@ -74,8 +74,8 @@ public class Process {
     /////////////////////////////////////////////////////////////////////////////////
     private String sellerControllerProcess(JsonObject jsonObject) {
         String answer = null;
-        String controller = jsonObject.get("command").toString();
-        if (controller.equals("")) {
+        String command = jsonObject.get("command").toString();
+        if (command.equals("")) {
         }
         return answer;
     }
