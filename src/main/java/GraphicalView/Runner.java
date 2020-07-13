@@ -72,7 +72,8 @@ public class Runner extends Application {
     }
 
     private boolean isThereAnyManager() throws IOException {
-        dataBase.dataOutputStream.writeUTF(jsonMaker("", true, "login", "isThereAnyManager").toString());
+        dataBase.dataOutputStream.writeUTF(jsonMaker("login", "isThereAnyManager").toString());
+        dataBase.dataOutputStream.flush();
         return  jsonParser(dataBase.dataInputStream.readUTF()).get("managerStatus").getAsBoolean();
     }
 
@@ -82,6 +83,7 @@ public class Runner extends Application {
             System.out.println("Successfully connected to server!");
             dataBase.dataInputStream = new DataInputStream(new BufferedInputStream(dataBase.socket.getInputStream()));
             dataBase.dataOutputStream = new DataOutputStream(new BufferedOutputStream(dataBase.socket.getOutputStream()));
+            dataBase.token = null;
         } catch (IOException e) {
             System.err.println("Error starting client!");
         }
@@ -190,10 +192,9 @@ public class Runner extends Application {
         }
     }
 
-    public JsonObject jsonMaker(String token, boolean isValid, String controller, String command) {
+    public JsonObject jsonMaker(String controller, String command) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("token", token);
-        jsonObject.addProperty("isValid", isValid);
+        jsonObject.addProperty("token", dataBase.token);
         jsonObject.addProperty("controller", controller);
         jsonObject.addProperty("command", command);
         return jsonObject;

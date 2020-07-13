@@ -20,6 +20,7 @@ public class DataBase {
     Socket socket;
     DataOutputStream dataOutputStream;
     DataInputStream dataInputStream;
+    String token;
     public static DataBase getInstance() {
         if (dataBase == null)
             dataBase = new DataBase();

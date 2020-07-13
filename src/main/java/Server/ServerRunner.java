@@ -66,7 +66,8 @@ public class ServerRunner {
                     e.printStackTrace();
                 }
                 JsonObject jsonObject = (JsonObject) new JsonParser().parse(request);
-                if (!jsonObject.get("token").equals(token)) {
+                System.out.println("resid");
+                if (!jsonObject.get("token").toString().equals(token)) {
                     output = getStringOfWrongToken();
                 } else
                     output = process.answerClient(jsonObject);

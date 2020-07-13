@@ -12,7 +12,7 @@ public class Process {
     public String answerClient(JsonObject jsonObject) {
         String answer = null;
         String controller = jsonObject.get("controller").toString();
-        switch (controller) {
+        switch (controller.substring(1,controller.length()-1)) {
             case "customer":
                 answer = customerControllerProcess(jsonObject);
                 break;
