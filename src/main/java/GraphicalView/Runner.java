@@ -183,8 +183,15 @@ public class Runner extends Application {
             System.out.println(e.getMessage());
         }
     }
-    public JsonObject jsonMaker(String token, boolean isValid,String controller,String command){
-//mamad please implement
+
+    public JsonObject jsonMaker(String token, boolean isValid, String controller, String command) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token", token);
+        jsonObject.addProperty("isValid", isValid);
+        jsonObject.addProperty("controller", controller);
+        jsonObject.addProperty("command", command);
+        return jsonObject;
+
     }
 
 }
