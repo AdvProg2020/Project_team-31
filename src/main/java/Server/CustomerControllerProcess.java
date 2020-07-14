@@ -24,6 +24,13 @@ public class CustomerControllerProcess {
     public String showDiscountCodes(JsonObject jsonObject) {
         User user = LoginController.getUserByUsername(jsonObject.get("username").getAsString());
         ArrayList<String> allCodes = customerController.showDiscountCodes(user);
-      return new Gson().toJson(allCodes);
+        return new Gson().toJson(allCodes);
+    }
+
+    public String addCredit(JsonObject jsonObject) {
+        User user = LoginController.getUserByUsername(jsonObject.get("username").getAsString());
+        int amount = Integer.parseInt(jsonObject.get("amount").getAsString());
+        customerController.addCredit(user, amount);
+        return null;
     }
 }

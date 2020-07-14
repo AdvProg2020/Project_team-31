@@ -43,7 +43,7 @@ public class LoginController {
 
     public User login(String username, String password, Card card) throws Exception {
         User user = getUserByUsername(username);
-        if(user == null) {
+        if (user == null) {
             throw new Exception("There is not user with this username");
         }
         if (user.getPassword().equals(password)) {
@@ -70,6 +70,7 @@ public class LoginController {
     }
 
     public static User getUserByUsername(String username) {
+        System.out.println("the users number   " + User.getAllUsers().size());
         for (User user : User.getAllUsers()) {
             if (user.getUsername().equals(username))
                 return user;

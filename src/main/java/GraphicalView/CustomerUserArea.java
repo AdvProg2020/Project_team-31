@@ -1,7 +1,7 @@
 package GraphicalView;
 
-import Controller.CustomerController;
-import Controller.LoginController;
+//import Controller.CustomerController;
+//import Controller.LoginController;
 
 import Model.User;
 import com.google.gson.Gson;
@@ -63,7 +63,6 @@ public class CustomerUserArea implements Initializable {
 
     private ArrayList<String> ShowDiscountCodes(User user) {
         try {
-//        return   CustomerController.getInstance().showDiscountCodes(dataBase.user);
             JsonObject jsonObject = runner.jsonMaker("customer", "showDiscountCodes");
             jsonObject.addProperty("username", user.getUsername());
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
@@ -72,8 +71,8 @@ public class CustomerUserArea implements Initializable {
             return codes;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     private void showPersonalInfo() {
@@ -82,7 +81,7 @@ public class CustomerUserArea implements Initializable {
             return;
         }
         StringBuilder toShow = new StringBuilder("personal information : \n");
-        String[] information = LoginController.getInstance().showPersonalInformation(dataBase.user);
+        String[] information = showPersonalInformation(dataBase.user);
         toShow.append("first name : ").append(information[0]).append("\n");
         toShow.append("last name : ").append(information[1]).append("\n");
         toShow.append("username : ").append(information[2]).append("\n");
@@ -90,6 +89,20 @@ public class CustomerUserArea implements Initializable {
         toShow.append("phone number : ").append(information[4]).append("\n");
         toShow.append("credit : ").append(information[6]).append("\n");
         personalInfo.textProperty().setValue(toShow.toString());
+    }
+
+    private String[] showPersonalInformation(User user) {
+        try {
+            JsonObject jsonObject = runner.jsonMaker("login", "showPersonalInformation");
+            jsonObject.addProperty("username", user.getUsername());
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            String data = dataBase.dataInputStream.readUTF();
+            String[] info = new Gson().fromJson(data, String[].class);
+            return info;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void addBalanceDialog() {
@@ -123,7 +136,15 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void addBalance() {
-        CustomerController.getInstance().addCredit(dataBase.user, Integer.parseInt(data.getValue()));
+        try {
+            JsonObject jsonObject = runner.jsonMaker("login", "addCredit");
+            jsonObject.addProperty("username", dataBase.user.getUsername());
+            jsonObject.addProperty("amount", data.getValue());
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataInputStream.readUTF();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         showPersonalInfo();
     }
 

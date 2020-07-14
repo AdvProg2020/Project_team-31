@@ -42,7 +42,8 @@ public class Process {
         String command = jsonObject.get("command").toString();
         if (command.equals("showDiscountCodes")) {
             answer=customerControllerProcess.showDiscountCodes(jsonObject);
-        }
+        }else if (command.equals("addCredit"))
+            answer=customerControllerProcess.addCredit(jsonObject);
         return answer;
     }
 

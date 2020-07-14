@@ -12,7 +12,7 @@ import java.net.Socket;
 
 public class ServerRunner {
     public static void main(String[] args) {
-        SaveAndLoadFiles.start();
+//        SaveAndLoadFiles.start();
         try {
             run();
         } catch (IOException e) {

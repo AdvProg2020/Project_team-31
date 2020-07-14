@@ -1,6 +1,7 @@
 package GraphicalView;
 
 import Model.*;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -50,18 +51,11 @@ public class DataBase {
     }
 
     public String[] getUserInfo() throws IOException {
-        JsonObject dataToSend=runner.jsonMaker("login", "showPersonalInformation");
-        dataToSend.addProperty("username",user.getUsername());
+        JsonObject dataToSend = runner.jsonMaker("login", "showPersonalInformation");
+        dataToSend.addProperty("username", user.getUsername());
         dataOutputStream.writeUTF(dataToSend.toString());
         dataOutputStream.flush();
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(dataInputStream.readUTF());
-        jsonObject.get("data").getAsJsonArray().get(0).getAsString();
-        String[] info = new String[7];
-        int iterator = 0;
-        for (JsonElement jsonElement : jsonObject.get("data").getAsJsonArray()) {
-            info[iterator] = jsonElement.getAsString();
-            iterator++;
-        }
-        return info;
+        return new Gson().fromJson(jsonObject.get("info"), String[].class);
     }
 }

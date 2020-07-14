@@ -2,10 +2,7 @@ package Server;
 
 import Controller.LoginController;
 import Model.User;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.util.stream.Stream;
 
@@ -32,9 +29,7 @@ public class LoginControllerProcess {
         User user = LoginController.getUserByUsername(jsonObject.get("username").getAsString());
         String[] info = loginController.showPersonalInformation(user);
         JsonObject answer = new JsonObject();
-        JsonArray data = new JsonArray();
-        Stream.of(info).forEach(data::add);
-        answer.add("data", data);
+        answer.addProperty("info", new Gson().toJson(info));
         return answer.toString();
     }
 }
