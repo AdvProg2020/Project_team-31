@@ -44,6 +44,7 @@ public class ServerRunner {
         private DataOutputStream dataOutputStream;
         private DataInputStream dataInputStream;
         private String token;
+        private User user;
         Process process = new Process();
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
@@ -51,6 +52,7 @@ public class ServerRunner {
             this.dataInputStream = dataInputStream;
             this.dataOutputStream = dataOutputStream;
             token = "null";
+            user = null;
         }
 
         @Override
@@ -70,7 +72,7 @@ public class ServerRunner {
                 if (!jsonObject.get("token").toString().equals(token)) {
                     output = getStringOfWrongToken();
                 } else {
-                    output = process.answerClient(jsonObject);
+                    output = process.answerClient(jsonObject, user).toString();
                 }
                 try {
                     dataOutputStream.writeUTF(output);

@@ -11,24 +11,24 @@ public class Process {
     ProductControllerProcess productControllerProcess = ProductControllerProcess.getInstance();
     SellerControllerProcess sellerControllerProcess = SellerControllerProcess.getInstance();
 
-    public String answerClient(JsonObject jsonObject) {
-        String answer = null;
+    public JsonObject answerClient(JsonObject jsonObject, User user) {
+        JsonObject answer = null;
         String controller = jsonObject.get("controller").getAsString();
         switch (controller) {
             case "customer":
-                answer = customerControllerProcess(jsonObject);
+                answer = customerControllerProcess(jsonObject, user);
                 break;
             case "login":
-                answer = loginControllerProcess(jsonObject);
+                answer = loginControllerProcess(jsonObject, user);
                 break;
             case "manager":
-                answer = managerControllerProcess(jsonObject);
+                answer = managerControllerProcess(jsonObject, user);
                 break;
             case "product":
-                answer = productControllerProcess(jsonObject);
+                answer = productControllerProcess(jsonObject, user);
                 break;
             case "seller":
-                answer = sellerControllerProcess(jsonObject);
+                answer = sellerControllerProcess(jsonObject, user);
                 break;
             default:
                 System.out.println("controller not found!!!");
@@ -37,30 +37,30 @@ public class Process {
 
     }
 
-    private String customerControllerProcess(JsonObject jsonObject) {
-        String answer = null;
+    private JsonObject customerControllerProcess(JsonObject jsonObject, User user) {
+        JsonObject answer = null;
         String command = jsonObject.get("command").toString();
         if (command.equals("showDiscountCodes")) {
-            answer=customerControllerProcess.showDiscountCodes(jsonObject);
+            answer=customerControllerProcess.showDiscountCodes(jsonObject, user);
         }else if (command.equals("addCredit"))
-            answer=customerControllerProcess.addCredit(jsonObject);
+            answer=customerControllerProcess.addCredit(jsonObject, user);
         return answer;
     }
 
     /////////////////////////////////////////////////////////////////////////////////
-    private String loginControllerProcess(JsonObject jsonObject) {
-        String answer = null;
+    private JsonObject loginControllerProcess(JsonObject jsonObject, User user) {
+        JsonObject answer = null;
         String command = jsonObject.get("command").getAsString();
         if (command.equals("isThereAnyManager"))
             answer = loginControllerProcess.managerStatus();
         else if (command.equals("showPersonalInformation"))
-            answer = loginControllerProcess.showPersonalInformation(jsonObject);
+            answer = loginControllerProcess.showPersonalInformation(jsonObject, user);
         return answer;
     }
 
     /////////////////////////////////////////////////////////////////////////////////
-    private String managerControllerProcess(JsonObject jsonObject) {
-        String answer = null;
+    private JsonObject managerControllerProcess(JsonObject jsonObject, User user) {
+        JsonObject answer = null;
         String command = jsonObject.get("command").toString();
         if (command.equals("")) {
         }
@@ -68,8 +68,8 @@ public class Process {
     }
 
     /////////////////////////////////////////////////////////////////////////////////
-    private String productControllerProcess(JsonObject jsonObject) {
-        String answer = null;
+    private JsonObject productControllerProcess(JsonObject jsonObject, User user) {
+        JsonObject answer = null;
         String command = jsonObject.get("command").toString();
         if (command.equals("")) {
         }
@@ -77,8 +77,8 @@ public class Process {
     }
 
     /////////////////////////////////////////////////////////////////////////////////
-    private String sellerControllerProcess(JsonObject jsonObject) {
-        String answer = null;
+    private JsonObject sellerControllerProcess(JsonObject jsonObject, User user) {
+        JsonObject answer = null;
         String command = jsonObject.get("command").toString();
         if (command.equals("")) {
         }

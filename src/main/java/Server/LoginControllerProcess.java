@@ -4,6 +4,7 @@ import Controller.LoginController;
 import Model.User;
 import com.google.gson.*;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.stream.Stream;
 
 public class LoginControllerProcess {
@@ -19,17 +20,16 @@ public class LoginControllerProcess {
     private LoginControllerProcess() {
     }
 
-    public String managerStatus() {
+    public JsonObject managerStatus() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("managerStatus", loginController.isThereAnyManager());
-        return jsonObject.toString();
+        return jsonObject;
     }
 
-    public String showPersonalInformation(JsonObject jsonObject) {
-        User user = LoginController.getUserByUsername(jsonObject.get("username").getAsString());
+    public JsonObject showPersonalInformation(JsonObject jsonObject, User user) {
         String[] info = loginController.showPersonalInformation(user);
         JsonObject answer = new JsonObject();
         answer.addProperty("info", new Gson().toJson(info));
-        return answer.toString();
+        return answer;
     }
 }
