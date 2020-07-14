@@ -39,7 +39,7 @@ public class Process {
 
     private JsonObject customerControllerProcess(JsonObject jsonObject, User user) {
         JsonObject answer = null;
-        String command = jsonObject.get("command").toString();
+        String command = jsonObject.get("command").getAsString();
         if (command.equals("showDiscountCodes")) {
             answer=customerControllerProcess.showDiscountCodes(jsonObject, user);
         }else if (command.equals("addCredit"))
@@ -61,7 +61,7 @@ public class Process {
     /////////////////////////////////////////////////////////////////////////////////
     private JsonObject managerControllerProcess(JsonObject jsonObject, User user) {
         JsonObject answer = null;
-        String command = jsonObject.get("command").toString();
+        String command = jsonObject.get("command").getAsString();
         if (command.equals("")) {
         }
         return answer;
@@ -70,7 +70,7 @@ public class Process {
     /////////////////////////////////////////////////////////////////////////////////
     private JsonObject productControllerProcess(JsonObject jsonObject, User user) {
         JsonObject answer = null;
-        String command = jsonObject.get("command").toString();
+        String command = jsonObject.get("command").getAsString();
         if (command.equals("")) {
         }
         return answer;
@@ -79,7 +79,7 @@ public class Process {
     /////////////////////////////////////////////////////////////////////////////////
     private JsonObject sellerControllerProcess(JsonObject jsonObject, User user) {
         JsonObject answer = null;
-        String command = jsonObject.get("command").toString();
+        String command = jsonObject.get("command").getAsString();
         if (command.equals("")) {
         }
         return answer;
