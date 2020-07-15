@@ -75,7 +75,14 @@ public class Process {
     private JsonObject productControllerProcess(JsonObject jsonObject, User user) {
         JsonObject answer = null;
         String command = jsonObject.get("command").getAsString();
-        if (command.equals("")) {
+        if (command.equals("showAllProducts")) {
+            answer = productControllerProcess.showAllProducts(user);
+        } else if(command.equals("addFilter")) {
+            answer = productControllerProcess.addFilter(jsonObject, user);
+        } else if(command.equals("removeFilter")) {
+            answer = productControllerProcess.removeFilter(jsonObject, user);
+        } else if(command.equals("addView")) {
+            answer = productControllerProcess.addView(jsonObject);
         }
         return answer;
     }
