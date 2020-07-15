@@ -1,15 +1,15 @@
 package GraphicalView;
 
-import Controller.LoginController;
-import Controller.SellerController;
 import Model.Seller;
 import Model.User;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,7 +24,6 @@ public class EditPersonalInfo implements Initializable {
     public Button login;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
-    LoginController loginController = LoginController.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,7 +37,6 @@ public class EditPersonalInfo implements Initializable {
     }
 
     private void initializeFields() throws Exception {
-        SellerController sellerController = SellerController.getInstance();
         String[] userData = dataBase.getUserInfo();
         firstName.setText(userData[0]);
         lastName.setText(userData[1]);
@@ -46,8 +44,18 @@ public class EditPersonalInfo implements Initializable {
         phoneNumber.setText(userData[4]);
         password.setText(userData[5]);
         if (dataBase.user instanceof Seller)
-            companyName.setText(sellerController.showCompanyInformation(dataBase.user));
+            companyName.setText(showCompanyInformation(dataBase.user));
         else companyName.setText("PLEASE ENTER NOTHING!");
+    }
+
+    private String showCompanyInformation(User user) {
+        try {
+            dataBase.dataOutputStream.writeUTF(runner.jsonMaker("seller", "showCompanyInformation").toString());
+            dataBase.dataOutputStream.flush();
+            return runner.jsonParser(dataBase.dataInputStream.readUTF()).get("company").getAsString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void logoutAlert() {

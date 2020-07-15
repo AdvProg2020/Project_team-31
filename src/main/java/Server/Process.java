@@ -41,11 +41,11 @@ public class Process {
         JsonObject answer = null;
         String command = jsonObject.get("command").getAsString();
         if (command.equals("showDiscountCodes"))
-            answer=customerControllerProcess.showDiscountCodes(jsonObject, user);
+            answer = customerControllerProcess.showDiscountCodes(jsonObject, user);
         else if (command.equals("addCredit"))
-            answer=customerControllerProcess.addCredit(jsonObject, user);
+            answer = customerControllerProcess.addCredit(jsonObject, user);
         else if (command.equals("showAllOrdersByList"))
-            answer=customerControllerProcess.showAllOrdersByList(jsonObject,user);
+            answer = customerControllerProcess.showAllOrdersByList(jsonObject, user);
         return answer;
     }
 
@@ -82,8 +82,8 @@ public class Process {
     private JsonObject sellerControllerProcess(JsonObject jsonObject, User user) {
         JsonObject answer = null;
         String command = jsonObject.get("command").getAsString();
-        if (command.equals("")) {
-        }
+        if (command.equals("showCompanyInformation"))
+            answer = sellerControllerProcess.showCompanyInformation(jsonObject, user);
         return answer;
     }
 
