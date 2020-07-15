@@ -23,7 +23,7 @@ public class CustomerControllerProcess {
     }
 
     public JsonObject showDiscountCodes(JsonObject jsonObject, User user) {
-        String data = new Gson().toJson(customerController.showDiscountCodes(user));
+        String data = new Gson().toJson(customerController.showDiscountCodes(user).toArray());
         JsonObject answer = new JsonObject();
         answer.addProperty("content", data);
         return answer;
@@ -36,7 +36,7 @@ public class CustomerControllerProcess {
     }
 
     public JsonObject showAllOrdersByList(JsonObject jsonObject, User user) {
-        String data = new Gson().toJson(customerController.showAllOrdersByList(user));
+        String data = new Gson().toJson(customerController.showAllOrdersByList(user).toArray());
         JsonObject dataToSend = new JsonObject();
         dataToSend.addProperty("data", data);
         return dataToSend;

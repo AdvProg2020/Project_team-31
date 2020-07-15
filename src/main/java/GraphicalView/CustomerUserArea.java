@@ -19,6 +19,7 @@ import javafx.util.Pair;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -63,8 +64,10 @@ public class CustomerUserArea implements Initializable {
             JsonObject jsonObject = runner.jsonMaker("customer", "showDiscountCodes");
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             String data = dataBase.dataInputStream.readUTF();
-            ArrayList<String> codes = new Gson().fromJson(runner.jsonParser(data).get("content").getAsString(), ArrayList.class);
-            return codes;
+            String[] codes = new Gson().fromJson(runner.jsonParser(data).get("content").getAsString(), String[].class);
+            ArrayList<String> answer = new ArrayList<String>();
+            answer.addAll(Arrays.asList(codes));
+            return answer;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

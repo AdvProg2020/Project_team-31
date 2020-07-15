@@ -1,6 +1,5 @@
 package Server;
 
-import Controller.LoginController;
 import Controller.SaveAndLoadFiles;
 import Model.User;
 import com.google.gson.JsonObject;
@@ -9,6 +8,7 @@ import com.google.gson.JsonParser;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ServerRunner {
     public static void main(String[] args) {
@@ -39,7 +39,7 @@ public class ServerRunner {
         }
     }
 
-    static class ClientHandler extends Thread {
+    static class ClientHandler<T> extends Thread {
         private Socket clientSocket;
         private DataOutputStream dataOutputStream;
         private DataInputStream dataInputStream;
@@ -59,6 +59,7 @@ public class ServerRunner {
         public void run() {
             handleRequest();
         }
+
         private void handleRequest() {
             while (true) {
                 String request = null;
@@ -89,5 +90,6 @@ public class ServerRunner {
             isInvalid.addProperty("isValid", false);
             return String.valueOf(isInvalid);
         }
+
     }
 }

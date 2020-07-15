@@ -107,7 +107,10 @@ public class CustomerBuyingHistory implements Initializable {
             JsonObject jsonObject = runner.jsonMaker("customer", "showAllOrdersByList");
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataOutputStream.flush();
-            return new Gson().fromJson(runner.jsonParser(dataBase.dataInputStream.readUTF()).get("data").getAsString(), ArrayList.class);
+            BuyingLog[] data = new Gson().fromJson(runner.jsonParser(dataBase.dataInputStream.readUTF()).get("data").getAsString(), BuyingLog[].class);
+            ArrayList<BuyingLog> answer = new ArrayList<>();
+            answer.addAll(Arrays.asList(data));
+            return answer;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
