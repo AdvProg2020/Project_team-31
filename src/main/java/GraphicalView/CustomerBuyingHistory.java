@@ -78,7 +78,7 @@ public class CustomerBuyingHistory implements Initializable {
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
-            if (dataBase.user != null) {
+            if (!dataBase.loginState) {
                 error.setContentText("You have logged in!");
                 error.show();
             } else {
@@ -90,7 +90,7 @@ public class CustomerBuyingHistory implements Initializable {
 
     private ObservableList<BuyingLogShow> logsOfUser() {
 //        ArrayList<BuyingLog> logs = CustomerController.getInstance().showAllOrdersByList(dataBase.user);
-        ArrayList<BuyingLog> logs = getAllOrders(dataBase.user);
+        ArrayList<BuyingLog> logs = getAllOrders();
         ObservableList<BuyingLogShow> showingLogs = FXCollections.observableArrayList();
         SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
         for (BuyingLog log : logs) {
@@ -102,7 +102,7 @@ public class CustomerBuyingHistory implements Initializable {
         return showingLogs;
     }
 
-    private ArrayList<BuyingLog> getAllOrders(User user) {
+    private ArrayList<BuyingLog> getAllOrders() {
         try {
             JsonObject jsonObject = runner.jsonMaker("customer", "showAllOrdersByList");
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());

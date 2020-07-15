@@ -47,21 +47,20 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void showDiscountCodes() {
-        if (dataBase.user == null) {
+        if (!dataBase.loginState) {
             discountCode.textProperty().setValue("no discount code yet!\n you have to log in first!");
             return;
         }
-        ArrayList<String> information = ShowDiscountCodes(dataBase.user);
+        ArrayList<String> information = ShowDiscountCodes();
         String toShow = "your discount codes : \n";
         for (String info : information)
             toShow += info + "\n";
         discountCode.textProperty().setValue(toShow);
     }
 
-    private ArrayList<String> ShowDiscountCodes(User user) {
+    private ArrayList<String> ShowDiscountCodes() {
         try {
             JsonObject jsonObject = runner.jsonMaker("customer", "showDiscountCodes");
-            jsonObject.addProperty("username", user.getUsername());
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             String data = dataBase.dataInputStream.readUTF();
             ArrayList<String> codes = new Gson().fromJson(runner.jsonParser(data).get("content").getAsString(), ArrayList.class);
@@ -73,12 +72,12 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void showPersonalInfo() {
-        if (dataBase.user == null) {
+        if (!dataBase.loginState) {
             personalInfo.textProperty().setValue("no personal info yet!\n you have to log in first!");
             return;
         }
         StringBuilder toShow = new StringBuilder("personal information : \n");
-        String[] information = showPersonalInformation(dataBase.user);
+        String[] information = showPersonalInformation();
         toShow.append("first name : ").append(information[0]).append("\n");
         toShow.append("last name : ").append(information[1]).append("\n");
         toShow.append("username : ").append(information[2]).append("\n");
@@ -88,10 +87,9 @@ public class CustomerUserArea implements Initializable {
         personalInfo.textProperty().setValue(toShow.toString());
     }
 
-    private String[] showPersonalInformation(User user) {
+    private String[] showPersonalInformation() {
         try {
             JsonObject jsonObject = runner.jsonMaker("login", "showPersonalInformation");
-            jsonObject.addProperty("username", user.getUsername());
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             JsonObject jsonObject1 = runner.jsonParser(dataBase.dataInputStream.readUTF());
             String[] info = new Gson().fromJson(jsonObject1.get("info").getAsString(), String[].class);
@@ -103,7 +101,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void addBalanceDialog() {
-        if (dataBase.user == null) {
+        if (!dataBase.loginState) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             EventHandler<ActionEvent> event = (e) -> {
                 Runner.buttonSound();
@@ -135,7 +133,6 @@ public class CustomerUserArea implements Initializable {
     private void addBalance() {
         try {
             JsonObject jsonObject = runner.jsonMaker("login", "addCredit");
-            jsonObject.addProperty("username", dataBase.user.getUsername());
             jsonObject.addProperty("amount", data.getValue());
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataInputStream.readUTF();
@@ -156,7 +153,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void editPersonalInfoAlert() {
-        if (dataBase.user == null) {
+        if (!dataBase.loginState) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             EventHandler<ActionEvent> event = (e) -> {
                 Runner.buttonSound();
@@ -178,7 +175,7 @@ public class CustomerUserArea implements Initializable {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (dataBase.user == null) {
+            if (!dataBase.loginState) {
                 error.setContentText("You have not logged in!");
                 error.show();
             } else {
@@ -200,7 +197,7 @@ public class CustomerUserArea implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (dataBase.user == null) {
+            if (!dataBase.loginState) {
                 error.setContentText("You have not logged in!");
                 error.show();
             } else {
@@ -214,7 +211,7 @@ public class CustomerUserArea implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (dataBase.user != null) {
+            if (dataBase.loginState) {
                 error.setContentText("You have logged in!");
                 error.show();
             } else {
