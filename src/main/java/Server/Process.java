@@ -58,7 +58,7 @@ public class Process {
         else if (command.equals("showPersonalInformation"))
             answer = loginControllerProcess.showPersonalInformation(jsonObject, user);
         else if (command.equals("editPersonalInformation"))
-            answer = loginControllerProcess.editPersonalInformation(jsonObject,user);
+            answer = loginControllerProcess.editPersonalInformation(jsonObject, user);
         return answer;
     }
 
@@ -66,8 +66,8 @@ public class Process {
     private JsonObject managerControllerProcess(JsonObject jsonObject, User user) {
         JsonObject answer = null;
         String command = jsonObject.get("command").getAsString();
-        if (command.equals("")) {
-        }
+        if (command.equals("supporter"))
+            answer = managerControllerProcess.supporter(jsonObject, user);
         return answer;
     }
 
@@ -77,11 +77,11 @@ public class Process {
         String command = jsonObject.get("command").getAsString();
         if (command.equals("showAllProducts")) {
             answer = productControllerProcess.showAllProducts(user);
-        } else if(command.equals("addFilter")) {
+        } else if (command.equals("addFilter")) {
             answer = productControllerProcess.addFilter(jsonObject, user);
-        } else if(command.equals("removeFilter")) {
+        } else if (command.equals("removeFilter")) {
             answer = productControllerProcess.removeFilter(jsonObject, user);
-        } else if(command.equals("addView")) {
+        } else if (command.equals("addView")) {
             answer = productControllerProcess.addView(jsonObject);
         }
         return answer;

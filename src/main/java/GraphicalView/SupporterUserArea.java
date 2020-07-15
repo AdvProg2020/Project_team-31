@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -25,19 +26,21 @@ public class SupporterUserArea implements Initializable {
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     HashMap<StringProperty, StringProperty> chats = new HashMap<>();
+    HashMap<StringProperty, StringProperty> newMassages = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        new Thread(this::refresh).start();
+        new Thread(() -> refresh(null, null)).start();
     }
 
-    private void refresh() {
+    private void refresh(TextField textField, StringProperty username) {
         try {
             JsonObject jsonObject = runner.jsonMaker("manager", "supporter");
-            jsonObject.addProperty("names", new Gson().toJson(createArrays().getKey()));
-            jsonObject.addProperty("chats", new Gson().toJson(createArrays().getValue()));
+            jsonObject.addProperty("names", new Gson().toJson(createArrays(textField, username).getKey()));
+            jsonObject.addProperty("chats", new Gson().toJson(createArrays(textField, username).getValue()));
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataOutputStream.flush();
+            newMassages.keySet().forEach(k -> k.setValue(null));
             handleData(dataBase.dataInputStream.readUTF());
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,14 +63,11 @@ public class SupporterUserArea implements Initializable {
         }
     }
 
-    private Pair<String[], String[]> createArrays() {
+    private Pair<String[], String[]> createArrays(TextField textField, StringProperty username) {
         String[] names = new String[chats.size()];
         String[] content = new String[chats.size()];
-        int i = 0;
-        for (Map.Entry<StringProperty, StringProperty> entry : chats.entrySet()) {
-            names[i] = entry.getKey().getValue();
-            content[i] = entry.getValue().getValue();
-            i++;
+        if (textField != null) {
+            newMassages.get(username).setValue(textField.getText());
         }
         return new Pair<String[], String[]>(names, content);
     }
@@ -79,27 +79,15 @@ public class SupporterUserArea implements Initializable {
         stage.setHeight(500);
         stage.setWidth(300);
 
-        Button send = new Button("send");
-        send.setMinWidth(60);
-        send.setLayoutX(200);
-        send.setTranslateY(410);
-
-
         Button refresh = new Button("refresh");
         refresh.setMinWidth(60);
         refresh.setLayoutX(200);
-        refresh.setTranslateY(380);
-        refresh.setOnAction(e -> refresh());
+        refresh.setTranslateY(400);
 
-        TextArea textField = new TextArea();
+        TextField textField = new TextField();
         textField.setLayoutX(20);
-        textField.setTranslateY(380);
-        textField.setMaxHeight(60);
-        textField.setMaxWidth(160);
-        send.setOnAction(event -> {
-            addText(username, textField);
-            refresh();
-        });
+        textField.setTranslateY(400);
+        refresh.setOnAction(e -> refresh(textField, username));
 
         Label label = new Label();
         label.setMinWidth(270);
@@ -119,20 +107,17 @@ public class SupporterUserArea implements Initializable {
         name.setLayoutX(10);
         name.setLayoutY(10);
         name.setMinHeight(40);
+
         label.textProperty().bind(username);
         name.setStyle("-fx-background-color: #DECD91; " +
                 "-fx-background-insets: 5; " +
                 "-fx-background-radius: 5; " +
                 "-fx-effect: dropshadow(three-pass-box, gray, 10, 0, 0, 0);");
 
-        Pane layout = new Pane(send, refresh, textField, label, name);
+        Pane layout = new Pane(refresh, textField, label, name);
         Scene scene = new Scene(layout, 300, 500);
         stage.setScene(scene);
         stage.show();
-    }
-
-    private void addText(StringProperty username, TextArea textArea) {
-        chats.get(username).setValue(chats.get(username).getValue() + textArea.getText());
     }
 
     public void back(ActionEvent actionEvent) {

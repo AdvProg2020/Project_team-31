@@ -13,6 +13,7 @@ public class Customer extends User implements Serializable {
     private ArrayList<BuyingLog> allBuyingLogs;
     private ArrayList<String> recentShoppingProducts;
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
+    transient public String chat;
 
     public Customer(String name, String lastName, String username, String emailAddress, String phoneNumber, String password) {
         super(name, lastName, username, emailAddress, phoneNumber, password);
@@ -60,20 +61,20 @@ public class Customer extends User implements Serializable {
         return allCustomers;
     }
 
-    public void deleteCustomer(){
+    public void deleteCustomer() {
         allCustomers.remove(this);
     }
 
-    public void addDiscountCode(DiscountCode discountCode){
+    public void addDiscountCode(DiscountCode discountCode) {
         this.allDiscountCodes.add(discountCode.getDiscountCode());
     }
 
-    public void removeDiscountCode(DiscountCode discountCode){
+    public void removeDiscountCode(DiscountCode discountCode) {
         this.allDiscountCodes.remove(discountCode.getDiscountCode());
     }
 
-    public static void logToFile(){
-        try{
+    public static void logToFile() {
+        try {
             FileOutputStream file = new FileOutputStream("src/project files/allCustomers.txt");
             ObjectOutputStream allCustomers = new ObjectOutputStream(file);
 
@@ -81,18 +82,19 @@ public class Customer extends User implements Serializable {
             allCustomers.flush();
             allCustomers.close();
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public static void fileToLog(){
-        try{
+
+    public static void fileToLog() {
+        try {
             FileInputStream file = new FileInputStream("src/project files/allCustomers.txt");
             ObjectInputStream allCustomers = new ObjectInputStream(file);
 
             Customer.allCustomers = (ArrayList<Customer>) allCustomers.readObject();
             allCustomers.close();
-        }catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
