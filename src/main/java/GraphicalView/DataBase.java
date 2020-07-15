@@ -37,14 +37,12 @@ public class DataBase {
     ///////////////////////////////////////////////////////////
     Stack<String> pages = new Stack();
     User tempUser = new User();
-
-    //    User user = new Customer("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234");
-//    User user = new Seller("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234", "samsung");
-//      User user = new Manager("mohammadali", "kakavand", "malikakavand", "myemail", "999", "1234");
     User user = null;
+    String role = null;
 
     public void logout() {
-        user = null;
+//        user = null;
+        role = null;
         pages.clear();
         runner.changeScene("MainMenu.fxml");
         runner.changeScene("MainMenu.fxml");
@@ -52,7 +50,6 @@ public class DataBase {
 
     public String[] getUserInfo() throws IOException {
         JsonObject dataToSend = runner.jsonMaker("login", "showPersonalInformation");
-        dataToSend.addProperty("username", user.getUsername());
         dataOutputStream.writeUTF(dataToSend.toString());
         dataOutputStream.flush();
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(dataInputStream.readUTF());

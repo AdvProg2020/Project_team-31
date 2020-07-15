@@ -9,6 +9,7 @@ import com.google.gson.JsonParser;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.net.UnknownServiceException;
 
 public class ServerRunner {
@@ -40,7 +41,7 @@ public class ServerRunner {
         }
     }
 
-    static class ClientHandler extends Thread {
+    static class ClientHandler<T> extends Thread {
         private Socket clientSocket;
         private DataOutputStream dataOutputStream;
         private DataInputStream dataInputStream;

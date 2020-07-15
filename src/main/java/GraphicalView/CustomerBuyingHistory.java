@@ -1,20 +1,19 @@
 package GraphicalView;
 
-import Controller.CustomerController;
+//import Controller.CustomerController;
+
 import Model.*;
-import javafx.application.Platform;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.util.Callback;
-import javafx.util.Pair;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -79,7 +78,7 @@ public class CustomerBuyingHistory implements Initializable {
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
-            if (dataBase.user != null) {
+            if (dataBase.role != null) {
                 error.setContentText("You have logged in!");
                 error.show();
             } else {
@@ -90,7 +89,8 @@ public class CustomerBuyingHistory implements Initializable {
     }
 
     private ObservableList<BuyingLogShow> logsOfUser() {
-        ArrayList<BuyingLog> logs = CustomerController.getInstance().showAllOrdersByList(dataBase.user);
+//        ArrayList<BuyingLog> logs = CustomerController.getInstance().showAllOrdersByList(dataBase.user);
+        ArrayList<BuyingLog> logs = getAllOrders();
         ObservableList<BuyingLogShow> showingLogs = FXCollections.observableArrayList();
         SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
         for (BuyingLog log : logs) {
@@ -100,6 +100,21 @@ public class CustomerBuyingHistory implements Initializable {
             showingLogs.add(new BuyingLogShow(log.getLogId(), price, discount, date, log.getBuyingProducts()));
         }
         return showingLogs;
+    }
+
+    private ArrayList<BuyingLog> getAllOrders() {
+        try {
+            JsonObject jsonObject = runner.jsonMaker("customer", "showAllOrdersByList");
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            BuyingLog[] data = new Gson().fromJson(runner.jsonParser(dataBase.dataInputStream.readUTF()).get("data").getAsString(), BuyingLog[].class);
+            ArrayList<BuyingLog> answer = new ArrayList<>();
+            answer.addAll(Arrays.asList(data));
+            return answer;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void userArea(MouseEvent mouseEvent) {

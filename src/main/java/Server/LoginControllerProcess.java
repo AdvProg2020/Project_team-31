@@ -32,4 +32,10 @@ public class LoginControllerProcess {
         answer.addProperty("info", new Gson().toJson(info));
         return answer;
     }
+
+    public JsonObject editPersonalInformation(JsonObject jsonObject, User user) {
+        String[] newInfo = new Gson().fromJson(jsonObject.get("newInfo").getAsString(), String[].class);
+        loginController.editPersonalInformation(user, newInfo);
+        return jsonObject;
+    }
 }

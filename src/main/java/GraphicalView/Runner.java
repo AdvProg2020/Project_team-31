@@ -148,13 +148,13 @@ public class Runner extends Application {
     }
 
     public void setUserAreaScene() {
-        if (dataBase.user == null || dataBase.user instanceof Customer)
+        if (dataBase.role==null || dataBase.role.equals("customer"))
             changeScene("CustomerUserArea.fxml");
-        else if (dataBase.user instanceof Seller)
+        else if (dataBase.role.equals("seller"))
             changeScene("SellerUserArea.fxml");
-        else if (dataBase.user instanceof Manager)
+        else if (dataBase.role.equals("manager"))
             changeScene("ManagerUserArea.fxml");
-        else if (dataBase.user instanceof Supporter)
+        else if (dataBase.role.equals("supporter"))
             changeScene("SupporterUserArea.fxml");
     }
 
