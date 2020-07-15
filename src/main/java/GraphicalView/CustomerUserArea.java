@@ -1,8 +1,5 @@
 package GraphicalView;
 
-//import Controller.CustomerController;
-//import Controller.LoginController;
-
 import Model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -67,7 +64,7 @@ public class CustomerUserArea implements Initializable {
             jsonObject.addProperty("username", user.getUsername());
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             String data = dataBase.dataInputStream.readUTF();
-            ArrayList<String> codes = new Gson().fromJson(data, ArrayList.class);
+            ArrayList<String> codes = new Gson().fromJson(runner.jsonParser(data).get("content").getAsString(), ArrayList.class);
             return codes;
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,8 +93,8 @@ public class CustomerUserArea implements Initializable {
             JsonObject jsonObject = runner.jsonMaker("login", "showPersonalInformation");
             jsonObject.addProperty("username", user.getUsername());
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
-            String data = dataBase.dataInputStream.readUTF();
-            String[] info = new Gson().fromJson(data, String[].class);
+            JsonObject jsonObject1 = runner.jsonParser(dataBase.dataInputStream.readUTF());
+            String[] info = new Gson().fromJson(jsonObject1.get("info").getAsString(), String[].class);
             return info;
         } catch (Exception e) {
             e.printStackTrace();

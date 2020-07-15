@@ -23,12 +23,9 @@ public class CustomerControllerProcess {
     }
 
     public JsonObject showDiscountCodes(JsonObject jsonObject, User user) {
-        JsonArray allCodes = new JsonArray();
-        for (String discountCode : customerController.showDiscountCodes(user)) {
-            allCodes.add(discountCode);
-        }
+        String data = new Gson().toJson(customerController.showDiscountCodes(user));
         JsonObject answer = new JsonObject();
-        answer.add("content", allCodes);
+        answer.addProperty("content", data);
         return answer;
     }
 
@@ -36,5 +33,12 @@ public class CustomerControllerProcess {
         int amount = Integer.parseInt(jsonObject.get("amount").getAsString());
         customerController.addCredit(user, amount);
         return new JsonObject();
+    }
+
+    public JsonObject showAllOrdersByList(JsonObject jsonObject, User user) {
+        String data = new Gson().toJson(customerController.showAllOrdersByList(user));
+        JsonObject dataToSend = new JsonObject();
+        dataToSend.addProperty("data", data);
+        return dataToSend;
     }
 }

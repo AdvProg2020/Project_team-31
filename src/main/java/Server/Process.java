@@ -40,10 +40,12 @@ public class Process {
     private JsonObject customerControllerProcess(JsonObject jsonObject, User user) {
         JsonObject answer = null;
         String command = jsonObject.get("command").getAsString();
-        if (command.equals("showDiscountCodes")) {
+        if (command.equals("showDiscountCodes"))
             answer=customerControllerProcess.showDiscountCodes(jsonObject, user);
-        }else if (command.equals("addCredit"))
+        else if (command.equals("addCredit"))
             answer=customerControllerProcess.addCredit(jsonObject, user);
+        else if (command.equals("showAllOrdersByList"))
+            answer=customerControllerProcess.showAllOrdersByList(jsonObject,user);
         return answer;
     }
 
