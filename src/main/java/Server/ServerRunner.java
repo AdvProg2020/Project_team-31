@@ -9,6 +9,7 @@ import com.google.gson.JsonParser;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownServiceException;
 
 public class ServerRunner {
     public static void main(String[] args) {
@@ -45,6 +46,7 @@ public class ServerRunner {
         private DataInputStream dataInputStream;
         private String token;
         private User user;
+        private User tempUser;
         Process process = new Process();
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
@@ -53,6 +55,7 @@ public class ServerRunner {
             this.dataOutputStream = dataOutputStream;
             token = "null";
             user = null;
+            tempUser = new User();
         }
 
         @Override
