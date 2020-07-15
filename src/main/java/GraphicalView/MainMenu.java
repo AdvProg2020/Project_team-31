@@ -34,7 +34,7 @@ public class MainMenu implements Initializable {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (dataBase.user == null) {
+            if (!dataBase.loginState) {
                 error.setContentText("You have not logged in!");
                 error.show();
             } else {
@@ -55,7 +55,7 @@ public class MainMenu implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (dataBase.user != null) {
+            if (dataBase.loginState) {
                 error.setContentText("You have logged in!");
                 error.show();
             } else {

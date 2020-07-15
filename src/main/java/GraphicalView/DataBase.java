@@ -38,11 +38,11 @@ public class DataBase {
     Stack<String> pages = new Stack();
     User tempUser = new User();
     User user = null;
-    boolean loginState = false;
+    String role = null;
 
     public void logout() {
 //        user = null;
-        loginState = false;
+        role = null;
         pages.clear();
         runner.changeScene("MainMenu.fxml");
         runner.changeScene("MainMenu.fxml");

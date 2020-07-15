@@ -25,7 +25,7 @@ public class LoginMenu {
         } else {
             try {
                 DataBase.getInstance().user = LoginController.getInstance().login(usernameField.getText(), passwordField.getText(), DataBase.getInstance().tempUser.getCard());
-                DataBase.getInstance().loginState = true; //kaka added this flag
+                DataBase.getInstance().role = getRole(); //kaka added this field
                 Runner.getInstance().back();
                 Alert error = new Alert(Alert.AlertType.INFORMATION, "you have login successfully", ButtonType.OK);
                 error.show();
@@ -34,6 +34,11 @@ public class LoginMenu {
                 error.show();
             }
         }
+    }
+
+    private String getRole() {
+        // TODO
+        return null;
     }
 
     public void register(MouseEvent mouseEvent) {

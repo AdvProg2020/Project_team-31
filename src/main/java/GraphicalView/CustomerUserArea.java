@@ -47,7 +47,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void showDiscountCodes() {
-        if (!dataBase.loginState) {
+        if (dataBase.role == null) {
             discountCode.textProperty().setValue("no discount code yet!\n you have to log in first!");
             return;
         }
@@ -72,7 +72,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void showPersonalInfo() {
-        if (!dataBase.loginState) {
+        if (dataBase.role == null) {
             personalInfo.textProperty().setValue("no personal info yet!\n you have to log in first!");
             return;
         }
@@ -101,7 +101,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void addBalanceDialog() {
-        if (!dataBase.loginState) {
+        if (dataBase.role == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             EventHandler<ActionEvent> event = (e) -> {
                 Runner.buttonSound();
@@ -153,7 +153,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void editPersonalInfoAlert() {
-        if (!dataBase.loginState) {
+        if (dataBase.role == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             EventHandler<ActionEvent> event = (e) -> {
                 Runner.buttonSound();
@@ -175,7 +175,7 @@ public class CustomerUserArea implements Initializable {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (!dataBase.loginState) {
+            if (dataBase.role == null) {
                 error.setContentText("You have not logged in!");
                 error.show();
             } else {
@@ -197,7 +197,7 @@ public class CustomerUserArea implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (!dataBase.loginState) {
+            if (dataBase.role == null) {
                 error.setContentText("You have not logged in!");
                 error.show();
             } else {
@@ -211,7 +211,7 @@ public class CustomerUserArea implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (dataBase.loginState) {
+            if (dataBase.role == null) {
                 error.setContentText("You have logged in!");
                 error.show();
             } else {
