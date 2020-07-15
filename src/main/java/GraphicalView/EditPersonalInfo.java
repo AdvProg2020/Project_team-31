@@ -2,6 +2,7 @@ package GraphicalView;
 
 import Model.Seller;
 import Model.User;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -55,6 +56,7 @@ public class EditPersonalInfo implements Initializable {
             return runner.jsonParser(dataBase.dataInputStream.readUTF()).get("company").getAsString();
         } catch (IOException e) {
             e.printStackTrace();
+            return "";
         }
     }
 
@@ -80,10 +82,22 @@ public class EditPersonalInfo implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isEmpty(), ButtonType.OK);
             error.show();
         } else {
-            loginController.editPersonalInformation(dataBase.user, createNewInfo());
+            editPersonalInformation(dataBase.user, createNewInfo());
             back(null);
         }
 
+    }
+
+    private void editPersonalInformation(User user, String[] newInfo) {
+        try {
+            JsonObject jsonObject=runner.jsonMaker("login","editPersonalInformation");
+            jsonObject.addProperty("newInfo",new Gson().toJson(newInfo));
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            dataBase.dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String[] createNewInfo() {

@@ -57,6 +57,8 @@ public class Process {
             answer = loginControllerProcess.managerStatus();
         else if (command.equals("showPersonalInformation"))
             answer = loginControllerProcess.showPersonalInformation(jsonObject, user);
+        else if (command.equals("editPersonalInformation"))
+            answer = loginControllerProcess.editPersonalInformation(jsonObject,user);
         return answer;
     }
 
