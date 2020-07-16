@@ -83,6 +83,8 @@ public class Process {
             answer = productControllerProcess.removeFilter(jsonObject, user);
         } else if(command.equals("addView")) {
             answer = productControllerProcess.addView(jsonObject);
+        } else if(command.endsWith("showAllOffedProducts")) {
+            answer = productControllerProcess.showAllOffedProducts(user);
         }
         return answer;
     }

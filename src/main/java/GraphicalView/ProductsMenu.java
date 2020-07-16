@@ -237,7 +237,7 @@ public class ProductsMenu implements Initializable {
         return true;
     }
 
-    private static Boolean doesMatchWithFilter(String filterValue, String productValue) {
+    static Boolean doesMatchWithFilter(String filterValue, String productValue) {
         if (!filterValue.startsWith("[") && filterValue.equalsIgnoreCase(productValue)) {
             return true;
         } else if (filterValue.startsWith("[")) {

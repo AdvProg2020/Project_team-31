@@ -180,21 +180,21 @@ public class ProductController {
         return offs;
     }
 
-    public ArrayList<OffedProduct> showOffProductInGui(User user) {
-        SellerController.getInstance().checkTimeOfOffs();
-        ArrayList<OffedProduct> offedProduct = new ArrayList<>();
-        for (Off off : Off.getAllOffs()) {
-            for (Product saleProduct : off.getOnSaleProducts()) {
-                offedProduct.add(new OffedProduct(saleProduct, off.getEndTime(), saleProduct.getSellersOfThisProduct().get(off.getSeller()), off.getOffPercent()));
-            }
-        }
-
-        ArrayList<OffedProduct> filteredProducts;
-        filteredProducts = (ArrayList<OffedProduct>) offedProduct.stream()
-                .filter(product -> isContainThisProduct(user.getFilters(), product.getProduct(), null))
-                .collect(Collectors.toList());
-        return filteredProducts;
-    }
+//    public ArrayList<OffedProduct> showOffProductInGui(User user) {
+//        SellerController.getInstance().checkTimeOfOffs();
+//        ArrayList<OffedProduct> offedProduct = new ArrayList<>();
+//        for (Off off : Off.getAllOffs()) {
+//            for (Product saleProduct : off.getOnSaleProducts()) {
+//                offedProduct.add(new OffedProduct(saleProduct, off.getEndTime(), saleProduct.getSellersOfThisProduct().get(off.getSeller()), off.getOffPercent()));
+//            }
+//        }
+//
+//        ArrayList<OffedProduct> filteredProducts;
+//        filteredProducts = (ArrayList<OffedProduct>) offedProduct.stream()
+//                .filter(product -> isContainThisProduct(user.getFilters(), product.getProduct(), null))
+//                .collect(Collectors.toList());
+//        return filteredProducts;
+//    }
 
     private Boolean isContainThisProduct(HashMap<String, String> filters, Product product, Category category) {
         HashMap<String, String> specialPropertiesOfProduct = product.getSpecialPropertiesRelatedToCategory();
