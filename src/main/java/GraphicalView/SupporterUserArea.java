@@ -26,7 +26,7 @@ public class SupporterUserArea implements Initializable {
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     HashMap<StringProperty, StringProperty> chats = new HashMap<>();
-    HashMap<StringProperty, StringProperty> newMassages = new HashMap<>();
+    HashMap<String, String> newMassages = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,7 +40,7 @@ public class SupporterUserArea implements Initializable {
             jsonObject.addProperty("chats", new Gson().toJson(createArrays(textField, username).getValue()));
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataOutputStream.flush();
-            newMassages.keySet().forEach(k -> k.setValue(null));
+            newMassages.values().forEach(k -> k = null);
             handleData(dataBase.dataInputStream.readUTF());
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,6 +59,7 @@ public class SupporterUserArea implements Initializable {
             SimpleStringProperty nameP = new SimpleStringProperty(name[newCustomer]);
             SimpleStringProperty chatP = new SimpleStringProperty(chat[newCustomer]);
             chats.put(nameP, chatP);
+            newMassages.put(nameP.getValue(), chatP.getValue());
             createNewChat(nameP, chatP);
         }
     }
@@ -67,9 +68,9 @@ public class SupporterUserArea implements Initializable {
         String[] names = new String[chats.size()];
         String[] content = new String[chats.size()];
         if (textField != null) {
-            newMassages.get(username).setValue(textField.getText());
+            newMassages.put(username.getValue(), textField.getText());
         }
-        return new Pair<String[], String[]>(names, content);
+        return new Pair<>(names, content);
     }
 
     private void createNewChat(StringProperty username, StringProperty chat) {
