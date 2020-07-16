@@ -2,9 +2,8 @@ package Server;
 
 import Controller.CustomerController;
 import Controller.ProductController;
-import Model.Card;
-import Model.Product;
-import Model.User;
+import Controller.SellerController;
+import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -92,6 +91,47 @@ public class CustomerControllerProcess {
         }
         JsonObject output = new JsonObject();
         output.add("comments", comments);
+        return output;
+    }
+
+    public JsonObject showCart(User user) {
+        if(user.getCard() == null)
+            user.setCard(new Card());
+        JsonObject output = new JsonObject();
+        JsonArray products = new JsonArray();
+        for (ProductInCard productInCard : user.getCard().getProductsInThisCard().values()) {
+            JsonObject product = new JsonObject();
+            product.addProperty("id", productInCard.getProduct().getProductId());
+            product.addProperty("name", productInCard.getProduct().getName());
+            product.addProperty("number", productInCard.getNumber());
+            int percent = 100;
+            SellerController.getInstance().checkTimeOfOffs();
+            for (Off off : productInCard.getProduct().getOffs()) {
+                if(off.getSeller().equals(productInCard.getSeller())) {
+                    percent = 100 - off.getOffPercent();
+                }
+            }
+            int price = (productInCard.getProduct().getSellersOfThisProduct().get(productInCard.getSeller()) * (percent) /100);
+            int totalPrice = price * productInCard.getNumber();
+            product.addProperty("price", price);
+            product.addProperty("totalPrice", totalPrice);
+            products.add(product);
+        }
+        output.add("products", products);
+        output.addProperty("total", CustomerController.getInstance().showTotalPrice(user.getCard()));
+        return output;
+    }
+
+    public JsonObject changeNumberOfProductInCart(User user, JsonObject jsonObject) {
+        JsonObject output = new JsonObject();
+        try {
+            CustomerController.getInstance().changeNumberOfProductInCard(user, user.getCard() , jsonObject.get("id").getAsString(), jsonObject.get("number").getAsInt());
+            output.addProperty("type", "successful");
+            output.add("cart", showCart(user));
+        } catch (Exception e) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", e.getMessage());
+        }
         return output;
     }
 }

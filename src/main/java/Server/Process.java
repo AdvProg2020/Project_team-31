@@ -53,6 +53,10 @@ public class Process {
             answer = customerControllerProcess.rateProduct(user, jsonObject);
         else if(command.equals("addComment"))
             answer = customerControllerProcess.addComment(user, jsonObject);
+        else if(command.equals("showCart"))
+            answer = customerControllerProcess.showCart(user);
+        else if(command.equals("changeNumber"))
+            answer = customerControllerProcess.changeNumberOfProductInCart(user, jsonObject);
         return answer;
     }
 

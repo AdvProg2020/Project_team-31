@@ -135,7 +135,7 @@ public class OffMenu implements Initializable {
                         btn.setMinWidth(75);
                         btn.setOnAction((ActionEvent event) -> {
                             OffedProduct offedProduct = getTableView().getItems().get(getIndex());
-                            ProductsMenu.productInTable = offedProduct.getProduct();
+                            ProductsMenu.productId = offedProduct.getProduct().getProductId();
                             ProductsMenu.showDetail();
                         });
                     }

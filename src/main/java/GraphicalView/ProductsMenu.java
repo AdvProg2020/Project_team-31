@@ -47,7 +47,7 @@ public class ProductsMenu implements Initializable {
     static HashMap<String, ArrayList<String>> categories = new HashMap<>();
     static HashMap<String, String> filters = new HashMap<>();
     private static ArrayList<ProductInTable> allProducts = new ArrayList<>();
-    static ProductInTable productInTable;
+    static String productId;
 
     public void setCategories() {
         ArrayList<String> listOfCategories = (ArrayList<String>) categories.keySet();
@@ -156,7 +156,7 @@ public class ProductsMenu implements Initializable {
                         btn.setMinWidth(75);
                         btn.setOnAction((ActionEvent event) -> {
                             Runner.buttonSound();
-                            productInTable = getTableView().getItems().get(getIndex());
+                            productId = getTableView().getItems().get(getIndex()).getProductId();
                             showDetail();
                         });
                     }
@@ -180,7 +180,7 @@ public class ProductsMenu implements Initializable {
 
     static void showDetail() {
         JsonObject jsonObject = Runner.getInstance().jsonMaker("product", "addView");
-        jsonObject.addProperty("id", productInTable.getProductId());
+        jsonObject.addProperty("id", productId);
         try {
             DataBase.getInstance().dataOutputStream.writeUTF(jsonObject.toString());
             DataBase.getInstance().dataOutputStream.flush();

@@ -2,6 +2,9 @@ package GraphicalView;
 
 import Controller.CustomerController;
 import Model.*;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +14,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+
+import javax.swing.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,6 +34,8 @@ public class ShowCart implements Initializable {
     private User user;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,7 +48,16 @@ public class ShowCart implements Initializable {
         number.setCellValueFactory(new PropertyValueFactory<>("number"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         total.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
-        setTableOfProducts();
+        dataInputStream = DataBase.getInstance().dataInputStream;
+        dataOutputStream = DataBase.getInstance().dataOutputStream;
+        try {
+            dataOutputStream.writeUTF(Runner.getInstance().jsonMaker("customer", "showCart").toString());
+            dataOutputStream.flush();
+            String input = dataInputStream.readUTF();
+            setTableOfProducts((JsonObject) new JsonParser().parse(input));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addShowButtonToTable() {
@@ -51,7 +70,7 @@ public class ShowCart implements Initializable {
                     btn.setOnAction((ActionEvent event) -> {
                         Runner.buttonSound();
                         ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
-                        ProductsMenu.product = productInCartInGui.getProduct();
+                        ProductsMenu.productId = productInCartInGui.getId();
                         runner.changeScene("ProductArea.fxml");
                     });
                 }
@@ -84,7 +103,7 @@ public class ShowCart implements Initializable {
                         btn.setMinWidth(40);
                         btn.setOnAction((ActionEvent event) -> {
                             ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
-                            changeNumber(productInCartInGui.getProduct(), -1);
+                            changeNumber(productInCartInGui.getId(), -1);
                         });
                     }
                     @Override
@@ -116,7 +135,7 @@ public class ShowCart implements Initializable {
                         btn.setMinWidth(40);
                         btn.setOnAction((ActionEvent event) -> {
                             ProductInCartInGui productInCartInGui = getTableView().getItems().get(getIndex());
-                            changeNumber(productInCartInGui.getProduct(), +1);
+                            changeNumber(productInCartInGui.getId(), +1);
                         });
                     }
                     @Override
@@ -180,29 +199,34 @@ public class ShowCart implements Initializable {
         }
     }
 
-    private void changeNumber(Product product, int changing) {
+    private void changeNumber(String id, int changing) {
+        JsonObject output = Runner.getInstance().jsonMaker("customer", "changeNumber");
+        output.addProperty("id", id);
+        output.addProperty("number", changing);
         try {
-            CustomerController.getInstance().changeNumberOfProductInCard(dataBase.user, dataBase.tempUser.getCard(),product.getProductId(),changing);
-            setTableOfProducts();
-        } catch (Exception e) {
-            Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            error.show();
+            dataOutputStream.writeUTF(output.toString());
+            dataOutputStream.flush();
+            String input = dataInputStream.readUTF();
+            JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+            if(jsonObject.get("type").getAsString().equals("failed")) {
+                Alert error = new Alert(Alert.AlertType.ERROR, jsonObject.get("message").getAsString(), ButtonType.OK);
+                error.show();
+            } else {
+                setTableOfProducts(jsonObject.getAsJsonObject("cart"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private void setTableOfProducts() {
-        user = dataBase.tempUser;
-        if(dataBase.user != null)
-            user = dataBase.user;
-        if(user.getCard() == null) {
-            user.setCard(new Card());
-        }
+    private void setTableOfProducts(JsonObject jsonObject) {
         ObservableList<ProductInCartInGui> allProducts = FXCollections.observableArrayList();
-        for (ProductInCard productInCard : user.getCard().getProductsInThisCard().values()) {
-            allProducts.add(new ProductInCartInGui(productInCard));
+        for (JsonElement element : jsonObject.getAsJsonArray("products")) {
+            JsonObject product = element.getAsJsonObject();
+            allProducts.add(new ProductInCartInGui(product.get("id").getAsString(), product.get("name").getAsString(), product.get("number").getAsInt(), product.get("price").getAsInt(), product.get("totalPrice").getAsInt()));
         }
         tableOfProducts.setItems(allProducts);
-        totalPrice.setText("total price: " + CustomerController.getInstance().showTotalPrice(user.getCard()));
+        totalPrice.setText("total price: " + jsonObject.get("total").getAsInt());
     }
 
     public void back(MouseEvent mouseEvent) {

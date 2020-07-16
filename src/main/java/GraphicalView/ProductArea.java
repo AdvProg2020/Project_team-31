@@ -1,10 +1,5 @@
 package GraphicalView;
 
-import Controller.CustomerController;
-import Controller.LoginController;
-
-import Controller.ProductController;
-import Model.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -66,7 +61,7 @@ public class ProductArea implements Initializable {
             rateButton.setDisable(true);
             commentButton.setDisable(true);
         }
-        productId = ProductsMenu.productInTable.getProductId();
+        productId = ProductsMenu.productId;
         dataInputStream = DataBase.getInstance().dataInputStream;
         dataOutputStream = DataBase.getInstance().dataOutputStream;
         String input = null;
@@ -162,11 +157,6 @@ public class ProductArea implements Initializable {
             r.getChildren().addAll(k, v);
             specialProperties.getChildren().add(r);
         }
-    }
-
-    public void update() {
-        commentsList.getItems().clear();
-
     }
 
     public void changeSeller(ActionEvent actionEvent) {
