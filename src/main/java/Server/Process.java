@@ -1,6 +1,5 @@
 package Server;
 
-import Controller.LoginController;
 import Model.User;
 import com.google.gson.JsonObject;
 
@@ -46,6 +45,8 @@ public class Process {
             answer = customerControllerProcess.addCredit(jsonObject, user);
         else if (command.equals("showAllOrdersByList"))
             answer = customerControllerProcess.showAllOrdersByList(jsonObject, user);
+        else if (command.equals("getSupporters"))
+            answer = customerControllerProcess.getSupporters();
         return answer;
     }
 
