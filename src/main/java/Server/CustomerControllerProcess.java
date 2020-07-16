@@ -1,13 +1,12 @@
 package Server;
 
 import Controller.CustomerController;
-import Controller.LoginController;
 import Model.User;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CustomerControllerProcess {
     CustomerController customerController = CustomerController.getInstance();
@@ -40,5 +39,15 @@ public class CustomerControllerProcess {
         JsonObject dataToSend = new JsonObject();
         dataToSend.addProperty("data", data);
         return dataToSend;
+    }
+
+    public JsonObject getSupporters() {
+        JsonObject jsonObject = new JsonObject();
+        List<String> allUsername = ServerRunner.supporters.keySet().stream().map(User::getUsername).collect(Collectors.toList());
+        String[] names = new String[allUsername.size()];
+        for (int i = 0; i < allUsername.size(); i++)
+            names[i] = allUsername.get(i);
+        jsonObject.addProperty("names",new Gson().toJson(names));
+        return jsonObject;
     }
 }

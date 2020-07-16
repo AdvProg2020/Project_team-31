@@ -2,6 +2,7 @@ package Server;
 
 import Controller.LoginController;
 import Controller.SaveAndLoadFiles;
+import Model.Supporter;
 import Model.User;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -11,8 +12,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.net.UnknownServiceException;
+import java.util.HashMap;
 
 public class ServerRunner {
+    public static HashMap<Supporter,ArrayList<User>> supporters=new HashMap<>();
+
     public static void main(String[] args) {
 //        SaveAndLoadFiles.start();
         try {
@@ -63,6 +67,7 @@ public class ServerRunner {
         public void run() {
             handleRequest();
         }
+
         private void handleRequest() {
             while (true) {
                 String request = null;

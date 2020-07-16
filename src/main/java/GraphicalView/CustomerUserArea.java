@@ -11,9 +11,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.io.IOException;
@@ -227,5 +230,9 @@ public class CustomerUserArea implements Initializable {
     public void showCart(ActionEvent actionEvent) {
         Runner.buttonSound();
         runner.changeScene("ShowCart.fxml");
+    }
+
+    public void support(ActionEvent actionEvent) {
+        runner.changeScene("CustomerViewSupporters.fxml");
     }
 }
