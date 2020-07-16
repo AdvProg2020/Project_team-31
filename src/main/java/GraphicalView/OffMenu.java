@@ -141,7 +141,7 @@ public class OffMenu implements Initializable {
                         btn.setOnAction((ActionEvent event) -> {
                             OffedProduct offedProduct = getTableView().getItems().get(getIndex());
                             ProductsMenu.productInTable = offedProduct.getProduct();
-                            Runner.getInstance().changeScene("Products.fxml");
+                            ProductsMenu.showDetail();
                         });
                     }
 

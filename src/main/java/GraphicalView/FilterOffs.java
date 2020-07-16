@@ -1,7 +1,6 @@
 package GraphicalView;
 
-import Controller.ProductController;
-import Model.User;
+import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,7 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -20,21 +21,16 @@ public class FilterOffs implements Initializable {
     public VBox currentFilters;
     public ChoiceBox available, disable;
     public TextField valueOfFilter;
-    private User user;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (DataBase.getInstance().user != null)
-            user = DataBase.getInstance().user;
-        else
-            user = DataBase.getInstance().tempUser;
         setCurrentFilters();
-        available.setItems(FXCollections.observableList(ProductController.getInstance().showAvailableFiltersForUserGui("all")));
+        available.setItems(FXCollections.observableList(Arrays.asList("minimumPrice", "company", "name", "rate", "availability")));
     }
 
     private void setCurrentFilters() {
         currentFilters.getChildren().clear();
-        HashMap<String, String> current = user.getFilters();
+        HashMap<String, String> current = OffMenu.filters;
         Label key = new Label("Key");
         Label value = new Label("Value");
         key.setMinWidth(100);
@@ -64,7 +60,17 @@ public class FilterOffs implements Initializable {
             Alert emptyField = new Alert(Alert.AlertType.ERROR, "enter value please!", ButtonType.OK);
             emptyField.show();
         } else {
-            ProductController.getInstance().addFilterForUser(user, available.getValue().toString(), valueOfFilter.getText());
+            OffMenu.filters.put(available.getValue().toString(), valueOfFilter.getText());
+            JsonObject output = Runner.getInstance().jsonMaker("product", "addFilter");
+            output.addProperty("key", available.getValue().toString());
+            output.addProperty("value", valueOfFilter.getText());
+            try {
+                DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
+                DataBase.getInstance().dataOutputStream.flush();
+                DataBase.getInstance().dataInputStream.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             setCurrentFilters();
             OffMenu.setOffedProducts();
         }
@@ -77,13 +83,18 @@ public class FilterOffs implements Initializable {
             emptyField.show();
             return;
         }
+        OffMenu.filters.remove(available.getValue().toString());
+        JsonObject output = Runner.getInstance().jsonMaker("product", "removeFilter");
+        output.addProperty("key", available.getValue().toString());
         try {
-            ProductController.getInstance().disableFilterForUser(user, disable.getValue().toString());
-            setCurrentFilters();
-            OffMenu.setOffedProducts();
-        } catch (Exception e) {
+            DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
+            DataBase.getInstance().dataOutputStream.flush();
+            DataBase.getInstance().dataInputStream.readUTF();
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        setCurrentFilters();
+        OffMenu.setOffedProducts();
     }
 
     public void exit(MouseEvent mouseEvent) {

@@ -178,13 +178,13 @@ public class ProductsMenu implements Initializable {
         tableOfProducts.getColumns().add(colBtn);
     }
 
-    private void showDetail() {
+    static void showDetail() {
         JsonObject jsonObject = Runner.getInstance().jsonMaker("product", "addView");
         jsonObject.addProperty("id", productInTable.getProductId());
         try {
-            dataOutputStream.writeUTF(jsonObject.toString());
-            dataOutputStream.flush();
-            dataInputStream.readUTF();
+            DataBase.getInstance().dataOutputStream.writeUTF(jsonObject.toString());
+            DataBase.getInstance().dataOutputStream.flush();
+            DataBase.getInstance().dataInputStream.readUTF();
         } catch (IOException e) {
             e.printStackTrace();
         }
