@@ -47,6 +47,12 @@ public class Process {
             answer = customerControllerProcess.showAllOrdersByList(jsonObject, user);
         else if (command.equals("getSupporters"))
             answer = customerControllerProcess.getSupporters();
+        else if (command.equals("addProductToCart"))
+            answer = customerControllerProcess.addProductToCart(user, jsonObject);
+        else if (command.equals("rateProduct"))
+            answer = customerControllerProcess.rateProduct(user, jsonObject);
+        else if(command.equals("addComment"))
+            answer = customerControllerProcess.addComment(user, jsonObject);
         return answer;
     }
 
@@ -86,6 +92,8 @@ public class Process {
             answer = productControllerProcess.addView(jsonObject);
         } else if(command.endsWith("showAllOffedProducts")) {
             answer = productControllerProcess.showAllOffedProducts(user);
+        } else if(command.equals("showProduct")) {
+            answer = productControllerProcess.showProduct(jsonObject);
         }
         return answer;
     }

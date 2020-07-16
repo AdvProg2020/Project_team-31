@@ -5,6 +5,10 @@ import Controller.LoginController;
 
 import Controller.ProductController;
 import Model.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,8 +20,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -43,40 +51,61 @@ public class ProductArea implements Initializable {
     public Button rateButton;
     public Button commentButton;
     public ImageView image;
-    private User user;
-    private Product product;
-    private CustomerController customerController = CustomerController.getInstance();
-    private ArrayList<String> commentsToString;
+    private String productId;
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
+    private HashMap<String, Integer> sellerPrices = new HashMap<>();
+    private HashMap<String, Integer> sellerOffs = new HashMap<>();
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loginAlert();
         logoutAlert();
-        product = ProductsMenu.product;
-        if (DataBase.getInstance().user != null) {
-            user = DataBase.getInstance().user;
-        } else {
-            user = DataBase.getInstance().tempUser;
-        }
-        if (user.getCard() == null)
-            user.setCard(new Card());
-        if (!(user instanceof Customer)) {
+        if (!(DataBase.getInstance().role.equals("customer"))) {
             rateButton.setDisable(true);
             commentButton.setDisable(true);
         }
-        available.setText("availability: " + product.getAvailable());
-        status.setText("status: " + product.getProductStatus());
-        view.setText("views: " + product.getViews());
-        productName.setText("name: " + product.getName());
-        price.setText("minimum price: " + product.getMinimumPrice());
-        information.setText("information: " + product.getInformation());
-        update();
-        setSpecialProperties();
+        productId = ProductsMenu.productInTable.getProductId();
+        dataInputStream = DataBase.getInstance().dataInputStream;
+        dataOutputStream = DataBase.getInstance().dataOutputStream;
+        String input = null;
+        try {
+            JsonObject jsonObject = Runner.getInstance().jsonMaker("product", "showProduct");
+            jsonObject.addProperty("id", productId);
+            dataOutputStream.writeUTF(jsonObject.toString());
+            dataOutputStream.flush();
+            input = dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+        analyzeInput(jsonObject);
+    }
+
+    private void analyzeInput(JsonObject jsonObject) {
+        available.setText("availability: " + jsonObject.get("available").getAsInt());
+        status.setText("status: " + jsonObject.get("status").getAsString());
+        view.setText("views: " + jsonObject.get("views").getAsInt());
+        productName.setText("name: " + jsonObject.get("name").getAsString());
+        price.setText("minimum price: " + jsonObject.get("minimumPrice").getAsInt());
+        information.setText("information: " + jsonObject.get("information").getAsString());
+        rate.setText("rate: " + jsonObject.get("rate").getAsString());
+        setSpecialProperties(jsonObject.getAsJsonArray("specialProperties"));
+        JsonArray commentArray = jsonObject.getAsJsonArray("comments");
+        ObservableList<String> comments = FXCollections.observableArrayList();
+        for (JsonElement element : commentArray) {
+            comments.add(element.getAsString());
+        }
+        commentsList.setItems(comments);
+        for (JsonElement element : jsonObject.getAsJsonArray("sellers")) {
+            JsonObject seller = element.getAsJsonObject();
+            sellerPrices.put(seller.get("seller").getAsString(), seller.get("price").getAsInt());
+            sellerOffs.put(seller.get("seller").getAsString(), seller.get("offPercent").getAsInt());
+        }
         ObservableList arrayOfSellers = FXCollections.observableArrayList();
-        arrayOfSellers.addAll(product.getSellersOfThisProduct().keySet().stream().map(e -> e.getUsername()).collect(Collectors.toList()));
+        arrayOfSellers.addAll(sellerPrices.keySet());
         sellers.setItems(arrayOfSellers);
-//        setImage();
     }
 
     public void userArea(MouseEvent mouseEvent) {
@@ -115,7 +144,7 @@ public class ProductArea implements Initializable {
 //        }
 //    }
 
-    private void setSpecialProperties() {
+    private void setSpecialProperties(JsonArray jsonArray) {
         HBox row = new HBox();
         Label key = new Label("key");
         key.setMinWidth(125);
@@ -123,11 +152,12 @@ public class ProductArea implements Initializable {
         value.setMinWidth(125);
         row.getChildren().addAll(key, value);
         specialProperties.getChildren().add(row);
-        for (String s : product.getSpecialPropertiesRelatedToCategory().keySet()) {
+        for (JsonElement element : jsonArray) {
+            JsonObject jsonObject = element.getAsJsonObject();
             HBox r = new HBox();
-            Label k = new Label(s);
+            Label k = new Label(jsonObject.get("key").getAsString());
             k.setMinWidth(125);
-            Label v = new Label(product.getSpecialPropertiesRelatedToCategory().get(s));
+            Label v = new Label(jsonObject.get("value").getAsString());
             v.setMinWidth(125);
             r.getChildren().addAll(k, v);
             specialProperties.getChildren().add(r);
@@ -135,31 +165,18 @@ public class ProductArea implements Initializable {
     }
 
     public void update() {
-        rate.setText("rate: " + product.getRate());
         commentsList.getItems().clear();
-        commentsToString = ProductController.getInstance().showCommentAboutProduct(product);
-        if (commentsToString != null) {
-            ObservableList<String> comments = FXCollections.observableArrayList();
-            comments.addAll(commentsToString);
-            commentsList.setItems(comments);
-        }
+
     }
 
     public void changeSeller(ActionEvent actionEvent) {
         Runner.buttonSound();
-        Off productOff = null;
-        for (Off off : product.getOffs()) {
-            if (off.getSeller().getUsername().equals(sellers.getValue())) {
-                productOff = off;
-            }
-        }
-
-        int p = product.getSellersOfThisProduct().get(LoginController.getUserByUsername(String.valueOf(sellers.getValue())));
-
-        if (productOff == null) {
-            sellerPrice.setText("price: " + p + "\nThere is no off");
+        int price = sellerPrices.get(sellers.getValue().toString());
+        int offPercent = sellerOffs.get(sellers.getValue().toString());
+        if (offPercent == 0) {
+            sellerPrice.setText("price: " + price + "\nThere is no off");
         } else {
-            sellerPrice.setText("price: " + p + "\noff percent: " + productOff.getOffPercent() + ", new price: " + (p * (100 - productOff.getOffPercent()) / 100));
+            sellerPrice.setText("price: " + price + "\noff percent: " + offPercent + ", new price: " + (price * (100 - offPercent) / 100));
         }
     }
 
@@ -169,11 +186,20 @@ public class ProductArea implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR, "please select seller!", ButtonType.OK);
             error.show();
         } else {
+            JsonObject jsonObject = Runner.getInstance().jsonMaker("customer", "addProductToCart");
+            jsonObject.addProperty("id", productId);
+            jsonObject.addProperty("seller", sellers.getValue().toString());
             try {
-                customerController.addProductToCard(user, DataBase.getInstance().tempUser.getCard(), product, sellers.getValue().toString());
-            } catch (Exception e) {
-                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                error.show();
+                dataOutputStream.writeUTF(jsonObject.toString());
+                dataOutputStream.flush();
+                String input = dataInputStream.readUTF();
+                JsonObject inJson = (JsonObject) new JsonParser().parse(input);
+                if(inJson.get("type").getAsString().equals("failed")) {
+                    Alert error = new Alert(Alert.AlertType.ERROR, inJson.get("message").getAsString(), ButtonType.OK);
+                    error.show();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -184,12 +210,22 @@ public class ProductArea implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter number", ButtonType.OK);
             error.show();
         } else {
+            JsonObject jsonObject = Runner.getInstance().jsonMaker("customer", "rateProduct");
+            jsonObject.addProperty("id", productId);
+            jsonObject.addProperty("rate", Integer.parseInt(ratePlease.getText()));
             try {
-                CustomerController.getInstance().rateProduct(user, product.getProductId(), Integer.parseInt(ratePlease.getText()));
-                update();
-            } catch (Exception e) {
-                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                error.show();
+                dataOutputStream.writeUTF(jsonObject.getAsString());
+                dataOutputStream.flush();
+                String input = dataInputStream.readUTF();
+                JsonObject inJson = (JsonObject) new JsonParser().parse(input);
+                if(inJson.get("type").getAsString().equals("failed")) {
+                    Alert error = new Alert(Alert.AlertType.ERROR, inJson.get("message").getAsString(), ButtonType.OK);
+                    error.show();
+                } else {
+                    rate.setText("rate: " + inJson.get("newRate").getAsString());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -201,8 +237,24 @@ public class ProductArea implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR, "please  write your comment", ButtonType.OK);
             error.show();
         } else {
-            ProductController.getInstance().addComment(user, product, CommentTitle.getText(), commentContent.getText());
-            update();
+            JsonObject jsonObject = Runner.getInstance().jsonMaker("customer", "addComment");
+            jsonObject.addProperty("id", productId);
+            jsonObject.addProperty("title", CommentTitle.getText());
+            jsonObject.addProperty("content", commentContent.getText());
+            try {
+                dataOutputStream.writeUTF(jsonObject.toString());
+                dataOutputStream.flush();
+                String input = dataInputStream.readUTF();
+                JsonObject inJson = (JsonObject) new JsonParser().parse(input);
+                JsonArray commentArray = inJson.getAsJsonArray("comments");
+                ObservableList<String> comments = FXCollections.observableArrayList();
+                for (JsonElement element : commentArray) {
+                    comments.add(element.getAsString());
+                }
+                commentsList.setItems(comments);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

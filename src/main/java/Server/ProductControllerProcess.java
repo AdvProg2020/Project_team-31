@@ -3,10 +3,7 @@ package Server;
 import Controller.ProductController;
 import Controller.SellerController;
 import GraphicalView.OffedProduct;
-import Model.Category;
-import Model.Off;
-import Model.Product;
-import Model.User;
+import Model.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -134,6 +131,51 @@ public class ProductControllerProcess {
     public JsonObject addView(JsonObject jsonObject) {
         ProductController.getProductById(jsonObject.get("id").getAsString()).addView();
         return new JsonObject();
+    }
+
+    public JsonObject showProduct(JsonObject jsonObject) {
+        JsonObject output = new JsonObject();
+        Product product = ProductController.getProductById(jsonObject.get("id").getAsString());
+        output.addProperty("name", product.getName());
+        output.addProperty("rate", product.getRate());
+        output.addProperty("minimumPrice", product.getMinimumPrice());
+        output.addProperty("available", product.getAvailable());
+        output.addProperty("views", product.getViews());
+        output.addProperty("information", product.getInformation());
+        output.addProperty("status", product.getProductStatus().toString());
+        JsonArray jsonArray = new JsonArray();
+        for (String s : product.getSpecialPropertiesRelatedToCategory().keySet()) {
+            JsonObject feature = new JsonObject();
+            feature.addProperty("key", s);
+            feature.addProperty("value", product.getSpecialPropertiesRelatedToCategory().get(s));
+            jsonArray.add(feature);
+        }
+        output.add("specialProperties", jsonArray);
+        JsonArray comments = new JsonArray();
+        for (String s : ProductController.getInstance().showCommentAboutProduct(product)) {
+            comments.add(s);
+        }
+        output.add("comments", comments);
+        output.add("sellers", sellerOfProduct(product));
+        return output;
+    }
+
+    private JsonArray sellerOfProduct(Product product) {
+        JsonArray sellers = new JsonArray();
+        for (Seller seller : product.getSellersOfThisProduct().keySet()) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("username", seller.getUsername());
+            jsonObject.addProperty("price", product.getSellersOfThisProduct().get(seller));
+            int offPercent = 0;
+            for (Off off : product.getOffs()) {
+                if (off.getSeller().equals(sellers)) {
+                    offPercent = off.getOffPercent();
+                }
+            }
+            jsonObject.addProperty("offPercent", offPercent);
+            sellers.add(jsonObject);
+        }
+        return sellers;
     }
 
 }

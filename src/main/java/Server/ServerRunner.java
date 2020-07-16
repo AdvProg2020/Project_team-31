@@ -15,7 +15,7 @@ import java.net.UnknownServiceException;
 import java.util.HashMap;
 
 public class ServerRunner {
-    public static HashMap<Supporter,ArrayList<User>> supporters=new HashMap<>();
+    public static HashMap<Supporter, ArrayList<User>> supporters = new HashMap<>();
 
     public static void main(String[] args) {
 //        SaveAndLoadFiles.start();
@@ -81,7 +81,10 @@ public class ServerRunner {
                 if (!jsonObject.get("token").toString().equals(token)) {
                     output = getStringOfWrongToken();
                 } else {
-                    output = process.answerClient(jsonObject, user).toString();
+                    if (user == null)
+                        output = process.answerClient(jsonObject, tempUser).toString();
+                    else
+                        output = process.answerClient(jsonObject, user).toString();
                 }
                 try {
                     dataOutputStream.writeUTF(output);

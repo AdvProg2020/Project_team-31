@@ -1,10 +1,5 @@
 package GraphicalView;
 
-import Controller.ProductController;
-import Controller.SellerController;
-import Model.Off;
-import Model.Product;
-import Model.User;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
