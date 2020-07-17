@@ -11,7 +11,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.util.Pair;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 public class ManagerControllerProcess {
     private static ManagerControllerProcess instance;
@@ -99,5 +103,37 @@ public class ManagerControllerProcess {
         }
         ManagerController.getInstance().addCategory(input.get("name").getAsString(), features);
         return new JsonObject();
+    }
+
+    public JsonObject getAllCustomers() {
+        JsonObject output = new JsonObject();
+        JsonArray customers = new JsonArray();
+        for (Customer customer : Customer.getAllCustomers()) {
+            customers.add(customer.getUsername());
+        }
+        output.add("customers", customers);
+        return output;
+    }
+
+    public JsonObject createDiscountCode(JsonObject input) {
+        JsonObject output = new JsonObject();
+        HashMap<String, Integer> usernameAndNumber = new HashMap<>();
+        for (JsonElement element : input.getAsJsonArray("customers")) {
+            JsonObject customer = element.getAsJsonObject();
+            usernameAndNumber.put(customer.get("username").getAsString(),customer.get("number").getAsInt());
+        }
+        try {
+            ManagerController.getInstance().createDiscountCode(input.get("code").getAsString(), castStringToDate(input.get("startDate").getAsString()), castStringToDate(input.get("endDate").getAsString()), input.get("percent").getAsInt(), input.get("maximum").getAsInt(), usernameAndNumber);
+            output.addProperty("type", "successful");
+        } catch (Exception e) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", e.getMessage());
+        }
+        return output;
+    }
+
+    private Date castStringToDate(String dateString) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        return format.parse(dateString);
     }
 }

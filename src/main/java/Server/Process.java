@@ -93,6 +93,10 @@ public class Process {
             answer = managerControllerProcess.deleteUser(jsonObject);
         else if (command.equals("addCategory"))
             answer = managerControllerProcess.addCategory(jsonObject);
+        else if (command.equals("getAllCustomers"))
+            answer = managerControllerProcess.getAllCustomers();
+        else if (command.equals("createDiscountCode"))
+            answer = managerControllerProcess.createDiscountCode(jsonObject);
         return answer;
     }
 
