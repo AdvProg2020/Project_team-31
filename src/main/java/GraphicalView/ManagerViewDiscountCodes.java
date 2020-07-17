@@ -2,6 +2,9 @@ package GraphicalView;
 
 import Controller.ManagerController;
 import Model.DiscountCode;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -30,10 +34,18 @@ public class ManagerViewDiscountCodes implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loginAlert();
         logoutAlert();
-        addChart();
+        try {
+            dataBase.dataOutputStream.writeUTF(runner.jsonMaker("manager" , "getAllDiscount").toString());
+            dataBase.dataOutputStream.flush();
+            String input = dataBase.dataInputStream.readUTF();
+            JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+            addChart(jsonObject.getAsJsonArray("discounts"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void addChart() {
+    private void addChart(JsonArray discounts) {
         TableColumn<DiscountCodeViewOnGUI, String> code = new TableColumn<>("code");
         code.setMinWidth(50);
         code.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -64,11 +76,11 @@ public class ManagerViewDiscountCodes implements Initializable {
 
         TableView tableView = new TableView();
         tableView.getColumns().addAll(code, beginTime, endTime, discountPercent, maximumDiscount, showCustomers, edit);
-        tableView.setItems(discountCodesLoader());
+        tableView.setItems(discountCodesLoader(discounts));
         gridPane.getChildren().add(tableView);
     }
 
-    private ObservableList<DiscountCodeViewOnGUI> discountCodesLoader() {
+    private ObservableList<DiscountCodeViewOnGUI> discountCodesLoader(JsonArray discounts) {
         ArrayList<DiscountCode> codes = ManagerController.getInstance().showAllDiscountCodesForGUI();
         ObservableList<DiscountCodeViewOnGUI> list = FXCollections.observableArrayList();
         for (DiscountCode code : codes)

@@ -99,6 +99,8 @@ public class Process {
             answer = managerControllerProcess.addCategoryFeature(jsonObject);
         else if (command.equals("removeCategoryFeature"))
             answer = managerControllerProcess.removeCategoryFeature(jsonObject);
+        else if (command.equals("getAllDiscount"))
+            answer = managerControllerProcess.getAllDiscount();
         return answer;
     }
 

@@ -2,10 +2,7 @@ package Server;
 
 import Controller.LoginController;
 import Controller.ManagerController;
-import Model.Customer;
-import Model.Manager;
-import Model.Supporter;
-import Model.User;
+import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -153,5 +150,29 @@ public class ManagerControllerProcess {
     public JsonObject removeCategoryFeature(JsonObject input) {
         ManagerController.getInstance().removeFeature(ManagerController.getCategoryByName(input.get("category").getAsString()), input.get("feature").getAsString());
         return new JsonObject();
+    }
+
+    public JsonObject getAllDiscount(){
+        JsonObject output = new JsonObject();
+        JsonArray discounts = new JsonArray();
+        for (DiscountCode discountCode : DiscountCode.getAllDiscountCodes()) {
+            JsonObject discount = new JsonObject();
+            discount.addProperty("code" , discountCode.getDiscountCode());
+            discount.addProperty("beginTime" , discountCode.getBeginTime().toString());
+            discount.addProperty("endTime" , discountCode.getEndTime().toString());
+            discount.addProperty("percent" , discountCode.getDiscountPercent());
+            discount.addProperty("maximum" , discountCode.getMaximumDiscount());
+            JsonArray customers = new JsonArray();
+            for (Customer customer : discountCode.getDiscountTimesForEachCustomer().keySet()) {
+                JsonObject cus = new JsonObject();
+                cus.addProperty("username" , customer.getUsername());
+                cus.addProperty("number" , discountCode.getDiscountTimesForEachCustomer().get(customer));
+                customers.add(cus);
+            }
+            discount.add("customers" , customers);
+            discounts.add(discount);
+        }
+        output.add("discounts" , discounts);
+        return output;
     }
 }
