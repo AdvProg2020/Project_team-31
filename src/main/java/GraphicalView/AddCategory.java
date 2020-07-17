@@ -1,6 +1,7 @@
 package GraphicalView;
 
-import Controller.ManagerController;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -8,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -29,7 +31,20 @@ public class AddCategory implements Initializable {
         } else if(features.size() == 0) {
             alert = new Alert(Alert.AlertType.ERROR, "please specify at least on feature", ButtonType.OK);
         } else {
-            ManagerController.getInstance().addCategory(categoryName.getText(), features);
+            JsonObject jsonObject = Runner.getInstance().jsonMaker("manager", "addCategory");
+            jsonObject.addProperty("name", categoryName.getText());
+            JsonArray featureArray = new JsonArray();
+            for (String s : features) {
+                featureArray.add(s);
+            }
+            jsonObject.add("features", featureArray);
+            try {
+                DataBase.getInstance().dataOutputStream.writeUTF(jsonObject.toString());
+                DataBase.getInstance().dataOutputStream.flush();
+                DataBase.getInstance().dataInputStream.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             alert = new Alert(Alert.AlertType.INFORMATION, "category created successfully", ButtonType.OK);
             Runner.getInstance().back();
         }

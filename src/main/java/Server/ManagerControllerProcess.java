@@ -7,6 +7,7 @@ import Model.Supporter;
 import Model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.util.Pair;
 
@@ -88,6 +89,15 @@ public class ManagerControllerProcess {
 
     public JsonObject deleteUser(JsonObject jsonObject) {
         ManagerController.getInstance().deleteUser(jsonObject.get("username").getAsString());
+        return new JsonObject();
+    }
+
+    public JsonObject addCategory(JsonObject input) {
+        ArrayList<String> features = new ArrayList<>();
+        for (JsonElement element : input.getAsJsonArray("features")) {
+            features.add(element.getAsString());
+        }
+        ManagerController.getInstance().addCategory(input.get("name").getAsString(), features);
         return new JsonObject();
     }
 }

@@ -91,6 +91,8 @@ public class Process {
             answer = managerControllerProcess.showAllUsers(user);
         else if (command.equals("deleteUser"))
             answer = managerControllerProcess.deleteUser(jsonObject);
+        else if (command.equals("addCategory"))
+            answer = managerControllerProcess.addCategory(jsonObject);
         return answer;
     }
 
