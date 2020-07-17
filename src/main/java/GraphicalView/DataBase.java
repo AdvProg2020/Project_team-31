@@ -18,7 +18,7 @@ public class DataBase {
     static Runner runner = Runner.getInstance();
     public Card card;
     Off editingOff = null;
-    public DiscountCode editingDiscountCode = null;
+    public String editingDiscountCode = null;
     boolean isAddingManager = false;
     Socket socket;
     DataOutputStream dataOutputStream;

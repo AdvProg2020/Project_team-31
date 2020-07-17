@@ -2,8 +2,6 @@ package GraphicalView;
 
 import GraphicalView.DataBase;
 import GraphicalView.Runner;
-import Model.Customer;
-import Model.DiscountCode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -12,14 +10,34 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 public class DiscountCodeViewOnGUI {
-    DiscountCode discountCode;
     Button showCustomers;
     Button edit;
+    String code;
+    String beginTime;
+    String endTime;
+    int discountPercent;
+    int maximumDiscount;
+    HashMap<String , Integer> customers = new HashMap<>();
     DataBase dataBase=DataBase.getInstance();
+
+    public DiscountCodeViewOnGUI(String code, String beginTime, String endTime, int discountPercent, int maximumDiscount, HashMap<String, Integer> customers) {
+        this.code = code;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
+        this.discountPercent = discountPercent;
+        this.maximumDiscount = maximumDiscount;
+        this.customers = customers;
+        this.showCustomers = new Button("show customers");
+        this.edit = new Button("edit");
+        showCustomers.setOnAction(event -> show());
+        edit.setOnAction(event -> edit());
+    }
+
     public Button getShowCustomers() {
         return showCustomers;
     }
@@ -28,16 +46,8 @@ public class DiscountCodeViewOnGUI {
         return edit;
     }
 
-    public DiscountCodeViewOnGUI(DiscountCode discountCode) {
-        this.discountCode = discountCode;
-        this.showCustomers = new Button("show customers");
-        this.edit = new Button("edit");
-        showCustomers.setOnAction(event -> show());
-        edit.setOnAction(event -> edit());
-    }
-
     public void edit() {
-      dataBase.editingDiscountCode = discountCode;
+      dataBase.editingDiscountCode = code;
         Runner.runner.changeScene("EditDiscountCode.fxml");
     }
 
@@ -45,30 +55,30 @@ public class DiscountCodeViewOnGUI {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("customers");
         String data = "customers and number that they can use code : \n";
-        for (Map.Entry<Customer, Integer> entry : discountCode.getDiscountTimesForEachCustomer().entrySet())
-            data += entry.getKey().getUsername() + "--->" + entry.getValue() + "\n";
+        for (String s : customers.keySet()) {
+            data += s+ "--->" + customers.get(s) + "\n";
+        }
         alert.setContentText(data);
         alert.showAndWait();
     }
 
     public String getCode() {
-        return discountCode.getDiscountCode();
+        return code;
     }
 
     public String getBeginTime() {
-        return discountCode.getBeginTime().toString();
+        return beginTime;
     }
 
     public String getEndTime() {
-        return discountCode.getEndTime().toString();
+        return endTime;
     }
 
-    public String getDiscountPercent() {
-        return String.valueOf(discountCode.getDiscountPercent());
+    public int getDiscountPercent() {
+        return discountPercent;
     }
 
-    public String getMaximumDiscount() {
-        return String.valueOf(discountCode.getMaximumDiscount());
+    public int getMaximumDiscount() {
+        return maximumDiscount;
     }
-
 }
