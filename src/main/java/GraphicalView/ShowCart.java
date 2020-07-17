@@ -31,11 +31,11 @@ public class ShowCart implements Initializable {
     public TableColumn number;
     public TableColumn price;
     public TableColumn total;
-    private User user;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+    private int totalprices;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -183,18 +183,25 @@ public class ShowCart implements Initializable {
 
     public void purchase(MouseEvent mouseEvent) {
         Runner.buttonSound();
-        if(CustomerController.getInstance().showTotalPrice(user.getCard()) == 0) {
+        if(totalprices == 0) {
             Alert error = new Alert(Alert.AlertType.ERROR, "Cart is empty", ButtonType.OK);
             error.show();
-        } else if(dataBase.user == null) {
+        } else if(DataBase.getInstance().role.equals("none")) {
             runner.changeScene("LoginMenu.fxml");
         } else {
-            String message = CustomerController.getInstance().isAvailabilityOk(dataBase.user);
-            if(message.equalsIgnoreCase("ok")) {
-                runner.changeScene("ReceiveInformationForShopping.fxml");
-            } else {
-                Alert error = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-                error.show();
+            try {
+                dataOutputStream.writeUTF(Runner.getInstance().jsonMaker("customer", "checkAvailableToPurchase").toString());
+                dataOutputStream.flush();
+                String input = dataInputStream.readUTF();
+                JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+                if(jsonObject.get("message").getAsString().equalsIgnoreCase("Ok")) {
+                    runner.changeScene("ReceiveInformationForShopping.fxml");
+                } else {
+                    Alert error = new Alert(Alert.AlertType.ERROR, jsonObject.get("message").getAsString(), ButtonType.OK);
+                    error.show();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -226,6 +233,7 @@ public class ShowCart implements Initializable {
             allProducts.add(new ProductInCartInGui(product.get("id").getAsString(), product.get("name").getAsString(), product.get("number").getAsInt(), product.get("price").getAsInt(), product.get("totalPrice").getAsInt()));
         }
         tableOfProducts.setItems(allProducts);
+        totalprices = jsonObject.get("total").getAsInt();
         totalPrice.setText("total price: " + jsonObject.get("total").getAsInt());
     }
 

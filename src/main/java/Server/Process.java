@@ -57,6 +57,8 @@ public class Process {
             answer = customerControllerProcess.showCart(user);
         else if(command.equals("changeNumber"))
             answer = customerControllerProcess.changeNumberOfProductInCart(user, jsonObject);
+        else if (command.equals("checkAvailableTOPurchase"))
+            answer = customerControllerProcess.checkAvailableToPurchase(user);
         return answer;
     }
 

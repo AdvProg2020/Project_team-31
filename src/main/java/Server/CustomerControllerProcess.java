@@ -134,4 +134,11 @@ public class CustomerControllerProcess {
         }
         return output;
     }
+
+    public JsonObject checkAvailableToPurchase(User user) {
+        String message = CustomerController.getInstance().isAvailabilityOk(user);
+        JsonObject output = new JsonObject();
+        output.addProperty("message", message);
+        return output;
+    }
 }
