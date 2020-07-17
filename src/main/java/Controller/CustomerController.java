@@ -137,21 +137,24 @@ public class CustomerController {
         return "Ok";
     }
 
-    public void putDiscount(User user, BuyingLog buyingLog, String discountCodeString) throws Exception {
+    public void putDiscount(User user, String logId, String discountCodeString) throws Exception {
         DiscountCode discount = ManagerController.getInstance().getDiscountById(discountCodeString);
         if (discount.getBeginTime().after(new Date()) || discount.getEndTime().before(new Date()))
             throw new Exception("DiscountCode is unavailable this time");
         if (discount.getDiscountTimesForEachCustomer().get(user) == 0)
             throw new Exception("User has used this code before");
 
+        BuyingLog buyingLog = getBuyingLogById(logId);
         buyingLog.setDiscountAmount(Math.min(buyingLog.getTotalPrice(), discount.getMaximumDiscount()) * discount.getDiscountPercent() / 100);
         discount.decreaseDiscountTimesForEachCustomer((Customer) user);
     }
 
-    public void payMoney(User user, BuyingLog buyingLog) throws Exception {
+    public void payMoney(User user, String  logId) throws Exception {
+        BuyingLog buyingLog = getBuyingLogById(logId);
         if (buyingLog.getTotalPrice() - buyingLog.getDiscountAmount() > user.getCredit())
             throw new Exception("Credit of money is not enough");
         buyingLog.finishBuying(new Date());
+        BuyingLog.notCompleted.remove(buyingLog);
         user.payMoney(buyingLog.getTotalPrice() - buyingLog.getDiscountAmount());
         ((Customer) user).addBuyingLog(buyingLog);
         ((Customer) user).addRecentShoppingProducts(buyingLog.getBuyingProducts().keySet());
@@ -220,4 +223,11 @@ public class CustomerController {
                 .collect(Collectors.toList());
     }
 
+    private BuyingLog getBuyingLogById(String id) {
+        for (BuyingLog buyingLog : BuyingLog.notCompleted) {
+            if(buyingLog.getLogId().equals(id))
+                return buyingLog;
+        }
+        return null;
+    }
 }

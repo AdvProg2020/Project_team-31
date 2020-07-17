@@ -1,14 +1,17 @@
 package Server;
 
 import Controller.CustomerController;
+import Controller.ManagerController;
 import Controller.ProductController;
 import Controller.SellerController;
+import GraphicalView.DataBase;
+import GraphicalView.ReceiveInformationForShopping;
 import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import sun.nio.cs.US_ASCII;
 
+import javax.xml.bind.util.JAXBSource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,13 +54,13 @@ public class CustomerControllerProcess {
         String[] names = new String[allUsername.size()];
         for (int i = 0; i < allUsername.size(); i++)
             names[i] = allUsername.get(i);
-        jsonObject.addProperty("names",new Gson().toJson(names));
+        jsonObject.addProperty("names", new Gson().toJson(names));
         return jsonObject;
     }
 
     public JsonObject addProductToCart(User user, JsonObject jsonObject) {
         JsonObject output = new JsonObject();
-        if(user.getCard() == null)
+        if (user.getCard() == null)
             user.setCard(new Card());
         try {
             customerController.addProductToCard(user, user.getCard(), ProductController.getProductById(jsonObject.get("id").getAsString()), jsonObject.get("seller").getAsString());
@@ -95,7 +98,7 @@ public class CustomerControllerProcess {
     }
 
     public JsonObject showCart(User user) {
-        if(user.getCard() == null)
+        if (user.getCard() == null)
             user.setCard(new Card());
         JsonObject output = new JsonObject();
         JsonArray products = new JsonArray();
@@ -107,11 +110,11 @@ public class CustomerControllerProcess {
             int percent = 100;
             SellerController.getInstance().checkTimeOfOffs();
             for (Off off : productInCard.getProduct().getOffs()) {
-                if(off.getSeller().equals(productInCard.getSeller())) {
+                if (off.getSeller().equals(productInCard.getSeller())) {
                     percent = 100 - off.getOffPercent();
                 }
             }
-            int price = (productInCard.getProduct().getSellersOfThisProduct().get(productInCard.getSeller()) * (percent) /100);
+            int price = (productInCard.getProduct().getSellersOfThisProduct().get(productInCard.getSeller()) * (percent) / 100);
             int totalPrice = price * productInCard.getNumber();
             product.addProperty("price", price);
             product.addProperty("totalPrice", totalPrice);
@@ -125,7 +128,7 @@ public class CustomerControllerProcess {
     public JsonObject changeNumberOfProductInCart(User user, JsonObject jsonObject) {
         JsonObject output = new JsonObject();
         try {
-            CustomerController.getInstance().changeNumberOfProductInCard(user, user.getCard() , jsonObject.get("id").getAsString(), jsonObject.get("number").getAsInt());
+            CustomerController.getInstance().changeNumberOfProductInCard(user, user.getCard(), jsonObject.get("id").getAsString(), jsonObject.get("number").getAsInt());
             output.addProperty("type", "successful");
             output.add("cart", showCart(user));
         } catch (Exception e) {
@@ -139,6 +142,46 @@ public class CustomerControllerProcess {
         String message = CustomerController.getInstance().isAvailabilityOk(user);
         JsonObject output = new JsonObject();
         output.addProperty("message", message);
+        return output;
+    }
+
+    public JsonObject createBuyingLog(User user, JsonObject input) {
+        JsonObject output = new JsonObject();
+        String data[] = new String[2];
+        data[0] = input.get("address").getAsString();
+        data[1] = input.get("phone").getAsString();
+        try {
+            BuyingLog buyingLog = CustomerController.getInstance().createBuyingLog(user, data);
+            output.addProperty("type", "successful");
+            output.addProperty("id", buyingLog.getLogId());
+        } catch (Exception e) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", e.getMessage());
+        }
+        return output;
+    }
+
+    public JsonObject putDiscount(User user, JsonObject input) {
+        JsonObject output = new JsonObject();
+        try {
+            CustomerController.getInstance().putDiscount(user, input.get("id").getAsString() , input.get("code").getAsString());
+            output.addProperty("type", "successful");
+        } catch (Exception e) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", e.getMessage());
+        }
+        return output;
+    }
+
+    public JsonObject payMoney(User user, JsonObject jsonObject) {
+        JsonObject output = new JsonObject();
+        try {
+            CustomerController.getInstance().payMoney(user, jsonObject.get("id").getAsString());
+            output.addProperty("type", "successful");
+        } catch (Exception e) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", e.getMessage());
+        }
         return output;
     }
 }

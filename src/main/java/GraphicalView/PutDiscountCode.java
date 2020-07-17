@@ -1,11 +1,14 @@
 package GraphicalView;
 
-import Controller.CustomerController;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+
+import java.io.IOException;
 
 public class PutDiscountCode {
     public TextField discount;
@@ -17,14 +20,31 @@ public class PutDiscountCode {
             Alert error = new Alert(Alert.AlertType.ERROR, "please write code" , ButtonType.OK);
             error.show();
         } else {
+            JsonObject output = Runner.getInstance().jsonMaker("customer", "putDiscount");
+            output.addProperty("id", ReceiveInformationForShopping.buyingLogId);
+            output.addProperty("code", discount.getText());
             try {
-                CustomerController.getInstance().putDiscount(DataBase.getInstance().user,ReceiveInformationForShopping.buyingLog,discount.getText());
-                discountButton.setDisable(true);
-                Alert error = new Alert(Alert.AlertType.INFORMATION, "discount added successfully", ButtonType.OK);
-                error.show();
+                DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
+                DataBase.getInstance().dataOutputStream.flush();
+                String input = DataBase.getInstance().dataInputStream.readUTF();
+                JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+                if(jsonObject.get("type").getAsString().equals("failed")) {
+                    Alert error = new Alert(Alert.AlertType.ERROR, jsonObject.get("message").getAsString(), ButtonType.OK);
+                    error.show();
+                } else {
+                    discountButton.setDisable(true);
+                    Alert error = new Alert(Alert.AlertType.INFORMATION, "discount added successfully", ButtonType.OK);
+                    error.show();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+
+
             } catch (Exception e) {
-                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                error.show();
+
             }
         }
     }

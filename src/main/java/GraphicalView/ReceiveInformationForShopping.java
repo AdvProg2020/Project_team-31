@@ -1,17 +1,19 @@
 package GraphicalView;
 
-import Controller.CustomerController;
-import Model.BuyingLog;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
+
 public class ReceiveInformationForShopping {
     public TextArea address;
     public TextField phone;
-    public static BuyingLog buyingLog;
+    public static String buyingLogId;
 
     public void nextStep(MouseEvent mouseEvent) {
         Runner.buttonSound();
@@ -19,15 +21,23 @@ public class ReceiveInformationForShopping {
             Alert error = new Alert(Alert.AlertType.ERROR, "please complete all data", ButtonType.OK);
             error.show();
         } else {
-            String data[] = new String[2];
-            data[0] = address.getText();
-            data[1] = phone.getText();
+            JsonObject output = Runner.getInstance().jsonMaker("customer", "createBuyingLog");
+            output.addProperty("address", address.getText());
+            output.addProperty("phone", phone.getText());
             try {
-                buyingLog = CustomerController.getInstance().createBuyingLog(DataBase.getInstance().user, data);
-                Runner.getInstance().changeScene("PutDiscountCode.fxml");
-            } catch (Exception e) {
-                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                error.show();
+                DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
+                DataBase.getInstance().dataOutputStream.flush();
+                String input = DataBase.getInstance().dataInputStream.readUTF();
+                JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+                if(jsonObject.get("type").getAsString().equals("failed")) {
+                    Alert error = new Alert(Alert.AlertType.ERROR, jsonObject.get("message").getAsString(), ButtonType.OK);
+                    error.show();
+                } else {
+                    buyingLogId = jsonObject.get("id").getAsString();
+                    Runner.getInstance().changeScene("PutDiscountCode.fxml");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

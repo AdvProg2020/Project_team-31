@@ -12,6 +12,7 @@ public class BuyingLog extends Log implements Serializable {
     private int discountAmount;
     private HashMap<String, ProductInCard> buyingProducts;
     private String[] personalInformation;
+    public  transient static ArrayList<BuyingLog> notCompleted = new ArrayList<>();
 
     public BuyingLog(String id, int totalPrice, Customer customer, HashMap<Product, ProductInCard> buyingProducts, String[] personalInformation) {
         super(id, null, customer);
@@ -22,6 +23,7 @@ public class BuyingLog extends Log implements Serializable {
             this.buyingProducts.put(product.getProductId(),buyingProducts.get(product));
         }
         this.personalInformation = personalInformation;
+        notCompleted.add(this);
     }
 
     public void finishBuying(Date date) {

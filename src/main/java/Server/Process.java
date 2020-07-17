@@ -59,6 +59,12 @@ public class Process {
             answer = customerControllerProcess.changeNumberOfProductInCart(user, jsonObject);
         else if (command.equals("checkAvailableTOPurchase"))
             answer = customerControllerProcess.checkAvailableToPurchase(user);
+        else if (command.equals("createBuyingLog"))
+            answer = customerControllerProcess.createBuyingLog(user, jsonObject);
+        else if (command.equals("putDiscount"))
+            answer = customerControllerProcess.putDiscount(user, jsonObject);
+        else if (command.equals("payMoney"))
+            answer = customerControllerProcess.payMoney(user, jsonObject);
         return answer;
     }
 
