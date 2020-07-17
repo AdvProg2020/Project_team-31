@@ -1,8 +1,9 @@
 package GraphicalView;
 
-import Controller.ManagerController;
-import Controller.SellerController;
-import Model.User;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +22,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -31,7 +35,11 @@ public class ManageUsers implements Initializable {
     public TableColumn userNameColumn;
     public TableColumn lastColumn;
     public Button logout;
-    private User deletingUser;
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
+    private ArrayList<UserInTable> allUsersInTable = new ArrayList<>();
+    private UserInTable deletingUser;
+    private String thisUserUsername;
 
 
     @Override
@@ -40,8 +48,28 @@ public class ManageUsers implements Initializable {
         userNameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         lastColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        dataInputStream = DataBase.getInstance().dataInputStream;
+        dataOutputStream = DataBase.getInstance().dataOutputStream;
+        String input = null;
+        try {
+            dataOutputStream.writeUTF(Runner.getInstance().jsonMaker("manager", "showAllUsers").toString());
+            dataOutputStream.flush();
+            input = dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+        analyzeInput(jsonObject);
         addButtonToTable();
         setTableOfUsers();
+    }
+
+    private void analyzeInput(JsonObject jsonObject) {
+        for (JsonElement element : jsonObject.getAsJsonArray("users")) {
+            JsonObject user = element.getAsJsonObject();
+            allUsersInTable.add(new UserInTable(user.get("username").getAsString(), user.get("name").getAsString(), user.get("lastName").getAsString()));
+        }
+        thisUserUsername = jsonObject.get("username").getAsString();
     }
 
     public void userArea(MouseEvent mouseEvent) {
@@ -60,17 +88,17 @@ public class ManageUsers implements Initializable {
     }
 
     private void setTableOfUsers() {
-        ObservableList<User> allUsers = FXCollections.observableArrayList();
-        allUsers.addAll(User.getAllUsers());
+        ObservableList<UserInTable> allUsers = FXCollections.observableArrayList();
+        allUsers.addAll(allUsersInTable);
         tableOfUsers.setItems(allUsers);
     }
 
     private void addButtonToTable() {
-        TableColumn<User, Void> colBtn = new TableColumn();
-        Callback<TableColumn<User, Void>, TableCell<User, Void>> cellFactory = new Callback<TableColumn<User, Void>, TableCell<User, Void>>() {
+        TableColumn<UserInTable, Void> colBtn = new TableColumn();
+        Callback<TableColumn<UserInTable, Void>, TableCell<UserInTable, Void>> cellFactory = new Callback<TableColumn<UserInTable, Void>, TableCell<UserInTable, Void>>() {
             @Override
-            public TableCell<User, Void> call(final TableColumn<User, Void> param) {
-                final TableCell<User, Void> cell = new TableCell<User, Void>() {
+            public TableCell<UserInTable, Void> call(final TableColumn<UserInTable, Void> param) {
+                final TableCell<UserInTable, Void> cell = new TableCell<UserInTable, Void>() {
                     private final Button btn = new Button("delete");
                     {
                         btn.setMinWidth(75);
@@ -97,7 +125,7 @@ public class ManageUsers implements Initializable {
     }
 
     private void deleteUser() {
-        if(deletingUser.equals(DataBase.getInstance().user)) {
+        if(deletingUser.getUsername().equals(thisUserUsername)) {
             return;
         }
         Stage warningStage = new Stage();
@@ -129,7 +157,16 @@ public class ManageUsers implements Initializable {
     }
 
     private void delete() {
-        ManagerController.getInstance().deleteUser(deletingUser.getUsername());
+        JsonObject jsonObject = Runner.getInstance().jsonMaker("manager", "deleteUser");
+        jsonObject.addProperty("username", deletingUser.getUsername());
+        try {
+            dataOutputStream.writeUTF(jsonObject.toString());
+            dataOutputStream.flush();
+            dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        allUsersInTable.remove(deletingUser);
         setTableOfUsers();
     }
 

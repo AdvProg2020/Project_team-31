@@ -1,10 +1,12 @@
 package Server;
 
 import Controller.LoginController;
+import Controller.ManagerController;
 import Model.Customer;
 import Model.Supporter;
 import Model.User;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import javafx.util.Pair;
 
@@ -67,5 +69,25 @@ public class ManagerControllerProcess {
             chats[i] = ((Customer) users.get(i)).chat;
         }
         return new Pair<>(names, chats);
+    }
+
+    public JsonObject showAllUsers(User user) {
+        JsonObject output = new JsonObject();
+        JsonArray users = new JsonArray();
+        for (User aUser : User.getAllUsers()) {
+            JsonObject u = new JsonObject();
+            u.addProperty("username", aUser.getUsername());
+            u.addProperty("name", aUser.getPersonalInformation()[0]);
+            u.addProperty("lastName", aUser.getPersonalInformation()[1]);
+            users.add(u);
+        }
+        output.add("users", users);
+        output.addProperty("username", user.getUsername());
+        return output;
+    }
+
+    public JsonObject deleteUser(JsonObject jsonObject) {
+        ManagerController.getInstance().deleteUser(jsonObject.get("username").getAsString());
+        return new JsonObject();
     }
 }
