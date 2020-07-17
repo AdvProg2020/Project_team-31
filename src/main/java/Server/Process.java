@@ -93,6 +93,12 @@ public class Process {
             answer = managerControllerProcess.deleteUser(jsonObject);
         else if (command.equals("addCategory"))
             answer = managerControllerProcess.addCategory(jsonObject);
+        else if (command.equals("changeCategoryFeature"))
+            answer = managerControllerProcess.changeCategoryFeature(jsonObject);
+        else if (command.equals("addCategoryFeature"))
+            answer = managerControllerProcess.addCategoryFeature(jsonObject);
+        else if (command.equals("removeCategoryFeature"))
+            answer = managerControllerProcess.removeCategoryFeature(jsonObject);
         return answer;
     }
 

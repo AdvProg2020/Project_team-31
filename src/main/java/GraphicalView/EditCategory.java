@@ -1,7 +1,6 @@
 package GraphicalView;
 
-import Controller.ManagerController;
-import Model.Category;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -9,6 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -21,13 +23,16 @@ public class EditCategory implements Initializable {
     public TextField removingFeature;
     public Button login;
     public Button logout;
-    private Category category;
-    private ManagerController managerController = ManagerController.getInstance();
+    private CategoryInTable category;
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loginAlert();
         logoutAlert();
+        dataInputStream = DataBase.getInstance().dataInputStream;
+        dataOutputStream = DataBase.getInstance().dataOutputStream;
         category = ShowCategories.categoryToEdit;
         setProperties();
     }
@@ -75,11 +80,21 @@ public class EditCategory implements Initializable {
         if (!category.getSpecialProperties().contains(oldName.getText())) {
             alert = new Alert(Alert.AlertType.ERROR, "This category doesn't have this feature to change", ButtonType.OK);
         } else if (category.getSpecialProperties().contains(newName.getText())) {
-            alert = new Alert(Alert.AlertType.ERROR, "This category doesn't have this feature to change", ButtonType.OK);
+            alert = new Alert(Alert.AlertType.ERROR, "This category have had this feature before", ButtonType.OK);
         } else {
-            HashMap changedFeatured = new HashMap();
-            changedFeatured.put(oldName.getText(), newName.getText());
-            managerController.changeFeatureOfCategory(category.getName(), changedFeatured);
+            JsonObject jsonObject = Runner.getInstance().jsonMaker("manager", "changeCategoryFeature");
+            jsonObject.addProperty("category", category.getName());
+            jsonObject.addProperty("oldName", oldName.getText());
+            jsonObject.addProperty("newName", newName.getText());
+            try {
+                dataOutputStream.writeUTF(jsonObject.toString());
+                dataOutputStream.flush();
+                dataInputStream.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            category.getSpecialProperties().remove(oldName.getText());
+            category.getSpecialProperties().add(newName.getText());
             alert = new Alert(Alert.AlertType.INFORMATION, "feature changed successfully", ButtonType.OK);
             setProperties();
         }
@@ -94,7 +109,17 @@ public class EditCategory implements Initializable {
         } else if (category.getSpecialProperties().contains(newFeature.getText())) {
             alert = new Alert(Alert.AlertType.ERROR, "This feature exist", ButtonType.OK);
         } else {
-            managerController.addFeature(category, newFeature.getText());
+            JsonObject jsonObject = Runner.getInstance().jsonMaker("manager", "addCategoryFeature");
+            jsonObject.addProperty("category", category.getName());
+            jsonObject.addProperty("feature", newFeature.getText());
+            try {
+                dataOutputStream.writeUTF(jsonObject.toString());
+                dataOutputStream.flush();
+                dataInputStream.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            category.getSpecialProperties().add(newFeature.getText());
             alert = new Alert(Alert.AlertType.INFORMATION, "feature added successfully", ButtonType.OK);
             setProperties();
         }
@@ -109,7 +134,17 @@ public class EditCategory implements Initializable {
         } else if (!category.getSpecialProperties().contains(removingFeature.getText())) {
             alert = new Alert(Alert.AlertType.ERROR, "This feature doesn't exist", ButtonType.OK);
         } else {
-            managerController.removeFeature(category, removingFeature.getText());
+            JsonObject jsonObject = Runner.getInstance().jsonMaker("manager", "removeCategoryFeature");
+            jsonObject.addProperty("category", category.getName());
+            jsonObject.addProperty("feature", removingFeature.getText());
+            try {
+                dataOutputStream.writeUTF(jsonObject.toString());
+                dataOutputStream.flush();
+                dataInputStream.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            category.getSpecialProperties().remove(removingFeature.getText());
             alert = new Alert(Alert.AlertType.INFORMATION, "feature deleted successfully", ButtonType.OK);
             setProperties();
         }

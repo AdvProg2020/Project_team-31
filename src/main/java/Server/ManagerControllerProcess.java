@@ -3,6 +3,7 @@ package Server;
 import Controller.LoginController;
 import Controller.ManagerController;
 import Model.Customer;
+import Model.Manager;
 import Model.Supporter;
 import Model.User;
 import com.google.gson.Gson;
@@ -135,5 +136,22 @@ public class ManagerControllerProcess {
     private Date castStringToDate(String dateString) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
         return format.parse(dateString);
+    }
+
+    public JsonObject changeCategoryFeature(JsonObject jsonObject) {
+        HashMap<String, String> changedFeatured = new HashMap<>();
+        changedFeatured.put(jsonObject.get("oldName").getAsString(), jsonObject.get("newName").getAsString());
+        ManagerController.getInstance().changeFeatureOfCategory(jsonObject.get("category").getAsString(), changedFeatured);
+        return new JsonObject();
+    }
+
+    public JsonObject addCategoryFeature(JsonObject input) {
+        ManagerController.getInstance().addFeature(ManagerController.getCategoryByName(input.get("category").getAsString()), input.get("feature").getAsString());
+        return new JsonObject();
+    }
+
+    public JsonObject removeCategoryFeature(JsonObject input) {
+        ManagerController.getInstance().removeFeature(ManagerController.getCategoryByName(input.get("category").getAsString()), input.get("feature").getAsString());
+        return new JsonObject();
     }
 }

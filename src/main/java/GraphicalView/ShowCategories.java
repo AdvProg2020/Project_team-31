@@ -23,11 +23,11 @@ public class ShowCategories implements Initializable {
     public Button logout;
     public Button login;
     public GridPane gridPane;
-    static String categoryNameToEdit;
+    static CategoryInTable categoryToEdit;
     public Button addCategory;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
-    private ArrayList<CategoryInTable> allCategories = new ArrayList<>();
+    ArrayList<CategoryInTable> allCategories = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -88,7 +88,7 @@ public class ShowCategories implements Initializable {
                         btn.setMinWidth(75);
                         btn.setDisable(!(dataBase.role.equals("manager")));
                         btn.setOnAction((ActionEvent event) -> {
-                            categoryNameToEdit = getTableView().getItems().get(getIndex()).getName();
+                            categoryToEdit = getTableView().getItems().get(getIndex());
                             runner.changeScene("EditCategory.fxml");
                         });
                     }
