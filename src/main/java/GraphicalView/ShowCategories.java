@@ -1,10 +1,8 @@
 package GraphicalView;
 
-import Controller.ManagerController;
-import Model.Category;
-import Model.Manager;
-import Model.Product;
-import com.sun.javafx.css.converters.StringConverter;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -24,19 +23,41 @@ public class ShowCategories implements Initializable {
     public Button logout;
     public Button login;
     public GridPane gridPane;
-    static Category categoryToEdit;
+    static String categoryNameToEdit;
     public Button addCategory;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
+    private ArrayList<CategoryInTable> allCategories = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showCategories();
-        addCategory.setDisable(!(dataBase.user instanceof Manager));
+        addCategory.setDisable(!(DataBase.getInstance().role.equals("manager")));
         addCategory.setOnMouseClicked(e -> runner.changeScene("AddCategory.fxml"));
+        try {
+            DataBase.getInstance().dataOutputStream.writeUTF(Runner.getInstance().jsonMaker("seller", "getAllCategories").toString());
+            DataBase.getInstance().dataOutputStream.flush();
+            String input = DataBase.getInstance().dataInputStream.readUTF();
+            analyzeInput((JsonObject) new JsonParser().parse(input));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         loginAlert();
         logoutAlert();
     }
+
+    private void analyzeInput(JsonObject input) {
+        for (JsonElement element : input.getAsJsonArray("categories")) {
+            JsonObject category = element.getAsJsonObject();
+            ArrayList<String> features = new ArrayList<>();
+            for (JsonElement jsonElement : category.getAsJsonArray("features")) {
+                features.add(jsonElement.getAsString());
+            }
+            allCategories.add(new CategoryInTable(category.get("name").getAsString(), features));
+        }
+    }
+
+
 
     private void showCategories() {
         TableColumn<BuyingLogShow, String> name = new TableColumn<>("name");
@@ -48,8 +69,7 @@ public class ShowCategories implements Initializable {
         properties.setCellValueFactory(new PropertyValueFactory<>("specialProperties"));
 
         TableView tableView = new TableView();
-        ManagerController managerController = ManagerController.getInstance();
-        ObservableList<Category> categories = FXCollections.observableArrayList(managerController.showAllCategoriesByList());
+        ObservableList<CategoryInTable> categories = FXCollections.observableArrayList(allCategories);
         tableView.getColumns().addAll(name, properties);
         addButtonToTable(tableView);
         tableView.setItems(categories);
@@ -57,18 +77,18 @@ public class ShowCategories implements Initializable {
     }
 
     private void addButtonToTable(TableView tableView) {
-        TableColumn<Category, Void> colBtn = new TableColumn();
-        Callback<TableColumn<Category, Void>, TableCell<Category, Void>> cellFactory = new Callback<TableColumn<Category, Void>, TableCell<Category, Void>>() {
+        TableColumn<CategoryInTable, Void> colBtn = new TableColumn();
+        Callback<TableColumn<CategoryInTable, Void>, TableCell<CategoryInTable, Void>> cellFactory = new Callback<TableColumn<CategoryInTable, Void>, TableCell<CategoryInTable, Void>>() {
             @Override
-            public TableCell<Category, Void> call(final TableColumn<Category, Void> param) {
-                final TableCell<Category, Void> cell = new TableCell<Category, Void>() {
+            public TableCell<CategoryInTable, Void> call(final TableColumn<CategoryInTable, Void> param) {
+                final TableCell<CategoryInTable, Void> cell = new TableCell<CategoryInTable, Void>() {
                     private final Button btn = new Button("edit");
 
                     {
                         btn.setMinWidth(75);
-                        btn.setDisable(!(dataBase.user instanceof Manager));
+                        btn.setDisable(!(dataBase.role.equals("manager")));
                         btn.setOnAction((ActionEvent event) -> {
-                            categoryToEdit = getTableView().getItems().get(getIndex());
+                            categoryNameToEdit = getTableView().getItems().get(getIndex()).getName();
                             runner.changeScene("EditCategory.fxml");
                         });
                     }

@@ -48,7 +48,7 @@ public class SellerControllerProcess {
         }
         return jsonObject;
     }
-    public JsonObject getAllCategories(JsonObject jsonObject, User user) {
+    public JsonObject getAllCategories() {
         JsonObject output = new JsonObject();
         JsonArray categories = new JsonArray();
         for (Category category : Category.getAllCategories()) {

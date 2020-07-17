@@ -123,7 +123,7 @@ public class Process {
         if (command.equals("showCompanyInformation"))
             answer = sellerControllerProcess.showCompanyInformation(jsonObject, user);
         else if (command.equals("getAllCategories"))
-            answer = sellerControllerProcess.getAllCategories(jsonObject, user);
+            answer = sellerControllerProcess.getAllCategories();
         else if (command.equals("newProduct"))
             answer = sellerControllerProcess.newProduct(jsonObject, user);
         return answer;

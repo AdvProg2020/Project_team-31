@@ -101,23 +101,23 @@ public class EditCategory implements Initializable {
         alert.show();
     }
 
-        public void remove (MouseEvent mouseEvent){
-            Runner.buttonSound();
-            Alert alert = null;
-            if(removingFeature.getText().equals("")) {
-                alert = new Alert(Alert.AlertType.ERROR, "please fill field", ButtonType.OK);
-            } else if (!category.getSpecialProperties().contains(removingFeature.getText())) {
-                alert = new Alert(Alert.AlertType.ERROR, "This feature doesn't exist", ButtonType.OK);
-            } else {
-                managerController.removeFeature(category, removingFeature.getText());
-                alert = new Alert(Alert.AlertType.INFORMATION, "feature deleted successfully", ButtonType.OK);
-                setProperties();
-            }
-            alert.show();
+    public void remove(MouseEvent mouseEvent) {
+        Runner.buttonSound();
+        Alert alert = null;
+        if (removingFeature.getText().equals("")) {
+            alert = new Alert(Alert.AlertType.ERROR, "please fill field", ButtonType.OK);
+        } else if (!category.getSpecialProperties().contains(removingFeature.getText())) {
+            alert = new Alert(Alert.AlertType.ERROR, "This feature doesn't exist", ButtonType.OK);
+        } else {
+            managerController.removeFeature(category, removingFeature.getText());
+            alert = new Alert(Alert.AlertType.INFORMATION, "feature deleted successfully", ButtonType.OK);
+            setProperties();
         }
-
-        public void back (MouseEvent mouseEvent){
-            Runner.buttonSound();
-            Runner.getInstance().back();
-        }
+        alert.show();
     }
+
+    public void back(MouseEvent mouseEvent) {
+        Runner.buttonSound();
+        Runner.getInstance().back();
+    }
+}
