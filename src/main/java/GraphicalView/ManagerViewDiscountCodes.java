@@ -1,8 +1,8 @@
 package GraphicalView;
 
-import Controller.ManagerController;
-import Model.DiscountCode;
+
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
@@ -21,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class ManagerViewDiscountCodes implements Initializable {
@@ -81,10 +82,16 @@ public class ManagerViewDiscountCodes implements Initializable {
     }
 
     private ObservableList<DiscountCodeViewOnGUI> discountCodesLoader(JsonArray discounts) {
-        ArrayList<DiscountCode> codes = ManagerController.getInstance().showAllDiscountCodesForGUI();
         ObservableList<DiscountCodeViewOnGUI> list = FXCollections.observableArrayList();
-        for (DiscountCode code : codes)
-            list.add(new DiscountCodeViewOnGUI(code));
+        for (JsonElement element : discounts) {
+            JsonObject discount = element.getAsJsonObject();
+            HashMap<String , Integer> customers = new HashMap<>();
+            for (JsonElement jsonElement : discount.getAsJsonArray("customers")) {
+                JsonObject customer =jsonElement.getAsJsonObject();
+                customers.put(customer.get("username").getAsString() , customer.get("number").getAsInt());
+            }
+            list.add(new DiscountCodeViewOnGUI(discount.get("code").getAsString()  ,discount.get("beginTime").getAsString() , discount.get("endTime").getAsString() , discount.get("percent").getAsInt() ,discount.get("maximum").getAsInt() ,customers ));
+        }
         return list;
     }
 
