@@ -1,8 +1,10 @@
 package Server;
 
 import Controller.SellerController;
+import Model.Category;
 import Model.User;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
@@ -45,5 +47,21 @@ public class SellerControllerProcess {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+    public JsonObject getAllCategories(JsonObject jsonObject, User user) {
+        JsonObject output = new JsonObject();
+        JsonArray categories = new JsonArray();
+        for (Category category : Category.getAllCategories()) {
+            JsonObject jCategory = new JsonObject();
+            JsonArray features = new JsonArray();
+            for (String property : category.getSpecialProperties()) {
+                features.add(property);
+            }
+            jCategory.addProperty("name", category.getName());
+            jCategory.add("features", features);
+            categories.add(jCategory);
+        }
+        output.add("categories", categories);
+        return output;
     }
 }
