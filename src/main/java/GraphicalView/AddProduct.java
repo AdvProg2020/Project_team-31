@@ -1,29 +1,33 @@
 package GraphicalView;
 
-import Controller.*;
-import Model.*;
+import Model.Category;
+import Model.Product;
+import Model.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.*;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
-import javax.swing.text.html.ImageView;
-import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class AddProduct implements Initializable {
     public VBox choiceBoxContainer;
@@ -51,7 +55,7 @@ public class AddProduct implements Initializable {
 
     private void dropDownListSetUp() {
         choiceBox = new ChoiceBox<>();
-        ArrayList<String> categories = ManagerController.getInstance().showAllCategoriesForGUI();
+        ArrayList<String> categories = getAllCategoryNames(); ////
         choiceBox.getItems().addAll(categories);
         choiceBoxContainer.getChildren().add(choiceBox);
         Platform.runLater(() -> {
@@ -67,9 +71,46 @@ public class AddProduct implements Initializable {
         });
     }
 
+    private ArrayList<String> getAllCategoryNames() {
+        ArrayList<Category> categories = getAllCategories();
+        ArrayList<String> names = new ArrayList<>();
+        categories.forEach(category -> names.add(category.getName()));
+        return names;
+    }
+
+    private ArrayList<String> getCategoryFeatures(String categoryName) {
+        for (Category category : getAllCategories()) {
+            if (category.getName().equals(categoryName))
+                return category.getSpecialProperties();
+        }
+        return null;
+    }
+
+    private ArrayList<Category> getAllCategories() {
+        try {
+            JsonObject jsonObject = runner.jsonMaker("seller", "getAllCategories");
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            JsonObject categoryJSon = runner.jsonParser(dataBase.dataInputStream.readUTF());
+            JsonArray array = categoryJSon.getAsJsonArray("categories");
+            ArrayList<Category> categories = new ArrayList<>();
+            for (JsonElement json : array) {
+                String name = json.getAsJsonObject().get("name").getAsString();
+                ArrayList<String> features = new ArrayList<>();
+                JsonArray featureJSon = json.getAsJsonObject().get("features").getAsJsonArray();
+                for (JsonElement element : featureJSon)
+                    features.add(element.getAsString());
+                categories.add(new Category(name, features));
+            }
+            return categories;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public void submit(ActionEvent actionEvent) throws Exception {
         Runner.buttonSound();
-        SellerController sellerController = SellerController.getInstance();
         if (isInvalid() != null) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isInvalid(), ButtonType.OK);
             error.show();
@@ -77,12 +118,33 @@ public class AddProduct implements Initializable {
         }
         HashMap<String, String> dataToSend = new HashMap<>();
         String[] generalData = setData(dataToSend);
-        Product product = sellerController.addProduct(generalData, dataBase.user, dataToSend);
+     addProduct(generalData, dataBase.user, dataToSend);
         new Alert(Alert.AlertType.INFORMATION, "product created successfully", ButtonType.OK).show();
         runner.back();
 //        if (photo != null) {
 //            sellerController.changeProductPhoto(product, photo);
 //        }
+    }
+
+    private void addProduct(String[] generalData, User user, HashMap<String, String> dataToSend) {
+        try {
+            String[] first = new String[dataToSend.size()];
+            String[] second = new String[dataToSend.size()];
+            int iterator = 0;
+            for (Map.Entry<String, String> entry : dataToSend.entrySet()) {
+                first[iterator] = entry.getKey();
+                second[iterator++] = entry.getValue();
+            }
+            JsonObject send = runner.jsonMaker("seller", "newProduct");
+            send.addProperty("generalData", new Gson().toJson(generalData));
+            send.addProperty("first", new Gson().toJson(first));
+            send.addProperty("second", new Gson().toJson(second));
+            dataBase.dataOutputStream.writeUTF(send.toString());
+            dataBase.dataOutputStream.flush();
+            dataBase.dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String[] setData(HashMap<String, String> dataToSend) {
@@ -157,7 +219,7 @@ public class AddProduct implements Initializable {
             window.initModality(Modality.APPLICATION_MODAL);
             window.setTitle("category info");
             VBox layout = new VBox(10);
-            ArrayList<String> features = SellerController.getInstance().getCategoryFeatures(choiceBox.getValue());
+            ArrayList<String> features = getCategoryFeatures(choiceBox.getValue());
             Button closeButton = new Button("submit");
             for (String feature : features) {
                 Label label = new Label(feature);
@@ -184,6 +246,7 @@ public class AddProduct implements Initializable {
             window.setScene(scene);
             window.showAndWait();
         }
+
     }
 
     public void userArea(MouseEvent mouseEvent) {
