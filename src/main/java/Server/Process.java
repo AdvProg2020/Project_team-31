@@ -51,11 +51,11 @@ public class Process {
             answer = customerControllerProcess.addProductToCart(user, jsonObject);
         else if (command.equals("rateProduct"))
             answer = customerControllerProcess.rateProduct(user, jsonObject);
-        else if(command.equals("addComment"))
+        else if (command.equals("addComment"))
             answer = customerControllerProcess.addComment(user, jsonObject);
-        else if(command.equals("showCart"))
+        else if (command.equals("showCart"))
             answer = customerControllerProcess.showCart(user);
-        else if(command.equals("changeNumber"))
+        else if (command.equals("changeNumber"))
             answer = customerControllerProcess.changeNumberOfProductInCart(user, jsonObject);
         else if (command.equals("checkAvailableTOPurchase"))
             answer = customerControllerProcess.checkAvailableToPurchase(user);
@@ -93,10 +93,6 @@ public class Process {
             answer = managerControllerProcess.deleteUser(jsonObject);
         else if (command.equals("addCategory"))
             answer = managerControllerProcess.addCategory(jsonObject);
-        else if (command.equals("getAllCustomers"))
-            answer = managerControllerProcess.getAllCustomers();
-        else if (command.equals("createDiscountCode"))
-            answer = managerControllerProcess.createDiscountCode(jsonObject);
         return answer;
     }
 
@@ -112,9 +108,9 @@ public class Process {
             answer = productControllerProcess.removeFilter(jsonObject, user);
         } else if (command.equals("addView")) {
             answer = productControllerProcess.addView(jsonObject);
-        } else if(command.endsWith("showAllOffedProducts")) {
+        } else if (command.endsWith("showAllOffedProducts")) {
             answer = productControllerProcess.showAllOffedProducts(user);
-        } else if(command.equals("showProduct")) {
+        } else if (command.equals("showProduct")) {
             answer = productControllerProcess.showProduct(jsonObject);
         }
         return answer;
@@ -126,6 +122,10 @@ public class Process {
         String command = jsonObject.get("command").getAsString();
         if (command.equals("showCompanyInformation"))
             answer = sellerControllerProcess.showCompanyInformation(jsonObject, user);
+        else if (command.equals("getAllCategories"))
+            answer = sellerControllerProcess.getAllCategories(jsonObject, user);
+        else if (command.equals("newProduct"))
+            answer = sellerControllerProcess.newProduct(jsonObject, user);
         return answer;
     }
 
