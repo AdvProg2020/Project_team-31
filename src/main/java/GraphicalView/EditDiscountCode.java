@@ -1,8 +1,9 @@
 package GraphicalView;
 
-import Controller.CustomerController;
-import Controller.ManagerController;
-import Model.DiscountCode;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,13 +14,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
+import javax.swing.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class EditDiscountCode implements Initializable {
     public Button login;
@@ -31,11 +33,28 @@ public class EditDiscountCode implements Initializable {
     public TextField maximumPrice;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
-    DiscountCode discountCode = dataBase.editingDiscountCode;
+    String discountCode;
     HashMap<String, Integer> usernameAndNumber = new HashMap<>();
+    DataOutputStream dataOutputStream;
+    DataInputStream dataInputStream;
+    ArrayList<String> customers = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        discountCode = dataBase.editingDiscountCode;
+        dataInputStream = dataBase.dataInputStream;
+        dataOutputStream = dataBase.dataOutputStream;
+        try {
+            dataOutputStream.writeUTF(Runner.getInstance().jsonMaker("manager", "getAllCustomers").toString());
+            dataOutputStream.flush();
+            String input = dataInputStream.readUTF();
+            JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+            for (JsonElement element : jsonObject.getAsJsonArray("customers")) {
+                customers.add(element.getAsString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         initFields();
         loginAlert();
         logoutAlert();
@@ -44,15 +63,29 @@ public class EditDiscountCode implements Initializable {
 
     private void initFields() {
         code.setEditable(false);
-        code.setText(discountCode.getDiscountCode());
+        JsonObject output = runner.jsonMaker("manager", "getDiscountCode");
+        output.addProperty("code", discountCode);
+        JsonObject jsonObject = null;
+        try {
+            dataOutputStream.writeUTF(output.toString());
+            dataOutputStream.flush();
+            String input = dataInputStream.readUTF();
+            jsonObject = (JsonObject) new JsonParser().parse(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        code.setText(jsonObject.get("code").getAsString());
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        String date = format.format(discountCode.getBeginTime());
+        String date = format.format(jsonObject.get("beginTime").getAsString());
         startDate.getEditor().setText(date);
-        date = format.format(discountCode.getEndTime());
+        date = format.format(jsonObject.get("endTime").getAsString());
         endDate.getEditor().setText(date);
-        percentage.setText(String.valueOf(discountCode.getDiscountPercent()));
-        maximumPrice.setText(String.valueOf(discountCode.getMaximumDiscount()));
-
+        percentage.setText(String.valueOf(jsonObject.get("percent").getAsInt()));
+        maximumPrice.setText(String.valueOf(jsonObject.get("maximum").getAsInt()));
+        for (JsonElement element : jsonObject.getAsJsonArray("customers")) {
+            JsonObject customer = element.getAsJsonObject();
+            usernameAndNumber.put(customer.get("username").getAsString(), customer.get("number").getAsInt());
+        }
     }
 
     public void back(ActionEvent actionEvent) {
@@ -120,18 +153,34 @@ public class EditDiscountCode implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR, "end date is before start date!", ButtonType.OK);
             error.show();
         } else {
-            ManagerController controller = ManagerController.getInstance();
             int percent = Integer.parseInt(percentage.getText());
             int maximum = Integer.parseInt(maximumPrice.getText());
-            try {
-                controller.editDiscountCode(code.getText(), getStartDate(), getEndDate(), percent, maximum, usernameAndNumber);
-                Alert error = new Alert(Alert.AlertType.INFORMATION, "discount code edited successfully!", ButtonType.OK);
-                runner.back();
-                error.show();
-            }catch (Exception e){
-                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                error.show();
+            JsonObject output = Runner.getInstance().jsonMaker("manager", "editDiscount");
+            output.addProperty("code", code.getText());
+            output.addProperty("startDate", getStartDate().toString());
+            output.addProperty("endDate", getEndDate().toString());
+            output.addProperty("percent", percent);
+            output.addProperty("maximum", maximum);
+            JsonArray customerUsing = new JsonArray();
+            for (String s : usernameAndNumber.keySet()) {
+                JsonObject user = new JsonObject();
+                user.addProperty("username", s);
+                user.addProperty("number", usernameAndNumber.get(s));
+                customerUsing.add(user);
             }
+            output.add("customers", customerUsing);
+            dataOutputStream.writeUTF(output.toString());
+            dataOutputStream.flush();
+            String input = dataInputStream.readUTF();
+            JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+            Alert error;
+            if(jsonObject.get("type").getAsString().equals("failed")){
+                error = new Alert(Alert.AlertType.ERROR, jsonObject.get("message").getAsString(), ButtonType.OK);
+            } else {
+                error = new Alert(Alert.AlertType.INFORMATION, "discount code created successfully!", ButtonType.OK);
+                runner.back();
+            }
+            error.show();
         }
     }
 
@@ -158,8 +207,7 @@ public class EditDiscountCode implements Initializable {
         result.ifPresent(name ->{
             if (name.equals(""))
                 return;
-            CustomerController controller=CustomerController.getInstance();
-            if(controller.getCustomerByUsername(name)==null){
+            if(!usernameAndNumber.containsKey(name)){
                 Alert error = new Alert(Alert.AlertType.ERROR, "there is not any customer with this username", ButtonType.OK);
                 error.show();
                 return;
@@ -203,8 +251,7 @@ public class EditDiscountCode implements Initializable {
         result.ifPresent(pair -> {
             if (pair.getKey().equals("") || pair.getValue().equals(""))
                 return;
-            CustomerController controller=CustomerController.getInstance();
-            if(controller.getCustomerByUsername(pair.getKey())==null){
+            if(!customers.contains(pair.getKey())){
                 Alert error = new Alert(Alert.AlertType.ERROR, "there is not any customer with this username", ButtonType.OK);
                 error.show();
                 return;
