@@ -101,6 +101,14 @@ public class Process {
             answer = managerControllerProcess.removeCategoryFeature(jsonObject);
         else if (command.equals("getAllDiscount"))
             answer = managerControllerProcess.getAllDiscount();
+        else if (command.equals("getDiscountCode"))
+            answer = managerControllerProcess.getDiscountCode(jsonObject);
+        else if (command.equals("getAllCustomers"))
+            answer = managerControllerProcess.getAllCustomers();
+        else if (command.equals("createDiscountCode"))
+            answer = managerControllerProcess.createDiscountCode(jsonObject);
+        else if (command.equals("editDiscount"))
+            answer = managerControllerProcess.editDiscount(jsonObject);
         return answer;
     }
 
