@@ -1,10 +1,8 @@
 package GraphicalView;
 
-import Controller.ManagerController;
-import Controller.SellerController;
-import Model.Category;
-import Model.Product;
-import Model.Seller;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import javax.xml.crypto.Data;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -30,7 +29,6 @@ public class ManageProducts implements Initializable {
     public GridPane gridPane;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
-    SellerController controller = SellerController.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -94,9 +92,17 @@ public class ManageProducts implements Initializable {
 
     private ObservableList<ProductViewForSellerInGUI> getProductInList() {
         ObservableList<ProductViewForSellerInGUI> list = FXCollections.observableArrayList();
-        ArrayList<Product> allProducts = controller.showProductsOfThisSellerForGUI(dataBase.user);
-        for (Product product : allProducts)
-            list.add(new ProductViewForSellerInGUI(product, new Button("view"), new Button("edit"), new Button("delete")));
+        try {
+            dataBase.dataOutputStream.writeUTF(runner.jsonMaker("manager", "getProductList").toString());
+            dataBase.dataOutputStream.flush();
+            String input = dataBase.dataInputStream.readUTF();
+            JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+            for (JsonElement element : jsonObject.getAsJsonArray("products")) {
+                list.add(new ProductViewForSellerInGUI(element.getAsString(), new Button("view"), new Button("edit"), new Button("delete")));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return list;
     }
 
