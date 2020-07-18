@@ -213,7 +213,7 @@ public class ManagerController {
         request.deleteRequest();
     }
 
-    private Request getRequestById(String requestId) {
+    public Request getRequestById(String requestId) {
         for (Request request : Request.getAllRequest()) {
             if (request.getRequestId().equals(requestId))
                 return request;

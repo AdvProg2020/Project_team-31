@@ -1,24 +1,17 @@
 package GraphicalView;
 
-import Controller.SellerController;
-import GraphicalView.DataBase;
-import GraphicalView.ProductsMenu;
-import GraphicalView.Runner;
-import Model.Product;
-import Model.Seller;
+import com.google.gson.JsonObject;
 import javafx.scene.control.Button;
 
 public class ProductViewForSellerInGUI {
-    Product product;
     String productId;
     Button view;
     Button edit;
     Button delete;
     static Runner runner = Runner.getInstance();
 
-    public ProductViewForSellerInGUI(Product product, Button view, Button edit, Button delete) {
-        this.product = product;
-        this.productId = product.getProductId();
+    public ProductViewForSellerInGUI(String productId, Button view, Button edit, Button delete) {
+        this.productId = productId;
         this.view = view;
         this.edit = edit;
         this.delete = delete;
@@ -29,11 +22,12 @@ public class ProductViewForSellerInGUI {
 
     private void deleteProduct() {
         try {
-            if (DataBase.getInstance().user instanceof Seller)
-                SellerController.getInstance().removeProductFromUser(DataBase.getInstance().user, productId);
-            else {
-                SellerController.getInstance().removeProduct(productId);
-            }
+            JsonObject output = runner.jsonMaker("manager", "deleteProduct");
+            output.addProperty("id", productId);
+            DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
+            DataBase.getInstance().dataOutputStream.flush();
+            DataBase.getInstance().dataInputStream.readUTF();
+
             runner.back();
 //            runner.changeScene("ManageProducts.fxml");
         } catch (Exception e) {
@@ -43,19 +37,16 @@ public class ProductViewForSellerInGUI {
 
     private void editProduct() {
         Runner.buttonSound();
-        ProductsMenu.product = product;
+        ProductsMenu.productId = productId;
         runner.changeScene("EditProduct.fxml");
     }
 
     private void viewProduct() {
         Runner.buttonSound();
-        ProductsMenu.product = product;
+        ProductsMenu.productId = productId;
         runner.changeScene("ProductArea.fxml");
     }
 
-    public Product getProduct() {
-        return product;
-    }
 
     public String getProductId() {
         return productId;
