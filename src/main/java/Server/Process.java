@@ -109,6 +109,18 @@ public class Process {
             answer = managerControllerProcess.createDiscountCode(jsonObject);
         else if (command.equals("editDiscount"))
             answer = managerControllerProcess.editDiscount(jsonObject);
+        else if (command.equals("getAllRequests"))
+            answer = managerControllerProcess.getAllRequests();
+        else if (command.equals("showRequest"))
+            answer = managerControllerProcess.showRequest(jsonObject);
+        else if (command.equals("acceptRequest"))
+            answer = managerControllerProcess.acceptRequest(jsonObject);
+        else if (command.equals("declineRequest"))
+            answer = managerControllerProcess.declineRequest(jsonObject);
+        else if (command.equals("deleteProduct"))
+            answer = managerControllerProcess.deleteProduct(jsonObject, user);
+        else if (command.equals("getProductList"))
+            answer = managerControllerProcess.getProductList(user);
         return answer;
     }
 
