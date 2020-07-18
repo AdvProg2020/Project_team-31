@@ -1,7 +1,9 @@
 package Server;
 
+import Controller.ProductController;
 import Controller.SellerController;
 import Model.Category;
+import Model.Product;
 import Model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -48,6 +50,7 @@ public class SellerControllerProcess {
         }
         return jsonObject;
     }
+
     public JsonObject getAllCategories() {
         JsonObject output = new JsonObject();
         JsonArray categories = new JsonArray();
@@ -63,5 +66,35 @@ public class SellerControllerProcess {
         }
         output.add("categories", categories);
         return output;
+    }
+
+    public JsonObject getProductData(JsonObject jsonObject, User user) {
+        Product product = ProductController.getProductById(jsonObject.get("productId").getAsString());
+        JsonObject data = new JsonObject();
+        data.addProperty("name", product.getName());
+        data.addProperty("company", product.getCompany());
+        data.addProperty("price", product.getSellersOfThisProduct().get(user).toString());
+        data.addProperty("information", product.getInformation());
+        data.addProperty("number", String.valueOf(product.getAvailable()));
+        data.addProperty("category", product.getCategory().getName());
+        return data;
+    }
+
+    public JsonObject editProduct(JsonObject jsonObject, User user) {
+        String productId = jsonObject.get("id").getAsString();
+        int price = Integer.parseInt(jsonObject.get("price").getAsString());
+        int available = Integer.parseInt(jsonObject.get("available").getAsString());
+        String text = jsonObject.get("text").getAsString();
+        String[] first = new Gson().fromJson(jsonObject.get("first").getAsString(), String[].class);
+        String[] second = new Gson().fromJson(jsonObject.get("second").getAsString(), String[].class);
+        HashMap<String, String> data = new HashMap<>();
+        for (int i = 0; i < first.length; i++)
+            data.put(first[i], second[i]);
+        try {
+            sellerController.editProduct(user, productId, price, available, text, data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }

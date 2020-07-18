@@ -1,12 +1,13 @@
 package GraphicalView;
 
-import Controller.ManagerController;
-import Controller.SellerController;
-import Model.Product;
-import Model.Seller;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+//import Controller.SellerController;
+
+import Model.Category;
+import Model.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -21,10 +22,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class EditProduct implements Initializable {
@@ -39,7 +40,7 @@ public class EditProduct implements Initializable {
     HashMap<Label, TextField> data = new HashMap<>();
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
-    Product product = ProductsMenu.product;
+    String productId = ProductsMenu.productId;
     ChoiceBox<String> choiceBox;
     File photo;
 
@@ -66,12 +67,26 @@ public class EditProduct implements Initializable {
         logout.setOnAction(event);
     }
 
+    private JsonObject productData() {
+        try {
+            JsonObject jsonObject = runner.jsonMaker("seller", "getProductData");
+            jsonObject.addProperty("productId", productId);
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            return runner.jsonParser(dataBase.dataInputStream.readUTF());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void initValues() {
-        productName.setText(product.getName());
-        companyName.setText(product.getCompany());
-        price.setText(product.getSellersOfThisProduct().get(dataBase.user).toString());
-        description.setText(product.getInformation());
-        number.setText(String.valueOf(product.getAvailable()));
+        JsonObject jsonObject = productData();
+        productName.setText(jsonObject.get("name").getAsString());
+        companyName.setText(jsonObject.get("company").getAsString());
+        price.setText(jsonObject.get("price").getAsString());
+        description.setText(jsonObject.get("information").getAsString());
+        number.setText(jsonObject.get("number").getAsString());
     }
 
     public void back(ActionEvent actionEvent) {
@@ -81,22 +96,40 @@ public class EditProduct implements Initializable {
 
     public void submit(ActionEvent actionEvent) throws Exception {
         Runner.buttonSound();
-        SellerController sellerController = SellerController.getInstance();
         if (isInvalid() != null) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter a valid " + isInvalid(), ButtonType.OK);
             error.show();
             return;
         }
         HashMap<String, String> dataToSend = new HashMap<>();
-        String id = this.product.getProductId();
+        String id = productId;
         int price = Integer.parseInt(this.price.getText());
         int available = Integer.parseInt(this.number.getText());
-        Product product = sellerController.editProduct(dataBase.user, id, price, available, description.getText(),dataToSend);
+        editProduct(dataBase.user, id, price, available, description.getText(), dataToSend);
         new Alert(Alert.AlertType.INFORMATION, "product created successfully", ButtonType.OK).show();
         runner.back();
 //        if (photo != null) {
 //            sellerController.changeProductPhoto(product, photo);
 //        }
+    }
+
+    private void editProduct(User user, String id, int price, int available, String text, HashMap<String, String> dataToSend) {
+        try {
+            JsonObject jsonObject = runner.jsonMaker("seller", "editProduct");
+            jsonObject.addProperty("id", id);
+            jsonObject.addProperty("price", price);
+            jsonObject.addProperty("available", available);
+            jsonObject.addProperty("text", text);
+            String[] first = new String[dataToSend.size()];
+            String[] second = new String[dataToSend.size()];
+            jsonObject.addProperty("first", new Gson().toJson(first));
+            jsonObject.addProperty("second", new Gson().toJson(second));
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            dataBase.dataInputStream.readUTF();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -149,11 +182,41 @@ public class EditProduct implements Initializable {
 
     private void dropDownListSetUp() {
         choiceBox = new ChoiceBox<>();
-        ArrayList<String> categories = ManagerController.getInstance().showAllCategoriesForGUI();
+        ArrayList<String> categories = getAllCategoryNames();
         choiceBox.getItems().addAll(categories);
         choiceBoxContainer.getChildren().add(choiceBox);
-        choiceBox.setValue(product.getCategory().getName());
+        choiceBox.setValue(productData().get("category").getAsString());
         choiceBox.setOnAction(event -> data.clear());
+    }
+
+    private ArrayList<String> getAllCategoryNames() {
+        ArrayList<Category> categories = getAllCategories();
+        ArrayList<String> names = new ArrayList<>();
+        categories.forEach(category -> names.add(category.getName()));
+        return names;
+    }
+
+    private ArrayList<Category> getAllCategories() {
+        try {
+            JsonObject jsonObject = runner.jsonMaker("seller", "getAllCategories");
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            JsonObject categoryJSon = runner.jsonParser(dataBase.dataInputStream.readUTF());
+            JsonArray array = categoryJSon.getAsJsonArray("categories");
+            ArrayList<Category> categories = new ArrayList<>();
+            for (JsonElement json : array) {
+                String name = json.getAsJsonObject().get("name").getAsString();
+                ArrayList<String> features = new ArrayList<>();
+                JsonArray featureJSon = json.getAsJsonObject().get("features").getAsJsonArray();
+                for (JsonElement element : featureJSon)
+                    features.add(element.getAsString());
+                categories.add(new Category(name, features));
+            }
+            return categories;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     class GetCategoryInfo {
@@ -162,7 +225,7 @@ public class EditProduct implements Initializable {
             window.initModality(Modality.APPLICATION_MODAL);
             window.setTitle("category info");
             VBox layout = new VBox(10);
-            ArrayList<String> features = SellerController.getInstance().getCategoryFeatures(choiceBox.getValue());
+            ArrayList<String> features = getCategoryFeatures(choiceBox.getValue());
             Button closeButton = new Button("submit");
             for (String feature : features) {
                 Label label = new Label(feature);
@@ -188,5 +251,13 @@ public class EditProduct implements Initializable {
             window.setScene(scene);
             window.showAndWait();
         }
+    }
+
+    private ArrayList<String> getCategoryFeatures(String categoryName) {
+        for (Category category : getAllCategories()) {
+            if (category.getName().equals(categoryName))
+                return category.getSpecialProperties();
+        }
+        return null;
     }
 }

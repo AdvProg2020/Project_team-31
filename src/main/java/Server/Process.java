@@ -134,6 +134,10 @@ public class Process {
             answer = sellerControllerProcess.getAllCategories();
         else if (command.equals("newProduct"))
             answer = sellerControllerProcess.newProduct(jsonObject, user);
+        else if (command.equals("getProductData"))
+            answer = sellerControllerProcess.getProductData(jsonObject, user);
+        else if (command.equals("editProduct"))
+            answer = sellerControllerProcess.editProduct(jsonObject, user);
         return answer;
     }
 
