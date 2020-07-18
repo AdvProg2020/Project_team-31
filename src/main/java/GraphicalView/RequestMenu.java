@@ -1,7 +1,9 @@
 package GraphicalView;
 
-import Model.Product;
 import Model.Request;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,13 +14,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
+import javax.xml.bind.util.JAXBSource;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class RequestMenu implements Initializable {
     public TableColumn idColumn;
     public TableView tableOfRequest;
-    public static Request request;
+    public static String requestToView;
     public Button logout;
     public Button login;
 
@@ -26,9 +30,17 @@ public class RequestMenu implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loginAlert();
         logoutAlert();
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("requestId"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("data"));
         addButton();
-        setTable();
+        try {
+            DataBase.getInstance().dataOutputStream.writeUTF(Runner.getInstance().jsonMaker("manager","getAllRequests").toString());
+            DataBase.getInstance().dataOutputStream.flush();
+            String input = DataBase.getInstance().dataInputStream.readUTF();
+            setTable((JsonObject) new JsonParser().parse(input));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void userArea(MouseEvent mouseEvent) {
@@ -59,25 +71,27 @@ public class RequestMenu implements Initializable {
         logout.setOnAction(event);
     }
 
-    private void setTable() {
-        ObservableList<Request> requests = FXCollections.observableArrayList();
-        requests.addAll(Request.getAllRequest());
+    private void setTable(JsonObject input) {
+        ObservableList<StringAndButtonTable> requests = FXCollections.observableArrayList();
+        for (JsonElement element : input.getAsJsonArray("requests")) {
+            requests.add(new StringAndButtonTable(element.getAsString(), element.getAsString()));
+        }
         tableOfRequest.setItems(requests);
     }
 
     private void addButton() {
-        TableColumn<Request, Void> colBtn = new TableColumn();
-        Callback<TableColumn<Request, Void>, TableCell<Request, Void>> cellFactory = new Callback<TableColumn<Request, Void>, TableCell<Request, Void>>() {
+        TableColumn<StringAndButtonTable, Void> colBtn = new TableColumn();
+        Callback<TableColumn<StringAndButtonTable, Void>, TableCell<StringAndButtonTable, Void>> cellFactory = new Callback<TableColumn<StringAndButtonTable, Void>, TableCell<StringAndButtonTable, Void>>() {
             @Override
-            public TableCell<Request, Void> call(final TableColumn<Request, Void> param) {
-                final TableCell<Request, Void> cell = new TableCell<Request, Void>() {
+            public TableCell<StringAndButtonTable, Void> call(final TableColumn<StringAndButtonTable, Void> param) {
+                final TableCell<StringAndButtonTable, Void> cell = new TableCell<StringAndButtonTable, Void>() {
                     private final Button btn = new Button("detail");
 
                     {
                         btn.setMinWidth(75);
                         btn.setOnAction((ActionEvent event) -> {
                             Runner.buttonSound();
-                            request = getTableView().getItems().get(getIndex());
+                            requestToView = getTableView().getItems().get(getIndex()).getData();
                             showDetail();
                         });
                     }
