@@ -10,4 +10,8 @@ public class StringAndButtonTable {
         this.data = data;
         this.button = new Button(button);
     }
+
+    public String getData() {
+        return data;
+    }
 }
