@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.util.Pair;
 
+import javax.xml.bind.util.JAXBSource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -157,22 +158,51 @@ public class ManagerControllerProcess {
         JsonArray discounts = new JsonArray();
         for (DiscountCode discountCode : DiscountCode.getAllDiscountCodes()) {
             JsonObject discount = new JsonObject();
-            discount.addProperty("code" , discountCode.getDiscountCode());
-            discount.addProperty("beginTime" , discountCode.getBeginTime().toString());
-            discount.addProperty("endTime" , discountCode.getEndTime().toString());
-            discount.addProperty("percent" , discountCode.getDiscountPercent());
-            discount.addProperty("maximum" , discountCode.getMaximumDiscount());
-            JsonArray customers = new JsonArray();
-            for (Customer customer : discountCode.getDiscountTimesForEachCustomer().keySet()) {
-                JsonObject cus = new JsonObject();
-                cus.addProperty("username" , customer.getUsername());
-                cus.addProperty("number" , discountCode.getDiscountTimesForEachCustomer().get(customer));
-                customers.add(cus);
-            }
-            discount.add("customers" , customers);
-            discounts.add(discount);
+            discount.addProperty("code", discountCode.getDiscountCode());
+            discounts.add(getDiscountCode(discount));
         }
         output.add("discounts" , discounts);
+        return output;
+    }
+
+    public JsonObject getDiscountCode(JsonObject input) {
+        DiscountCode discountCode = null;
+        try {
+            discountCode = ManagerController.getInstance().getDiscountById(input.get("code").getAsString());
+        } catch (Exception e) {
+            System.out.printf("discount not found");
+        }
+        JsonObject discount = new JsonObject();
+        discount.addProperty("code" , discountCode.getDiscountCode());
+        discount.addProperty("beginTime" , discountCode.getBeginTime().toString());
+        discount.addProperty("endTime" , discountCode.getEndTime().toString());
+        discount.addProperty("percent" , discountCode.getDiscountPercent());
+        discount.addProperty("maximum" , discountCode.getMaximumDiscount());
+        JsonArray customers = new JsonArray();
+        for (Customer customer : discountCode.getDiscountTimesForEachCustomer().keySet()) {
+            JsonObject cus = new JsonObject();
+            cus.addProperty("username" , customer.getUsername());
+            cus.addProperty("number" , discountCode.getDiscountTimesForEachCustomer().get(customer));
+            customers.add(cus);
+        }
+        discount.add("customers" , customers);
+        return discount;
+    }
+
+    public JsonObject editDiscount(JsonObject input) {
+        JsonObject output = new JsonObject();
+        HashMap<String, Integer> usernameAndNumber = new HashMap<>();
+        for (JsonElement element : input.getAsJsonArray("customers")) {
+            JsonObject customer = element.getAsJsonObject();
+            usernameAndNumber.put(customer.get("username").getAsString(),customer.get("number").getAsInt());
+        }
+        try {
+            ManagerController.getInstance().editDiscountCode(input.get("code").getAsString(), castStringToDate(input.get("startDate").getAsString()), castStringToDate(input.get("endDate").getAsString()), input.get("percent").getAsInt(), input.get("maximum").getAsInt(), usernameAndNumber);
+            output.addProperty("type", "successful");
+        } catch (Exception e) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", e.getMessage());
+        }
         return output;
     }
 }
