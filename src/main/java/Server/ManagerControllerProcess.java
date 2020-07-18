@@ -2,19 +2,26 @@ package Server;
 
 import Controller.LoginController;
 import Controller.ManagerController;
+import Controller.SellerController;
+import GraphicalView.DataBase;
 import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.sun.corba.se.spi.protocol.RequestDispatcherRegistry;
+import javafx.scene.control.Label;
 import javafx.util.Pair;
 
+import javax.jws.soap.SOAPBinding;
+import javax.swing.*;
 import javax.xml.bind.util.JAXBSource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class ManagerControllerProcess {
     private static ManagerControllerProcess instance;
@@ -203,6 +210,164 @@ public class ManagerControllerProcess {
             output.addProperty("type", "failed");
             output.addProperty("message", e.getMessage());
         }
+        return output;
+    }
+
+    public JsonObject getAllRequests() {
+        JsonObject output = new JsonObject();
+        JsonArray requests = new JsonArray();
+        for (Request request : Request.getAllRequest()) {
+            requests.add(request.getRequestId());
+        }
+        output.add("requests", requests);
+        return output;
+    }
+
+    public JsonObject showRequest(JsonObject input) {
+        Request request = ManagerController.getInstance().getRequestById(input.get("id").getAsString());
+        if(request instanceof SellerRequest)
+            return showSellerRequest(request);
+        if(request instanceof ProductRequest)
+            return showProductRequest(request);
+        if(request instanceof OffRequest)
+            return showOffRequest(request);
+        return showSellerOfProductRequest(request);
+    }
+
+    private JsonObject showSellerRequest(Request request) {
+        SellerRequest sellerRequest = (SellerRequest) request;
+        JsonObject output = new JsonObject();
+        output.addProperty("type", "seller");
+        output.addProperty("username",sellerRequest.getUsername());
+        output.addProperty("name", sellerRequest.getInformation()[0]);
+        output.addProperty("lastName", sellerRequest.getInformation()[1]);
+        output.addProperty("company", sellerRequest.getInformation()[5]);
+        output.addProperty("email", sellerRequest.getInformation()[2]);
+        output.addProperty("phone", sellerRequest.getInformation()[3]);
+        return output;
+    }
+
+    private JsonObject showProductRequest(Request request) {
+        JsonObject output = new JsonObject();
+        ProductRequest productRequest = (ProductRequest) request;
+        if (productRequest.isEditing()) {
+            output.addProperty("isEditing", true);
+            output.addProperty("name", productRequest.getProduct().getName());
+            output.addProperty("seller", productRequest.getSeller().getUsername());
+            output.addProperty("price", productRequest.getPrice());
+            output.addProperty("available", productRequest.getAvailable());
+            output.addProperty("information", productRequest.getInformation());
+            JsonArray features = new JsonArray();
+            for (String s : productRequest.getSpecialPropertiesRelatedToCategory().keySet()) {
+                JsonObject feature = new JsonObject();
+                feature.addProperty("key", s);
+                feature.addProperty("value", productRequest.getSpecialPropertiesRelatedToCategory().get(s));
+                features.add(feature);
+            }
+            output.add("special", features);
+        } else {
+            Product productToCreate = productRequest.getProduct();
+            output.addProperty("isEditing", false);
+            output.addProperty("name", productToCreate.getName());
+            Seller seller = productToCreate.getSellersOfThisProduct().keySet().stream().collect(Collectors.toList()).get(0);
+            output.addProperty("seller", seller.getUsername());
+            output.addProperty("price", productToCreate.getMinimumPrice());
+            output.addProperty("available", productToCreate.getAvailable());
+            output.addProperty("information", productToCreate.getInformation());
+            JsonArray features = new JsonArray();
+            for (String s : productToCreate.getSpecialPropertiesRelatedToCategory().keySet()) {
+                JsonObject feature = new JsonObject();
+                feature.addProperty("key", s);
+                feature.addProperty("value", productRequest.getSpecialPropertiesRelatedToCategory().get(s));
+                features.add(feature);
+            }
+            output.add("special", features);
+        }
+        return output;
+    }
+
+    private JsonObject showOffRequest(Request request) {
+        JsonObject output = new JsonObject();
+        output.addProperty("type", "off");
+        OffRequest offRequest = (OffRequest) request;
+        if (offRequest.getIsEditing()) {
+            output.addProperty("isEditing", true);
+            output.addProperty("offId", offRequest.getOff().getOffId());
+            output.addProperty("beginTime", offRequest.getBeginTime().toString());
+            output.addProperty("endTime", offRequest.getEndTime().toString());
+            output.addProperty("percent", offRequest.getOffPercent());
+            JsonArray products = new JsonArray();
+            for (Product product : offRequest.getOnSaleProducts()) {
+                products.add(product.getName());
+            }
+            output.add("products", products);
+        } else {
+            Off off = offRequest.getOff();
+            output.addProperty("isEditing", false);
+            output.addProperty("offId", off.getOffId());
+            output.addProperty("beginTime", off.getBeginTime().toString());
+            output.addProperty("endTime", off.getEndTime().toString());
+            output.addProperty("percent", off.getOffPercent());
+            JsonArray products = new JsonArray();
+            for (Product product : off.getOnSaleProducts()) {
+                products.add(product.getName());
+            }
+            output.add("products", products);
+        }
+        return output;
+    }
+
+    private JsonObject showSellerOfProductRequest(Request request) {
+        JsonObject output = new JsonObject();
+        output.addProperty("type", "sellerOfProduct");
+        SellerOfProductRequest sellerOfProductRequest = (SellerOfProductRequest) request;
+        output.addProperty("product", sellerOfProductRequest.getProduct().getProductId());
+        output.addProperty("seller", sellerOfProductRequest.getSeller().getUsername());
+        output.addProperty("price", sellerOfProductRequest.getPrice());
+        return output;
+    }
+
+    public JsonObject acceptRequest(JsonObject input) {
+        ManagerController.getInstance().acceptRequest(input.get("id").getAsString());
+        return new JsonObject();
+    }
+
+    public JsonObject declineRequest(JsonObject input) {
+        ManagerController.getInstance().declineRequest(input.get("id").getAsString());
+        return new JsonObject();
+    }
+
+    public JsonObject deleteProduct(JsonObject input, User user) {
+        if (user instanceof Seller) {
+            try {
+                SellerController.getInstance().removeProductFromUser(user, input.get("id").getAsString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                SellerController.getInstance().removeProduct(input.get("id").getAsString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return new JsonObject();
+    }
+
+    public JsonObject getProductList(User user) {
+        JsonObject output = new JsonObject();
+        JsonArray products = new JsonArray();
+        if(user instanceof Seller) {
+            for (Product product : SellerController.getInstance().showProductsOfThisSellerForGUI(user)) {
+                products.add(product.getProductId());
+            }
+        } else {
+            for (Product product : Product.getAllProducts()) {
+                products.add(product.getProductId());
+            }
+        }
+        output.add("products", products);
         return output;
     }
 }
