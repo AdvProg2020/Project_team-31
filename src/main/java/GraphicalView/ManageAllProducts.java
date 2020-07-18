@@ -3,6 +3,9 @@ package GraphicalView;
 import Controller.ProductController;
 import Model.Product;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +17,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -82,11 +87,19 @@ public class ManageAllProducts implements Initializable {
         logout.setOnAction(event);
     }
 
-    private ObservableList<GraphicalView.ProductViewForSellerInGUI> getProductInList() {
-        ObservableList<GraphicalView.ProductViewForSellerInGUI> list = FXCollections.observableArrayList();
-        ArrayList<Product> allProducts = ProductController.getInstance().showProductInGui(dataBase.user, "all");
-        for (Product product : allProducts)
-            list.add(new GraphicalView.ProductViewForSellerInGUI(product, new Button("view"), new Button("edit"), new Button("delete")));
+    private ObservableList<ProductViewForSellerInGUI> getProductInList() {
+        ObservableList<ProductViewForSellerInGUI> list = FXCollections.observableArrayList();
+        try {
+            dataBase.dataOutputStream.writeUTF(runner.jsonMaker("manager", "getProductList").toString());
+            dataBase.dataOutputStream.flush();
+            String input = dataBase.dataInputStream.readUTF();
+            JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+            for (JsonElement element : jsonObject.getAsJsonArray("products")) {
+                list.add(new ProductViewForSellerInGUI(element.getAsString(), new Button("view"), new Button("edit"), new Button("delete")));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return list;
     }
 }
