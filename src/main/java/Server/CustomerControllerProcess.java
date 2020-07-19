@@ -41,11 +41,28 @@ public class CustomerControllerProcess {
         return new JsonObject();
     }
 
-    public JsonObject showAllOrdersByList(JsonObject jsonObject, User user) {
-        String data = new Gson().toJson(customerController.showAllOrdersByList(user).toArray());
-        JsonObject dataToSend = new JsonObject();
-        dataToSend.addProperty("data", data);
-        return dataToSend;
+    public JsonObject showAllOrdersByList(User user) {
+        JsonObject output = new JsonObject();
+        JsonArray data = new JsonArray();
+        for (BuyingLog buyingLog : customerController.showAllOrdersByList(user)) {
+            JsonObject log = new JsonObject();
+            log.addProperty("id", buyingLog.getLogId());
+            log.addProperty("discount", buyingLog.getDiscountAmount());
+            log.addProperty("date", buyingLog.getDate().toString());
+            log.addProperty("totalPrice", buyingLog.getTotalPrice());
+            JsonArray products = new JsonArray();
+            for (ProductInCard product : buyingLog.getBuyingProducts().values()) {
+                JsonObject pro = new JsonObject();
+                pro.addProperty("name", product.getProduct().getName());
+                pro.addProperty("number", product.getNumber());
+                pro.addProperty("seller", product.getSeller().getUsername());
+                products.add(pro);
+            }
+            log.add("products", products);
+            data.add(log);
+        }
+        output.add("data", data);
+        return output;
     }
 
     public JsonObject getSupporters() {

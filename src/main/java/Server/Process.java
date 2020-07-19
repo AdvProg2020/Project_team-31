@@ -44,7 +44,7 @@ public class Process {
         else if (command.equals("addCredit"))
             answer = customerControllerProcess.addCredit(jsonObject, user);
         else if (command.equals("showAllOrdersByList"))
-            answer = customerControllerProcess.showAllOrdersByList(jsonObject, user);
+            answer = customerControllerProcess.showAllOrdersByList(user);
         else if (command.equals("getSupporters"))
             answer = customerControllerProcess.getSupporters();
         else if (command.equals("addProductToCart"))

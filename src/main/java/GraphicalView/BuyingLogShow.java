@@ -1,7 +1,5 @@
 package GraphicalView;
 
-import Model.Product;
-import Model.ProductInCard;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -10,8 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class BuyingLogShow {
     String totalPrice;
@@ -19,7 +16,7 @@ public class BuyingLogShow {
     String date;
     Button button;
     String id;
-    HashMap<Product, ProductInCard> buyingProducts;
+    ArrayList<ProductShowInLog> allProducts;
 
     public String getId() {
         return id;
@@ -37,20 +34,16 @@ public class BuyingLogShow {
         return date;
     }
 
-    public HashMap<Product, ProductInCard> getBuyingProducts() {
-        return buyingProducts;
-    }
-
     public Button getButton() {
         return button;
     }
 
-    public BuyingLogShow(String id, String totalPrice, String discount, String date, HashMap<Product, ProductInCard> buyingProducts) {
+    public BuyingLogShow(String id, String totalPrice, String discount, String date, ArrayList<ProductShowInLog> allProducts) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.discount = discount;
         this.date = date;
-        this.buyingProducts = buyingProducts;
+        this.allProducts = allProducts;
         button = new Button("show");
         button.setOnAction(event -> {
             Runner.buttonSound();
@@ -87,15 +80,9 @@ public class BuyingLogShow {
         sellerColumn.setMinWidth(150);
         sellerColumn.setCellValueFactory(new PropertyValueFactory<>("seller"));
         table.getColumns().addAll(nameColumn, numberColumn, sellerColumn);
-        table.setItems(getProducts());
-        return table;
-    }
-
-    private ObservableList<ProductShowInLog> getProducts() {
         ObservableList<ProductShowInLog> data = FXCollections.observableArrayList();
-        for (Map.Entry<Product, ProductInCard> entry : buyingProducts.entrySet()) {
-            data.add(new ProductShowInLog(entry.getKey().getName(), String.valueOf(entry.getValue().getNumber()), entry.getValue().getSeller().getCompanyName()));
-        }
-        return data;
+        data.addAll(allProducts);
+        table.setItems(data);
+        return table;
     }
 }
