@@ -1,6 +1,5 @@
 package GraphicalView;
 
-import Model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.beans.binding.Bindings;

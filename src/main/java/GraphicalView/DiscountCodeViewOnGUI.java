@@ -1,7 +1,5 @@
 package GraphicalView;
 
-import GraphicalView.DataBase;
-import GraphicalView.Runner;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
