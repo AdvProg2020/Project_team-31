@@ -1,6 +1,7 @@
 package GraphicalView;
 
-import Controller.LoginController;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -9,6 +10,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -22,6 +24,7 @@ public class RegisterMenu implements Initializable {
     public TextField phoneField;
     public TextField companyField;
     private boolean isAddingManager;
+    private boolean isThereAnyManager;
 
     public void changeRole(ActionEvent actionEvent) {
         if (role.getValue().equals("seller"))
@@ -40,19 +43,31 @@ public class RegisterMenu implements Initializable {
             role.setDisable(true);
         }
         companyField.setDisable(true);
+        isThereAnyManager = isThereAnyManager();
         firstManager();
     }
 
     private void firstManager() {
-        if (!LoginController.getInstance().isThereAnyManager()) {
+        if (isThereAnyManager) {
             role.setValue("manager");
             role.setDisable(true);
         }
     }
 
+    private boolean isThereAnyManager() {
+        try {
+            DataBase.getInstance().dataOutputStream.writeUTF(Runner.getInstance().jsonMaker("login", "isThereAnyManager").toString());
+            DataBase.getInstance().dataOutputStream.flush();
+            return Runner.getInstance().jsonParser(DataBase.getInstance().dataInputStream.readUTF()).get("managerStatus").getAsBoolean();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void back(MouseEvent mouseEvent) {
         Runner.buttonSound();
-        if (LoginController.getInstance().isThereAnyManager()) {
+        if (isThereAnyManager) {
             DataBase.getInstance().isAddingManager = false;
             Runner.getInstance().back();
         }
@@ -64,23 +79,33 @@ public class RegisterMenu implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter " + isEmpty(), ButtonType.OK);
             error.show();
         } else {
-            if (role.getValue().equals("manager") && LoginController.getInstance().isThereAnyManager() && !isAddingManager) {
+            if (role.getValue().equals("manager") && isThereAnyManager && !isAddingManager) {
                 Alert error = new Alert(Alert.AlertType.ERROR, "One manager registered before", ButtonType.OK);
                 error.show();
-            } else if (!LoginController.getInstance().isUsernameFree(usernameField.getText())) {
-                Alert error = new Alert(Alert.AlertType.ERROR, "This username is token before", ButtonType.OK);
-                error.show();
             } else {
-                String information[] = new String[6];
-                information[0] = firstNameField.getText();
-                information[1] = lastNameField.getText();
-                information[2] = emailField.getText();
-                information[3] = phoneField.getText();
-                information[4] = passwordField.getText();
-                information[5] = companyField.getText();
+                JsonObject output = Runner.getInstance().jsonMaker("login", "register");
+                output.addProperty("username", usernameField.getText());
+                output.addProperty("role", (String) role.getValue());
+                output.addProperty("firstName", firstNameField.getText());
+                output.addProperty("lastName", lastNameField.getText());
+                output.addProperty("email", emailField.getText());
+                output.addProperty("phone", phoneField.getText());
+                output.addProperty("password", passwordField.getText());
+                output.addProperty("company", companyField.getText());
+                JsonObject jsonObject = null;
                 try {
-                    LoginController.getInstance().register(usernameField.getText(), (String) role.getValue(), information);
-                    Alert inform = null;
+                    DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
+                    DataBase.getInstance().dataOutputStream.flush();
+                    String input = DataBase.getInstance().dataInputStream.readUTF();
+                    jsonObject = (JsonObject) new JsonParser().parse(input);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if(jsonObject.get("type").getAsString().equals("failed")) {
+                    Alert error = new Alert(Alert.AlertType.ERROR, jsonObject.get("message").getAsString(), ButtonType.OK);
+                    error.show();
+                } else {
+                    Alert inform;
                     if (isAddingManager) {
                         DataBase.getInstance().isAddingManager = false;
                         Runner.getInstance().back();
@@ -90,8 +115,6 @@ public class RegisterMenu implements Initializable {
                         inform = new Alert(Alert.AlertType.INFORMATION, "You have registered successfully!", ButtonType.OK);
                     }
                     inform.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         }

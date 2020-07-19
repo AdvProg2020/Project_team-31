@@ -1,11 +1,6 @@
 package GraphicalView;
 
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
-import java.util.Date;
-
 public class OffedProduct {
     private ProductInTable product;
     private String name;

@@ -74,6 +74,8 @@ public class Process {
         String command = jsonObject.get("command").getAsString();
         if (command.equals("isThereAnyManager"))
             answer = loginControllerProcess.managerStatus();
+        else if (command.equals("register"))
+            answer = loginControllerProcess.register(jsonObject);
         else if (command.equals("showPersonalInformation"))
             answer = loginControllerProcess.showPersonalInformation(jsonObject, user);
         else if (command.equals("editPersonalInformation"))
