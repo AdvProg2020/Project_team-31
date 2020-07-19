@@ -1,18 +1,16 @@
 package GraphicalView;
 
-import Controller.ManagerController;
-import Controller.SellerController;
-import javafx.application.Platform;
+//import Controller.SellerController;
+
+import Model.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.util.Pair;
 
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -76,8 +74,25 @@ public class SellerAddOff implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR, "end date is before start date!", ButtonType.OK);
             error.show();
         } else {
-            SellerController sellerController = SellerController.getInstance();
-            sellerController.addOff(dataBase.user, products, getStartDate(), getEndDate(), Integer.parseInt(percentage.getText()));
+            addOff(products);
+        }
+    }
+
+    private void addOff(ArrayList<String> products) {
+        JsonObject jsonObject = runner.jsonMaker("seller", "addOff");
+        String[] productZ = new String[products.size()];
+        for (int i = 0; i < productZ.length; i++)
+            productZ[i] = products.get(i);
+        jsonObject.addProperty("products", new Gson().toJson(productZ));
+        jsonObject.addProperty("startDate", startDate.getEditor().getText() + " 00:00");
+        jsonObject.addProperty("endDate", endDate.getEditor().getText() + " 23:59");
+        jsonObject.addProperty("percentage", percentage.getText());
+        try {
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            dataBase.dataInputStream.readUTF();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
