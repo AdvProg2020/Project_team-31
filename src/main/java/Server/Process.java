@@ -176,6 +176,8 @@ public class Process {
             answer = sellerControllerProcess.getOffInfoForEdit(jsonObject, user);
         else if (command.equals("showSalesHistory"))
             answer = sellerControllerProcess.showSalesHistory(user);
+        else if (command.equals("addProductToSeller"))
+            answer = sellerControllerProcess.addSellerToProduct(user, jsonObject);
         return answer;
     }
 

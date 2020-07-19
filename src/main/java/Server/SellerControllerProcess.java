@@ -184,4 +184,16 @@ public class SellerControllerProcess {
         output.add("logs", logs);
         return output;
     }
+
+    public JsonObject addSellerToProduct(User user, JsonObject input) {
+        JsonObject output = new JsonObject();
+        try {
+            SellerController.getInstance().addSellerToProduct(user, input.get("id").getAsString(), input.get("price").getAsInt());
+            output.addProperty("type", "successful");
+        } catch (Exception e) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", e.getMessage());
+        }
+        return output;
+    }
 }

@@ -1,9 +1,8 @@
 package GraphicalView;
 
-import Controller.LoginController;
-import Controller.ProductController;
-import Controller.SellerController;
-import Model.Product;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -44,13 +43,8 @@ public class SellerUserArea implements Initializable {
             return;
         }
         String company = "";
-        try {
-            company = SellerController.getInstance().showCompanyInformation(dataBase.user);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
         StringBuilder toShow = new StringBuilder("personal information : \n");
-        String[] information = LoginController.getInstance().showPersonalInformation(dataBase.user);
+        String[] information = showPersonalInformation();
         toShow.append("first name : ").append(information[0]).append("\n");
         toShow.append("last name : ").append(information[1]).append("\n");
         toShow.append("username : ").append(information[2]).append("\n");
@@ -59,6 +53,20 @@ public class SellerUserArea implements Initializable {
         toShow.append("credit : ").append(information[6]).append("\n");
         toShow.append("company Info : ").append(company);
         personalInfo.textProperty().setValue(toShow.toString());
+    }
+
+    private String[] showPersonalInformation() {
+        try {
+            JsonObject jsonObject = runner.jsonMaker("login", "showPersonalInformation");
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            JsonObject jsonObject1 = runner.jsonParser(dataBase.dataInputStream.readUTF());
+            String[] info = new Gson().fromJson(jsonObject1.get("info").getAsString(), String[].class);
+            return info;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void back(MouseEvent mouseEvent) {
@@ -160,7 +168,7 @@ public class SellerUserArea implements Initializable {
         Optional<Pair<String, String>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
             try {
-                SellerController.getInstance().addSellerToProduct(dataBase.user, productName.getText(), Integer.parseInt(price.getText()));
+                addSellerToProduct(productName.getText(), Integer.parseInt(price.getText()));
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Dialog");
@@ -168,6 +176,19 @@ public class SellerUserArea implements Initializable {
                 alert.showAndWait();
             }
         });
+    }
+
+    private void addSellerToProduct(String productId, int price) throws Exception {
+        JsonObject jsonObject = runner.jsonMaker("seller", "addProductToSeller");
+        jsonObject.addProperty("id", productId);
+        jsonObject.addProperty("price", price);
+        dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+        dataBase.dataOutputStream.flush();
+        String input = dataBase.dataInputStream.readUTF();
+        JsonObject json = (JsonObject) new JsonParser().parse(input);
+        if(json.get("type").getAsString().equals("failed")) {
+            throw new Exception(json.get("message").getAsString());
+        }
     }
 
     public void addOff(ActionEvent actionEvent) {
