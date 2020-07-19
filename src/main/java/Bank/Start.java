@@ -26,7 +26,7 @@ public class Start {
                 System.out.println("A client Connected!");
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
                 DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-                new ClientHandler(clientSocket, dataOutputStream, dataInputStream).start();
+//                new ClientHandler(clientSocket, dataOutputStream, dataInputStream).start();
             } catch (Exception e) {
                 System.err.println("Error in accepting client!");
                 break;

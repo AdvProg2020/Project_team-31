@@ -50,9 +50,12 @@ public class ProductsMenu implements Initializable {
     static String productId;
 
     public void setCategories() {
-        ArrayList<String> listOfCategories = (ArrayList<String>) categories.keySet();
+        ArrayList<String> listOfCategories = new ArrayList<>();
+        for (String s : categories.keySet()) {
+            listOfCategories.add(s);
+        }
         listOfCategories.add(0, "all");
-        ObservableList categories = FXCollections.observableArrayList(listOfCategories);
+        ObservableList<String> categories = FXCollections.observableArrayList(listOfCategories);
         category.setItems(categories);
         category.setValue("all");
         categoryName = "all";

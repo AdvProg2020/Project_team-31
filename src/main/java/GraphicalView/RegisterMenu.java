@@ -48,7 +48,7 @@ public class RegisterMenu implements Initializable {
     }
 
     private void firstManager() {
-        if (isThereAnyManager) {
+        if (!isThereAnyManager) {
             role.setValue("manager");
             role.setDisable(true);
         }

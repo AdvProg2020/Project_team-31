@@ -23,7 +23,7 @@ public class Receipt {
         allReceipts.add(this);
     }
 
-    public static boolean isThereAnyReceipt(String id) {
-        allReceipts
-    }
+//    public static boolean isThereAnyReceipt(String id) {
+//        allReceipts
+//    }
 }

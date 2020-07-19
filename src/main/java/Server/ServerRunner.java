@@ -1,5 +1,6 @@
 package Server;
 
+import Controller.LoginController;
 import Controller.SaveAndLoadFiles;
 import Model.Supporter;
 import Model.User;
@@ -76,8 +77,9 @@ public class ServerRunner {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                System.out.println("request:" + request );
                 JsonObject jsonObject = (JsonObject) new JsonParser().parse(request);
-                if (!jsonObject.get("token").toString().equals(token)) {
+                if (!jsonObject.get("token").getAsString().equals(token)) {
                     output = getStringOfWrongToken();
                 } else {
                     if (user == null) {
@@ -96,6 +98,7 @@ public class ServerRunner {
                     if (tryToLogin)
                         handleLogin((JsonObject) new JsonParser().parse(output));
                     tryToLogin = false;
+                    System.out.println("output:" + output);
                     dataOutputStream.writeUTF(output);
                     dataOutputStream.flush();
                 } catch (IOException e) {
@@ -107,7 +110,7 @@ public class ServerRunner {
         private void handleLogin(JsonObject jsonObject) {
             if (jsonObject.get("type").getAsString().equals("successful")) {
                 token = jsonObject.get("token").getAsString();
-                user = LoginController.getUserByUsername(jsonObject.get("username").getAsString());
+                user = LoginController.getInstance().getUserByUsername(jsonObject.get("username").getAsString());
             }
         }
 

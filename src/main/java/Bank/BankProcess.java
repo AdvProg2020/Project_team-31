@@ -22,12 +22,12 @@ public class BankProcess {
             answer = getToken(command);
         else if (command.startsWith("create_receipt"))
             answer = createReceipt(command);
-        else if (command.startsWith("get_transactions"))
-            answer = getTransactions(command);
-        else if (command.startsWith("pay"))
-            answer = pay(command);
-        else if (command.startsWith("get_balance"))
-            answer = getBalance(command);
+//        else if (command.startsWith("get_transactions"))
+//            answer = getTransactions(command);
+//        else if (command.startsWith("pay"))
+//            answer = pay(command);
+//        else if (command.startsWith("get_balance"))
+//            answer = getBalance(command);
         return answer;
     }
 
@@ -142,33 +142,33 @@ public class BankProcess {
         return String.valueOf(Receipt.receiptID);
     }
 
-    private String getTransactions(String command) {
-        String[] data = command.split(" ");
-        if (!Account.getAccountByToken(data[1]).validityOfToken())
-            return "token expired";
-        if (data[2].equals("+"))
-            return increaseHistory(data);
-        if (data[2].equals("-"))
-            return decreaseHistory(data);
-        if (data[2].equals("*"))
-            return allHistory(data);
-        else Receipt.isThereAnyReceipt(data[2]);
-    }
-
-    private String increaseHistory(String[] data) {
-    }
-
-    private String decreaseHistory(String[] data) {
-    }
-
-    private String allHistory(String[] data) {
-    }
-
-    private String pay(String command) {
-
-    }
-
-    private String getBalance(String command) {
-
-    }
+//    private String getTransactions(String command) {
+//        String[] data = command.split(" ");
+//        if (!Account.getAccountByToken(data[1]).validityOfToken())
+//            return "token expired";
+//        if (data[2].equals("+"))
+//            return increaseHistory(data);
+//        if (data[2].equals("-"))
+//            return decreaseHistory(data);
+//        if (data[2].equals("*"))
+//            return allHistory(data);
+//        else Receipt.isThereAnyReceipt(data[2]);
+//    }
+//
+//    private String increaseHistory(String[] data) {
+//    }
+//
+//    private String decreaseHistory(String[] data) {
+//    }
+//
+//    private String allHistory(String[] data) {
+//    }
+//
+//    private String pay(String command) {
+//
+//    }
+//
+//    private String getBalance(String command) {
+//
+//    }
 }

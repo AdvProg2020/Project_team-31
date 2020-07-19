@@ -144,7 +144,7 @@ public class Runner extends Application {
     }
 
     public void setUserAreaScene() {
-        if (dataBase.role==null || dataBase.role.equals("customer"))
+        if (dataBase.role.equals("none") || dataBase.role.equals("customer"))
             changeScene("CustomerUserArea.fxml");
         else if (dataBase.role.equals("seller"))
             changeScene("SellerUserArea.fxml");
@@ -186,6 +186,8 @@ public class Runner extends Application {
 
     public JsonObject jsonMaker(String controller, String command) {
         JsonObject jsonObject = new JsonObject();
+        if(dataBase.token == null)
+            dataBase.token = "null";
         jsonObject.addProperty("token", dataBase.token);
         jsonObject.addProperty("controller", controller);
         jsonObject.addProperty("command", command);
