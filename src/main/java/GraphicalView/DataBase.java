@@ -1,8 +1,8 @@
 package GraphicalView;
 
-import Model.*;
+import Model.Card;
+import Model.User;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -10,14 +10,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Calendar;
 import java.util.Stack;
 
 public class DataBase {
     public static DataBase dataBase = null;
     static Runner runner = Runner.getInstance();
     public Card card;
-    Off editingOff = null;
+    String editingOffId;
     public String editingDiscountCode = null;
     boolean isAddingManager = false;
     Socket socket;

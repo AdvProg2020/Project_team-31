@@ -159,7 +159,15 @@ public class Process {
         else if (command.equals("editProduct"))
             answer = sellerControllerProcess.editProduct(jsonObject, user);
         else if (command.equals("addOff"))
-            answer = sellerControllerProcess.addOff(jsonObject,user);
+            answer = sellerControllerProcess.addOff(jsonObject, user);
+        else if (command.equals("getOffInfo"))
+            answer = sellerControllerProcess.getOffInfo(jsonObject, user);
+        else if (command.equals("getAllOffs"))
+            answer = sellerControllerProcess.getAllOffs(jsonObject, user);
+        else if (command.equals("editOff"))
+            answer = sellerControllerProcess.editOff(jsonObject, user);
+        else if (command.equals("getOffInfoForEdit"))
+            answer = sellerControllerProcess.getOffInfoForEdit(jsonObject, user);
         return answer;
     }
 

@@ -1,13 +1,14 @@
 package GraphicalView;
 
-import Controller.SellerController;
-import Model.Off;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,14 +36,25 @@ public class SellerEditOff implements Initializable {
     }
 
     private void initFields() throws Exception {
-        products = SellerController.getInstance().getOffProducts(dataBase.editingOff.getOffId());
-        Off off = dataBase.editingOff;
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        String date = format.format(off.getBeginTime());
-        startDate.getEditor().setText(date);
-        date = format.format(off.getEndTime());
-        endDate.getEditor().setText(date);
-        percentage.setText(String.valueOf(off.getOffPercent()));
+        JsonObject jsonObject = getOffInfoForEdit();
+        String[] productZ = new Gson().fromJson(jsonObject.get("products").getAsString(), String[].class);
+        products.addAll(Arrays.asList(productZ));
+        startDate.getEditor().setText(jsonObject.get("startDate").getAsString());
+        endDate.getEditor().setText(jsonObject.get("endDate").getAsString());
+        percentage.setText(jsonObject.get("percentage").getAsString());
+    }
+
+    private JsonObject getOffInfoForEdit() {
+        try {
+            JsonObject jsonObject = runner.jsonMaker("seller", "getOffInfoForEdit");
+            jsonObject.addProperty("id", dataBase.editingOffId);
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            return runner.jsonParser(dataBase.dataInputStream.readUTF());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void back(ActionEvent actionEvent) {
@@ -84,8 +96,18 @@ public class SellerEditOff implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR, "end date is before start date!", ButtonType.OK);
             error.show();
         } else {
-            SellerController sellerController = SellerController.getInstance();
-            sellerController.editOff(dataBase.user, dataBase.editingOff.getOffId(), products, getStartDate(), getEndDate(), Integer.parseInt(percentage.getText()));
+            JsonObject jsonObject = runner.jsonMaker("seller", "editOff"); //setOffId
+            String[] productz = new String[products.size()];
+            for (int i = 0; i < productz.length; i++)
+                productz[i] = products.get(i);
+            jsonObject.addProperty("products", new Gson().toJson(productz));
+            jsonObject.addProperty("id", dataBase.editingOffId);
+            jsonObject.addProperty("startDate", startDate.getEditor().getText() + " 00:00");
+            jsonObject.addProperty("endDate", endDate.getEditor().getText() + " 23:59");
+            jsonObject.addProperty("percentage", percentage.getText());
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            dataBase.dataInputStream.readUTF();
         }
     }
 

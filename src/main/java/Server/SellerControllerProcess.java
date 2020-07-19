@@ -3,6 +3,7 @@ package Server;
 import Controller.ProductController;
 import Controller.SellerController;
 import Model.Category;
+import Model.Off;
 import Model.Product;
 import Model.User;
 import com.google.gson.Gson;
@@ -115,5 +116,61 @@ public class SellerControllerProcess {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public JsonObject getOffInfo(JsonObject jsonObject, User user) {
+        Off off = sellerController.getOffById(jsonObject.get("offId").getAsString());
+        String data = "off ID : " + off.getOffId() + "\n" +
+                "start time : " + off.getBeginTime() + "\n" +
+                "end time : " + off.getEndTime() + "\n" +
+                "off percentage : " + off.getOffPercent() + "\n" +
+                "products : \n";
+        for (Product product : off.getOnSaleProducts())
+            data += product.getName() + "\n";
+        JsonObject dataToSend = new JsonObject();
+        dataToSend.addProperty("data", data);
+        return dataToSend;
+    }
+
+    public JsonObject getAllOffs(JsonObject jsonObject, User user) {
+        ArrayList<Off> allOffs = sellerController.showAllOffsForGUI(user);
+        String[] allId = new String[allOffs.size()];
+        for (int i = 0; i < allId.length; i++)
+            allId[i] = allOffs.get(i).getOffId();
+        JsonObject data = new JsonObject();
+        data.addProperty("data", new Gson().toJson(allId));
+        return data;
+    }
+
+    public JsonObject editOff(JsonObject jsonObject, User user) {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        try {
+            String id = jsonObject.get("id").getAsString();
+            Date startDate = format.parse(jsonObject.get("startDate").getAsString());
+            Date endDate = format.parse(jsonObject.get("endDate").getAsString());
+            int percentage = Integer.parseInt(jsonObject.get("percentage").getAsString());
+            String[] products = new Gson().fromJson(jsonObject.get("products").getAsString(), String[].class);
+            ArrayList<String> productZ = new ArrayList<>();
+            productZ.addAll(Arrays.asList(products));
+            sellerController.editOff(user, id, productZ, startDate, endDate, percentage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public JsonObject getOffInfoForEdit(JsonObject jsonObject, User user) {
+        Off off = sellerController.getOffById(jsonObject.get("id").getAsString());
+        JsonObject dataToSend = new JsonObject();
+        dataToSend.addProperty("percentage", String.valueOf(off.getOffPercent()));
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        dataToSend.addProperty("startDate", format.format(off.getBeginTime()));
+        dataToSend.addProperty("endDate", format.format(off.getEndTime()));
+        ArrayList<Product> products = off.getOnSaleProducts();
+        String[] productZ = new String[products.size()];
+        for (int i = 0; i < productZ.length; i++)
+            productZ[i] = products.get(i).getProductId();
+        dataToSend.addProperty("products", new Gson().toJson(productZ));
+        return dataToSend;
     }
 }

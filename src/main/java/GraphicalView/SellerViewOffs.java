@@ -1,10 +1,8 @@
 package GraphicalView;
 
-import Controller.ManagerController;
-import Controller.SellerController;
-import Model.Category;
-import Model.Off;
-import Model.Product;
+import Model.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +18,7 @@ import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class SellerViewOffs implements Initializable {
@@ -28,7 +27,6 @@ public class SellerViewOffs implements Initializable {
     public GridPane gridPane;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
-    SellerController sellerController = SellerController.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -91,12 +89,27 @@ public class SellerViewOffs implements Initializable {
 
     private ObservableList generateOffsList() {
         ObservableList<ShowOffsOnGUI> list = FXCollections.observableArrayList();
-        ArrayList<Off> allOffs = sellerController.showAllOffsForGUI(dataBase.user);
-        for (Off off : allOffs)
-            list.add(new ShowOffsOnGUI(off, new Button("show"), new Button("edit"), off.getOffId()));
+        ArrayList<String> allOffs = showAllOffsForGUI(dataBase.user);
+        for (String offId : allOffs)
+            list.add(new ShowOffsOnGUI(new Button("show"), new Button("edit"), offId));
         return list;
     }
 
+    private ArrayList<String> showAllOffsForGUI(User user) {
+        try {
+            JsonObject jsonObject = runner.jsonMaker("seller", "getAllOffs");
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            JsonObject serverMassage = runner.jsonParser(dataBase.dataInputStream.readUTF());
+            String[] data = new Gson().fromJson(serverMassage, String[].class);
+            return new ArrayList<>(Arrays.asList(data));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public void userArea(MouseEvent mouseEvent) {
+        runner.setUserAreaScene();
     }
 }
