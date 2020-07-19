@@ -34,7 +34,7 @@ public class MainMenu implements Initializable {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (!dataBase.loginState) {
+            if (dataBase.role.equals("null")) {
                 error.setContentText("You have not logged in!");
                 error.show();
             } else {
