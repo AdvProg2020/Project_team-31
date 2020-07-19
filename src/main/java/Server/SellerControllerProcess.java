@@ -9,6 +9,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 
 public class SellerControllerProcess {
@@ -92,6 +96,21 @@ public class SellerControllerProcess {
             data.put(first[i], second[i]);
         try {
             sellerController.editProduct(user, productId, price, available, text, data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public JsonObject addOff(JsonObject jsonObject, User user) {
+        String[] products = new Gson().fromJson(jsonObject.get("products").getAsString(), String[].class);
+        ArrayList<String> productZ = new ArrayList<>();
+        productZ.addAll(Arrays.asList(products));
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        try {
+            Date startDate = format.parse(jsonObject.get("startDate").getAsString());
+            Date endDate = format.parse(jsonObject.get("enddate").getAsString());
+            sellerController.addOff(user, productZ, startDate, endDate, Integer.parseInt(jsonObject.get("percentage").getAsString()));
         } catch (Exception e) {
             e.printStackTrace();
         }

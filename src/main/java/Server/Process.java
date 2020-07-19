@@ -158,6 +158,8 @@ public class Process {
             answer = sellerControllerProcess.getProductData(jsonObject, user);
         else if (command.equals("editProduct"))
             answer = sellerControllerProcess.editProduct(jsonObject, user);
+        else if (command.equals("addOff"))
+            answer = sellerControllerProcess.addOff(jsonObject,user);
         return answer;
     }
 
