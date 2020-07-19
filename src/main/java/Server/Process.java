@@ -78,6 +78,8 @@ public class Process {
             answer = loginControllerProcess.showPersonalInformation(jsonObject, user);
         else if (command.equals("editPersonalInformation"))
             answer = loginControllerProcess.editPersonalInformation(jsonObject, user);
+        else if (command.equals("login"))
+            answer = loginControllerProcess.login(user, jsonObject);
         return answer;
     }
 

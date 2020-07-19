@@ -22,7 +22,7 @@ public class DataBase {
     Socket socket;
     DataOutputStream dataOutputStream;
     DataInputStream dataInputStream;
-    String token;
+    String token = "null";
 
     public static DataBase getInstance() {
         if (dataBase == null)
@@ -40,8 +40,15 @@ public class DataBase {
     String role = "none";
 
     public void logout() {
-//        user = null;
+        try {
+            dataOutputStream.writeUTF(runner.jsonMaker("login", "logout").toString());
+            dataOutputStream.flush();
+            dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         role = "none";
+        token = "null";
         pages.clear();
         runner.changeScene("MainMenu.fxml");
         runner.changeScene("MainMenu.fxml");
