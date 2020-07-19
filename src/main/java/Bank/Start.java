@@ -39,9 +39,8 @@ public class Start {
         private Socket clientSocket;
         private DataOutputStream dataOutputStream;
         private DataInputStream dataInputStream;
-        private String token;
 
-
+        //        private String token;
         @Override
         public void run() {
             while (true) {
