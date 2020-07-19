@@ -35,6 +35,18 @@ public class ManagerControllerProcess {
     private ManagerControllerProcess() {
     }
 
+    public JsonObject addSupporter(JsonObject jsonObject) {
+        JsonObject output = new JsonObject();
+        if (!LoginController.getInstance().isUsernameFree(jsonObject.get("username").getAsString())) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", "this username is selected before");
+            return output;
+        }
+        output.addProperty("type", "successful");
+        new Supporter(jsonObject.get("firstName").getAsString(), jsonObject.get("lastName").getAsString(), jsonObject.get("username").getAsString(), jsonObject.get("email").getAsString(), jsonObject.get("phone").getAsString(), jsonObject.get("password").getAsString());
+        return output;
+    }
+
     public JsonObject supporter(JsonObject jsonObject, User user) {
         if (ServerRunner.supporters.containsKey(user))
             return formerSupporter(jsonObject, user);
@@ -126,7 +138,7 @@ public class ManagerControllerProcess {
         HashMap<String, Integer> usernameAndNumber = new HashMap<>();
         for (JsonElement element : input.getAsJsonArray("customers")) {
             JsonObject customer = element.getAsJsonObject();
-            usernameAndNumber.put(customer.get("username").getAsString(),customer.get("number").getAsInt());
+            usernameAndNumber.put(customer.get("username").getAsString(), customer.get("number").getAsInt());
         }
         try {
             ManagerController.getInstance().createDiscountCode(input.get("code").getAsString(), castStringToDate(input.get("startDate").getAsString()), castStringToDate(input.get("endDate").getAsString()), input.get("percent").getAsInt(), input.get("maximum").getAsInt(), usernameAndNumber);
@@ -160,7 +172,7 @@ public class ManagerControllerProcess {
         return new JsonObject();
     }
 
-    public JsonObject getAllDiscount(){
+    public JsonObject getAllDiscount() {
         JsonObject output = new JsonObject();
         JsonArray discounts = new JsonArray();
         for (DiscountCode discountCode : DiscountCode.getAllDiscountCodes()) {
@@ -168,7 +180,7 @@ public class ManagerControllerProcess {
             discount.addProperty("code", discountCode.getDiscountCode());
             discounts.add(getDiscountCode(discount));
         }
-        output.add("discounts" , discounts);
+        output.add("discounts", discounts);
         return output;
     }
 
@@ -180,19 +192,19 @@ public class ManagerControllerProcess {
             System.out.printf("discount not found");
         }
         JsonObject discount = new JsonObject();
-        discount.addProperty("code" , discountCode.getDiscountCode());
-        discount.addProperty("beginTime" , discountCode.getBeginTime().toString());
-        discount.addProperty("endTime" , discountCode.getEndTime().toString());
-        discount.addProperty("percent" , discountCode.getDiscountPercent());
-        discount.addProperty("maximum" , discountCode.getMaximumDiscount());
+        discount.addProperty("code", discountCode.getDiscountCode());
+        discount.addProperty("beginTime", discountCode.getBeginTime().toString());
+        discount.addProperty("endTime", discountCode.getEndTime().toString());
+        discount.addProperty("percent", discountCode.getDiscountPercent());
+        discount.addProperty("maximum", discountCode.getMaximumDiscount());
         JsonArray customers = new JsonArray();
         for (Customer customer : discountCode.getDiscountTimesForEachCustomer().keySet()) {
             JsonObject cus = new JsonObject();
-            cus.addProperty("username" , customer.getUsername());
-            cus.addProperty("number" , discountCode.getDiscountTimesForEachCustomer().get(customer));
+            cus.addProperty("username", customer.getUsername());
+            cus.addProperty("number", discountCode.getDiscountTimesForEachCustomer().get(customer));
             customers.add(cus);
         }
-        discount.add("customers" , customers);
+        discount.add("customers", customers);
         return discount;
     }
 
@@ -201,7 +213,7 @@ public class ManagerControllerProcess {
         HashMap<String, Integer> usernameAndNumber = new HashMap<>();
         for (JsonElement element : input.getAsJsonArray("customers")) {
             JsonObject customer = element.getAsJsonObject();
-            usernameAndNumber.put(customer.get("username").getAsString(),customer.get("number").getAsInt());
+            usernameAndNumber.put(customer.get("username").getAsString(), customer.get("number").getAsInt());
         }
         try {
             ManagerController.getInstance().editDiscountCode(input.get("code").getAsString(), castStringToDate(input.get("startDate").getAsString()), castStringToDate(input.get("endDate").getAsString()), input.get("percent").getAsInt(), input.get("maximum").getAsInt(), usernameAndNumber);
@@ -225,11 +237,11 @@ public class ManagerControllerProcess {
 
     public JsonObject showRequest(JsonObject input) {
         Request request = ManagerController.getInstance().getRequestById(input.get("id").getAsString());
-        if(request instanceof SellerRequest)
+        if (request instanceof SellerRequest)
             return showSellerRequest(request);
-        if(request instanceof ProductRequest)
+        if (request instanceof ProductRequest)
             return showProductRequest(request);
-        if(request instanceof OffRequest)
+        if (request instanceof OffRequest)
             return showOffRequest(request);
         return showSellerOfProductRequest(request);
     }
@@ -238,7 +250,7 @@ public class ManagerControllerProcess {
         SellerRequest sellerRequest = (SellerRequest) request;
         JsonObject output = new JsonObject();
         output.addProperty("type", "seller");
-        output.addProperty("username",sellerRequest.getUsername());
+        output.addProperty("username", sellerRequest.getUsername());
         output.addProperty("name", sellerRequest.getInformation()[0]);
         output.addProperty("lastName", sellerRequest.getInformation()[1]);
         output.addProperty("company", sellerRequest.getInformation()[5]);
@@ -344,8 +356,7 @@ public class ManagerControllerProcess {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             try {
                 SellerController.getInstance().removeProduct(input.get("id").getAsString());
             } catch (Exception e) {
@@ -358,7 +369,7 @@ public class ManagerControllerProcess {
     public JsonObject getProductList(User user) {
         JsonObject output = new JsonObject();
         JsonArray products = new JsonArray();
-        if(user instanceof Seller) {
+        if (user instanceof Seller) {
             for (Product product : SellerController.getInstance().showProductsOfThisSellerForGUI(user)) {
                 products.add(product.getProductId());
             }
