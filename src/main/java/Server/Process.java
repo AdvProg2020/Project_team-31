@@ -44,7 +44,7 @@ public class Process {
         else if (command.equals("addCredit"))
             answer = customerControllerProcess.addCredit(jsonObject, user);
         else if (command.equals("showAllOrdersByList"))
-            answer = customerControllerProcess.showAllOrdersByList(jsonObject, user);
+            answer = customerControllerProcess.showAllOrdersByList(user);
         else if (command.equals("getSupporters"))
             answer = customerControllerProcess.getSupporters();
         else if (command.equals("addProductToCart"))
@@ -74,6 +74,8 @@ public class Process {
         String command = jsonObject.get("command").getAsString();
         if (command.equals("isThereAnyManager"))
             answer = loginControllerProcess.managerStatus();
+        else if (command.equals("register"))
+            answer = loginControllerProcess.register(jsonObject);
         else if (command.equals("showPersonalInformation"))
             answer = loginControllerProcess.showPersonalInformation(jsonObject, user);
         else if (command.equals("editPersonalInformation"))
@@ -89,6 +91,8 @@ public class Process {
         String command = jsonObject.get("command").getAsString();
         if (command.equals("supporter"))
             answer = managerControllerProcess.supporter(jsonObject, user);
+        else if (command.equals("addSupporter"))
+            answer = managerControllerProcess.addSupporter(jsonObject);
         else if (command.equals("showAllUsers"))
             answer = managerControllerProcess.showAllUsers(user);
         else if (command.equals("deleteUser"))

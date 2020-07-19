@@ -1,9 +1,8 @@
 package GraphicalView;
 
-//import Controller.CustomerController;
-
-import Model.*;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,7 +54,7 @@ public class CustomerBuyingHistory implements Initializable {
         buttonColumn.setMinWidth(150);
         buttonColumn.setCellValueFactory(new PropertyValueFactory<>("button"));
 
-        table.setItems(logsOfUser());
+        table.setItems(getAllOrders());
         table.getColumns().addAll(idColumn, priceColumn, discountColumn, dateColumn, buttonColumn);
         gridPane.getChildren().add(table);
     }
@@ -88,33 +87,28 @@ public class CustomerBuyingHistory implements Initializable {
         login.setOnAction(event);
     }
 
-    private ObservableList<BuyingLogShow> logsOfUser() {
-//        ArrayList<BuyingLog> logs = CustomerController.getInstance().showAllOrdersByList(dataBase.user);
-        ArrayList<BuyingLog> logs = getAllOrders();
-        ObservableList<BuyingLogShow> showingLogs = FXCollections.observableArrayList();
-        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy hh:mm");
-        for (BuyingLog log : logs) {
-            String date = format.format(log.getDate());
-            String price = String.valueOf(log.getTotalPrice());
-            String discount = String.valueOf(log.getDiscountAmount());
-            showingLogs.add(new BuyingLogShow(log.getLogId(), price, discount, date, log.getBuyingProducts()));
-        }
-        return showingLogs;
-    }
 
-    private ArrayList<BuyingLog> getAllOrders() {
+    private ObservableList<BuyingLogShow> getAllOrders() {
+        JsonArray data = null;
         try {
             JsonObject jsonObject = runner.jsonMaker("customer", "showAllOrdersByList");
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataOutputStream.flush();
-            BuyingLog[] data = new Gson().fromJson(runner.jsonParser(dataBase.dataInputStream.readUTF()).get("data").getAsString(), BuyingLog[].class);
-            ArrayList<BuyingLog> answer = new ArrayList<>();
-            answer.addAll(Arrays.asList(data));
-            return answer;
+            data = runner.jsonParser(dataBase.dataInputStream.readUTF()).getAsJsonArray("data");
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        ObservableList<BuyingLogShow> showingLogs = FXCollections.observableArrayList();
+        for (JsonElement element : data) {
+            JsonObject log = element.getAsJsonObject();
+            ArrayList<ProductShowInLog> products = new ArrayList<>();
+            for (JsonElement jsonElement : log.getAsJsonArray("products")) {
+                JsonObject product = jsonElement.getAsJsonObject();
+                products.add(new ProductShowInLog(product.get("name").getAsString(), String.valueOf(product.get("number").getAsInt()), product.get("seller").getAsString()));
+            }
+            showingLogs.add(new BuyingLogShow(log.get("id").getAsString(), String.valueOf(log.get("totalPrice").getAsInt()), String.valueOf(log.get("discount").getAsInt()), log.get("date").getAsString(), products));
+        }
+        return showingLogs;
     }
 
     public void userArea(MouseEvent mouseEvent) {

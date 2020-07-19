@@ -2,16 +2,16 @@ package Server;
 
 import Controller.LoginController;
 import GraphicalView.DataBase;
+import GraphicalView.Runner;
 import Model.Customer;
 import Model.Manager;
 import Model.Seller;
 import Model.User;
 import com.google.gson.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
-import javax.jws.soap.SOAPBinding;
-import javax.swing.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Stream;
 
 public class LoginControllerProcess {
     LoginController loginController = LoginController.getInstance();
@@ -24,6 +24,25 @@ public class LoginControllerProcess {
     }
 
     private LoginControllerProcess() {
+    }
+
+    public JsonObject register(JsonObject input) {
+        JsonObject output = new JsonObject();
+        String information[] = new String[6];
+        information[0] = input.get("firstName").getAsString();
+        information[1] = input.get("lastName").getAsString();
+        information[2] = input.get("email").getAsString();
+        information[3] = input.get("phone").getAsString();
+        information[4] = input.get("password").getAsString();
+        information[5] = input.get("company").getAsString();
+        try {
+            LoginController.getInstance().register(input.get("username").getAsString(), input.get("role").getAsString(), information);
+            output.addProperty("type", "successful");
+        } catch (Exception e) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", e.getMessage());
+        }
+        return output;
     }
 
     public JsonObject managerStatus() {
@@ -53,12 +72,14 @@ public class LoginControllerProcess {
             output.addProperty("token", createToken());
             output.addProperty("username", newUser.getUsername());
             String role;
-            if(newUser instanceof Customer)
+            if (newUser instanceof Customer)
                 role = "customer";
-            else if(newUser instanceof Seller)
+            else if (newUser instanceof Seller)
                 role = "seller";
-            else
+            else if (newUser instanceof Manager)
                 role = "manager";
+            else
+                role = "supporter";
             output.addProperty("role", role);
         } catch (Exception e) {
             output.addProperty("type", "failed");
@@ -69,9 +90,9 @@ public class LoginControllerProcess {
 
     private String createToken() {
         String token = "";
-        for (int i = 0 ; i < 30; i++) {
+        for (int i = 0; i < 30; i++) {
             int randomNum = ThreadLocalRandom.current().nextInt(97, 123);
-            token += (char)randomNum;
+            token += (char) randomNum;
         }
         return token;
     }

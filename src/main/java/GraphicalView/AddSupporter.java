@@ -1,11 +1,13 @@
 package GraphicalView;
 
-import Controller.LoginController;
-import Model.Supporter;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+
+import java.io.IOException;
 
 public class AddSupporter {
     public TextField usernameField;
@@ -25,29 +27,33 @@ public class AddSupporter {
         if (!isEmpty().equals("none")) {
             Alert error = new Alert(Alert.AlertType.ERROR, "please enter " + isEmpty(), ButtonType.OK);
             error.show();
-        } else if (!LoginController.getInstance().isUsernameFree(usernameField.getText())) {
-            Alert error = new Alert(Alert.AlertType.ERROR, "This username is token before", ButtonType.OK);
-            error.show();
         } else {
-            String information[] = new String[6];
-            information[0] = firstNameField.getText();
-            information[1] = lastNameField.getText();
-            information[2] = emailField.getText();
-            information[3] = phoneField.getText();
-            information[4] = passwordField.getText();
+            JsonObject output = runner.jsonMaker("manager", "addSupporter");
+            output.addProperty("username", usernameField.getText());
+            output.addProperty("firstName", firstNameField.getText());
+            output.addProperty("lastName", lastNameField.getText());
+            output.addProperty("email", emailField.getText());
+            output.addProperty("phone", phoneField.getText());
+            output.addProperty("password", passwordField.getText());
             try {
-                createNewSupporter(usernameField.getText(), information);
-                Runner.getInstance().back();
-                new Alert(Alert.AlertType.INFORMATION, "new supporter registered successfully!", ButtonType.OK).show();
-            } catch (Exception e) {
+                DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
+                DataBase.getInstance().dataOutputStream.flush();
+                String input = DataBase.getInstance().dataInputStream.readUTF();
+                JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+                if(jsonObject.get("type").getAsString().equals("failed")) {
+                    Alert error = new Alert(Alert.AlertType.ERROR, jsonObject.get("message").getAsString(), ButtonType.OK);
+                    error.show();
+                } else {
+                    Runner.getInstance().back();
+                    new Alert(Alert.AlertType.INFORMATION, "new supporter registered successfully!", ButtonType.OK).show();
+                }
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
     }
 
-    private void createNewSupporter(String text, String[] information) {
-        new Supporter(information[0], information[1], text, information[2], information[3], information[4]);
-    }
 
 
     private String isEmpty() {

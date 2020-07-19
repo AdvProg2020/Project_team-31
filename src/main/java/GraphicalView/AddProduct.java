@@ -1,8 +1,5 @@
 package GraphicalView;
 
-import Model.Category;
-import Model.Product;
-import Model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -44,19 +41,20 @@ public class AddProduct implements Initializable {
     File photo;
     DataBase dataBase = DataBase.getInstance();
     HashMap<Label, TextField> data = new HashMap<>();
+    static HashMap<String, ArrayList<String>> allCategories = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loginAlert();
         logoutAlert();
+        getAllCategories();
         dropDownListSetUp();
         setCategoryFeatures();
     }
 
     private void dropDownListSetUp() {
         choiceBox = new ChoiceBox<>();
-        ArrayList<String> categories = getAllCategoryNames(); ////
-        choiceBox.getItems().addAll(categories);
+        choiceBox.getItems().addAll(allCategories.keySet());
         choiceBoxContainer.getChildren().add(choiceBox);
         Platform.runLater(() -> {
             SkinBase<ChoiceBox<String>> skin = (SkinBase<ChoiceBox<String>>) choiceBox.getSkin();
@@ -71,41 +69,23 @@ public class AddProduct implements Initializable {
         });
     }
 
-    private ArrayList<String> getAllCategoryNames() {
-        ArrayList<Category> categories = getAllCategories();
-        ArrayList<String> names = new ArrayList<>();
-        categories.forEach(category -> names.add(category.getName()));
-        return names;
-    }
-
-    private ArrayList<String> getCategoryFeatures(String categoryName) {
-        for (Category category : getAllCategories()) {
-            if (category.getName().equals(categoryName))
-                return category.getSpecialProperties();
-        }
-        return null;
-    }
-
-    private ArrayList<Category> getAllCategories() {
+    private void getAllCategories() {
         try {
             JsonObject jsonObject = runner.jsonMaker("seller", "getAllCategories");
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataOutputStream.flush();
             JsonObject categoryJSon = runner.jsonParser(dataBase.dataInputStream.readUTF());
             JsonArray array = categoryJSon.getAsJsonArray("categories");
-            ArrayList<Category> categories = new ArrayList<>();
             for (JsonElement json : array) {
                 String name = json.getAsJsonObject().get("name").getAsString();
                 ArrayList<String> features = new ArrayList<>();
                 JsonArray featureJSon = json.getAsJsonObject().get("features").getAsJsonArray();
                 for (JsonElement element : featureJSon)
                     features.add(element.getAsString());
-                categories.add(new Category(name, features));
+                allCategories.put(name, features);
             }
-            return categories;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 
@@ -118,7 +98,7 @@ public class AddProduct implements Initializable {
         }
         HashMap<String, String> dataToSend = new HashMap<>();
         String[] generalData = setData(dataToSend);
-     addProduct(generalData, dataBase.user, dataToSend);
+        addProduct(generalData, dataToSend);
         new Alert(Alert.AlertType.INFORMATION, "product created successfully", ButtonType.OK).show();
         runner.back();
 //        if (photo != null) {
@@ -126,7 +106,7 @@ public class AddProduct implements Initializable {
 //        }
     }
 
-    private void addProduct(String[] generalData, User user, HashMap<String, String> dataToSend) {
+    private void addProduct(String[] generalData, HashMap<String, String> dataToSend) {
         try {
             String[] first = new String[dataToSend.size()];
             String[] second = new String[dataToSend.size()];
@@ -219,7 +199,7 @@ public class AddProduct implements Initializable {
             window.initModality(Modality.APPLICATION_MODAL);
             window.setTitle("category info");
             VBox layout = new VBox(10);
-            ArrayList<String> features = getCategoryFeatures(choiceBox.getValue());
+            ArrayList<String> features = allCategories.get(choiceBox.getValue());
             Button closeButton = new Button("submit");
             for (String feature : features) {
                 Label label = new Label(feature);
