@@ -174,6 +174,8 @@ public class Process {
             answer = sellerControllerProcess.editOff(jsonObject, user);
         else if (command.equals("getOffInfoForEdit"))
             answer = sellerControllerProcess.getOffInfoForEdit(jsonObject, user);
+        else if (command.equals("showSalesHistory"))
+            answer = sellerControllerProcess.showSalesHistory(user);
         return answer;
     }
 

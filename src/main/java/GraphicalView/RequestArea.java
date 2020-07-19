@@ -1,8 +1,5 @@
 package GraphicalView;
 
-import Model.OffRequest;
-import Model.SellerOfProductRequest;
-import Model.SellerRequest;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

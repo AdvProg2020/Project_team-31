@@ -2,10 +2,7 @@ package Server;
 
 import Controller.ProductController;
 import Controller.SellerController;
-import Model.Category;
-import Model.Off;
-import Model.Product;
-import Model.User;
+import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -172,5 +169,19 @@ public class SellerControllerProcess {
             productZ[i] = products.get(i).getProductId();
         dataToSend.addProperty("products", new Gson().toJson(productZ));
         return dataToSend;
+    }
+
+    public JsonObject showSalesHistory(User user) {
+        JsonObject output = new JsonObject();
+        JsonArray logs = new JsonArray();
+        for (SellingLog sellingLog : SellerController.getInstance().showSalesHistoryByList(user)) {
+            JsonObject log = new JsonObject();
+            log.addProperty("total", sellingLog.getTotalPriceArrived());
+            log.addProperty("off", sellingLog.getAmountOfOff());
+            log.addProperty("product", sellingLog.getProductName());
+            logs.add(log);
+        }
+        output.add("logs", logs);
+        return output;
     }
 }

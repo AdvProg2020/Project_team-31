@@ -1,8 +1,5 @@
 package GraphicalView;
 
-//import Controller.SellerController;
-
-import Model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;

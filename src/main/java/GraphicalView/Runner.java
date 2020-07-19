@@ -1,9 +1,5 @@
 package GraphicalView;
 
-import Model.Customer;
-import Model.Manager;
-import Model.Seller;
-import Model.Supporter;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

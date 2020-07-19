@@ -1,7 +1,8 @@
 package GraphicalView;
 
-import Controller.SellerController;
-import Model.SellingLog;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -53,12 +55,22 @@ public class SellerHistory implements Initializable {
         gridPane.getChildren().add(tableView);
     }
 
-    private ObservableList logsOfUser() {
-        ObservableList<SellingLog> newLogs = FXCollections.observableArrayList();
-        SellerController sellerController = SellerController.getInstance();
-        ArrayList<SellingLog> logs = sellerController.showSalesHistoryByList(dataBase.user);
-        for (SellingLog log : logs)
-            newLogs.add(log);
+    private ObservableList<ProductInSellingLog> logsOfUser() {
+        JsonObject output = Runner.getInstance().jsonMaker("seller", "showSalesHistory");
+        JsonObject jsonObject = null;
+        try {
+            DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
+            DataBase.getInstance().dataOutputStream.flush();
+            String input = DataBase.getInstance().dataInputStream.readUTF();
+            jsonObject = (JsonObject) new JsonParser().parse(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ObservableList<ProductInSellingLog> newLogs = FXCollections.observableArrayList();
+        for (JsonElement jsonElement : jsonObject.getAsJsonArray("logs")) {
+            JsonObject log = jsonElement.getAsJsonObject();
+            newLogs.add(new ProductInSellingLog(log.get("total").getAsInt(), log.get("off").getAsInt(), log.get("product").getAsString()));
+        }
         return newLogs;
     }
 
