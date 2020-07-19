@@ -57,8 +57,10 @@ public class LoginControllerProcess {
                 role = "customer";
             else if(newUser instanceof Seller)
                 role = "seller";
-            else
+            else if (newUser instanceof Manager)
                 role = "manager";
+            else
+                role = "supporter";
             output.addProperty("role", role);
         } catch (Exception e) {
             output.addProperty("type", "failed");

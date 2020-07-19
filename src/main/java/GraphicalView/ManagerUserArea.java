@@ -1,6 +1,7 @@
 package GraphicalView;
 
-import Controller.LoginController;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -47,18 +48,32 @@ public class ManagerUserArea implements Initializable {
     }
 
     private void showPersonalInfo() {
-        if (dataBase.user == null) {
+        if (dataBase.role.equals("none")) {
             personalInfo.textProperty().setValue("no personal info yet!\n you have to log in first!");
             return;
         }
         StringBuilder toShow = new StringBuilder("personal information : \n");
-        String[] information = LoginController.getInstance().showPersonalInformation(dataBase.user);
+        String[] information = showPersonalInformation();
         toShow.append("first name : ").append(information[0]).append("\n");
         toShow.append("last name : ").append(information[1]).append("\n");
         toShow.append("username : ").append(information[2]).append("\n");
         toShow.append("email address: ").append(information[3]).append("\n");
         toShow.append("phone number : ").append(information[4]).append("\n");
         personalInfo.textProperty().setValue(toShow.toString());
+    }
+
+    private String[] showPersonalInformation() {
+        try {
+            JsonObject jsonObject = runner.jsonMaker("login", "showPersonalInformation");
+            dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
+            JsonObject jsonObject1 = runner.jsonParser(dataBase.dataInputStream.readUTF());
+            String[] info = new Gson().fromJson(jsonObject1.get("info").getAsString(), String[].class);
+            return info;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void createDiscountCode(ActionEvent actionEvent) {

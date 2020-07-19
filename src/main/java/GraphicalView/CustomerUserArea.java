@@ -77,7 +77,7 @@ public class CustomerUserArea implements Initializable {
     }
 
     private void showPersonalInfo() {
-        if (dataBase.role == null) {
+        if (dataBase.role.equals("none")) {
             personalInfo.textProperty().setValue("no personal info yet!\n you have to log in first!");
             return;
         }
@@ -96,6 +96,7 @@ public class CustomerUserArea implements Initializable {
         try {
             JsonObject jsonObject = runner.jsonMaker("login", "showPersonalInformation");
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
             JsonObject jsonObject1 = runner.jsonParser(dataBase.dataInputStream.readUTF());
             String[] info = new Gson().fromJson(jsonObject1.get("info").getAsString(), String[].class);
             return info;
