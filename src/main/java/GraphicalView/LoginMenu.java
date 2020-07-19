@@ -1,12 +1,14 @@
 package GraphicalView;
 
-import Controller.LoginController;
-import Model.User;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+
+import java.io.IOException;
 
 public class LoginMenu {
     public TextField usernameField;
@@ -23,22 +25,29 @@ public class LoginMenu {
             Alert emptyField = new Alert(Alert.AlertType.ERROR, "please fill fields", ButtonType.OK);
             emptyField.show();
         } else {
+            JsonObject jsonObject = null;
+            JsonObject output = Runner.getInstance().jsonMaker("login", "login");
+            output.addProperty("username", usernameField.getText());
+            output.addProperty("password", passwordField.getText());
             try {
-                DataBase.getInstance().user = LoginController.getInstance().login(usernameField.getText(), passwordField.getText(), DataBase.getInstance().tempUser.getCard());
-                DataBase.getInstance().role = getRole(); //kaka added this field
+                DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
+                DataBase.getInstance().dataOutputStream.flush();
+                String input = DataBase.getInstance().dataInputStream.readUTF();
+                jsonObject = (JsonObject) new JsonParser().parse(input);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (jsonObject.get("type").getAsString().equals("failed")) {
+                Alert error = new Alert(Alert.AlertType.ERROR, jsonObject.get("message").getAsString(), ButtonType.OK);
+                error.show();
+            } else {
+                DataBase.getInstance().role = jsonObject.get("role").getAsString();
+                DataBase.getInstance().token = jsonObject.get("token").getAsString();
                 Runner.getInstance().back();
                 Alert error = new Alert(Alert.AlertType.INFORMATION, "you have login successfully", ButtonType.OK);
                 error.show();
-            } catch (Exception e) {
-                Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                error.show();
             }
         }
-    }
-
-    private String getRole() {
-        // TODO
-        return null;
     }
 
     public void register(MouseEvent mouseEvent) {

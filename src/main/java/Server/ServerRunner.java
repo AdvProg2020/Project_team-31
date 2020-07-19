@@ -53,6 +53,7 @@ public class ServerRunner {
         private User user;
         private User tempUser;
         Process process = new Process();
+        private boolean tryToLogin = false;
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
             this.clientSocket = clientSocket;
@@ -81,17 +82,34 @@ public class ServerRunner {
                 if (!jsonObject.get("token").toString().equals(token)) {
                     output = getStringOfWrongToken();
                 } else {
-                    if (user == null)
+                    if (user == null) {
+                        if (jsonObject.get("command").getAsString().equals("login"))
+                            tryToLogin = true;
                         output = process.answerClient(jsonObject, tempUser).toString();
-                    else
+                    } else if (jsonObject.get("command").getAsString().equals("logout")) {
+                        token = "null";
+                        user = null;
+                        output = "";
+                    } else {
                         output = process.answerClient(jsonObject, user).toString();
+                    }
                 }
                 try {
+                    if (tryToLogin)
+                        handleLogin((JsonObject) new JsonParser().parse(output));
+                    tryToLogin = false;
                     dataOutputStream.writeUTF(output);
                     dataOutputStream.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+
+        private void handleLogin(JsonObject jsonObject) {
+            if (jsonObject.get("type").getAsString().equals("successful")) {
+                token = jsonObject.get("token").getAsString();
+                user = LoginController.getUserByUsername(jsonObject.get("username").getAsString());
             }
         }
 
