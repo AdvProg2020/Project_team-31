@@ -1,7 +1,5 @@
 package GraphicalView;
 
-import Model.Card;
-import Model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -15,7 +13,6 @@ import java.util.Stack;
 public class DataBase {
     public static DataBase dataBase = null;
     static Runner runner = Runner.getInstance();
-    public Card card;
     String editingOffId;
     public String editingDiscountCode = null;
     boolean isAddingManager = false;
@@ -35,8 +32,6 @@ public class DataBase {
 
     ///////////////////////////////////////////////////////////
     Stack<String> pages = new Stack();
-    User tempUser = new User();
-    User user = null;
     String role = "none";
 
     public void logout() {

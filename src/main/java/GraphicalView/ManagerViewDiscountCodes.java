@@ -115,7 +115,7 @@ public class ManagerViewDiscountCodes implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (dataBase.user != null) {
+            if (!DataBase.getInstance().role.equals("none")) {
                 error.setContentText("You have logged in!");
                 error.show();
             } else {

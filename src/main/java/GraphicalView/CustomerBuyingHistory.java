@@ -77,7 +77,7 @@ public class CustomerBuyingHistory implements Initializable {
     public void loginAlert() {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
-            if (dataBase.role != null) {
+            if (!DataBase.getInstance().role.equals("none")) {
                 error.setContentText("You have logged in!");
                 error.show();
             } else {

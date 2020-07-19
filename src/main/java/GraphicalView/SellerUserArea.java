@@ -38,7 +38,7 @@ public class SellerUserArea implements Initializable {
     }
 
     private void showPersonalInfo() {
-        if (dataBase.user == null) {
+        if (DataBase.getInstance().role.equals("none")) {
             personalInfo.textProperty().setValue("no personal info yet!\n you have to log in first!");
             return;
         }
@@ -76,7 +76,7 @@ public class SellerUserArea implements Initializable {
 
 
     private void editPersonalInfoAlert() {
-        if (dataBase.user == null) {
+        if (DataBase.getInstance().role.equals("none")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             EventHandler<ActionEvent> event = (e) -> {
                 Runner.buttonSound();
@@ -95,7 +95,7 @@ public class SellerUserArea implements Initializable {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (dataBase.user == null) {
+            if (DataBase.getInstance().role.equals("none")) {
                 error.setContentText("You have not logged in!");
                 error.show();
             } else {
@@ -126,7 +126,7 @@ public class SellerUserArea implements Initializable {
         Alert error = new Alert(Alert.AlertType.ERROR);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (dataBase.user != null) {
+            if (!DataBase.getInstance().role.equals("none")) {
                 error.setContentText("You have logged in!");
                 error.show();
             } else {

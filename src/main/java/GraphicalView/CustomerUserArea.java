@@ -181,7 +181,7 @@ public class CustomerUserArea implements Initializable {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            if (dataBase.role == null) {
+            if (DataBase.getInstance().role.equals("none")) {
                 error.setContentText("You have not logged in!");
                 error.show();
             } else {

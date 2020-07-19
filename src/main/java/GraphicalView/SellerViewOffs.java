@@ -88,13 +88,13 @@ public class SellerViewOffs implements Initializable {
 
     private ObservableList generateOffsList() {
         ObservableList<ShowOffsOnGUI> list = FXCollections.observableArrayList();
-        ArrayList<String> allOffs = showAllOffsForGUI(dataBase.user);
+        ArrayList<String> allOffs = showAllOffsForGUI();
         for (String offId : allOffs)
             list.add(new ShowOffsOnGUI(new Button("show"), new Button("edit"), offId));
         return list;
     }
 
-    private ArrayList<String> showAllOffsForGUI(User user) {
+    private ArrayList<String> showAllOffsForGUI() {
         try {
             JsonObject jsonObject = runner.jsonMaker("seller", "getAllOffs");
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
