@@ -31,7 +31,6 @@ public class ShowCategories implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        showCategories();
         addCategory.setDisable(!(DataBase.getInstance().role.equals("manager")));
         addCategory.setOnMouseClicked(e -> runner.changeScene("AddCategory.fxml"));
         try {
@@ -42,6 +41,7 @@ public class ShowCategories implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        showCategories();
         loginAlert();
         logoutAlert();
     }

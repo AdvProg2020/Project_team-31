@@ -68,6 +68,7 @@ public class ManagerUserArea implements Initializable {
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataOutputStream.flush();
             JsonObject jsonObject1 = runner.jsonParser(dataBase.dataInputStream.readUTF());
+            System.out.println(jsonObject1);
             String[] info = new Gson().fromJson(jsonObject1.get("info").getAsString(), String[].class);
             return info;
         } catch (Exception e) {
