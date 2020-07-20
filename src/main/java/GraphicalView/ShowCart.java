@@ -157,9 +157,15 @@ public class ShowCart implements Initializable {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         EventHandler<ActionEvent> event = (e) -> {
             Runner.buttonSound();
-            message.setContentText("you logged out successfully");
-            message.show();
-            dataBase.logout();
+            if (DataBase.getInstance().role.equals("none")) {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setContentText("You have not logged in!");
+                error.show();
+            } else {
+                message.setContentText("you logged out successfully");
+                message.show();
+                DataBase.getInstance().logout();
+            }
         };
         logout.setOnAction(event);
     }
