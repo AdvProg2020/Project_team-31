@@ -261,6 +261,7 @@ public class ManagerControllerProcess {
 
     private JsonObject showProductRequest(Request request) {
         JsonObject output = new JsonObject();
+        output.addProperty("type", "product");
         ProductRequest productRequest = (ProductRequest) request;
         if (productRequest.isEditing()) {
             output.addProperty("isEditing", true);

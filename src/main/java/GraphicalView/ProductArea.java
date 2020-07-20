@@ -95,8 +95,8 @@ public class ProductArea implements Initializable {
         commentsList.setItems(comments);
         for (JsonElement element : jsonObject.getAsJsonArray("sellers")) {
             JsonObject seller = element.getAsJsonObject();
-            sellerPrices.put(seller.get("seller").getAsString(), seller.get("price").getAsInt());
-            sellerOffs.put(seller.get("seller").getAsString(), seller.get("offPercent").getAsInt());
+            sellerPrices.put(seller.get("username").getAsString(), seller.get("price").getAsInt());
+            sellerOffs.put(seller.get("username").getAsString(), seller.get("offPercent").getAsInt());
         }
         ObservableList arrayOfSellers = FXCollections.observableArrayList();
         arrayOfSellers.addAll(sellerPrices.keySet());

@@ -65,6 +65,7 @@ public class CustomerUserArea implements Initializable {
         try {
             JsonObject jsonObject = runner.jsonMaker("customer", "showDiscountCodes");
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
             String data = dataBase.dataInputStream.readUTF();
             String[] codes = new Gson().fromJson(runner.jsonParser(data).get("content").getAsString(), String[].class);
             ArrayList<String> answer = new ArrayList<String>();
@@ -138,9 +139,10 @@ public class CustomerUserArea implements Initializable {
 
     private void addBalance() {
         try {
-            JsonObject jsonObject = runner.jsonMaker("login", "addCredit");
+            JsonObject jsonObject = runner.jsonMaker("customer", "addCredit");
             jsonObject.addProperty("amount", data.getValue());
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+            dataBase.dataOutputStream.flush();
             dataBase.dataInputStream.readUTF();
         } catch (Exception e) {
             e.printStackTrace();
