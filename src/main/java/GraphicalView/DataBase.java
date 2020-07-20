@@ -54,6 +54,6 @@ public class DataBase {
         dataOutputStream.writeUTF(dataToSend.toString());
         dataOutputStream.flush();
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(dataInputStream.readUTF());
-        return new Gson().fromJson(jsonObject.get("info"), String[].class);
+        return new Gson().fromJson(jsonObject.get("info").getAsString(), String[].class);
     }
 }

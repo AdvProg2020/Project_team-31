@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -43,6 +44,13 @@ public class SellerUserArea implements Initializable {
             return;
         }
         String company = "";
+        try {
+            dataBase.dataOutputStream.writeUTF(runner.jsonMaker("seller", "showCompanyInformation").toString());
+            dataBase.dataOutputStream.flush();
+            company = runner.jsonParser(dataBase.dataInputStream.readUTF()).get("company").getAsString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         StringBuilder toShow = new StringBuilder("personal information : \n");
         String[] information = showPersonalInformation();
         toShow.append("first name : ").append(information[0]).append("\n");

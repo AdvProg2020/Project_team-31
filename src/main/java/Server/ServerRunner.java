@@ -17,7 +17,7 @@ public class ServerRunner {
     public static HashMap<Supporter, ArrayList<User>> supporters = new HashMap<>();
 
     public static void main(String[] args) {
-//        SaveAndLoadFiles.start();
+        SaveAndLoadFiles.start();
         try {
             run();
         } catch (IOException e) {
