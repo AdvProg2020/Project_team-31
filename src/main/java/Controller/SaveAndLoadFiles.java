@@ -13,6 +13,7 @@ public class SaveAndLoadFiles {
         Off.fileToLog();
         Product.fileToLog();
         Request.fileToLog();
+        Supporter.fileToLog();
     }
 
     public static void end() {
@@ -25,5 +26,6 @@ public class SaveAndLoadFiles {
         Off.logToFile();
         Product.logToFile();
         Request.logToFile();
+        Supporter.logToFile();
     }
 }
