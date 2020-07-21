@@ -105,4 +105,9 @@ public class ManagerUserArea implements Initializable {
         Runner.buttonSound();
         runner.changeScene("ManagerViewDiscountCodes.fxml");
     }
+
+    public void manageLogs(ActionEvent actionEvent) {
+        Runner.buttonSound();
+        runner.changeScene("ManagerControlLog.fxml");
+    }
 }

@@ -12,6 +12,7 @@
                     <Button mnemonicParsing="false" onAction="#editPersonalInfo" prefWidth="150.0" text="edit personal info" GridPane.rowIndex="0" />
                     <Button mnemonicParsing="false" onAction="#manageUsers" prefWidth="150.0" text="manage users" GridPane.rowIndex="1" />
                     <Button mnemonicParsing="false" onAction="#manageAllProducts" prefWidth="150.0" text="manage all products" GridPane.rowIndex="2" />
+               <Button mnemonicParsing="false" text="manageLogs" prefWidth="150" GridPane.rowIndex="3"  onAction="#manageLogs"/>
                     <columnConstraints>
                         <ColumnConstraints />
                     </columnConstraints>
@@ -19,6 +20,7 @@
                         <RowConstraints />
                         <RowConstraints />
                         <RowConstraints />
+                  <RowConstraints />
                     </rowConstraints>
                 </GridPane>
                 <GridPane GridPane.columnIndex="2">
