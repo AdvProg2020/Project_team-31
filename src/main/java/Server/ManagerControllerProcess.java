@@ -192,9 +192,10 @@ public class ManagerControllerProcess {
             System.out.printf("discount not found");
         }
         JsonObject discount = new JsonObject();
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
         discount.addProperty("code", discountCode.getDiscountCode());
-        discount.addProperty("beginTime", discountCode.getBeginTime().toString());
-        discount.addProperty("endTime", discountCode.getEndTime().toString());
+        discount.addProperty("beginTime", format.format(discountCode.getBeginTime()));
+        discount.addProperty("endTime", format.format(discountCode.getEndTime()));
         discount.addProperty("percent", discountCode.getDiscountPercent());
         discount.addProperty("maximum", discountCode.getMaximumDiscount());
         JsonArray customers = new JsonArray();

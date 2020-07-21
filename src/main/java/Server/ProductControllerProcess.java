@@ -168,7 +168,7 @@ public class ProductControllerProcess {
             jsonObject.addProperty("price", product.getSellersOfThisProduct().get(seller));
             int offPercent = 0;
             for (Off off : product.getOffs()) {
-                if (off.getSeller().equals(sellers)) {
+                if (off.getSeller().equals(seller)) {
                     offPercent = off.getOffPercent();
                 }
             }

@@ -75,11 +75,8 @@ public class EditDiscountCode implements Initializable {
             e.printStackTrace();
         }
         code.setText(jsonObject.get("code").getAsString());
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        String date = format.format(jsonObject.get("beginTime").getAsString());
-        startDate.getEditor().setText(date);
-        date = format.format(jsonObject.get("endTime").getAsString());
-        endDate.getEditor().setText(date);
+        startDate.getEditor().setText(jsonObject.get("beginTime").getAsString());
+        endDate.getEditor().setText(jsonObject.get("endTime").getAsString());
         percentage.setText(String.valueOf(jsonObject.get("percent").getAsInt()));
         maximumPrice.setText(String.valueOf(jsonObject.get("maximum").getAsInt()));
         for (JsonElement element : jsonObject.getAsJsonArray("customers")) {
@@ -157,8 +154,8 @@ public class EditDiscountCode implements Initializable {
             int maximum = Integer.parseInt(maximumPrice.getText());
             JsonObject output = Runner.getInstance().jsonMaker("manager", "editDiscount");
             output.addProperty("code", code.getText());
-            output.addProperty("startDate", getStartDate().toString());
-            output.addProperty("endDate", getEndDate().toString());
+            output.addProperty("startDate", startDate.getEditor().getText() + " 00:00");
+            output.addProperty("endDate", endDate.getEditor().getText() + " 23:59");
             output.addProperty("percent", percent);
             output.addProperty("maximum", maximum);
             JsonArray customerUsing = new JsonArray();

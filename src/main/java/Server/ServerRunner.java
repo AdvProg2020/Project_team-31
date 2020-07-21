@@ -27,7 +27,7 @@ public class ServerRunner {
     }
 
     public static void run() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(9999);
+        ServerSocket serverSocket = new ServerSocket(8888);
         while (true) {
             Socket clientSocket;
             try {

@@ -22,7 +22,7 @@ public class SellerEditOff implements Initializable {
     public Button logout;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
-    ArrayList<String> products;
+    ArrayList<String> products = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
