@@ -1,15 +1,9 @@
 package Controller;
 
+import Model.Auction;
 import Model.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -294,6 +288,20 @@ public class SellerController {
         for (Product product : off.getOnSaleProducts())
             productId.add(product.getProductId());
         return productId;
+    }
+
+    public void checkTimeOfAuctions() {
+        for (Auction auction : Auction.allAuctions) {
+            if(auction.getStatus().equals("created") && auction.getBeginTime().before(new Date()) && auction.getEndTime().after(new Date())) {
+                auction.setStatus("started");
+                ProductController.getProductById(auction.getProductId()).addAuction(auction);
+            } else if (auction.getStatus().equals("created") && auction.getEndTime().before(new Date())) {
+                auction.setStatus("finished");
+            } else if (auction.getStatus().equals("started") && auction.getEndTime().before(new Date())) {
+                auction.setStatus("finished");
+                ProductController.getProductById(auction.getProductId()).removeAuction(auction);
+            }
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Auction;
 import Model.*;
 
 import java.util.*;
@@ -90,6 +91,12 @@ public class CustomerController {
         User seller = LoginController.getUserByUsername(sellerUsername);
         if (seller == null) {
             throw new Exception("There is not Seller with this userName");
+        }
+        SellerController.getInstance().checkTimeOfAuctions();
+        for (Auction auction : product.getAuctions()) {
+            if(auction.getSeller().equals(sellerUsername)) {
+                throw new Exception("This product is in auction");
+            }
         }
         if (seller instanceof Seller) {
             if (product.getSellersOfThisProduct().containsKey(seller)) {

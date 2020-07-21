@@ -3,8 +3,6 @@ package Model;
 import Controller.LoginController;
 import Controller.ManagerController;
 import Controller.SellerController;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -24,6 +22,7 @@ public class Product implements Serializable {
     private int sumOfCustomersRate;
     private ArrayList<Comment> allComments = new ArrayList<>();
     private ArrayList<String> offs;
+    private ArrayList<Auction> auctions;
     private int available;
     private ProductAndOffStatus productStatus;
     private String information;
@@ -35,6 +34,7 @@ public class Product implements Serializable {
         views = 0;
         rate = "0.0";
         offs = new ArrayList<>();
+        auctions = new ArrayList<>();
         this.available = available;
         this.productId = productId;
         this.name = name;
@@ -96,6 +96,19 @@ public class Product implements Serializable {
 //        imageView.setFitWidth(30);
 //        return imageView;
 //    }
+
+
+    public ArrayList<Auction> getAuctions() {
+        return auctions;
+    }
+
+    public void addAuction(Auction auction) {
+        auctions.add(auction);
+    }
+
+    public void removeAuction(Auction auction) {
+        auctions.remove(auction);
+    }
 
     public String getRate() {
         rate = String.valueOf(1.0 * this.sumOfCustomersRate / getCustomersWhoRated());

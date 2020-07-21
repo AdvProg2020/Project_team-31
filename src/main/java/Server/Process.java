@@ -182,6 +182,8 @@ public class Process {
             answer = sellerControllerProcess.showSalesHistory(user);
         else if (command.equals("addProductToSeller"))
             answer = sellerControllerProcess.addSellerToProduct(user, jsonObject);
+        else if (command.equals("createAuction"))
+            answer = sellerControllerProcess.createAuction(user, jsonObject);
         return answer;
     }
 

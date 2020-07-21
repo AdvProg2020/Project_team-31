@@ -2,11 +2,13 @@ package Server;
 
 import Controller.ProductController;
 import Controller.SellerController;
+import Model.Auction;
 import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -191,6 +193,36 @@ public class SellerControllerProcess {
             SellerController.getInstance().addSellerToProduct(user, input.get("id").getAsString(), input.get("price").getAsInt());
             output.addProperty("type", "successful");
         } catch (Exception e) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", e.getMessage());
+        }
+        return output;
+    }
+
+    public JsonObject createAuction(User user, JsonObject input) {
+        JsonObject output = new JsonObject();
+        Product product = ProductController.getProductById(input.get("product").getAsString());
+        if (product == null) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", "There is not any product with this id");
+            return output;
+        } else if (!product.getSellersOfThisProduct().keySet().contains(user)) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", "You don't have this product to sell");
+            return output;
+        }
+        for (Auction auction : product.getAuctions()) {
+            if(auction.getSeller().equals(user.getUsername())) {
+                output.addProperty("type", "failed");
+                output.addProperty("message", "This product is in auction");
+                return output;
+            }
+        }
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        try {
+            new Auction(user.getUsername(), product.getProductId(), format.parse(input.get("start").getAsString()), format.parse(input.get("end").getAsString()));
+            output.addProperty("type", "successful");
+        } catch (ParseException e) {
             output.addProperty("type", "failed");
             output.addProperty("message", e.getMessage());
         }

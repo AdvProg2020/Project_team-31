@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Auction;
 import Model.*;
 
 public class SaveAndLoadFiles {
@@ -14,6 +15,7 @@ public class SaveAndLoadFiles {
         Product.fileToLog();
         Request.fileToLog();
         Supporter.fileToLog();
+        Auction.fileToLog();
     }
 
     public static void end() {
@@ -27,5 +29,6 @@ public class SaveAndLoadFiles {
         Product.logToFile();
         Request.logToFile();
         Supporter.logToFile();
+        Auction.logToFile();
     }
 }
