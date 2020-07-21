@@ -100,7 +100,7 @@ public class SellerViewOffs implements Initializable {
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataOutputStream.flush();
             JsonObject serverMassage = runner.jsonParser(dataBase.dataInputStream.readUTF());
-            String[] data = new Gson().fromJson(serverMassage, String[].class);
+            String[] data = new Gson().fromJson(serverMassage.get("data").getAsString(), String[].class);
             return new ArrayList<>(Arrays.asList(data));
         } catch (Exception e) {
             e.printStackTrace();

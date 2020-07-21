@@ -27,7 +27,7 @@ public class ServerRunner {
     }
 
     public static void run() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(8080);
+        ServerSocket serverSocket = new ServerSocket(9999);
         while (true) {
             Socket clientSocket;
             try {
@@ -77,6 +77,8 @@ public class ServerRunner {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                if(request == null)
+                    SaveAndLoadFiles.end();
                 System.out.println("request:" + request );
                 JsonObject jsonObject = (JsonObject) new JsonParser().parse(request);
                 if (!jsonObject.get("token").getAsString().equals(token)) {

@@ -89,9 +89,9 @@ public class FilterMenu implements Initializable {
             emptyField.show();
             return;
         }
-        ProductsMenu.filters.remove(available.getValue().toString());
+        ProductsMenu.filters.remove(disable.getValue().toString());
         JsonObject output = Runner.getInstance().jsonMaker("product", "removeFilter");
-        output.addProperty("key", available.getValue().toString());
+        output.addProperty("key", disable.getValue().toString());
         try {
             DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
             DataBase.getInstance().dataOutputStream.flush();

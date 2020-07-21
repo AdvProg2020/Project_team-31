@@ -107,12 +107,12 @@ public class SellerControllerProcess {
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
         try {
             Date startDate = format.parse(jsonObject.get("startDate").getAsString());
-            Date endDate = format.parse(jsonObject.get("enddate").getAsString());
+            Date endDate = format.parse(jsonObject.get("endDate").getAsString());
             sellerController.addOff(user, productZ, startDate, endDate, Integer.parseInt(jsonObject.get("percentage").getAsString()));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return jsonObject;
+        return new JsonObject();
     }
 
     public JsonObject getOffInfo(JsonObject jsonObject, User user) {

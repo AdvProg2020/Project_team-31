@@ -210,7 +210,7 @@ public class ProductArea implements Initializable {
             jsonObject.addProperty("id", productId);
             jsonObject.addProperty("rate", Integer.parseInt(ratePlease.getText()));
             try {
-                dataOutputStream.writeUTF(jsonObject.getAsString());
+                dataOutputStream.writeUTF(jsonObject.toString());
                 dataOutputStream.flush();
                 String input = dataInputStream.readUTF();
                 JsonObject inJson = (JsonObject) new JsonParser().parse(input);

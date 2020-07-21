@@ -80,10 +80,12 @@ public class OffMenu implements Initializable {
 
     private void analyzeInput(String input) {
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+        filters = new HashMap<>();
         for (JsonElement jsonElement : jsonObject.get("filters").getAsJsonArray()) {
             JsonObject aFeature = jsonElement.getAsJsonObject();
             filters.put(aFeature.get("key").getAsString(), aFeature.get("value").getAsString());
         }
+        allOffedProducts = new ArrayList<>();
         for (JsonElement jsonElement : jsonObject.getAsJsonArray("products")) {
             JsonObject aProduct = jsonElement.getAsJsonObject();
             HashMap<String, String> speFea = new HashMap<>();
@@ -191,7 +193,7 @@ public class OffMenu implements Initializable {
                 return false;
             } else if (key.equalsIgnoreCase("rate") && !ProductsMenu.doesMatchWithFilter(filters.get(key), product.getRate())) {
                 return false;
-            } else if (key.equalsIgnoreCase("availability") && product.getAvailable() == 0) {
+            } else if (key.equalsIgnoreCase("availability") && !ProductsMenu.doesMatchWithFilter(filters.get(key), String.valueOf(product.getAvailable()))) {
                 return false;
             }
         }

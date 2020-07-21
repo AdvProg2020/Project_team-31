@@ -57,7 +57,7 @@ public class Process {
             answer = customerControllerProcess.showCart(user);
         else if (command.equals("changeNumber"))
             answer = customerControllerProcess.changeNumberOfProductInCart(user, jsonObject);
-        else if (command.equals("checkAvailableTOPurchase"))
+        else if (command.equals("checkAvailableToPurchase"))
             answer = customerControllerProcess.checkAvailableToPurchase(user);
         else if (command.equals("createBuyingLog"))
             answer = customerControllerProcess.createBuyingLog(user, jsonObject);

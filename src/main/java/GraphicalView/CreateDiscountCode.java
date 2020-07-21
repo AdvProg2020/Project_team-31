@@ -139,8 +139,8 @@ public class CreateDiscountCode implements Initializable {
             int maximum = Integer.parseInt(maximumPrice.getText());
             JsonObject output = Runner.getInstance().jsonMaker("manager", "createDiscountCode");
             output.addProperty("code", code.getText());
-            output.addProperty("startDate", getStartDate().toString());
-            output.addProperty("endDate", getEndDate().toString());
+            output.addProperty("startDate", startDate.getEditor().getText() + " 00:00");
+            output.addProperty("endDate", endDate.getEditor().getText() + " 23:59");
             output.addProperty("percent", percent);
             output.addProperty("maximum", maximum);
             JsonArray customerUsing = new JsonArray();

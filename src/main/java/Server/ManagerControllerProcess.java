@@ -274,7 +274,6 @@ public class ManagerControllerProcess {
             for (String s : productRequest.getSpecialPropertiesRelatedToCategory().keySet()) {
                 JsonObject feature = new JsonObject();
                 feature.addProperty("key", s);
-                System.out.println("key:" + s + ",value:" + productRequest.getSpecialPropertiesRelatedToCategory().get(s));
                 feature.addProperty("value", productRequest.getSpecialPropertiesRelatedToCategory().get(s));
                 features.add(feature);
             }
@@ -292,7 +291,7 @@ public class ManagerControllerProcess {
             for (String s : productToCreate.getSpecialPropertiesRelatedToCategory().keySet()) {
                 JsonObject feature = new JsonObject();
                 feature.addProperty("key", s);
-                feature.addProperty("value", productRequest.getSpecialPropertiesRelatedToCategory().get(s));
+                feature.addProperty("value", productToCreate.getSpecialPropertiesRelatedToCategory().get(s));
                 features.add(feature);
             }
             output.add("special", features);

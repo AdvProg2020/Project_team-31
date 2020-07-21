@@ -96,6 +96,7 @@ public class ProductsMenu implements Initializable {
 
     private void analyzeInput(String input) {
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+        categories = new HashMap<>();
         for (JsonElement jsonElement : jsonObject.get("categories").getAsJsonArray()) {
             JsonObject aCategory = jsonElement.getAsJsonObject();
             ArrayList<String> features = new ArrayList<>();
@@ -104,10 +105,12 @@ public class ProductsMenu implements Initializable {
             }
             categories.put(aCategory.get("name").getAsString(), features);
         }
+        filters = new HashMap<>();
         for (JsonElement jsonElement : jsonObject.get("filters").getAsJsonArray()) {
             JsonObject aFeature = jsonElement.getAsJsonObject();
             filters.put(aFeature.get("key").getAsString(), aFeature.get("value").getAsString());
         }
+        allProducts = new ArrayList<>();
         for (JsonElement jsonElement : jsonObject.getAsJsonArray("products")) {
             JsonObject aProduct = jsonElement.getAsJsonObject();
             HashMap<String, String> speFea = new HashMap<>();
@@ -226,11 +229,9 @@ public class ProductsMenu implements Initializable {
     private static Boolean isContainThisProduct(ProductInTable product, String categoryName) {
         HashMap<String, String> specialPropertiesOfProduct = product.getSpecialPropertiesRelatedToCategory();
         for (String key : filters.keySet()) {
-            if (categoryName.equals("all")) {
-                if (specialPropertiesOfProduct.keySet().contains(key)) {
-                    if (!doesMatchWithFilter(filters.get(key), specialPropertiesOfProduct.get(key)))
-                        return false;
-                }
+            if (specialPropertiesOfProduct.keySet().contains(key)) {
+                if (!doesMatchWithFilter(filters.get(key), specialPropertiesOfProduct.get(key)))
+                    return false;
             } else if (key.equalsIgnoreCase("minimumPrice") && !doesMatchWithFilter(filters.get(key), String.valueOf(product.getMinimumPrice()))) {
                 return false;
             } else if (key.equalsIgnoreCase("company") && !doesMatchWithFilter(filters.get(key), product.getCompany())) {
@@ -239,7 +240,7 @@ public class ProductsMenu implements Initializable {
                 return false;
             } else if (key.equalsIgnoreCase("rate") && !doesMatchWithFilter(filters.get(key), product.getRate())) {
                 return false;
-            } else if (key.equalsIgnoreCase("availability") && product.getAvailable() == 0) {
+            } else if (key.equalsIgnoreCase("availability") && !doesMatchWithFilter(filters.get(key), String.valueOf(product.getAvailable()))) {
                 return false;
             }
         }
