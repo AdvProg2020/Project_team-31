@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.CreateAuction">
+    <DatePicker fx:id="startDate" layoutX="38.0" layoutY="31.0" />
+    <DatePicker fx:id="endDate" layoutX="38.0" layoutY="100" />
+   <Label layoutX="38.0" layoutY="14.0" text="begin Date" />
+   <Label layoutX="38.0" layoutY="82.0" text="end Date" />
+   <TextField fx:id="startTime" layoutX="281.0" layoutY="31.0" promptText="(hh:mm)" />
+   <Label layoutX="281.0" layoutY="14.0" text="begin time (hh:mm)" />
+   <TextField fx:id="endTime" layoutX="281.0" layoutY="100.0" promptText="(hh:mm)" />
+   <Label layoutX="281.0" layoutY="82.0" text="end time (hh:mm)" />
+   <TextField fx:id="product" layoutX="38.0" layoutY="175.0" />
+   <Label layoutX="85.0" layoutY="150.0" text="product ID" />
+   <Button layoutX="281.0" layoutY="179.0" minWidth="75" mnemonicParsing="false" text="submit" onMouseClicked="#submit" />
+   <Button layoutX="371.0" layoutY="179.0" minWidth="75" mnemonicParsing="false" text="Back" onMouseClicked="#back"/>
+</Pane>

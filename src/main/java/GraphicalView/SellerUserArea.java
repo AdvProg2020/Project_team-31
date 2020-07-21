@@ -213,4 +213,9 @@ public class SellerUserArea implements Initializable {
         Runner.buttonSound();
         runner.changeScene("ManageProducts.fxml");
     }
+
+    public void createAuction(ActionEvent actionEvent) {
+        Runner.buttonSound();
+        runner.changeScene("CreateAuction.fxml");
+    }
 }
