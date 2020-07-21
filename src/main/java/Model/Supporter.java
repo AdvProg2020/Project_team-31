@@ -3,7 +3,7 @@ package Model;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Supporter extends User {
+public class Supporter extends User implements Serializable{
     private static ArrayList<Supporter> allSupporters = new ArrayList<>();
 
     public Supporter(String name, String lastName, String username, String emailAddress, String phoneNumber, String password) {

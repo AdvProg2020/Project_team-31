@@ -50,6 +50,7 @@ public class CustomerControllerProcess {
             log.addProperty("discount", buyingLog.getDiscountAmount());
             log.addProperty("date", buyingLog.getDate().toString());
             log.addProperty("totalPrice", buyingLog.getTotalPrice());
+            log.addProperty("status", String.valueOf(buyingLog.getDeliveryStatus()));
             JsonArray products = new JsonArray();
             for (ProductInCard product : buyingLog.getBuyingProducts().values()) {
                 JsonObject pro = new JsonObject();

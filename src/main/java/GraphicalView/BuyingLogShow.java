@@ -16,10 +16,15 @@ public class BuyingLogShow {
     String date;
     Button button;
     String id;
+    String status;
     ArrayList<ProductShowInLog> allProducts;
 
     public String getId() {
         return id;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getTotalPrice() {
@@ -38,11 +43,12 @@ public class BuyingLogShow {
         return button;
     }
 
-    public BuyingLogShow(String id, String totalPrice, String discount, String date, ArrayList<ProductShowInLog> allProducts) {
+    public BuyingLogShow(String id, String totalPrice, String discount, String date,String status, ArrayList<ProductShowInLog> allProducts) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.discount = discount;
         this.date = date;
+        this.status = status;
         this.allProducts = allProducts;
         button = new Button("show");
         button.setOnAction(event -> {

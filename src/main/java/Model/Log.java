@@ -16,7 +16,7 @@ public class Log implements Serializable {
         this.logId = logId;
         this.date = date;
         customerId = customer.getUsername();
-        this.deliveryStatus = DeliveryStatus.ready;
+        this.deliveryStatus = DeliveryStatus.READY;
     }
 
     public Date getDate() {
@@ -30,7 +30,11 @@ public class Log implements Serializable {
     public String getLogId() {
         return logId;
     }
+
+    public DeliveryStatus getDeliveryStatus() {
+        return deliveryStatus;
+    }
 }
 enum DeliveryStatus{
-    sending, delivered, ready
+    SENT, READY
 }

@@ -50,6 +50,10 @@ public class CustomerBuyingHistory implements Initializable {
         dateColumn.setMinWidth(150);
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
+        TableColumn<BuyingLogShow, String> statusColumn = new TableColumn<>("status");
+        statusColumn.setMinWidth(150);
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
         TableColumn<BuyingLogShow, Button> buttonColumn = new TableColumn<>("show");
         buttonColumn.setMinWidth(150);
         buttonColumn.setCellValueFactory(new PropertyValueFactory<>("button"));
@@ -106,7 +110,7 @@ public class CustomerBuyingHistory implements Initializable {
                 JsonObject product = jsonElement.getAsJsonObject();
                 products.add(new ProductShowInLog(product.get("name").getAsString(), String.valueOf(product.get("number").getAsInt()), product.get("seller").getAsString()));
             }
-            showingLogs.add(new BuyingLogShow(log.get("id").getAsString(), String.valueOf(log.get("totalPrice").getAsInt()), String.valueOf(log.get("discount").getAsInt()), log.get("date").getAsString(), products));
+            showingLogs.add(new BuyingLogShow(log.get("id").getAsString(), String.valueOf(log.get("totalPrice").getAsInt()), String.valueOf(log.get("discount").getAsInt()), log.get("date").getAsString(), log.get("status").getAsString(), products));
         }
         return showingLogs;
     }
