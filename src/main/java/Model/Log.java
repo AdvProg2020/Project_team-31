@@ -34,7 +34,8 @@ public class Log implements Serializable {
     public DeliveryStatus getDeliveryStatus() {
         return deliveryStatus;
     }
-}
-enum DeliveryStatus{
-    SENT, READY
+
+    public void sentProduct() {
+        deliveryStatus = DeliveryStatus.SENT;
+    }
 }

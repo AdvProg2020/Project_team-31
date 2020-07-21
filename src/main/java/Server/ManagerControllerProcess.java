@@ -1,5 +1,6 @@
 package Server;
 
+import Controller.CustomerController;
 import Controller.LoginController;
 import Controller.ManagerController;
 import Controller.SellerController;
@@ -382,5 +383,34 @@ public class ManagerControllerProcess {
         }
         output.add("products", products);
         return output;
+    }
+
+    public JsonObject getAllLogs() {
+        JsonObject output = new JsonObject();
+        JsonArray logs = new JsonArray();
+        for (Customer customer : Customer.getAllCustomers()) {
+            for (BuyingLog buyingLog : customer.getAllBuyingLogs()) {
+                if(buyingLog.getDeliveryStatus() == DeliveryStatus.READY) {
+                    JsonObject log = new JsonObject();
+                    log.addProperty("id", buyingLog.getLogId());
+                    log.addProperty("address", buyingLog.getPersonalInformation()[0]);
+                    log.addProperty("buyer", customer.getUsername());
+                    logs.add(log);
+                }
+            }
+        }
+        output.add("logs", logs);
+        return output;
+    }
+
+    public JsonObject sendProduct(JsonObject input) {
+        Customer customer = CustomerController.getInstance().getCustomerByUsername(input.get("buyer").getAsString());
+        for (BuyingLog buyingLog : customer.getAllBuyingLogs()) {
+            if(buyingLog.getLogId().equals(input.get("id").getAsString())) {
+                buyingLog.sentProduct();;
+                break;
+            }
+        }
+        return new JsonObject();
     }
 }

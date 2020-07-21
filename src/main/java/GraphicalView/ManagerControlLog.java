@@ -50,7 +50,7 @@ public class ManagerControlLog implements Initializable {
         JsonArray logs = input.getAsJsonArray("logs");
         for (JsonElement element : logs) {
             JsonObject log = element.getAsJsonObject();
-            allLogs.add(new ManageBuyingLogsModel(log.get("id").getAsString(), log.get("address").getAsString()));
+            allLogs.add(new ManageBuyingLogsModel(log.get("id").getAsString(), log.get("address").getAsString(), log.get("buyer").getAsString()));
         }
     }
 
@@ -96,6 +96,7 @@ public class ManagerControlLog implements Initializable {
     private void changeStatus(ManageBuyingLogsModel log) {
         JsonObject output = Runner.getInstance().jsonMaker("manager", "sendProduct");
         output.addProperty("id", log.getId());
+        output.addProperty("buyer", log.getBuyer());
         try {
             DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
             DataBase.getInstance().dataOutputStream.flush();

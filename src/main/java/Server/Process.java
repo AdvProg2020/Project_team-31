@@ -127,6 +127,10 @@ public class Process {
             answer = managerControllerProcess.deleteProduct(jsonObject, user);
         else if (command.equals("getProductList"))
             answer = managerControllerProcess.getProductList(user);
+        else if (command.equals("getAllLogs"))
+            answer = managerControllerProcess.getAllLogs();
+        else if (command.equals("sendProduct"))
+            answer = managerControllerProcess.sendProduct(jsonObject);
         return answer;
     }
 

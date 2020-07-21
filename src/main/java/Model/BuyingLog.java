@@ -14,6 +14,10 @@ public class BuyingLog extends Log implements Serializable {
     private String[] personalInformation;
     public  transient static ArrayList<BuyingLog> notCompleted = new ArrayList<>();
 
+    public String[] getPersonalInformation() {
+        return personalInformation;
+    }
+
     public BuyingLog(String id, int totalPrice, Customer customer, HashMap<Product, ProductInCard> buyingProducts, String[] personalInformation) {
         super(id, null, customer);
         this.totalPrice = totalPrice;
