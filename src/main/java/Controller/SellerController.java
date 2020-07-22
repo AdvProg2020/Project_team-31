@@ -299,9 +299,14 @@ public class SellerController {
                 auction.setStatus("finished");
             } else if (auction.getStatus().equals("started") && auction.getEndTime().before(new Date())) {
                 auction.setStatus("finished");
+                handleFinishAuction(auction);
                 ProductController.getProductById(auction.getProductId()).removeAuction(auction);
             }
         }
+    }
+
+    private void handleFinishAuction(Auction auction) {
+        return null;
     }
 
 }
