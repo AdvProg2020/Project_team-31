@@ -3,7 +3,6 @@ package Model;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class Auction {
     private String id;
