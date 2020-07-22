@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.ShowAuctions">
+   <children>
+      <TableView fx:id="tableOfAuctions" layoutX="14.0" layoutY="14.0" prefHeight="293.0" prefWidth="376.0">
+        <columns>
+          <TableColumn fx:id="idColumn" prefWidth="90" text="Auction ID" />
+          <TableColumn fx:id="productColumn" prefWidth="100" text="product name" />
+            <TableColumn fx:id="priceColumn" prefWidth="75.0" text="min price" />
+        </columns>
+      </TableView>
+      <Button layoutX="468.0" layoutY="57.0" minWidth="75" mnemonicParsing="false" text="Back" onAction="#back" />
+      <Button layoutX="468.0" layoutY="98.0" mnemonicParsing="false" text="user area" minWidth="75" onAction="#userArea"/>
+   </children>
+</Pane>

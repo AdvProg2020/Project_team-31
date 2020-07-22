@@ -9,14 +9,19 @@ public class Auction {
     private String id;
     private String seller;
     private String productId;
+    private int minPrice;
     private ArrayList<String> messages = new ArrayList<>();
-    private HashMap<String, Integer> offeredPrices = new HashMap<>();
+    private String lastCustomer;
+    private int offeredPrice;
     private Date beginTime;
     private Date endTime;
     private String status;    //created, started, finished
     public static ArrayList<Auction> allAuctions = new ArrayList<>();
 
-    public Auction(String seller, String productId, Date beginTime, Date endTime) {
+    public Auction(String seller, String productId, Date beginTime, Date endTime, int minPrice) {
+        this.minPrice = minPrice;
+        lastCustomer = null;
+        offeredPrice = 0;
         this.seller = seller;
         status = "created";
         this.productId = productId;
@@ -24,6 +29,26 @@ public class Auction {
         this.endTime = endTime;
         id = "Auction" + (getNumberOfAuctionCreated() + 1);
         allAuctions.add(this);
+    }
+
+    public int getMinPrice() {
+        return minPrice;
+    }
+
+    public String getLastCustomer() {
+        return lastCustomer;
+    }
+
+    public int getOfferedPrice() {
+        return offeredPrice;
+    }
+
+    public void setLastCustomer(String lastCustomer) {
+        this.lastCustomer = lastCustomer;
+    }
+
+    public void setOfferedPrice(int offeredPrice) {
+        this.offeredPrice = offeredPrice;
     }
 
     public String getStatus() {
@@ -56,10 +81,6 @@ public class Auction {
         return messages;
     }
 
-    public HashMap<String, Integer> getOfferedPrices() {
-        return offeredPrices;
-    }
-
     public Date getBeginTime() {
         return beginTime;
     }
@@ -72,9 +93,6 @@ public class Auction {
         messages.add(newMessage);
     }
 
-    public void addPrice(String customer, int price) {
-        offeredPrices.put(customer, price);
-    }
 
     public static void logToFile() {
         try {

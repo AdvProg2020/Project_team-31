@@ -131,6 +131,8 @@ public class Process {
             answer = managerControllerProcess.getAllLogs();
         else if (command.equals("sendProduct"))
             answer = managerControllerProcess.sendProduct(jsonObject);
+        else if (command.equals("getAllAuctions"))
+            answer = managerControllerProcess.getAllAuctions();
         return answer;
     }
 

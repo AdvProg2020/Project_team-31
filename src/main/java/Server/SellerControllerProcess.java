@@ -220,7 +220,7 @@ public class SellerControllerProcess {
         }
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
         try {
-            new Auction(user.getUsername(), product.getProductId(), format.parse(input.get("start").getAsString()), format.parse(input.get("end").getAsString()));
+            new Auction(user.getUsername(), product.getProductId(), format.parse(input.get("start").getAsString()), format.parse(input.get("end").getAsString()), product.getSellersOfThisProduct().get(user));
             output.addProperty("type", "successful");
         } catch (ParseException e) {
             output.addProperty("type", "failed");

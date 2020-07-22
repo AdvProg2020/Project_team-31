@@ -1,9 +1,6 @@
 package Server;
 
-import Controller.CustomerController;
-import Controller.LoginController;
-import Controller.ManagerController;
-import Controller.SellerController;
+import Controller.*;
 import GraphicalView.DataBase;
 import Model.*;
 import com.google.gson.Gson;
@@ -412,5 +409,22 @@ public class ManagerControllerProcess {
             }
         }
         return new JsonObject();
+    }
+
+    public JsonObject getAllAuctions() {
+        SellerController.getInstance().checkTimeOfAuctions();
+        JsonObject output = new JsonObject();
+        JsonArray auctions = new JsonArray();
+        for (Auction auction : Auction.allAuctions) {
+            if (auction.getStatus().equals("started")) {
+                JsonObject auc = new JsonObject();
+                auc.addProperty("id", auction.getId());
+                auc.addProperty("product", ProductController.getProductById(auction.getProductId()).getName());
+                auc.addProperty("minPrice", auction.getMinPrice());
+                auctions.add(auc);
+            }
+        }
+        output.add("auctions", auctions);
+        return output;
     }
 }
