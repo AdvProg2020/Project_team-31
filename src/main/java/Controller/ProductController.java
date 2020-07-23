@@ -285,6 +285,10 @@ public class ProductController {
             if (product.getProductId().equals(productId))
                 return product;
         }
+        for (Product product : Product.allDeletedProducts) {
+            if (product.getProductId().equals(productId))
+                return product;
+        }
         return null;
     }
 

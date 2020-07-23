@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Product implements Serializable {
-//    private transient Image image;
+    //    private transient Image image;
 //    private String imageFile;
     private String productId;
     private String name;
@@ -29,6 +29,7 @@ public class Product implements Serializable {
     private int views;
     private HashMap<String, String> specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts = new ArrayList<>();
+    public static ArrayList<Product> allDeletedProducts = new ArrayList<>();
 
     public Product(String productId, String name, String company, Category category, String information, int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
@@ -119,10 +120,8 @@ public class Product implements Serializable {
         return allProducts;
     }
 
-   public static int getNumberOfProductCreated() {
-        if(allProducts.size() == 0)
-            return 0;
-        return Integer.parseInt(allProducts.get(allProducts.size()-1).getProductId().substring(7));
+    public static int getNumberOfProductCreated() {
+        return (allProducts.size() + allDeletedProducts.size());
     }
 
     public int getMinimumPrice() {
@@ -231,6 +230,7 @@ public class Product implements Serializable {
 
     public void removeProduct() {
         allProducts.remove(this);
+        allDeletedProducts.add(this);
     }
 
     public ProductAndOffStatus getProductStatus() {
@@ -269,8 +269,13 @@ public class Product implements Serializable {
         try {
             FileOutputStream file = new FileOutputStream("src/project files/allProducts.txt");
             ObjectOutputStream allProducts = new ObjectOutputStream(file);
-
             allProducts.writeObject(getAllProducts());
+            allProducts.flush();
+            allProducts.close();
+
+            file = new FileOutputStream("src/project files/allDeletedProducts.txt");
+            allProducts = new ObjectOutputStream(file);
+            allProducts.writeObject(allDeletedProducts);
             allProducts.flush();
             allProducts.close();
 
@@ -283,13 +288,16 @@ public class Product implements Serializable {
         try {
             FileInputStream file = new FileInputStream("src/project files/allProducts.txt");
             ObjectInputStream allProducts = new ObjectInputStream(file);
-
             Product.allProducts = (ArrayList<Product>) allProducts.readObject();
+            allProducts.close();
+
+            file = new FileInputStream("src/project files/allDeletedProducts.txt");
+            allProducts = new ObjectInputStream(file);
+            Product.allDeletedProducts = (ArrayList<Product>) allProducts.readObject();
             allProducts.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }
 

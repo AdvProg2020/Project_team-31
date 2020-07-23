@@ -168,7 +168,6 @@ public class Runner extends Application {
     public static void buttonSound() {
         MediaPlayer player = new MediaPlayer(media);
         player.play();
-
     }
 
     public void back() {
