@@ -297,6 +297,7 @@ public class SellerController {
                 ProductController.getProductById(auction.getProductId()).addAuction(auction);
             } else if (auction.getStatus().equals("created") && auction.getEndTime().before(new Date())) {
                 auction.setStatus("finished");
+                handleFinishAuction(auction);
             } else if (auction.getStatus().equals("started") && auction.getEndTime().before(new Date())) {
                 auction.setStatus("finished");
                 handleFinishAuction(auction);
