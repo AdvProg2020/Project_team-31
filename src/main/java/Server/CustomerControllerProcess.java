@@ -1,6 +1,9 @@
 package Server;
 
-import Controller.*;
+import Controller.CustomerController;
+import Controller.LoginController;
+import Controller.ProductController;
+import Controller.SellerController;
 import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -198,8 +201,19 @@ public class CustomerControllerProcess {
     }
 
     public JsonObject supportMe(User user, JsonObject jsonObject) {
-       User supporter = LoginController.getUserByUsername(jsonObject.get("name").getAsString());
+        User supporter = LoginController.getUserByUsername(jsonObject.get("name").getAsString());
         ServerRunner.supporters.get(supporter).add(user);
         return jsonObject;
+    }
+
+    public JsonObject getMyChat(User user, JsonObject jsonObject) {
+//        Customer customer = (Customer) user;
+        if (user.chat == null)
+            user.chat = jsonObject.get("newMassage").getAsString() + "\n";
+        else if (!user.chat.equals(""))
+            user.chat += "- " + jsonObject.get("newMassage").getAsString() + "\n";
+        JsonObject data = new JsonObject();
+        data.addProperty("data", user.chat);
+        return data;
     }
 }

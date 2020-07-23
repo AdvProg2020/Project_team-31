@@ -46,17 +46,16 @@ public class ManagerControllerProcess {
     }
 
     private JsonObject formerSupporter(JsonObject jsonObject, User user) {
-        String[] names = new Gson().fromJson(jsonObject.get("names").getAsString(), String[].class);
-        String[] chats = new Gson().fromJson(jsonObject.get("chats").getAsString(), String[].class);
-        for (int i = 0; i < names.length; i++) {
-            Customer customer = (Customer) LoginController.getUserByUsername(names[i]);
-            if (chats[i] != null)
-                customer.chat += chats[i];
-            chats[i] = customer.chat;
+        String name = jsonObject.get("name").getAsString();
+        String chat = jsonObject.get("chat").getAsString();
+        if (!name.equals("")) {
+            Customer customer = (Customer) LoginController.getUserByUsername(name);
+            if (!chat.equals(""))
+            customer.chat += "+ "+chat+"\n";
         }
         JsonObject answer = new JsonObject();
         answer.addProperty("names", new Gson().toJson(getData(user).getKey()));
-        answer.addProperty("chats", new Gson().toJson(getData(user).getKey()));
+        answer.addProperty("chats", new Gson().toJson(getData(user).getValue()));
         return answer;
     }
 
@@ -74,7 +73,7 @@ public class ManagerControllerProcess {
         String[] chats = new String[users.size()];
         for (int i = 0; i < users.size(); i++) {
             names[i] = users.get(i).getUsername();
-            chats[i] = ((Customer) users.get(i)).chat;
+            chats[i] =  users.get(i).chat;
         }
         return new Pair<>(names, chats);
     }

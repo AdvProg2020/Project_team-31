@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -26,17 +25,20 @@ public class SupporterUserArea implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        new Thread(() -> refresh(null, null)).start();
+        new Thread(() -> refresh(null, "")).start();
     }
 
     private void refresh(TextField textField, String username) {
         try {
             JsonObject jsonObject = runner.jsonMaker("manager", "supporter");
-            jsonObject.addProperty("names", new Gson().toJson(createArrays(textField, username).getKey()));
-            jsonObject.addProperty("chats", new Gson().toJson(createArrays(textField, username).getValue()));
+            jsonObject.addProperty("name", username);
+            if (textField == null)
+                jsonObject.addProperty("chat", "");
+            else
+                jsonObject.addProperty("chat", textField.getText());
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataOutputStream.flush();
-            newMassages.values().forEach(k -> k = null);
+            newMassages.values().forEach(k -> k = "");
             handleData(dataBase.dataInputStream.readUTF());
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,8 +50,8 @@ public class SupporterUserArea implements Initializable {
         String[] name = new Gson().fromJson(jsonObject.get("names").getAsString(), String[].class);
         String[] chat = new Gson().fromJson(jsonObject.get("chats").getAsString(), String[].class);
         for (int i = 0; i < name.length; i++) {
-            if (chats.containsKey(name))
-                chats.get(name).setValue(chat[i]);
+            if (chats.containsKey(name[i]))
+                chats.get(name[i]).setValue(chat[i]);
             else {
                 StringProperty chatP = new SimpleStringProperty(chat[i]);
                 chats.put(name[i], chatP);
@@ -57,15 +59,6 @@ public class SupporterUserArea implements Initializable {
                 createNewChat(name[i], chatP);
             }
         }
-    }
-
-    private Pair<String[], String[]> createArrays(TextField textField, String username) {
-        String[] names = new String[chats.size()];
-        String[] content = new String[chats.size()];
-        if (textField != null) {
-            newMassages.put(username, textField.getText());
-        }
-        return new Pair<>(names, content);
     }
 
     private void createNewChat(String username, StringProperty chat) {
@@ -95,7 +88,12 @@ public class SupporterUserArea implements Initializable {
                 "-fx-background-color: #DEDCDC; " +
                         "-fx-background-insets: 5; " +
                         "-fx-background-radius: 5; " +
-                        "-fx-effect: dropshadow(three-pass-box, gray, 10, 0, 0, 0);"
+                        "-fx-effect: dropshadow(three-pass-box, gray, 10, 0, 0, 0);" +
+                        "-fx-alignment: bottom-left;" +
+                        "-fx-padding: 10 20 10 20;" +
+                        "-fx-font-size: 10px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-family: Times New Roman;"
         );
 
         Label name = new Label();
@@ -104,7 +102,7 @@ public class SupporterUserArea implements Initializable {
         name.setLayoutY(10);
         name.setMinHeight(40);
 
-        name.setText("  " + username);
+        name.setText("    " + username);
         name.setStyle("-fx-background-color: #DECD91; " +
                 "-fx-background-insets: 5; " +
                 "-fx-background-radius: 5; " +
@@ -121,6 +119,6 @@ public class SupporterUserArea implements Initializable {
     }
 
     public void refreshPage(ActionEvent actionEvent) {
-        refresh(null, null);
+        refresh(null, "");
     }
 }

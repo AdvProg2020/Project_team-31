@@ -85,10 +85,12 @@ public class CustomerViewSupporters implements Initializable {
         textField.setTranslateY(400);
         refresh.setOnAction(e -> {
             try {
-                dataBase.dataOutputStream.writeUTF(runner.jsonMaker("customer", "getMyChat").toString());
+                JsonObject jsonObject = runner.jsonMaker("customer", "getMyChat");
+                jsonObject.addProperty("newMassage", textField.getText());
+                dataBase.dataOutputStream.writeUTF(jsonObject.toString());
                 dataBase.dataOutputStream.flush();
                 JsonObject data = runner.jsonParser(dataBase.dataInputStream.readUTF());
-                dataBase.chat.setValue(data.get("chat").getAsString());
+                dataBase.chat.setValue(data.get("data").getAsString());
             } catch (Exception exp) {
                 exp.printStackTrace();
             }
@@ -104,7 +106,12 @@ public class CustomerViewSupporters implements Initializable {
                 "-fx-background-color: #DEDCDC; " +
                         "-fx-background-insets: 5; " +
                         "-fx-background-radius: 5; " +
-                        "-fx-effect: dropshadow(three-pass-box, gray, 10, 0, 0, 0);"
+                        "-fx-effect: dropshadow(three-pass-box, gray, 10, 0, 0, 0);" +
+                        "-fx-alignment: bottom-left;" +
+                        "-fx-padding: 10 20 10 20;" +
+                        "-fx-font-size: 10px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-family: Times New Roman;"
         );
 
         Label name = new Label();
@@ -112,11 +119,12 @@ public class CustomerViewSupporters implements Initializable {
         name.setLayoutX(10);
         name.setLayoutY(10);
         name.setMinHeight(40);
-        name.setText(supporter);
+        name.setText("    " + supporter);
         name.setStyle("-fx-background-color: #DECD91; " +
                 "-fx-background-insets: 5; " +
                 "-fx-background-radius: 5; " +
-                "-fx-effect: dropshadow(three-pass-box, gray, 10, 0, 0, 0);");
+                "-fx-effect: dropshadow(three-pass-box, gray, 10, 0, 0, 0);"
+        );
 
         Pane layout = new Pane(refresh, textField, label, name);
         Scene scene = new Scene(layout, 300, 500);
