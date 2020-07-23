@@ -448,7 +448,7 @@ public class ManagerControllerProcess {
         if (auction.getStatus().equals("finished")) {
             output.addProperty("type", "finished");
             if (auction.getOfferedPrice() > 0) {
-                output.addProperty("message", "customer with id:" + auction.getLastCustomer() + ", price:" + auction.getOfferedPrice() + "won the auction!");
+                output.addProperty("message", "customer with id: " + auction.getLastCustomer() + " , price: " + auction.getOfferedPrice() + " won the auction!");
             } else {
                 output.addProperty("message", "no one buy this product");
             }

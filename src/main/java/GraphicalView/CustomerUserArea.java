@@ -26,6 +26,7 @@ public class CustomerUserArea implements Initializable {
     public Button buyingHistoryButton;
     public Button login;
     public Button support;
+    public Button auctionButton;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     StringProperty data = new SimpleStringProperty();
@@ -33,6 +34,9 @@ public class CustomerUserArea implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         runner.changeMusic("UserArea");
+        if(DataBase.getInstance().role.equals("none")) {
+            auctionButton.setDisable(true);
+        }
         showPersonalInfo();
         showDiscountCodes();
         editPersonalInfoAlert();

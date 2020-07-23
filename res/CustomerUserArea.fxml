@@ -19,7 +19,7 @@
                     <Label fx:id="personalInfo" />
                     <Label fx:id="discountCode" GridPane.rowIndex="2" />
                     <Button fx:id="addBalance" mnemonicParsing="false" prefHeight="20.0" prefWidth="100.0" text="add balance" GridPane.rowIndex="3" />
-               <Button mnemonicParsing="false" text="auctions" prefWidth="100" GridPane.rowIndex="4" onAction="#showAuctions" />
+               <Button mnemonicParsing="false" fx:id="auctionButton" text="auctions" prefWidth="100" GridPane.rowIndex="4" onAction="#showAuctions" />
                 </children>
                 <columnConstraints>
                     <ColumnConstraints />

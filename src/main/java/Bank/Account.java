@@ -12,6 +12,9 @@ public class Account {
     String token;
     Date tokenDate;
     int inventory = 0;
+    public static int totalAccountNumber = 0;
+    public static ArrayList<Account> allAccount = new ArrayList<>();
+
 
     public Account(String firstName, String lastName, String username, String password, int accountNumber) {
         this.firstName = firstName;
@@ -21,10 +24,6 @@ public class Account {
         this.accountNumber = accountNumber;
         allAccount.add(this);
     }
-
-    public static int totalAccountNumber = 0;
-
-    public static ArrayList<Account> allAccount = new ArrayList<>();
 
     public static boolean userPassMatch(String username, String password) {
         for (Account account : allAccount)

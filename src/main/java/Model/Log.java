@@ -32,7 +32,6 @@ public class Log implements Serializable {
     }
 
     public DeliveryStatus getDeliveryStatus() {
-        System.out.println("status:" + deliveryStatus);
         return deliveryStatus;
     }
 
