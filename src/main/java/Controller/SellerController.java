@@ -297,10 +297,25 @@ public class SellerController {
                 ProductController.getProductById(auction.getProductId()).addAuction(auction);
             } else if (auction.getStatus().equals("created") && auction.getEndTime().before(new Date())) {
                 auction.setStatus("finished");
+                handleFinishAuction(auction);
             } else if (auction.getStatus().equals("started") && auction.getEndTime().before(new Date())) {
                 auction.setStatus("finished");
-                ProductController.getProductById(auction.getProductId()).removeAuction(auction);
+                handleFinishAuction(auction);
             }
+        }
+    }
+
+    private void handleFinishAuction(Auction auction) {
+        ProductController.getProductById(auction.getProductId()).removeAuction(auction);
+        if(auction.getOfferedPrice() == 0) {
+            return;
+        }
+        Seller seller = (Seller) LoginController.getUserByUsername(auction.getSeller());
+        try {
+            CustomerController.getInstance().createBuyingLogForAuction(auction);
+            SellerController.getInstance().removeProductFromUser(seller, auction.getProductId());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

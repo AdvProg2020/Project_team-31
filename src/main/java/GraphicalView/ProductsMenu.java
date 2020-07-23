@@ -44,18 +44,19 @@ public class ProductsMenu implements Initializable {
     public Button logout;
     private DataOutputStream dataOutputStream;
     private DataInputStream dataInputStream;
-    static HashMap<String, ArrayList<String>> categories = new HashMap<>();
+    static HashMap<String, ArrayList<String>> categoriesHash = new HashMap<>();
     static HashMap<String, String> filters = new HashMap<>();
     private static ArrayList<ProductInTable> allProducts = new ArrayList<>();
     static String productId;
 
     public void setCategories() {
         ArrayList<String> listOfCategories = new ArrayList<>();
-        for (String s : categories.keySet()) {
+        for (String s : categoriesHash.keySet()) {
             listOfCategories.add(s);
         }
         listOfCategories.add(0, "all");
-        ObservableList<String> categories = FXCollections.observableArrayList(listOfCategories);
+        ObservableList<String> categories = FXCollections.observableArrayList();
+        categories.addAll(listOfCategories);
         category.setItems(categories);
         category.setValue("all");
         categoryName = "all";
@@ -96,14 +97,14 @@ public class ProductsMenu implements Initializable {
 
     private void analyzeInput(String input) {
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
-        categories = new HashMap<>();
+        categoriesHash = new HashMap<>();
         for (JsonElement jsonElement : jsonObject.get("categories").getAsJsonArray()) {
             JsonObject aCategory = jsonElement.getAsJsonObject();
             ArrayList<String> features = new ArrayList<>();
             for (JsonElement element : aCategory.get("features").getAsJsonArray()) {
                 features.add(element.getAsString());
             }
-            categories.put(aCategory.get("name").getAsString(), features);
+            categoriesHash.put(aCategory.get("name").getAsString(), features);
         }
         filters = new HashMap<>();
         for (JsonElement jsonElement : jsonObject.get("filters").getAsJsonArray()) {

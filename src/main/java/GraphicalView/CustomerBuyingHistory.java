@@ -35,23 +35,23 @@ public class CustomerBuyingHistory implements Initializable {
 
     private void loadBuyingHistory() {
         TableColumn<BuyingLogShow, String> idColumn = new TableColumn<>("id");
-        idColumn.setMinWidth(150);
+        idColumn.setMinWidth(200);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         TableColumn<BuyingLogShow, String> priceColumn = new TableColumn<>("total price");
-        priceColumn.setMinWidth(150);
+        priceColumn.setMinWidth(75);
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
 
         TableColumn<BuyingLogShow, String> discountColumn = new TableColumn<>("discount amount");
-        discountColumn.setMinWidth(150);
+        discountColumn.setMinWidth(75);
         discountColumn.setCellValueFactory(new PropertyValueFactory<>("discount"));
 
         TableColumn<BuyingLogShow, String> dateColumn = new TableColumn<>("date");
-        dateColumn.setMinWidth(150);
+        dateColumn.setMinWidth(200);
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         TableColumn<BuyingLogShow, String> statusColumn = new TableColumn<>("status");
-        statusColumn.setMinWidth(150);
+        statusColumn.setMinWidth(100);
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         TableColumn<BuyingLogShow, Button> buttonColumn = new TableColumn<>("show");
@@ -59,7 +59,7 @@ public class CustomerBuyingHistory implements Initializable {
         buttonColumn.setCellValueFactory(new PropertyValueFactory<>("button"));
 
         table.setItems(getAllOrders());
-        table.getColumns().addAll(idColumn, priceColumn, discountColumn, dateColumn, buttonColumn);
+        table.getColumns().addAll(idColumn, priceColumn, discountColumn, dateColumn, statusColumn, buttonColumn);
         gridPane.getChildren().add(table);
     }
 

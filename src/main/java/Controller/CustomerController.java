@@ -190,6 +190,24 @@ public class CustomerController {
         }
     }
 
+    public void createBuyingLogForAuction(Auction auction) {
+        Customer customer = (Customer) LoginController.getUserByUsername(auction.getLastCustomer());
+        Product product = ProductController.getProductById(auction.getProductId());
+        Seller seller = (Seller) LoginController.getUserByUsername(auction.getSeller());
+        HashMap<Product, ProductInCard> products = new HashMap<>();
+        products.put(product, new ProductInCard(product, seller));
+        String[] information = new String[2];
+        information[0] = customer.getPersonalInformation()[3];
+        information[1] = customer.getPersonalInformation()[4];
+        BuyingLog buyingLog = new BuyingLog("BuyingLog" + new Date(), auction.getOfferedPrice(), customer, products,information);
+        buyingLog.finishBuying(new Date());
+        BuyingLog.notCompleted.remove(buyingLog);
+        customer.addBuyingLog(buyingLog);
+        customer.addRecentShoppingProducts(products.keySet());
+        seller.getMoney(auction.getOfferedPrice());
+        seller.addSellingLog(new SellingLog("SellingLog" + new Date(), buyingLog.getDate(), auction.getOfferedPrice(), 0 , product, customer));
+    }
+
     public String showOrder(User user, String orderId) throws Exception {
         for (BuyingLog buyingLog : ((Customer) user).getAllBuyingLogs()) {
             if (buyingLog.getLogId().equals(orderId)) {

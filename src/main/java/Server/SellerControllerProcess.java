@@ -200,6 +200,7 @@ public class SellerControllerProcess {
     }
 
     public JsonObject createAuction(User user, JsonObject input) {
+        SellerController.getInstance().checkTimeOfAuctions();
         JsonObject output = new JsonObject();
         Product product = ProductController.getProductById(input.get("product").getAsString());
         if (product == null) {
@@ -218,7 +219,7 @@ public class SellerControllerProcess {
                 return output;
             }
         }
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         try {
             new Auction(user.getUsername(), product.getProductId(), format.parse(input.get("start").getAsString()), format.parse(input.get("end").getAsString()), product.getSellersOfThisProduct().get(user));
             output.addProperty("type", "successful");

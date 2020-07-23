@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.jar.JarOutputStream;
 import java.util.stream.Collectors;
 
 public class ManagerControllerProcess {
@@ -135,7 +136,7 @@ public class ManagerControllerProcess {
     }
 
     private Date castStringToDate(String dateString) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         return format.parse(dateString);
     }
 
@@ -398,6 +399,15 @@ public class ManagerControllerProcess {
         return new JsonObject();
     }
 
+    private Auction getAuctionById(String id) {
+        for (Auction auction : Auction.allAuctions) {
+            if (auction.getId().equals(id)) {
+                return auction;
+            }
+        }
+        return null;
+    }
+
     public JsonObject getAllAuctions() {
         SellerController.getInstance().checkTimeOfAuctions();
         JsonObject output = new JsonObject();
@@ -413,5 +423,93 @@ public class ManagerControllerProcess {
         }
         output.add("auctions", auctions);
         return output;
+    }
+
+    public JsonObject getAuction(JsonObject input) {
+        JsonObject output = new JsonObject();
+        Auction auc = getAuctionById(input.get("id").getAsString());
+        output.addProperty("highPrice", auc.getOfferedPrice());
+        output.addProperty("buyer", auc.getLastCustomer());
+        output.addProperty("minPrice", auc.getMinPrice());
+        output.addProperty("seller", auc.getSeller());
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        output.addProperty("end", format.format(auc.getEndTime()));
+        JsonArray comments = new JsonArray();
+        for (String message : auc.getMessages()) {
+            comments.add(message);
+        }
+        output.add("comments", comments);
+        return output;
+    }
+
+    public JsonObject refreshAuction(JsonObject input) {
+        SellerController.getInstance().checkTimeOfAuctions();
+        JsonObject output = new JsonObject();
+        Auction auction = getAuctionById(input.get("id").getAsString());
+        if (auction.getStatus().equals("finished")) {
+            output.addProperty("type", "finished");
+            if (auction.getOfferedPrice() > 0) {
+                output.addProperty("message", "customer with id:" + auction.getLastCustomer() + ", price:" + auction.getOfferedPrice() + "won the auction!");
+            } else {
+                output.addProperty("message", "no one buy this product");
+            }
+        } else {
+            output.addProperty("type", "successful");
+            addDetailToJson(output, auction);
+        }
+        return output;
+    }
+
+    public JsonObject commentInAuction(User user, JsonObject input) {
+        Auction auction = getAuctionById(input.get("id").getAsString());
+        auction.addMessage("sender: " + user.getUsername() + "\n" + "  message: " + input.get("comment").getAsString());
+        return refreshAuction(input);
+    }
+
+    public JsonObject addNewPrice(User user, JsonObject input) {
+        SellerController.getInstance().checkTimeOfAuctions();
+        JsonObject output = new JsonObject();
+        Auction auction = getAuctionById(input.get("id").getAsString());
+        if (auction.getStatus().equals("finished")) {
+            output.addProperty("type", "finished");
+            if (auction.getOfferedPrice() > 0) {
+                output.addProperty("message", "customer with id:" + auction.getLastCustomer() + ", price:" + auction.getOfferedPrice() + "won the auction!");
+            } else {
+                output.addProperty("message", "no one buy this product");
+            }
+            return output;
+        }
+        int price = input.get("price").getAsInt();
+        if (price < auction.getMinPrice() || price <= auction.getOfferedPrice()) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", "your price should be more than " + Math.max(auction.getOfferedPrice(), auction.getMinPrice() - 1));
+            addDetailToJson(output,auction);
+        } else if (user.getCredit() < price && !auction.getLastCustomer().equals(user.getUsername())) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", "your credit isn't enough");
+            addDetailToJson(output,auction);
+        } else if (auction.getLastCustomer().equals(user.getUsername()) && user.getCredit() < (price - auction.getOfferedPrice())) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", "your credit isn't enough");
+            addDetailToJson(output,auction);
+        } else {
+            if (auction.getOfferedPrice() > 0)
+                LoginController.getUserByUsername(auction.getLastCustomer()).getMoney(auction.getOfferedPrice());
+            user.payMoney(price);
+            auction.setLastCustomer(user.getUsername());
+            auction.setOfferedPrice(price);
+            output = refreshAuction(input);
+        }
+        return output;
+    }
+
+    private void addDetailToJson(JsonObject output, Auction auction) {
+        output.addProperty("highPrice", auction.getOfferedPrice());
+        output.addProperty("buyer", auction.getLastCustomer());
+        JsonArray comments = new JsonArray();
+        for (String message : auction.getMessages()) {
+            comments.add(message);
+        }
+        output.add("comments", comments);
     }
 }

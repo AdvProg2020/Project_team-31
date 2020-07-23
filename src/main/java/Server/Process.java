@@ -10,7 +10,7 @@ public class Process {
     ProductControllerProcess productControllerProcess = ProductControllerProcess.getInstance();
     SellerControllerProcess sellerControllerProcess = SellerControllerProcess.getInstance();
 
-    public JsonObject answerClient(JsonObject jsonObject, User user) {
+    public synchronized JsonObject answerClient(JsonObject jsonObject, User user) {
         JsonObject answer = null;
         String controller = jsonObject.get("controller").getAsString();
         switch (controller) {
@@ -137,6 +137,14 @@ public class Process {
             answer = managerControllerProcess.sendProduct(jsonObject);
         else if (command.equals("getAllAuctions"))
             answer = managerControllerProcess.getAllAuctions();
+        else if (command.equals("getAuction"))
+            answer = managerControllerProcess.getAuction(jsonObject);
+        else if (command.equals("refreshAuction"))
+            answer = managerControllerProcess.refreshAuction(jsonObject);
+        else if (command.equals("commentInAuction"))
+            answer = managerControllerProcess.commentInAuction(user, jsonObject);
+        else if (command.equals("addNewPrice"))
+            answer = managerControllerProcess.addNewPrice(user, jsonObject);
         return answer;
     }
 

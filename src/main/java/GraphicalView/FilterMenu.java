@@ -29,7 +29,7 @@ public class FilterMenu implements Initializable {
     private ArrayList<String> showAvailableFiltersForUserGui(String categoryName) {
         ArrayList<String> availableFilters = new ArrayList<>();
         if (!categoryName.equals("all"))
-            availableFilters.addAll(ProductsMenu.categories.get(categoryName));
+            availableFilters.addAll(ProductsMenu.categoriesHash.get(categoryName));
         availableFilters.addAll(Arrays.asList("minimumPrice", "company", "name", "rate", "availability"));
         return availableFilters;
     }

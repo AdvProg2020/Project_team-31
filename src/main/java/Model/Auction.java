@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Auction {
+public class Auction implements Serializable {
     private String id;
     private String seller;
     private String productId;
@@ -19,7 +19,7 @@ public class Auction {
 
     public Auction(String seller, String productId, Date beginTime, Date endTime, int minPrice) {
         this.minPrice = minPrice;
-        lastCustomer = null;
+        lastCustomer = "nobody";
         offeredPrice = 0;
         this.seller = seller;
         status = "created";
