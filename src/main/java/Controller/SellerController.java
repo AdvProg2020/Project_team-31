@@ -306,7 +306,16 @@ public class SellerController {
     }
 
     private void handleFinishAuction(Auction auction) {
-        return null;
+        if(auction.getOfferedPrice() == 0) {
+            return;
+        }
+        Seller seller = (Seller) LoginController.getUserByUsername(auction.getSeller());
+        try {
+            SellerController.getInstance().removeProductFromUser(seller, auction.getProductId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        CustomerController.getInstance().createBuyingLogForAuction(auction);
     }
 
 }
