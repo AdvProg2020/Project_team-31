@@ -300,22 +300,22 @@ public class SellerController {
             } else if (auction.getStatus().equals("started") && auction.getEndTime().before(new Date())) {
                 auction.setStatus("finished");
                 handleFinishAuction(auction);
-                ProductController.getProductById(auction.getProductId()).removeAuction(auction);
             }
         }
     }
 
     private void handleFinishAuction(Auction auction) {
+        ProductController.getProductById(auction.getProductId()).removeAuction(auction);
         if(auction.getOfferedPrice() == 0) {
             return;
         }
         Seller seller = (Seller) LoginController.getUserByUsername(auction.getSeller());
         try {
+            CustomerController.getInstance().createBuyingLogForAuction(auction);
             SellerController.getInstance().removeProductFromUser(seller, auction.getProductId());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        CustomerController.getInstance().createBuyingLogForAuction(auction);
     }
 
 }

@@ -2,81 +2,76 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<Pane stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="GraphicalView.CustomerUserArea">
+
+<Pane stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.CustomerUserArea">
     <children>
         <GridPane>
             <columnConstraints>
-                <ColumnConstraints/>
+                <ColumnConstraints />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints/>
+                <RowConstraints />
             </rowConstraints>
         </GridPane>
         <GridPane layoutY="6.0">
             <GridPane>
                 <children>
-                    <Label fx:id="personalInfo"/>
-                    <Label fx:id="discountCode" GridPane.rowIndex="2"/>
-                    <Button fx:id="addBalance" mnemonicParsing="false" prefHeight="20.0" prefWidth="100.0"
-                            text="add balance" GridPane.rowIndex="3"/>
+                    <Label fx:id="personalInfo" />
+                    <Label fx:id="discountCode" GridPane.rowIndex="2" />
+                    <Button fx:id="addBalance" mnemonicParsing="false" prefHeight="20.0" prefWidth="100.0" text="add balance" GridPane.rowIndex="3" />
+               <Button mnemonicParsing="false" text="auctions" prefWidth="100" GridPane.rowIndex="4" onAction="#showAuctions" />
                 </children>
                 <columnConstraints>
-                    <ColumnConstraints/>
+                    <ColumnConstraints />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+               <RowConstraints />
                 </rowConstraints>
             </GridPane>
             <GridPane GridPane.columnIndex="1">
-                <Button fx:id="cartButton" mnemonicParsing="false" onAction="#showCart" prefHeight="20.0"
-                        prefWidth="150.0" text="view cart" GridPane.rowIndex="0"/>
-                <Button fx:id="buyingHistoryButton" mnemonicParsing="false" prefWidth="150.0" text="buying history"
-                        GridPane.rowIndex="1"/>
-                <Button fx:id="editPersonalInfo" mnemonicParsing="false" prefHeight="20.0" prefWidth="150.0"
-                        text="edit personal info" GridPane.rowIndex="3"/>
-                <Button fx:id="support" mnemonicParsing="false" onAction="#support" prefHeight="20.0" prefWidth="150.0"
-                        text="support" GridPane.rowIndex="4"/>
+                <Button fx:id="cartButton" mnemonicParsing="false" onAction="#showCart" prefHeight="20.0" prefWidth="150.0" text="view cart" GridPane.rowIndex="0" />
+                <Button fx:id="buyingHistoryButton" mnemonicParsing="false" prefWidth="150.0" text="buying history" GridPane.rowIndex="1" />
+                <Button fx:id="editPersonalInfo" mnemonicParsing="false" prefHeight="20.0" prefWidth="150.0" text="edit personal info" GridPane.rowIndex="3" />
+                <Button fx:id="support" mnemonicParsing="false" onAction="#support" prefHeight="18.0" prefWidth="150.0" text="support" GridPane.rowIndex="4" />
                 <columnConstraints>
-                    <ColumnConstraints/>
+                    <ColumnConstraints />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
                 </rowConstraints>
             </GridPane>
             <GridPane GridPane.columnIndex="2">
                 <children>
-                    <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#back" prefWidth="90.0"
-                            text="back" GridPane.rowIndex="2"/>
-                    <Button fx:id="login" mnemonicParsing="false" prefWidth="90.0" text="login"/>
-                    <Button fx:id="logout" mnemonicParsing="false" prefWidth="90.0" text="logout"
-                            GridPane.rowIndex="1"/>
-                    <Button mnemonicParsing="false" prefWidth="90.0" text="User Area" GridPane.rowIndex="3"/>
+                    <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#back" prefWidth="90.0" text="back" GridPane.rowIndex="2" />
+                    <Button fx:id="login" mnemonicParsing="false" prefWidth="90.0" text="login" />
+                    <Button fx:id="logout" mnemonicParsing="false" prefWidth="90.0" text="logout" GridPane.rowIndex="1" />
+                    <Button mnemonicParsing="false" prefWidth="90.0" text="User Area" GridPane.rowIndex="3" />
                 </children>
                 <columnConstraints>
-                    <ColumnConstraints/>
+                    <ColumnConstraints />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
                 </rowConstraints>
             </GridPane>
             <columnConstraints>
-                <ColumnConstraints/>
-                <ColumnConstraints/>
-                <ColumnConstraints/>
+                <ColumnConstraints />
+                <ColumnConstraints />
+                <ColumnConstraints />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints/>
+                <RowConstraints />
             </rowConstraints>
         </GridPane>
     </children>

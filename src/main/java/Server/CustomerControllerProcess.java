@@ -44,7 +44,7 @@ public class CustomerControllerProcess {
     public JsonObject showAllOrdersByList(User user) {
         JsonObject output = new JsonObject();
         JsonArray data = new JsonArray();
-        for (BuyingLog buyingLog : customerController.showAllOrdersByList(user)) {
+        for (BuyingLog buyingLog : ((Customer) user).getAllBuyingLogs()) {
             JsonObject log = new JsonObject();
             log.addProperty("id", buyingLog.getLogId());
             log.addProperty("discount", buyingLog.getDiscountAmount());

@@ -85,6 +85,7 @@ public class AuctionArea implements Initializable {
         }
         if (jsonObject.get("type").getAsString().equals("successful")) {
             setDetail(jsonObject);
+            commentContent.setText("");
         } else {
             Alert error = new Alert(Alert.AlertType.INFORMATION, jsonObject.get("message").getAsString(), ButtonType.OK);
             error.show();
@@ -131,6 +132,7 @@ public class AuctionArea implements Initializable {
         if (price <= highPrice || price < Integer.parseInt(minPrice.getText())) {
             Alert error = new Alert(Alert.AlertType.ERROR, "your price should be more than " + Math.max(highPrice, Integer.parseInt(minPrice.getText()) - 1), ButtonType.OK);
             error.show();
+            refresh(actionEvent);
             return;
         }
         JsonObject output = Runner.getInstance().jsonMaker("manager", "addNewPrice");
@@ -149,6 +151,7 @@ public class AuctionArea implements Initializable {
         if (type.equals("failed")) {
             Alert error = new Alert(Alert.AlertType.ERROR, jsonObject.get("message").getAsString(), ButtonType.OK);
             error.show();
+            setDetail(jsonObject);
         } else if (type.equals("finished")) {
             Alert error = new Alert(Alert.AlertType.INFORMATION, jsonObject.get("message").getAsString(), ButtonType.OK);
             error.show();
@@ -156,6 +159,7 @@ public class AuctionArea implements Initializable {
         } else {
             Alert error = new Alert(Alert.AlertType.INFORMATION, "your price entered successfully!", ButtonType.OK);
             error.show();
+            newPrice.setText("");
             setDetail(jsonObject);
         }
     }

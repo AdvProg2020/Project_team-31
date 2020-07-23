@@ -237,4 +237,9 @@ public class CustomerUserArea implements Initializable {
     public void support(ActionEvent actionEvent) {
         runner.changeScene("CustomerViewSupporters.fxml");
     }
+
+    public void showAuctions(ActionEvent actionEvent) {
+        Runner.buttonSound();
+        runner.changeScene("ShowAuctions.fxml");
+    }
 }
