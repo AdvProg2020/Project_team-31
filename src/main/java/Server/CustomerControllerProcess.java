@@ -1,8 +1,6 @@
 package Server;
 
-import Controller.CustomerController;
-import Controller.ProductController;
-import Controller.SellerController;
+import Controller.*;
 import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -200,9 +198,7 @@ public class CustomerControllerProcess {
     }
 
     public JsonObject supportMe(User user, JsonObject jsonObject) {
-        Supporter supporter = Supporter.getSupporterById(jsonObject.get("name").getAsString());
-        if (ServerRunner.supporters.get(supporter)==null)
-            System.out.println(" i cant find it..............");
+       User supporter = LoginController.getUserByUsername(jsonObject.get("name").getAsString());
         ServerRunner.supporters.get(supporter).add(user);
         return jsonObject;
     }

@@ -51,10 +51,10 @@ public class SupporterUserArea implements Initializable {
             if (chats.containsKey(name))
                 chats.get(name).setValue(chat[i]);
             else {
-            StringProperty chatP = new SimpleStringProperty(chat[i]);
-            chats.put(name[i], chatP);
-            newMassages.put(name[i], chatP.getValue());
-            createNewChat(name[i], chatP);
+                StringProperty chatP = new SimpleStringProperty(chat[i]);
+                chats.put(name[i], chatP);
+                newMassages.put(name[i], chatP.getValue());
+                createNewChat(name[i], chatP);
             }
         }
     }
@@ -104,7 +104,7 @@ public class SupporterUserArea implements Initializable {
         name.setLayoutY(10);
         name.setMinHeight(40);
 
-        label.setText(username);
+        name.setText("  " + username);
         name.setStyle("-fx-background-color: #DECD91; " +
                 "-fx-background-insets: 5; " +
                 "-fx-background-radius: 5; " +

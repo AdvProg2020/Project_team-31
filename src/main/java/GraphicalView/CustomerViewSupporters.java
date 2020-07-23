@@ -112,8 +112,7 @@ public class CustomerViewSupporters implements Initializable {
         name.setLayoutX(10);
         name.setLayoutY(10);
         name.setMinHeight(40);
-
-        label.setText(supporter);
+        name.setText(supporter);
         name.setStyle("-fx-background-color: #DECD91; " +
                 "-fx-background-insets: 5; " +
                 "-fx-background-radius: 5; " +
