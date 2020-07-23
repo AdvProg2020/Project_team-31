@@ -69,9 +69,10 @@
                <children>
                   <Button fx:id="login" minWidth="75" mnemonicParsing="false" text="login" />
                   <Button fx:id="logout" minWidth="75" mnemonicParsing="false" text="logout" />
-                  <Button minWidth="75" mnemonicParsing="false" text="userArea" onMouseClicked="#userArea"/>
+                  <Button minWidth="75" mnemonicParsing="false" onMouseClicked="#userArea" text="userArea" />
                </children>
             </HBox>
+            <Button mnemonicParsing="false" onAction="#addFile" prefHeight="27.0" prefWidth="96.0" text="select file" GridPane.rowIndex="3" />
             </children>
         </GridPane>
     </children>

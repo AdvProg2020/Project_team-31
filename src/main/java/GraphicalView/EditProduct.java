@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -39,6 +40,7 @@ public class EditProduct implements Initializable {
     String productId = ProductsMenu.productId;
     ChoiceBox<String> choiceBox;
     File photo;
+    File file;
     static HashMap<String, ArrayList<String>> allCategories = new HashMap<>();
 
     @Override
@@ -114,6 +116,11 @@ public class EditProduct implements Initializable {
     private void editProduct(String id, int price, int available, String text, HashMap<String, String> dataToSend) {
         try {
             JsonObject jsonObject = runner.jsonMaker("seller", "editProduct");
+            if (file != null) {
+                jsonObject.addProperty("fileFlag", "yes");
+                String fileContent = new String(Files.readAllBytes(file.toPath()));
+                jsonObject.addProperty("file",fileContent);
+            } else jsonObject.addProperty("fileFlag", "no");
             jsonObject.addProperty("id", id);
             jsonObject.addProperty("price", price);
             jsonObject.addProperty("available", available);
@@ -204,6 +211,14 @@ public class EditProduct implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void editFile(ActionEvent actionEvent) {
+        Runner.buttonSound();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("select file");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("file", "*.*"));
+        file = fileChooser.showOpenDialog(Runner.stage);
     }
 
     class GetCategoryInfo {

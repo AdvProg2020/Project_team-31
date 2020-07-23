@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Product implements Serializable {
-//    private transient Image image;
+    //    private transient Image image;
 //    private String imageFile;
     private String productId;
     private String name;
@@ -29,6 +29,7 @@ public class Product implements Serializable {
     private int views;
     private HashMap<String, String> specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts = new ArrayList<>();
+    private String data;
 
     public Product(String productId, String name, String company, Category category, String information, int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
         views = 0;
@@ -51,6 +52,14 @@ public class Product implements Serializable {
         allProducts.add(this);
     }
 //
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
 //    public String getImageFile() {
 //        return imageFile;
 //    }
@@ -119,10 +128,10 @@ public class Product implements Serializable {
         return allProducts;
     }
 
-   public static int getNumberOfProductCreated() {
-        if(allProducts.size() == 0)
+    public static int getNumberOfProductCreated() {
+        if (allProducts.size() == 0)
             return 0;
-        return Integer.parseInt(allProducts.get(allProducts.size()-1).getProductId().substring(7));
+        return Integer.parseInt(allProducts.get(allProducts.size() - 1).getProductId().substring(7));
     }
 
     public int getMinimumPrice() {
