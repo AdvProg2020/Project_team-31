@@ -19,10 +19,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class ProductArea implements Initializable {
 
@@ -79,6 +77,8 @@ public class ProductArea implements Initializable {
     }
 
     private void analyzeInput(JsonObject jsonObject) {
+        if (jsonObject.get("fileFlag").getAsString().equals("yes"))
+            DataBase.getInstance().fileToBuy = jsonObject.get("file").getAsString();
         available.setText("availability: " + jsonObject.get("available").getAsInt());
         status.setText("status: " + jsonObject.get("status").getAsString());
         view.setText("views: " + jsonObject.get("views").getAsInt());
@@ -190,7 +190,7 @@ public class ProductArea implements Initializable {
                 dataOutputStream.flush();
                 String input = dataInputStream.readUTF();
                 JsonObject inJson = (JsonObject) new JsonParser().parse(input);
-                if(inJson.get("type").getAsString().equals("failed")) {
+                if (inJson.get("type").getAsString().equals("failed")) {
                     Alert error = new Alert(Alert.AlertType.ERROR, inJson.get("message").getAsString(), ButtonType.OK);
                     error.show();
                 }
@@ -214,7 +214,7 @@ public class ProductArea implements Initializable {
                 dataOutputStream.flush();
                 String input = dataInputStream.readUTF();
                 JsonObject inJson = (JsonObject) new JsonParser().parse(input);
-                if(inJson.get("type").getAsString().equals("failed")) {
+                if (inJson.get("type").getAsString().equals("failed")) {
                     Alert error = new Alert(Alert.AlertType.ERROR, inJson.get("message").getAsString(), ButtonType.OK);
                     error.show();
                 } else {

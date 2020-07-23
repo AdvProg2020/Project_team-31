@@ -2,12 +2,9 @@ package Server;
 
 import Controller.ProductController;
 import Controller.SellerController;
-import GraphicalView.OffedProduct;
 import Model.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
 
 
 public class ProductControllerProcess {
@@ -143,6 +140,12 @@ public class ProductControllerProcess {
         output.addProperty("views", product.getViews());
         output.addProperty("information", product.getInformation());
         output.addProperty("status", product.getProductStatus().toString());
+        if (product.getData() == null)
+            output.addProperty("fileFlag", "no");
+        else {
+            output.addProperty("fileFlag", "yes");
+            output.addProperty("file", product.getData());
+        }
         JsonArray jsonArray = new JsonArray();
         for (String s : product.getSpecialPropertiesRelatedToCategory().keySet()) {
             JsonObject feature = new JsonObject();
