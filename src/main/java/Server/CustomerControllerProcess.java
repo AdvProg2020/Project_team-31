@@ -1,17 +1,13 @@
 package Server;
 
 import Controller.CustomerController;
-import Controller.ManagerController;
 import Controller.ProductController;
 import Controller.SellerController;
-import GraphicalView.DataBase;
-import GraphicalView.ReceiveInformationForShopping;
 import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import javax.xml.bind.util.JAXBSource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -182,7 +178,7 @@ public class CustomerControllerProcess {
     public JsonObject putDiscount(User user, JsonObject input) {
         JsonObject output = new JsonObject();
         try {
-            CustomerController.getInstance().putDiscount(user, input.get("id").getAsString() , input.get("code").getAsString());
+            CustomerController.getInstance().putDiscount(user, input.get("id").getAsString(), input.get("code").getAsString());
             output.addProperty("type", "successful");
         } catch (Exception e) {
             output.addProperty("type", "failed");
@@ -201,5 +197,13 @@ public class CustomerControllerProcess {
             output.addProperty("message", e.getMessage());
         }
         return output;
+    }
+
+    public JsonObject supportMe(User user, JsonObject jsonObject) {
+        Supporter supporter = Supporter.getSupporterById(jsonObject.get("name").getAsString());
+        if (ServerRunner.supporters.get(supporter)==null)
+            System.out.println(" i cant find it..............");
+        ServerRunner.supporters.get(supporter).add(user);
+        return jsonObject;
     }
 }

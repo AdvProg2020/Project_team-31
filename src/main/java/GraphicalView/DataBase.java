@@ -3,6 +3,8 @@ package GraphicalView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,6 +22,7 @@ public class DataBase {
     DataOutputStream dataOutputStream;
     DataInputStream dataInputStream;
     String token = "null";
+    StringProperty chat = new SimpleStringProperty();
 
     public static DataBase getInstance() {
         if (dataBase == null)

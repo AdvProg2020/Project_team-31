@@ -11,6 +11,11 @@ public class StringAndButtonTable {
         this.button = new Button(button);
     }
 
+    public StringAndButtonTable(String data, Button button) {
+        this.data = data;
+        this.button = button;
+    }
+
     public Button getButton() {
         return button;
     }

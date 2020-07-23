@@ -68,13 +68,6 @@ public class ManagerControllerProcess {
 
     private JsonObject newSupporter(JsonObject jsonObject, User user) {
         ServerRunner.supporters.put((Supporter) user, new ArrayList<>());
-        while (ServerRunner.supporters.containsKey(user) && ServerRunner.supporters.get(user).size() == 0) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
         JsonObject answer = new JsonObject();
         answer.addProperty("names", new Gson().toJson(getData(user).getKey()));
         answer.addProperty("chats", new Gson().toJson(getData(user).getKey()));

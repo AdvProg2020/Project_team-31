@@ -65,6 +65,8 @@ public class Process {
             answer = customerControllerProcess.putDiscount(user, jsonObject);
         else if (command.equals("payMoney"))
             answer = customerControllerProcess.payMoney(user, jsonObject);
+        else if (command.equals("supportMe"))
+            answer = customerControllerProcess.supportMe(user, jsonObject);
         return answer;
     }
 
