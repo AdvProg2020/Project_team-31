@@ -9,20 +9,12 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import javafx.util.Pair;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomerUserArea implements Initializable {
@@ -33,6 +25,7 @@ public class CustomerUserArea implements Initializable {
     public Button addBalance;
     public Button buyingHistoryButton;
     public Button login;
+    public Button support;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     StringProperty data = new SimpleStringProperty();
@@ -47,6 +40,7 @@ public class CustomerUserArea implements Initializable {
         buyingHistory();
         loginAlert();
         logoutAlert();
+        support.setDisable(dataBase.role.equalsIgnoreCase("none"));
     }
 
     private void showDiscountCodes() {

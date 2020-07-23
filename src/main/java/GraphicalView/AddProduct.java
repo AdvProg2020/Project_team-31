@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +40,7 @@ public class AddProduct implements Initializable {
     Runner runner = Runner.getInstance();
     ChoiceBox<String> choiceBox;
     File photo;
+    File file;
     DataBase dataBase = DataBase.getInstance();
     HashMap<Label, TextField> data = new HashMap<>();
     static HashMap<String, ArrayList<String>> allCategories = new HashMap<>();
@@ -119,6 +121,11 @@ public class AddProduct implements Initializable {
             send.addProperty("generalData", new Gson().toJson(generalData));
             send.addProperty("first", new Gson().toJson(first));
             send.addProperty("second", new Gson().toJson(second));
+            if (file != null) {
+                send.addProperty("fileFlag", "yes");
+                String fileContent = new String(Files.readAllBytes(file.toPath()));
+                send.addProperty("file",fileContent);
+            } else send.addProperty("fileFlag", "no");
             dataBase.dataOutputStream.writeUTF(send.toString());
             dataBase.dataOutputStream.flush();
             dataBase.dataInputStream.readUTF();
@@ -191,6 +198,14 @@ public class AddProduct implements Initializable {
         else if (data.size() == 0)
             return "category features";
         return null;
+    }
+
+    public void addFile(ActionEvent actionEvent) {
+        Runner.buttonSound();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("select file");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("file", "*.*"));
+        file = fileChooser.showOpenDialog(Runner.stage);
     }
 
     class GetCategoryInfo {

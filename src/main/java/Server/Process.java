@@ -67,6 +67,8 @@ public class Process {
             answer = customerControllerProcess.payMoney(user, jsonObject);
         else if (command.equals("supportMe"))
             answer = customerControllerProcess.supportMe(user, jsonObject);
+        else if (command.equals("getMyChat"))
+            answer = customerControllerProcess.getMyChat(user, jsonObject);
         return answer;
     }
 
@@ -143,6 +145,8 @@ public class Process {
             answer = managerControllerProcess.commentInAuction(user, jsonObject);
         else if (command.equals("addNewPrice"))
             answer = managerControllerProcess.addNewPrice(user, jsonObject);
+        else if (command.equals("endSupporter"))
+            answer = managerControllerProcess.endSupporter(user, jsonObject);
         return answer;
     }
 

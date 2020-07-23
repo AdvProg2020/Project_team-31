@@ -68,9 +68,10 @@
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <Button fx:id="logout" mnemonicParsing="false" text="logout" />
-                  <Button mnemonicParsing="false" text="User Area" onMouseClicked="#userArea"/>
+                  <Button mnemonicParsing="false" onMouseClicked="#userArea" text="User Area" />
                </children>
             </HBox>
+            <Button mnemonicParsing="false" onAction="#editFile" text="edit file" GridPane.rowIndex="3" />
             </children>
         </GridPane>
     </children>

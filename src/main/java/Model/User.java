@@ -15,8 +15,9 @@ public class User implements Serializable {
     private Card card;
     private HashMap<String, String> filters;
     private static ArrayList<User> allUsers = new ArrayList<>();
+    transient public String chat = "";
 
-    public User(String name, String lastName, String username, String emailAddress, String  phoneNumber, String password) {
+    public User(String name, String lastName, String username, String emailAddress, String phoneNumber, String password) {
         this.name = name;
         this.lastName = lastName;
         this.username = username;
@@ -65,7 +66,7 @@ public class User implements Serializable {
         return arrayOfInformation;
     }
 
-    public void setNewInformation(String name, String lastName, String emailAddress, String  phoneNumber, String password) {
+    public void setNewInformation(String name, String lastName, String emailAddress, String phoneNumber, String password) {
         this.name = name;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
@@ -97,12 +98,12 @@ public class User implements Serializable {
         return allUsers;
     }
 
-    public void deleteUser(){
+    public void deleteUser() {
         allUsers.remove(this);
     }
 
     public static void logToFile() {
-        try{
+        try {
             FileOutputStream file = new FileOutputStream("src/project files/allUsers.txt");
             ObjectOutputStream allUsers = new ObjectOutputStream(file);
 
@@ -110,18 +111,19 @@ public class User implements Serializable {
             allUsers.flush();
             allUsers.close();
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public static void fileToLog(){
-        try{
+
+    public static void fileToLog() {
+        try {
             FileInputStream file = new FileInputStream("src/project files/allUsers.txt");
             ObjectInputStream allUsers = new ObjectInputStream(file);
 
             User.allUsers = (ArrayList<User>) allUsers.readObject();
             allUsers.close();
-        }catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 

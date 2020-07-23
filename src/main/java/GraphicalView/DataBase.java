@@ -23,6 +23,7 @@ public class DataBase {
     DataInputStream dataInputStream;
     String token = "null";
     StringProperty chat = new SimpleStringProperty();
+    String fileToBuy = null;
 
     public static DataBase getInstance() {
         if (dataBase == null)

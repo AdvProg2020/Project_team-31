@@ -2,7 +2,6 @@ package Server;
 
 import Controller.ProductController;
 import Controller.SellerController;
-import Model.Auction;
 import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -48,7 +47,10 @@ public class SellerControllerProcess {
             String[] second = new Gson().fromJson(jsonObject.get("second").getAsString(), String[].class);
             for (int i = 0; i < first.length; i++)
                 specialInformation.put(first[i], second[i]);
-            sellerController.addProduct(generalData, user, specialInformation);
+            Product product = sellerController.addProduct(generalData, user, specialInformation);
+            if (jsonObject.get("fileFlag").getAsString().equals("yes")) {
+                product.setData(jsonObject.get("file").getAsString());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,6 +93,10 @@ public class SellerControllerProcess {
         String text = jsonObject.get("text").getAsString();
         String[] first = new Gson().fromJson(jsonObject.get("first").getAsString(), String[].class);
         String[] second = new Gson().fromJson(jsonObject.get("second").getAsString(), String[].class);
+        Product product = ProductController.getProductById(productId); //for file usage
+        if (jsonObject.get("fileFlag").getAsString().equals("yes") && product != null) {
+            product.setData(jsonObject.get("file").getAsString());
+        }
         HashMap<String, String> data = new HashMap<>();
         for (int i = 0; i < first.length; i++)
             data.put(first[i], second[i]);
@@ -213,7 +219,7 @@ public class SellerControllerProcess {
             return output;
         }
         for (Auction auction : product.getAuctions()) {
-            if(auction.getSeller().equals(user.getUsername())) {
+            if (auction.getSeller().equals(user.getUsername())) {
                 output.addProperty("type", "failed");
                 output.addProperty("message", "This product is in auction");
                 return output;
