@@ -55,7 +55,8 @@ public class ProductsMenu implements Initializable {
             listOfCategories.add(s);
         }
         listOfCategories.add(0, "all");
-        ObservableList<String> categories = FXCollections.observableArrayList(listOfCategories);
+        ObservableList<String> categories = FXCollections.observableArrayList();
+        categories.addAll(listOfCategories);
         category.setItems(categories);
         category.setValue("all");
         categoryName = "all";

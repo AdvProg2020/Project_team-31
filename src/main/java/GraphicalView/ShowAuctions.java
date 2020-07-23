@@ -66,7 +66,7 @@ public class ShowAuctions implements Initializable {
                             Runner.buttonSound();
                             auctionToView = getTableView().getItems().get(getIndex()).getAuctionId();
                             Runner.buttonSound();
-                            //Runner.getInstance().changeScene();
+                            Runner.getInstance().changeScene("AuctionArea.fxml");
                         });
                     }
 
