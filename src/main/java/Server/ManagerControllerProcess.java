@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.jar.JarOutputStream;
 import java.util.stream.Collectors;
 
 public class ManagerControllerProcess {
@@ -52,7 +51,7 @@ public class ManagerControllerProcess {
         if (!name.equals("")) {
             Customer customer = (Customer) LoginController.getUserByUsername(name);
             if (!chat.equals(""))
-            customer.chat += "+ "+chat+"\n";
+                customer.chat += "+ " + chat + "\n";
         }
         JsonObject answer = new JsonObject();
         answer.addProperty("names", new Gson().toJson(getData(user).getKey()));
@@ -74,7 +73,7 @@ public class ManagerControllerProcess {
         String[] chats = new String[users.size()];
         for (int i = 0; i < users.size(); i++) {
             names[i] = users.get(i).getUsername();
-            chats[i] =  users.get(i).chat;
+            chats[i] = users.get(i).chat;
         }
         return new Pair<>(names, chats);
     }
@@ -483,15 +482,15 @@ public class ManagerControllerProcess {
         if (price < auction.getMinPrice() || price <= auction.getOfferedPrice()) {
             output.addProperty("type", "failed");
             output.addProperty("message", "your price should be more than " + Math.max(auction.getOfferedPrice(), auction.getMinPrice() - 1));
-            addDetailToJson(output,auction);
+            addDetailToJson(output, auction);
         } else if (user.getCredit() < price && !auction.getLastCustomer().equals(user.getUsername())) {
             output.addProperty("type", "failed");
             output.addProperty("message", "your credit isn't enough");
-            addDetailToJson(output,auction);
+            addDetailToJson(output, auction);
         } else if (auction.getLastCustomer().equals(user.getUsername()) && user.getCredit() < (price - auction.getOfferedPrice())) {
             output.addProperty("type", "failed");
             output.addProperty("message", "your credit isn't enough");
-            addDetailToJson(output,auction);
+            addDetailToJson(output, auction);
         } else {
             if (auction.getOfferedPrice() > 0)
                 LoginController.getUserByUsername(auction.getLastCustomer()).getMoney(auction.getOfferedPrice());
@@ -511,5 +510,10 @@ public class ManagerControllerProcess {
             comments.add(message);
         }
         output.add("comments", comments);
+    }
+
+    public JsonObject endSupporter(User user, JsonObject jsonObject) {
+        ServerRunner.supporters.remove(user);
+        return jsonObject;
     }
 }

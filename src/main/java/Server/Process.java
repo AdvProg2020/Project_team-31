@@ -145,6 +145,8 @@ public class Process {
             answer = managerControllerProcess.commentInAuction(user, jsonObject);
         else if (command.equals("addNewPrice"))
             answer = managerControllerProcess.addNewPrice(user, jsonObject);
+        else if (command.equals("endSupporter"))
+            answer = managerControllerProcess.endSupporter(user, jsonObject);
         return answer;
     }
 
