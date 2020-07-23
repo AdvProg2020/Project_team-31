@@ -3,8 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.SupporterUserArea">
+<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.SupporterUserArea">
    <children>
-      <Button fx:id="back" mnemonicParsing="false" onAction="#back" text="back" />
+      <Button fx:id="back" layoutX="250.0" layoutY="259.0" minWidth="100.0" mnemonicParsing="false" onAction="#back" text="back" />
+      <Button layoutX="250.0" layoutY="143.0" minWidth="100.0" mnemonicParsing="false" onAction="#refreshPage" text="refresh" />
    </children>
-</AnchorPane>
+</Pane>

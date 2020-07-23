@@ -1,19 +1,13 @@
 package Server;
 
 import Controller.*;
-import GraphicalView.DataBase;
 import Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.sun.corba.se.spi.protocol.RequestDispatcherRegistry;
-import javafx.scene.control.Label;
 import javafx.util.Pair;
 
-import javax.jws.soap.SOAPBinding;
-import javax.swing.*;
-import javax.xml.bind.util.JAXBSource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,14 +62,7 @@ public class ManagerControllerProcess {
     }
 
     private JsonObject newSupporter(JsonObject jsonObject, User user) {
-        ServerRunner.supporters.put((Supporter) user, new ArrayList<>());
-        while (ServerRunner.supporters.containsKey(user) && ServerRunner.supporters.get(user).size() == 0) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        ServerRunner.supporters.put(user, new ArrayList<>());
         JsonObject answer = new JsonObject();
         answer.addProperty("names", new Gson().toJson(getData(user).getKey()));
         answer.addProperty("chats", new Gson().toJson(getData(user).getKey()));

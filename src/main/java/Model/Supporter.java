@@ -3,7 +3,7 @@ package Model;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Supporter extends User implements Serializable{
+public class Supporter extends User implements Serializable {
     private static ArrayList<Supporter> allSupporters = new ArrayList<>();
 
     public Supporter(String name, String lastName, String username, String emailAddress, String phoneNumber, String password) {
@@ -11,8 +11,8 @@ public class Supporter extends User implements Serializable{
         allSupporters.add(this);
     }
 
-    public static void logToFile(){
-        try{
+    public static void logToFile() {
+        try {
             FileOutputStream file = new FileOutputStream("src/project files/allSupporters.txt");
             ObjectOutputStream allSupporters = new ObjectOutputStream(file);
 
@@ -20,19 +20,28 @@ public class Supporter extends User implements Serializable{
             allSupporters.flush();
             allSupporters.close();
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public static void fileToLog(){
-        try{
+
+    public static void fileToLog() {
+        try {
             FileInputStream file = new FileInputStream("src/project files/allSupporters.txt");
             ObjectInputStream allSupporters = new ObjectInputStream(file);
 
             Supporter.allSupporters = (ArrayList<Supporter>) allSupporters.readObject();
             allSupporters.close();
-        }catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Supporter getSupporterById(String id) {
+        for (Supporter supporter : allSupporters)
+            if (id.equals(supporter.getUsername())) {
+                return supporter;
+            }
+        return null;
     }
 }

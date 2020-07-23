@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ServerRunner {
-    public static HashMap<Supporter, ArrayList<User>> supporters = new HashMap<>();
+    public static HashMap<User, ArrayList<User>> supporters = new HashMap<>();
 
     public static void main(String[] args) {
         SaveAndLoadFiles.start();

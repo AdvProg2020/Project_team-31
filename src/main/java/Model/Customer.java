@@ -13,7 +13,7 @@ public class Customer extends User implements Serializable {
     private ArrayList<BuyingLog> allBuyingLogs;
     private ArrayList<String> recentShoppingProducts;
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
-    transient public String chat;
+    transient public String chat= "";
 
     public Customer(String name, String lastName, String username, String emailAddress, String phoneNumber, String password) {
         super(name, lastName, username, emailAddress, phoneNumber, password);
