@@ -71,6 +71,11 @@ public class AuctionArea implements Initializable {
 
     public void comment(MouseEvent mouseEvent) {
         Runner.buttonSound();
+        if(commentContent.getText().equals("")) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "please write your comment", ButtonType.OK);
+            error.show();
+            return;
+        }
         JsonObject output = Runner.getInstance().jsonMaker("manager", "commentInAuction");
         output.addProperty("id", auctionId);
         output.addProperty("comment", commentContent.getText());
@@ -128,7 +133,19 @@ public class AuctionArea implements Initializable {
 
     public void sendPrice(ActionEvent actionEvent) {
         Runner.buttonSound();
-        int price = Integer.parseInt(newPrice.getText());
+        if(newPrice.getText().equals("")) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "please write your price", ButtonType.OK);
+            error.show();
+            return;
+        }
+        int price = 0;
+        try {
+            price = Integer.parseInt(newPrice.getText());
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "please enter a number", ButtonType.OK);
+            error.show();
+            return;
+        }
         if (price <= highPrice || price < Integer.parseInt(minPrice.getText())) {
             Alert error = new Alert(Alert.AlertType.ERROR, "your price should be more than " + Math.max(highPrice, Integer.parseInt(minPrice.getText()) - 1), ButtonType.OK);
             error.show();
