@@ -1,5 +1,6 @@
 package Bank;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class Receipt {
@@ -23,9 +24,6 @@ public class Receipt {
         allReceipts.add(this);
     }
 
-//    public static boolean isThereAnyReceipt(String id) {
-//        allReceipts
-//    }
 
     public static Receipt getReceiptById(int id) {
         for (Receipt receipt : allReceipts) {
@@ -34,5 +32,29 @@ public class Receipt {
             }
         }
         return null;
+    }
+
+    public static void logToFile() {
+        try {
+            FileOutputStream file = new FileOutputStream("src/bank data/allReceipts.txt");
+            ObjectOutputStream all = new ObjectOutputStream(file);
+            all.writeObject(allReceipts);
+            all.flush();
+            all.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void fileToLog() {
+        try {
+            FileInputStream file = new FileInputStream("src/bank data/allReceipts.txt");
+            ObjectInputStream all = new ObjectInputStream(file);
+            allReceipts = (ArrayList<Receipt>) all.readObject();
+            all.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

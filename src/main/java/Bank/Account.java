@@ -1,5 +1,7 @@
 package Bank;
 
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -54,5 +56,30 @@ public class Account {
             if (account.token.equals(token))
                 return account;
         return null;
+    }
+
+    public static void logToFile() {
+        try {
+            FileOutputStream file = new FileOutputStream("src/bank data/allAccounts.txt");
+            ObjectOutputStream all = new ObjectOutputStream(file);
+            all.writeObject(allAccount);
+            all.flush();
+            all.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void fileToLog() {
+        try {
+            FileInputStream file = new FileInputStream("src/bank data/allAccounts.txt");
+            ObjectInputStream all = new ObjectInputStream(file);
+            allAccount = (ArrayList<Account>) all.readObject();
+            all.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }
