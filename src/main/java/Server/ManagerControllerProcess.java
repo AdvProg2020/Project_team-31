@@ -86,6 +86,7 @@ public class ManagerControllerProcess {
             u.addProperty("username", aUser.getUsername());
             u.addProperty("name", aUser.getPersonalInformation()[0]);
             u.addProperty("lastName", aUser.getPersonalInformation()[1]);
+            u.addProperty("status",ServerRunner.onlineUsers.contains(aUser));
             users.add(u);
         }
         output.add("users", users);

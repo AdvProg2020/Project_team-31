@@ -1,6 +1,5 @@
 package GraphicalView;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -11,14 +10,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -34,6 +30,7 @@ public class ManageUsers implements Initializable {
     public TableView tableOfUsers;
     public TableColumn userNameColumn;
     public TableColumn lastColumn;
+    public TableColumn status;
     public Button logout;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
@@ -48,6 +45,7 @@ public class ManageUsers implements Initializable {
         userNameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         lastColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        status.setCellValueFactory(new PropertyValueFactory<>("status"));
         dataInputStream = DataBase.getInstance().dataInputStream;
         dataOutputStream = DataBase.getInstance().dataOutputStream;
         String input = null;
@@ -67,9 +65,15 @@ public class ManageUsers implements Initializable {
     private void analyzeInput(JsonObject jsonObject) {
         for (JsonElement element : jsonObject.getAsJsonArray("users")) {
             JsonObject user = element.getAsJsonObject();
-            allUsersInTable.add(new UserInTable(user.get("username").getAsString(), user.get("name").getAsString(), user.get("lastName").getAsString()));
+            allUsersInTable.add(new UserInTable(user.get("username").getAsString(), user.get("name").getAsString(), user.get("lastName").getAsString(), status(user.get("status").getAsBoolean())));
         }
         thisUserUsername = jsonObject.get("username").getAsString();
+    }
+
+    private String status(boolean status) {
+        if (status)
+            return "online";
+        return "offline";
     }
 
     public void userArea(MouseEvent mouseEvent) {
@@ -100,6 +104,7 @@ public class ManageUsers implements Initializable {
             public TableCell<UserInTable, Void> call(final TableColumn<UserInTable, Void> param) {
                 final TableCell<UserInTable, Void> cell = new TableCell<UserInTable, Void>() {
                     private final Button btn = new Button("delete");
+
                     {
                         btn.setMinWidth(75);
                         btn.setOnAction((ActionEvent event) -> {
@@ -107,6 +112,7 @@ public class ManageUsers implements Initializable {
                             deleteUser();
                         });
                     }
+
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -125,7 +131,7 @@ public class ManageUsers implements Initializable {
     }
 
     private void deleteUser() {
-        if(deletingUser.getUsername().equals(thisUserUsername)) {
+        if (deletingUser.getUsername().equals(thisUserUsername)) {
             return;
         }
         Stage warningStage = new Stage();
