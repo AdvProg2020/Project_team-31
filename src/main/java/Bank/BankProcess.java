@@ -37,6 +37,8 @@ public class BankProcess {
 
     private String createAccount(String command) {
         String[] data = command.split(" ");
+        if (data.length != 6)
+            return "invalid parameters passed";
         Account preAccount = Account.getAccountByUsername(data[3]);
         if (preAccount != null)
             return "username is not available";
@@ -75,11 +77,11 @@ public class BankProcess {
             return withdraw(data);
         else if (data[2].equals("move"))     //enteghal
             return move(data);
-        else return "invalid receipt type";
+        return "invalid receipt type";
     }
 
     private String deposit(String[] data) {
-        if (data.length != 7)
+        if (data.length != 7 && data.length != 6)
             return "invalid parameters passed";
         if (!data[3].matches("\\d+") || Integer.parseInt(data[3]) <= 0)
             return "invalid money";
@@ -96,14 +98,17 @@ public class BankProcess {
             return "equal source and dest account";
         if (!data[4].equals("-1"))
             return "source account id is invalid";
-        if (!data[6].matches("\"[a-zA-Z0-9]*\""))
+        String info = "";
+        if(data.length == 7)
+            info = data[6];
+        if (!info.matches("[a-zA-Z0-9]*"))
             return "your input contains invalid characters";
-        Receipt receipt = new Receipt("deposit", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), data[6]);
+        Receipt receipt = new Receipt("deposit", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), info);
         return String.valueOf(receipt.id);
     }
 
     private String withdraw(String[] data) {
-        if (data.length != 7)
+        if (data.length != 7 && data.length != 6)
             return "invalid parameters passed";
         if (!data[3].matches("\\d+") || Integer.parseInt(data[3]) <= 0)
             return "invalid money";
@@ -120,14 +125,17 @@ public class BankProcess {
             return "dest account id is invalid";
         if (data[4].equals(data[5]))
             return "equal source and dest account";
-        if (!data[6].matches("\"[a-zA-Z0-9]*\""))
+        String info = "";
+        if(data.length == 7)
+            info = data[6];
+        if (!info.matches("[a-zA-Z0-9]*"))
             return "your input contains invalid characters";
-        Receipt receipt = new Receipt("withdraw", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), data[6]);
+        Receipt receipt = new Receipt("withdraw", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), info);
         return String.valueOf(receipt.id);
     }
 
     private String move(String[] data) {
-        if (data.length != 7)
+        if (data.length != 7 && data.length != 6)
             return "invalid parameters passed";
         if (!data[3].matches("\\d+") || Integer.parseInt(data[3]) <= 0)
             return "invalid money";
@@ -145,9 +153,12 @@ public class BankProcess {
             return "dest account id is invalid";
         if (from.accountNumber == to.accountNumber)
             return "equal source and dest account";
-        if (!data[6].matches("\"[a-zA-Z0-9]*\""))
+        String info = "";
+        if(data.length == 7)
+            info = data[6];
+        if (!info.matches("[a-zA-Z0-9]*"))
             return "your input contains invalid characters";
-        Receipt receipt = new Receipt("move", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), data[6]);
+        Receipt receipt = new Receipt("move", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), info);
         return String.valueOf(receipt.id);
     }
 

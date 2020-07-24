@@ -71,10 +71,11 @@ public class Start {
                     }
                     dataOutputStream.writeUTF(BankProcess.getInstance().answer(request));
                     dataOutputStream.flush();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Account.logToFile();
                     Receipt.logToFile();
+                    break;
                 }
             }
         }

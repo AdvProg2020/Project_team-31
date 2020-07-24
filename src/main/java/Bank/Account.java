@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Account {
+public class Account implements Serializable{
     String firstName;
     String lastName;
     String username;
@@ -53,7 +53,7 @@ public class Account {
 
     public static Account getAccountByToken(String token) {
         for (Account account : allAccount)
-            if (account.token.equals(token))
+            if (account.token != null && account.token.equals(token))
                 return account;
         return null;
     }

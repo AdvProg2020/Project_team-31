@@ -2,6 +2,7 @@ package Bank;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class BankTest {
     private static DataInputStream bankDataInputStream;
@@ -13,7 +14,16 @@ public class BankTest {
     }
 
     private static void testCommands() {
-        //...
+        Scanner input = new Scanner(System.in);
+        while (true) {
+            try {
+                bankDataOutputStream.writeUTF(input.nextLine());
+                bankDataOutputStream.flush();
+                System.out.println("input:" + bankDataInputStream.readUTF());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static void connectToBank() {

@@ -16,6 +16,7 @@ public class User implements Serializable {
     private HashMap<String, String> filters;
     private static ArrayList<User> allUsers = new ArrayList<>();
     transient public String chat = "";
+    private int bankId;
 
     public User(String name, String lastName, String username, String emailAddress, String phoneNumber, String password) {
         this.name = name;
@@ -32,6 +33,14 @@ public class User implements Serializable {
     public User() {
         card = new Card();
         filters = new HashMap<>();
+    }
+
+    public int getBankId() {
+        return bankId;
+    }
+
+    public void setBankId(int bankId) {
+        this.bankId = bankId;
     }
 
     public HashMap<String, String> getFilters() {

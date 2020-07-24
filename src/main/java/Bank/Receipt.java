@@ -3,7 +3,7 @@ package Bank;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Receipt {
+public class Receipt implements Serializable{
     String type;
     int money;
     int sourceId;

@@ -1,7 +1,10 @@
 package Controller;
 
 import Model.*;
+import Server.LoginControllerProcess;
+import Server.ServerRunner;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.lang.String;
 import java.util.Date;
@@ -149,7 +152,16 @@ public class ManagerController {
         if (request instanceof SellerRequest) {
             String[] information = ((SellerRequest) request).getInformation();
             new Seller(information[0], information[1], ((SellerRequest) request).getUsername(), information[2], information[3], information[4], information[5]);
-        } else if (request instanceof OffRequest) {
+            try {
+                ServerRunner.bankDataOutputStream.writeUTF("create_account " + information[0] + " " + information[1] + " " + ((SellerRequest) request).getUsername() + " " + information[4] + " " + information[4]);
+                ServerRunner.bankDataOutputStream.flush();
+                String number = ServerRunner.bankDataInputStream.readUTF();
+                LoginController.getUserByUsername(((SellerRequest) request).getUsername()).setBankId(Integer.parseInt(number));
+                LoginControllerProcess.getInstance().chargeBankAccount(LoginController.getUserByUsername(((SellerRequest) request).getUsername()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            } else if (request instanceof OffRequest) {
             ((OffRequest) request).getOff().setOffStatus(ProductAndOffStatus.ACCEPTED);
             if (((OffRequest) request).getIsEditing()) {
                 completeEditingOff((OffRequest) request);

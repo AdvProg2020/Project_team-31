@@ -11,6 +11,7 @@ import com.google.gson.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class LoginControllerProcess {
@@ -38,11 +39,34 @@ public class LoginControllerProcess {
         try {
             LoginController.getInstance().register(input.get("username").getAsString(), input.get("role").getAsString(), information);
             output.addProperty("type", "successful");
+            if(input.get("role").getAsString().equals("customer")) {
+                ServerRunner.bankDataOutputStream.writeUTF("create_account " + information[0] + " " + information[1] + " " + input.get("username").getAsString() + " " + information[4] + " " + information[4]);
+                ServerRunner.bankDataOutputStream.flush();
+                String number = ServerRunner.bankDataInputStream.readUTF();
+                LoginController.getUserByUsername(input.get("username").getAsString()).setBankId(Integer.parseInt(number));
+                chargeBankAccount(LoginController.getUserByUsername(input.get("username").getAsString()));
+            }
         } catch (Exception e) {
             output.addProperty("type", "failed");
             output.addProperty("message", e.getMessage());
         }
         return output;
+    }
+
+    public void chargeBankAccount(User user) {
+        try {
+            ServerRunner.bankDataOutputStream.writeUTF("get_token " + user.getUsername() + " " + user.getPassword());
+            ServerRunner.bankDataOutputStream.flush();
+            String token = ServerRunner.bankDataInputStream.readUTF();
+            ServerRunner.bankDataOutputStream.writeUTF("create_receipt " + token + " deposit 10000 -1 " + user.getBankId() + " first");
+            ServerRunner.bankDataOutputStream.flush();
+            int num = Integer.parseInt(ServerRunner.bankDataInputStream.readUTF());
+            ServerRunner.bankDataOutputStream.writeUTF("pay " + num);
+            ServerRunner.bankDataOutputStream.flush();
+            ServerRunner.bankDataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public JsonObject managerStatus() {
