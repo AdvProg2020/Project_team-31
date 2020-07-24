@@ -119,6 +119,7 @@ public class EditProduct implements Initializable {
             if (file != null) {
                 jsonObject.addProperty("fileFlag", "yes");
                 String fileContent = new String(Files.readAllBytes(file.toPath()));
+                jsonObject.addProperty("fileName",file.getName());
                 jsonObject.addProperty("file",fileContent);
             } else jsonObject.addProperty("fileFlag", "no");
             jsonObject.addProperty("id", id);

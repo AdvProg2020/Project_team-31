@@ -123,6 +123,7 @@ public class AddProduct implements Initializable {
             send.addProperty("second", new Gson().toJson(second));
             if (file != null) {
                 send.addProperty("fileFlag", "yes");
+                send.addProperty("fileName",file.getName());
                 String fileContent = new String(Files.readAllBytes(file.toPath()));
                 send.addProperty("file",fileContent);
             } else send.addProperty("fileFlag", "no");

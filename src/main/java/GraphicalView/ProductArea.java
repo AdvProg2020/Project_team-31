@@ -77,8 +77,10 @@ public class ProductArea implements Initializable {
     }
 
     private void analyzeInput(JsonObject jsonObject) {
-        if (jsonObject.get("fileFlag").getAsString().equals("yes"))
+        if (jsonObject.get("fileFlag").getAsString().equals("yes")) {
             DataBase.getInstance().fileToBuy = jsonObject.get("file").getAsString();
+            DataBase.getInstance().fileName = jsonObject.get("fileName").getAsString();
+        }
         available.setText("availability: " + jsonObject.get("available").getAsInt());
         status.setText("status: " + jsonObject.get("status").getAsString());
         view.setText("views: " + jsonObject.get("views").getAsInt());

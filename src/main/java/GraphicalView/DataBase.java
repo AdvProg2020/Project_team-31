@@ -24,6 +24,7 @@ public class DataBase {
     String token = "null";
     StringProperty chat = new SimpleStringProperty();
     String fileToBuy = null;
+    String fileName = "";
 
     public static DataBase getInstance() {
         if (dataBase == null)

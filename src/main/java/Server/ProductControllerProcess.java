@@ -145,6 +145,7 @@ public class ProductControllerProcess {
         else {
             output.addProperty("fileFlag", "yes");
             output.addProperty("file", product.getData());
+            output.addProperty("fileName", product.getFileName());
         }
         JsonArray jsonArray = new JsonArray();
         for (String s : product.getSpecialPropertiesRelatedToCategory().keySet()) {
