@@ -521,4 +521,9 @@ public class ManagerControllerProcess {
         Manager.wagePercent = Integer.parseInt(jsonObject.get("wage").getAsString());
         return jsonObject;
     }
+
+    public JsonObject inventory(User user, JsonObject jsonObject) {
+        Manager.minInventory = Integer.parseInt(jsonObject.get("inventory").getAsString());
+        return jsonObject;
+    }
 }

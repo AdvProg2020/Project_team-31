@@ -61,7 +61,7 @@
                </rowConstraints>
                <children>
                       <Button mnemonicParsing="false" fx:id="wage" prefHeight="27.0" prefWidth="122.0" text="set wage" GridPane.rowIndex="0" />
-                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="161.0" text="min Inventory" GridPane.rowIndex="1" />
+                  <Button fx:id="minInventory" mnemonicParsing="false" prefHeight="27.0" prefWidth="161.0" text="min Inventory" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             </children>

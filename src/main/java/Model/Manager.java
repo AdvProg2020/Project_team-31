@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 public class Manager extends User implements Serializable {
     private static ArrayList<Manager> allManagers = new ArrayList<>();
-    public static int wagePercent ;
+    public static int wagePercent;
+    public static int minInventory;
 
     public Manager(String name, String lastName, String username, String emailAddress, String phoneNumber, String password) {
         super(name, lastName, username, emailAddress, phoneNumber, password);

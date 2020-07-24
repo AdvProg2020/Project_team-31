@@ -18,6 +18,7 @@ public class ManagerUserArea implements Initializable {
     public Label personalInfo;
     public Button logout;
     public Button wage;
+    public Button minInventory;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
@@ -27,6 +28,34 @@ public class ManagerUserArea implements Initializable {
         logoutAlert();
         showPersonalInfo();
         wageDialog();
+        minInventoryDialog();
+    }
+
+    private void minInventoryDialog() {
+        TextInputDialog getNumber = new TextInputDialog();
+        getNumber.getEditor().setPromptText("please enter the minimum inventory : ");
+        Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
+        TextField inputField = getNumber.getEditor();
+        EventHandler<ActionEvent> addBalanceEvent = (e) -> {
+            Runner.buttonSound();
+            JsonObject jsonObject = runner.jsonMaker("manager", "inventory");
+            jsonObject.addProperty("inventory", inputField.getText());
+            try {
+                dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+                dataBase.dataOutputStream.flush();
+                dataBase.dataInputStream.readUTF();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        };
+        okButton.setOnAction(addBalanceEvent);
+        BooleanBinding isInvalid = Bindings.createBooleanBinding(() -> !inputField.getText().matches("^[0-9]+$"), inputField.textProperty());
+        okButton.disableProperty().bind(isInvalid);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            getNumber.show();
+        };
+        minInventory.setOnAction(event);
     }
 
     private void wageDialog() {
