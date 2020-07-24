@@ -86,7 +86,7 @@ public class ManagerControllerProcess {
             u.addProperty("username", aUser.getUsername());
             u.addProperty("name", aUser.getPersonalInformation()[0]);
             u.addProperty("lastName", aUser.getPersonalInformation()[1]);
-            u.addProperty("status",ServerRunner.onlineUsers.contains(aUser));
+            u.addProperty("status", ServerRunner.onlineUsers.contains(aUser));
             users.add(u);
         }
         output.add("users", users);
@@ -526,5 +526,29 @@ public class ManagerControllerProcess {
     public JsonObject inventory(User user, JsonObject jsonObject) {
         Manager.minInventory = Integer.parseInt(jsonObject.get("inventory").getAsString());
         return jsonObject;
+    }
+
+    public JsonObject accountWithdraw(User user, JsonObject jsonObject) {
+        int amount = jsonObject.get("amount").getAsInt();
+        //...
+        JsonObject data = new JsonObject();
+        data.addProperty("answer", "i am the answer mamad complete me...");
+        return data;
+    }
+
+    public JsonObject accountCharge(User user, JsonObject jsonObject) {
+        int amount = jsonObject.get("amount").getAsInt();
+        //...
+        JsonObject data = new JsonObject();
+        data.addProperty("answer", "i am the answer mamad complete me...");
+        return data;
+    }
+
+    public JsonObject customerChargeAccount(User user, JsonObject jsonObject) {
+        int amount = jsonObject.get("amount").getAsInt();
+        //...
+        JsonObject data = new JsonObject();
+        data.addProperty("answer", "i am the answer mamad complete me...");
+        return data;
     }
 }

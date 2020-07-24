@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +28,7 @@ public class CustomerUserArea implements Initializable {
     public Button login;
     public Button support;
     public Button auctionButton;
+    public Button charge;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
     StringProperty data = new SimpleStringProperty();
@@ -37,6 +39,7 @@ public class CustomerUserArea implements Initializable {
         if(DataBase.getInstance().role.equals("none")) {
             auctionButton.setDisable(true);
         }
+        chargeDialog();
         showPersonalInfo();
         showDiscountCodes();
         editPersonalInfoAlert();
@@ -45,6 +48,34 @@ public class CustomerUserArea implements Initializable {
         loginAlert();
         logoutAlert();
         support.setDisable(dataBase.role.equalsIgnoreCase("none"));
+    }
+
+    private void chargeDialog() {
+        TextInputDialog getNumber = new TextInputDialog();
+        getNumber.getEditor().setPromptText("please enter the amount : ");
+        Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
+        TextField inputField = getNumber.getEditor();
+        EventHandler<ActionEvent> addBalanceEvent = (e) -> {
+            Runner.buttonSound();
+            JsonObject jsonObject = runner.jsonMaker("manager", "customerChargeAccount");
+            jsonObject.addProperty("amount", inputField.getText());
+            try {
+                dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+                dataBase.dataOutputStream.flush();
+                String answer = runner.jsonParser(dataBase.dataInputStream.readUTF()).get("answer").getAsString();
+                new Alert(Alert.AlertType.INFORMATION,answer , ButtonType.OK, ButtonType.CANCEL).showAndWait();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        };
+        okButton.setOnAction(addBalanceEvent);
+        BooleanBinding isInvalid = Bindings.createBooleanBinding(() -> !inputField.getText().matches("^[0-9]+$"), inputField.textProperty());
+        okButton.disableProperty().bind(isInvalid);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            getNumber.show();
+        };
+        charge.setOnAction(event);
     }
 
     private void showDiscountCodes() {

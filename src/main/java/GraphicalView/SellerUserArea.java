@@ -5,9 +5,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -26,16 +26,76 @@ public class SellerUserArea implements Initializable {
     public Button logout;
     public Button login;
     public Button addMeButton;
+    public Button withdraw;
+    public Button charge;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         runner.changeMusic("UserArea");
+        chargeDialog();
         loginAlert();
         logoutAlert();
+        withdrawDialog();
         showPersonalInfo();
         editPersonalInfoAlert();
+    }
+
+    private void chargeDialog() {
+        TextInputDialog getNumber = new TextInputDialog();
+        getNumber.getEditor().setPromptText("please enter the amount : ");
+        Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
+        TextField inputField = getNumber.getEditor();
+        EventHandler<ActionEvent> addBalanceEvent = (e) -> {
+            Runner.buttonSound();
+            JsonObject jsonObject = runner.jsonMaker("manager", "accountCharge");
+            jsonObject.addProperty("amount", inputField.getText());
+            try {
+                dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+                dataBase.dataOutputStream.flush();
+                String answer = runner.jsonParser(dataBase.dataInputStream.readUTF()).get("answer").getAsString();
+                new Alert(Alert.AlertType.INFORMATION,answer , ButtonType.OK, ButtonType.CANCEL).showAndWait();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        };
+        okButton.setOnAction(addBalanceEvent);
+        BooleanBinding isInvalid = Bindings.createBooleanBinding(() -> !inputField.getText().matches("^[0-9]+$"), inputField.textProperty());
+        okButton.disableProperty().bind(isInvalid);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            getNumber.show();
+        };
+        charge.setOnAction(event);
+    }
+
+    private void withdrawDialog() {
+        TextInputDialog getNumber = new TextInputDialog();
+        getNumber.getEditor().setPromptText("please enter the amount : ");
+        Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
+        TextField inputField = getNumber.getEditor();
+        EventHandler<ActionEvent> addBalanceEvent = (e) -> {
+            Runner.buttonSound();
+            JsonObject jsonObject = runner.jsonMaker("manager", "accountWithdraw");
+            jsonObject.addProperty("amount", inputField.getText());
+            try {
+                dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+                dataBase.dataOutputStream.flush();
+                String answer = runner.jsonParser(dataBase.dataInputStream.readUTF()).get("answer").getAsString();
+                new Alert(Alert.AlertType.INFORMATION,answer , ButtonType.OK, ButtonType.CANCEL).showAndWait();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        };
+        okButton.setOnAction(addBalanceEvent);
+        BooleanBinding isInvalid = Bindings.createBooleanBinding(() -> !inputField.getText().matches("^[0-9]+$"), inputField.textProperty());
+        okButton.disableProperty().bind(isInvalid);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            getNumber.show();
+        };
+        withdraw.setOnAction(event);
     }
 
     private void showPersonalInfo() {
@@ -194,7 +254,7 @@ public class SellerUserArea implements Initializable {
         dataBase.dataOutputStream.flush();
         String input = dataBase.dataInputStream.readUTF();
         JsonObject json = (JsonObject) new JsonParser().parse(input);
-        if(json.get("type").getAsString().equals("failed")) {
+        if (json.get("type").getAsString().equals("failed")) {
             throw new Exception(json.get("message").getAsString());
         }
     }
