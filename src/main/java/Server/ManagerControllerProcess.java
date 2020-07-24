@@ -86,6 +86,7 @@ public class ManagerControllerProcess {
             u.addProperty("username", aUser.getUsername());
             u.addProperty("name", aUser.getPersonalInformation()[0]);
             u.addProperty("lastName", aUser.getPersonalInformation()[1]);
+            u.addProperty("status",ServerRunner.onlineUsers.contains(aUser));
             users.add(u);
         }
         output.add("users", users);
@@ -514,6 +515,16 @@ public class ManagerControllerProcess {
 
     public JsonObject endSupporter(User user, JsonObject jsonObject) {
         ServerRunner.supporters.remove(user);
+        return jsonObject;
+    }
+
+    public JsonObject wage(User user, JsonObject jsonObject) {
+        Manager.wagePercent = Integer.parseInt(jsonObject.get("wage").getAsString());
+        return jsonObject;
+    }
+
+    public JsonObject inventory(User user, JsonObject jsonObject) {
+        Manager.minInventory = Integer.parseInt(jsonObject.get("inventory").getAsString());
         return jsonObject;
     }
 }

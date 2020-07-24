@@ -9,6 +9,7 @@
             <TableColumn fx:id="userNameColumn" prefWidth="100" text="username" />
             <TableColumn fx:id="nameColumn" prefWidth="100" text="firstName" />
             <TableColumn fx:id="lastColumn" prefWidth="100" text="lastName" />
+            <TableColumn fx:id="status" prefWidth="100" text="status" />
         </columns>
     </TableView>
    <Button layoutX="450.0" layoutY="122.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#back" text="back" />

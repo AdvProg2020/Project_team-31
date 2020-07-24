@@ -2,7 +2,6 @@ package Server;
 
 import Controller.LoginController;
 import Controller.SaveAndLoadFiles;
-import Model.Supporter;
 import Model.User;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -15,6 +14,7 @@ import java.util.HashMap;
 
 public class ServerRunner {
     public static HashMap<User, ArrayList<User>> supporters = new HashMap<>();
+    public static ArrayList<User> onlineUsers = new ArrayList<>();
 
     public static void main(String[] args) {
         SaveAndLoadFiles.end();
@@ -78,9 +78,9 @@ public class ServerRunner {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if(request == null)
+                if (request == null)
                     SaveAndLoadFiles.end();
-                System.out.println("request:" + request );
+                System.out.println("request:" + request);
                 JsonObject jsonObject = (JsonObject) new JsonParser().parse(request);
                 if (!jsonObject.get("token").getAsString().equals(token)) {
                     output = getStringOfWrongToken();
@@ -91,6 +91,7 @@ public class ServerRunner {
                         output = process.answerClient(jsonObject, tempUser).toString();
                     } else if (jsonObject.get("command").getAsString().equals("logout")) {
                         token = "null";
+                        onlineUsers.remove(user);
                         user = null;
                         output = "";
                     } else {
@@ -114,6 +115,7 @@ public class ServerRunner {
             if (jsonObject.get("type").getAsString().equals("successful")) {
                 token = jsonObject.get("token").getAsString();
                 user = LoginController.getInstance().getUserByUsername(jsonObject.get("username").getAsString());
+                onlineUsers.add(user);
             }
         }
 

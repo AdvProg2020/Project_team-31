@@ -50,6 +50,7 @@ public class SellerControllerProcess {
             Product product = sellerController.addProduct(generalData, user, specialInformation);
             if (jsonObject.get("fileFlag").getAsString().equals("yes")) {
                 product.setData(jsonObject.get("file").getAsString());
+                product.setFileName(jsonObject.get("fileName").getAsString());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,6 +97,8 @@ public class SellerControllerProcess {
         Product product = ProductController.getProductById(productId); //for file usage
         if (jsonObject.get("fileFlag").getAsString().equals("yes") && product != null) {
             product.setData(jsonObject.get("file").getAsString());
+            product.setFileName(jsonObject.get("fileName").getAsString());
+
         }
         HashMap<String, String> data = new HashMap<>();
         for (int i = 0; i < first.length; i++)

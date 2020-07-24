@@ -147,6 +147,10 @@ public class Process {
             answer = managerControllerProcess.addNewPrice(user, jsonObject);
         else if (command.equals("endSupporter"))
             answer = managerControllerProcess.endSupporter(user, jsonObject);
+        else if (command.equals("wage"))
+            answer = managerControllerProcess.wage(user, jsonObject);
+        else if (command.equals("inventory"))
+            answer = managerControllerProcess.inventory(user, jsonObject);
         return answer;
     }
 

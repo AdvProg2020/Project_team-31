@@ -116,7 +116,7 @@ public class SupporterUserArea implements Initializable {
 
     public void back(ActionEvent actionEvent) {
         try {
-            JsonObject jsonObject=runner.jsonMaker("manager","endSupporter");
+            JsonObject jsonObject = runner.jsonMaker("manager", "endSupporter");
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataOutputStream.flush();
             dataBase.dataInputStream.readUTF();

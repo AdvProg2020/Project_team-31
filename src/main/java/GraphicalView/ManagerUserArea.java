@@ -2,20 +2,23 @@ package GraphicalView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ManagerUserArea implements Initializable {
     public Label personalInfo;
     public Button logout;
+    public Button wage;
+    public Button minInventory;
     Runner runner = Runner.getInstance();
     DataBase dataBase = DataBase.getInstance();
 
@@ -24,7 +27,64 @@ public class ManagerUserArea implements Initializable {
         runner.changeMusic("UserArea");
         logoutAlert();
         showPersonalInfo();
+        wageDialog();
+        minInventoryDialog();
     }
+
+    private void minInventoryDialog() {
+        TextInputDialog getNumber = new TextInputDialog();
+        getNumber.getEditor().setPromptText("please enter the minimum inventory : ");
+        Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
+        TextField inputField = getNumber.getEditor();
+        EventHandler<ActionEvent> addBalanceEvent = (e) -> {
+            Runner.buttonSound();
+            JsonObject jsonObject = runner.jsonMaker("manager", "inventory");
+            jsonObject.addProperty("inventory", inputField.getText());
+            try {
+                dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+                dataBase.dataOutputStream.flush();
+                dataBase.dataInputStream.readUTF();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        };
+        okButton.setOnAction(addBalanceEvent);
+        BooleanBinding isInvalid = Bindings.createBooleanBinding(() -> !inputField.getText().matches("^[0-9]+$"), inputField.textProperty());
+        okButton.disableProperty().bind(isInvalid);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            getNumber.show();
+        };
+        minInventory.setOnAction(event);
+    }
+
+    private void wageDialog() {
+        TextInputDialog getNumber = new TextInputDialog();
+        getNumber.getEditor().setPromptText("please enter the wage percent : ");
+        Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
+        TextField inputField = getNumber.getEditor();
+        EventHandler<ActionEvent> addBalanceEvent = (e) -> {
+            Runner.buttonSound();
+            JsonObject jsonObject = runner.jsonMaker("manager", "wage");
+            jsonObject.addProperty("wage", inputField.getText());
+            try {
+                dataBase.dataOutputStream.writeUTF(jsonObject.toString());
+                dataBase.dataOutputStream.flush();
+                dataBase.dataInputStream.readUTF();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        };
+        okButton.setOnAction(addBalanceEvent);
+        BooleanBinding isInvalid = Bindings.createBooleanBinding(() -> !inputField.getText().matches("^[1-9][0-9]?$"), inputField.textProperty());
+        okButton.disableProperty().bind(isInvalid);
+        EventHandler<ActionEvent> event = (e) -> {
+            Runner.buttonSound();
+            getNumber.show();
+        };
+        wage.setOnAction(event);
+    }
+
 
     private void logoutAlert() {
         Alert message = new Alert(Alert.AlertType.INFORMATION);
@@ -109,5 +169,9 @@ public class ManagerUserArea implements Initializable {
     public void manageLogs(ActionEvent actionEvent) {
         Runner.buttonSound();
         runner.changeScene("ManagerControlLog.fxml");
+    }
+
+    public void wage(ActionEvent actionEvent) {
+
     }
 }
