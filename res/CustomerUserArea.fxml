@@ -37,6 +37,7 @@
                 <Button fx:id="buyingHistoryButton" mnemonicParsing="false" prefWidth="150.0" text="buying history" GridPane.rowIndex="1" />
                 <Button fx:id="editPersonalInfo" mnemonicParsing="false" prefHeight="20.0" prefWidth="150.0" text="edit personal info" GridPane.rowIndex="3" />
                 <Button fx:id="support" mnemonicParsing="false" onAction="#support" prefHeight="18.0" prefWidth="150.0" text="support" GridPane.rowIndex="4" />
+                <Button fx:id="charge" mnemonicParsing="false"  prefHeight="18.0" prefWidth="150.0" text="charge account" GridPane.rowIndex="5" />
                 <columnConstraints>
                     <ColumnConstraints />
                 </columnConstraints>

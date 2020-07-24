@@ -532,7 +532,7 @@ public class ManagerControllerProcess {
         int amount = jsonObject.get("amount").getAsInt();
         //...
         JsonObject data = new JsonObject();
-        data.addProperty("answer","i am the answer mamad complete me...");
+        data.addProperty("answer", "i am the answer mamad complete me...");
         return data;
     }
 
@@ -540,7 +540,15 @@ public class ManagerControllerProcess {
         int amount = jsonObject.get("amount").getAsInt();
         //...
         JsonObject data = new JsonObject();
-        data.addProperty("answer","i am the answer mamad complete me...");
+        data.addProperty("answer", "i am the answer mamad complete me...");
+        return data;
+    }
+
+    public JsonObject customerChargeAccount(User user, JsonObject jsonObject) {
+        int amount = jsonObject.get("amount").getAsInt();
+        //...
+        JsonObject data = new JsonObject();
+        data.addProperty("answer", "i am the answer mamad complete me...");
         return data;
     }
 }
