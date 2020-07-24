@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.util.Pair;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -530,25 +531,47 @@ public class ManagerControllerProcess {
 
     public JsonObject accountWithdraw(User user, JsonObject jsonObject) {
         int amount = jsonObject.get("amount").getAsInt();
-        //...
         JsonObject data = new JsonObject();
-        data.addProperty("answer", "i am the answer mamad complete me...");
+        if (amount > (user.getCredit() - Manager.minInventory)) {
+            data.addProperty("answer", " you should have at least " + Manager.minInventory + " in your wallet");
+            return data;
+        }
+        try {
+            ServerRunner.bankDataOutputStream.writeUTF("get_token market 1234");
+            ServerRunner.bankDataOutputStream.flush();
+            String token = ServerRunner.bankDataInputStream.readUTF();
+            ServerRunner.bankDataOutputStream.writeUTF("create_receipt " + token + " move " + amount + " 1 " + user.getBankId() + " backMoneyToSellerAccount");
+            ServerRunner.bankDataOutputStream.flush();
+            int num = Integer.parseInt(ServerRunner.bankDataInputStream.readUTF());
+            ServerRunner.bankDataOutputStream.writeUTF("pay " + num);
+            ServerRunner.bankDataOutputStream.flush();
+            String input = ServerRunner.bankDataInputStream.readUTF();
+            user.payMoney(amount);
+            data.addProperty("answer", input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 
     public JsonObject accountCharge(User user, JsonObject jsonObject) {
         int amount = jsonObject.get("amount").getAsInt();
-        //...
         JsonObject data = new JsonObject();
-        data.addProperty("answer", "i am the answer mamad complete me...");
-        return data;
-    }
-
-    public JsonObject customerChargeAccount(User user, JsonObject jsonObject) {
-        int amount = jsonObject.get("amount").getAsInt();
-        //...
-        JsonObject data = new JsonObject();
-        data.addProperty("answer", "i am the answer mamad complete me...");
+        try {
+            ServerRunner.bankDataOutputStream.writeUTF("get_token " + user.getUsername() + " " + user.getPassword());
+            ServerRunner.bankDataOutputStream.flush();
+            String token = ServerRunner.bankDataInputStream.readUTF();
+            ServerRunner.bankDataOutputStream.writeUTF("create_receipt " + token + " move " + amount + " " + user.getBankId() + " 1 backMoneyToMarketAccount");
+            ServerRunner.bankDataOutputStream.flush();
+            int num = Integer.parseInt(ServerRunner.bankDataInputStream.readUTF());
+            ServerRunner.bankDataOutputStream.writeUTF("pay " + num);
+            ServerRunner.bankDataOutputStream.flush();
+            String input = ServerRunner.bankDataInputStream.readUTF();
+            user.getMoney(amount);
+            data.addProperty("answer", input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 }

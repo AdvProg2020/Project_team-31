@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 public class PayMoneyPage implements Initializable {
     public Button pay;
     public Button download;
+    public Button directPay;
     DataBase dataBase = DataBase.getInstance();
     Runner runner = Runner.getInstance();
 
@@ -40,6 +41,8 @@ public class PayMoneyPage implements Initializable {
             } else {
                 Alert error = new Alert(Alert.AlertType.INFORMATION, "shopping completed", ButtonType.OK);
                 error.show();
+                pay.setDisable(true);
+                directPay.setDisable(true);
                 if (dataBase.fileToBuy == null)
                     runner.changeScene("MainMenu.fxml");
                 else download.setDisable(false);
@@ -65,5 +68,30 @@ public class PayMoneyPage implements Initializable {
         out.close();
         dataBase.fileToBuy = null;
         runner.changeScene("MainMenu.fxml");
+    }
+
+    public void payDirectMoney(MouseEvent mouseEvent) {
+        JsonObject output = Runner.getInstance().jsonMaker("customer", "payDirectMoney");
+        output.addProperty("id", ReceiveInformationForShopping.buyingLogId);
+        try {
+            DataBase.getInstance().dataOutputStream.writeUTF(output.toString());
+            DataBase.getInstance().dataOutputStream.flush();
+            String input = DataBase.getInstance().dataInputStream.readUTF();
+            JsonObject jsonObject = (JsonObject) new JsonParser().parse(input);
+            if (jsonObject.get("type").getAsString().equals("failed")) {
+                Alert error = new Alert(Alert.AlertType.ERROR, jsonObject.get("message").getAsString(), ButtonType.OK);
+                error.show();
+            } else {
+                Alert error = new Alert(Alert.AlertType.INFORMATION, "shopping completed", ButtonType.OK);
+                error.show();
+                pay.setDisable(true);
+                directPay.setDisable(true);
+                if (dataBase.fileToBuy == null)
+                    runner.changeScene("MainMenu.fxml");
+                else download.setDisable(false);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

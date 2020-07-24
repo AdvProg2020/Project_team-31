@@ -65,6 +65,8 @@ public class Process {
             answer = customerControllerProcess.putDiscount(user, jsonObject);
         else if (command.equals("payMoney"))
             answer = customerControllerProcess.payMoney(user, jsonObject);
+        else if (command.equals("payDirectMoney"))
+            answer = customerControllerProcess.payDirectMoney(user, jsonObject);
         else if (command.equals("supportMe"))
             answer = customerControllerProcess.supportMe(user, jsonObject);
         else if (command.equals("getMyChat"))
@@ -155,8 +157,6 @@ public class Process {
             answer = managerControllerProcess.accountWithdraw(user, jsonObject);
         else if (command.equals("accountCharge"))
             answer = managerControllerProcess.accountCharge(user, jsonObject);
-        else if (command.equals("customerChargeAccount"))
-            answer = managerControllerProcess.customerChargeAccount(user, jsonObject);
         return answer;
     }
 

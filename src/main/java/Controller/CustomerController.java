@@ -2,7 +2,9 @@ package Controller;
 
 import Model.Auction;
 import Model.*;
+import Server.ServerRunner;
 
+import java.io.IOException;
 import java.util.*;
 import java.lang.String;
 import java.util.stream.Collectors;
@@ -158,7 +160,7 @@ public class CustomerController {
 
     public void payMoney(User user, String  logId) throws Exception {
         BuyingLog buyingLog = getBuyingLogById(logId);
-        if (buyingLog.getTotalPrice() - buyingLog.getDiscountAmount() > user.getCredit())
+        if (buyingLog.getTotalPrice() - buyingLog.getDiscountAmount() > (user.getCredit() - Manager.minInventory))
             throw new Exception("Credit of money is not enough");
         buyingLog.finishBuying(new Date());
         BuyingLog.notCompleted.remove(buyingLog);
@@ -167,6 +169,29 @@ public class CustomerController {
         ((Customer) user).addRecentShoppingProducts(buyingLog.getBuyingProducts().keySet());
         createSellingLog(buyingLog);
         user.setCard(new Card());
+    }
+
+    public void payDirectMoney(User user, String logId) throws Exception {
+        BuyingLog buyingLog = getBuyingLogById(logId);
+        try {
+            ServerRunner.bankDataOutputStream.writeUTF("get_token " + user.getUsername() + " " + user.getPassword());
+            ServerRunner.bankDataOutputStream.flush();
+            String token = ServerRunner.bankDataInputStream.readUTF();
+            ServerRunner.bankDataOutputStream.writeUTF("create_receipt " + token + " move " + (buyingLog.getTotalPrice() - buyingLog.getDiscountAmount()) + " " + user.getBankId() + " 1 payDirectMoney");
+            ServerRunner.bankDataOutputStream.flush();
+            int num = Integer.parseInt(ServerRunner.bankDataInputStream.readUTF());
+            ServerRunner.bankDataOutputStream.writeUTF("pay " + num);
+            ServerRunner.bankDataOutputStream.flush();
+            ServerRunner.bankDataInputStream.readUTF();
+            buyingLog.finishBuying(new Date());
+            BuyingLog.notCompleted.remove(buyingLog);
+            ((Customer) user).addBuyingLog(buyingLog);
+            ((Customer) user).addRecentShoppingProducts(buyingLog.getBuyingProducts().keySet());
+            createSellingLog(buyingLog);
+            user.setCard(new Card());
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     private void createSellingLog(BuyingLog buyingLog) {
@@ -184,7 +209,7 @@ public class CustomerController {
             }
             int originalPrice = product.getSellersOfThisProduct().get(seller) * productInCard.getNumber();
             int offAmount = originalPrice * percent / 100;
-            seller.getMoney(originalPrice - offAmount);
+            seller.getMoney((originalPrice - offAmount)*(100 - Manager.wagePercent)/100);
             seller.addSellingLog(new SellingLog("SellingLog" + new Date(), buyingLog.getDate(), originalPrice - offAmount, offAmount, product, buyingLog.getCustomer()));
             product.decreaseNumberOfProduct(productInCard.getNumber());
         }

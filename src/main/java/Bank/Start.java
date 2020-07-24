@@ -24,7 +24,8 @@ public class Start {
     }
 
     private static void createMarketAccount() {
-        new Account("market", "account", MARKET_USERNAME, MARKET_PASSWORD);
+        Account account =new Account("market", "account", MARKET_USERNAME, MARKET_PASSWORD);
+        account.inventory = 100000;
     }
 
     public static void run() throws IOException {

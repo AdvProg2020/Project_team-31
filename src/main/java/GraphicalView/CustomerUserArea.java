@@ -57,7 +57,7 @@ public class CustomerUserArea implements Initializable {
         TextField inputField = getNumber.getEditor();
         EventHandler<ActionEvent> addBalanceEvent = (e) -> {
             Runner.buttonSound();
-            JsonObject jsonObject = runner.jsonMaker("manager", "customerChargeAccount");
+            JsonObject jsonObject = runner.jsonMaker("manager", "accountCharge");
             jsonObject.addProperty("amount", inputField.getText());
             try {
                 dataBase.dataOutputStream.writeUTF(jsonObject.toString());

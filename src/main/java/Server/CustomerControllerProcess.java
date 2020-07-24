@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -192,6 +193,18 @@ public class CustomerControllerProcess {
         JsonObject output = new JsonObject();
         try {
             CustomerController.getInstance().payMoney(user, jsonObject.get("id").getAsString());
+            output.addProperty("type", "successful");
+        } catch (Exception e) {
+            output.addProperty("type", "failed");
+            output.addProperty("message", e.getMessage());
+        }
+        return output;
+    }
+
+    public JsonObject payDirectMoney(User user, JsonObject jsonObject) {
+        JsonObject output = new JsonObject();
+        try {
+            CustomerController.getInstance().payDirectMoney(user, jsonObject.get("id").getAsString());
             output.addProperty("type", "successful");
         } catch (Exception e) {
             output.addProperty("type", "failed");

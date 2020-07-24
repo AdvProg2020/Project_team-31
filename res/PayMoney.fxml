@@ -5,8 +5,9 @@
 
 <Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@/Style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GraphicalView.PayMoneyPage">
    <children>
-      <Button fx:id="pay" layoutX="234.0" layoutY="53.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#payMoney" text="pay money" />
+      <Button fx:id="pay" layoutX="219.0" layoutY="53.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#payMoney" text="pay money(wallet)" />
       <Button layoutX="234.0" layoutY="233.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#back" text="back" />
-      <Button fx:id="download" layoutX="235.0" layoutY="146.0" mnemonicParsing="false" onMouseClicked="#download" text="download file" />
+      <Button fx:id="download" layoutX="235.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#download" text="download file" />
+      <Button fx:id="directPay" layoutX="219.0" layoutY="112.0" minWidth="100" mnemonicParsing="false" onMouseClicked="#payDirectMoney" text="pay money(direct)" />
    </children>
 </Pane>
