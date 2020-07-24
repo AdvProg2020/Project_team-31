@@ -17,7 +17,6 @@ public class ServerRunner {
     public static ArrayList<User> onlineUsers = new ArrayList<>();
 
     public static void main(String[] args) {
-        SaveAndLoadFiles.end();
         SaveAndLoadFiles.start();
         try {
             run();
