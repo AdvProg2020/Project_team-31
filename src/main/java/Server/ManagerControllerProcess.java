@@ -516,4 +516,9 @@ public class ManagerControllerProcess {
         ServerRunner.supporters.remove(user);
         return jsonObject;
     }
+
+    public JsonObject wage(User user, JsonObject jsonObject) {
+        Manager.wagePercent = Integer.parseInt(jsonObject.get("wage").getAsString());
+        return jsonObject;
+    }
 }
