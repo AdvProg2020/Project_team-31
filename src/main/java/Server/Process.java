@@ -151,6 +151,10 @@ public class Process {
             answer = managerControllerProcess.wage(user, jsonObject);
         else if (command.equals("inventory"))
             answer = managerControllerProcess.inventory(user, jsonObject);
+        else if (command.equals("accountWithdraw"))
+            answer = managerControllerProcess.accountWithdraw(user, jsonObject);
+else if (command.equals("accountCharge"))
+            answer = managerControllerProcess.accountCharge(user, jsonObject);
         return answer;
     }
 
