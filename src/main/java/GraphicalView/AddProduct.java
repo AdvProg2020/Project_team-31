@@ -124,8 +124,8 @@ public class AddProduct implements Initializable {
             if (file != null) {
                 send.addProperty("fileFlag", "yes");
                 send.addProperty("fileName",file.getName());
-                String fileContent = new String(Files.readAllBytes(file.toPath()));
-                send.addProperty("file",fileContent);
+                byte[] fileContent = Files.readAllBytes(file.toPath());
+                send.addProperty("file",new Gson().toJson(fileContent));
             } else send.addProperty("fileFlag", "no");
             dataBase.dataOutputStream.writeUTF(send.toString());
             dataBase.dataOutputStream.flush();

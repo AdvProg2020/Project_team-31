@@ -30,7 +30,7 @@ public class Product implements Serializable {
     private HashMap<String, String> specialPropertiesRelatedToCategory;
     public static ArrayList<Product> allProducts = new ArrayList<>();
     public static ArrayList<Product> allDeletedProducts = new ArrayList<>();
-    private String data;
+    private byte[] data;
     private String fileName;
 
     public Product(String productId, String name, String company, Category category, String information, int available, HashMap<Seller, Integer> sellersOfThisProduct, HashMap<String, String> specialPropertiesRelatedToCategory) {
@@ -59,17 +59,18 @@ public class Product implements Serializable {
         return fileName;
     }
 
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
 //    public String getImageFile() {
 //        return imageFile;
 //    }

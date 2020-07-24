@@ -1,9 +1,6 @@
 package GraphicalView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -78,7 +75,7 @@ public class ProductArea implements Initializable {
 
     private void analyzeInput(JsonObject jsonObject) {
         if (jsonObject.get("fileFlag").getAsString().equals("yes")) {
-            DataBase.getInstance().fileToBuy = jsonObject.get("file").getAsString();
+            DataBase.getInstance().fileToBuy = new Gson().fromJson(jsonObject.get("file").getAsString(), byte[].class);
             DataBase.getInstance().fileName = jsonObject.get("fileName").getAsString();
         }
         available.setText("availability: " + jsonObject.get("available").getAsInt());

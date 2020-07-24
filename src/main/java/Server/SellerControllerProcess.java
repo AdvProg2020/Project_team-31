@@ -49,7 +49,7 @@ public class SellerControllerProcess {
                 specialInformation.put(first[i], second[i]);
             Product product = sellerController.addProduct(generalData, user, specialInformation);
             if (jsonObject.get("fileFlag").getAsString().equals("yes")) {
-                product.setData(jsonObject.get("file").getAsString());
+                product.setData(new Gson().fromJson(jsonObject.get("file").getAsString(), byte[].class));
                 product.setFileName(jsonObject.get("fileName").getAsString());
             }
         } catch (Exception e) {
@@ -96,7 +96,7 @@ public class SellerControllerProcess {
         String[] second = new Gson().fromJson(jsonObject.get("second").getAsString(), String[].class);
         Product product = ProductController.getProductById(productId); //for file usage
         if (jsonObject.get("fileFlag").getAsString().equals("yes") && product != null) {
-            product.setData(jsonObject.get("file").getAsString());
+            product.setData(new Gson().fromJson(jsonObject.get("file").getAsString(), byte[].class));
             product.setFileName(jsonObject.get("fileName").getAsString());
 
         }

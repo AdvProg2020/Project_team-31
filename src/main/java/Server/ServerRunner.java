@@ -15,6 +15,8 @@ import java.util.HashMap;
 public class ServerRunner {
     public static HashMap<User, ArrayList<User>> supporters = new HashMap<>();
     public static ArrayList<User> onlineUsers = new ArrayList<>();
+    public static DataInputStream bankDataInputStream;
+    public static DataOutputStream bankDataOutputStream;
 
     public static void main(String[] args) {
         SaveAndLoadFiles.start();
@@ -27,6 +29,7 @@ public class ServerRunner {
     }
 
     public static void run() throws IOException {
+        connectToBank();
         ServerSocket serverSocket = new ServerSocket(8888);
         while (true) {
             Socket clientSocket;
@@ -41,6 +44,18 @@ public class ServerRunner {
                 System.err.println("Error in accepting client!");
                 break;
             }
+        }
+    }
+
+    private static void connectToBank() {
+        try {
+            Socket socket = new Socket("127.0.0.1", 8080);
+            System.out.println("successfully connected to bank.");
+            bankDataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("failed to connect to bank!");
         }
     }
 

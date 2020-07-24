@@ -118,9 +118,9 @@ public class EditProduct implements Initializable {
             JsonObject jsonObject = runner.jsonMaker("seller", "editProduct");
             if (file != null) {
                 jsonObject.addProperty("fileFlag", "yes");
-                String fileContent = new String(Files.readAllBytes(file.toPath()));
-                jsonObject.addProperty("fileName",file.getName());
-                jsonObject.addProperty("file",fileContent);
+                byte[] fileContent = Files.readAllBytes(file.toPath());
+                jsonObject.addProperty("fileName", file.getName());
+                jsonObject.addProperty("file", new Gson().toJson(fileContent));
             } else jsonObject.addProperty("fileFlag", "no");
             jsonObject.addProperty("id", id);
             jsonObject.addProperty("price", price);
