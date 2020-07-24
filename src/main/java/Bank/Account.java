@@ -1,5 +1,7 @@
 package Bank;
 
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,16 +14,15 @@ public class Account {
     String token;
     Date tokenDate;
     int inventory = 0;
-    public static int totalAccountNumber = 0;
     public static ArrayList<Account> allAccount = new ArrayList<>();
 
 
-    public Account(String firstName, String lastName, String username, String password, int accountNumber) {
+    public Account(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.accountNumber = accountNumber;
+        this.accountNumber = (allAccount.size() + 1);
         allAccount.add(this);
     }
 
@@ -30,13 +31,6 @@ public class Account {
             if (username.equals(account.username) && password.equals(account.password))
                 return true;
         return false;
-    }
-
-    public static boolean freeUsername(String username) {
-        for (Account account : allAccount)
-            if (account.username.equals(username))
-                return false;
-        return true;
     }
 
     public static Account getAccountByUsername(String username) {
@@ -62,5 +56,30 @@ public class Account {
             if (account.token.equals(token))
                 return account;
         return null;
+    }
+
+    public static void logToFile() {
+        try {
+            FileOutputStream file = new FileOutputStream("src/bank data/allAccounts.txt");
+            ObjectOutputStream all = new ObjectOutputStream(file);
+            all.writeObject(allAccount);
+            all.flush();
+            all.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void fileToLog() {
+        try {
+            FileInputStream file = new FileInputStream("src/bank data/allAccounts.txt");
+            ObjectInputStream all = new ObjectInputStream(file);
+            allAccount = (ArrayList<Account>) all.readObject();
+            all.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }
