@@ -23,7 +23,7 @@ public class CustomerUserArea implements Initializable {
     public Label discountCode;
     public Button logout;
     public Button editPersonalInfo;
-    public Button addBalance;
+//    public Button addBalance;
     public Button buyingHistoryButton;
     public Button login;
     public Button support;
@@ -43,7 +43,7 @@ public class CustomerUserArea implements Initializable {
         showPersonalInfo();
         showDiscountCodes();
         editPersonalInfoAlert();
-        addBalanceDialog();
+//        addBalanceDialog();
         buyingHistory();
         loginAlert();
         logoutAlert();
@@ -136,35 +136,35 @@ public class CustomerUserArea implements Initializable {
         }
     }
 
-    private void addBalanceDialog() {
-        if (dataBase.role.equals("none")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            EventHandler<ActionEvent> event = (e) -> {
-                Runner.buttonSound();
-                alert.show();
-            };
-            addBalance.setOnAction(event);
-            alert.setContentText("You have to login");
-        } else {
-            TextInputDialog getNumber = new TextInputDialog();
-            getNumber.getEditor().setPromptText("how mach do you want to add?");
-            data.bind(getNumber.getEditor().textProperty());
-            Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
-            EventHandler<ActionEvent> addBalanceEvent = (e) -> {
-                Runner.buttonSound();
-                addBalance();
-            };
-            okButton.setOnAction(addBalanceEvent);
-            TextField inputField = getNumber.getEditor();
-            BooleanBinding isInvalid = Bindings.createBooleanBinding(() -> isInvalid(inputField.getText()), inputField.textProperty());
-            okButton.disableProperty().bind(isInvalid);
-            EventHandler<ActionEvent> event = (e) -> {
-                Runner.buttonSound();
-                getNumber.show();
-            };
-            addBalance.setOnAction(event);
-        }
-    }
+//    private void addBalanceDialog() {
+//        if (dataBase.role.equals("none")) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            EventHandler<ActionEvent> event = (e) -> {
+//                Runner.buttonSound();
+//                alert.show();
+//            };
+//            addBalance.setOnAction(event);
+//            alert.setContentText("You have to login");
+//        } else {
+//            TextInputDialog getNumber = new TextInputDialog();
+//            getNumber.getEditor().setPromptText("how mach do you want to add?");
+//            data.bind(getNumber.getEditor().textProperty());
+//            Button okButton = (Button) getNumber.getDialogPane().lookupButton(ButtonType.OK);
+//            EventHandler<ActionEvent> addBalanceEvent = (e) -> {
+//                Runner.buttonSound();
+//                addBalance();
+//            };
+//            okButton.setOnAction(addBalanceEvent);
+//            TextField inputField = getNumber.getEditor();
+//            BooleanBinding isInvalid = Bindings.createBooleanBinding(() -> isInvalid(inputField.getText()), inputField.textProperty());
+//            okButton.disableProperty().bind(isInvalid);
+//            EventHandler<ActionEvent> event = (e) -> {
+//                Runner.buttonSound();
+//                getNumber.show();
+//            };
+//            addBalance.setOnAction(event);
+//        }
+//    }
 
     private void addBalance() {
         try {
