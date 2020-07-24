@@ -3,6 +3,7 @@ package Server;
 import Controller.ProductController;
 import Controller.SellerController;
 import Model.*;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -144,7 +145,7 @@ public class ProductControllerProcess {
             output.addProperty("fileFlag", "no");
         else {
             output.addProperty("fileFlag", "yes");
-            output.addProperty("file", product.getData());
+            output.addProperty("file", new Gson().toJson(product.getData()));
             output.addProperty("fileName", product.getFileName());
         }
         JsonArray jsonArray = new JsonArray();
