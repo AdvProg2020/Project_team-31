@@ -57,7 +57,7 @@ public class PayMoneyPage implements Initializable {
     public void download(MouseEvent mouseEvent) throws IOException {
         Runner.buttonSound();
         byte[] bytes = dataBase.fileToBuy.getBytes();
-        File tmp = new File("newFile.txt");
+        File tmp = new File(dataBase.fileName);
         tmp.createNewFile();
         OutputStream out = new FileOutputStream(tmp);
         out.write(bytes);
