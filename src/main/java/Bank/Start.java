@@ -6,8 +6,13 @@ import java.net.Socket;
 
 public class Start {
     public static int PORT_NUMBER = 8080;
+    public static final String MARKET_USERNAME = "market";
+    public static final String MARKET_PASSWORD = "1234";
+    public static final int MARKET_ACCOUNT_ID = 1;
 
     public static void main(String[] args) {
+        Account.fileToLog();
+        Receipt.fileToLog();
         try {
             if(Account.allAccount.size() == 0) {
                 createMarketAccount();
@@ -19,13 +24,11 @@ public class Start {
     }
 
     private static void createMarketAccount() {
-        new Account("market", "account", "market", "1234");
+        new Account("market", "account", MARKET_USERNAME, MARKET_PASSWORD);
     }
 
     public static void run() throws IOException {
         ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
-        Account.fileToLog();
-        Receipt.fileToLog();
         while (true) {
             Socket clientSocket;
             try {

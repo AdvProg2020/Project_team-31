@@ -6,7 +6,6 @@ import java.util.Date;
 
 public class BankProcess {
     private static BankProcess bankProcess;
-    private static final int marketAccountID = 1;
 
     public static BankProcess getInstance() {
         if (bankProcess == null)
@@ -18,7 +17,7 @@ public class BankProcess {
     }
 
     public String answer(String command) {
-        String answer = null;
+        String answer;
         if (command.startsWith("create_account"))
             answer = createAccount(command);
         else if (command.startsWith("get_token"))
@@ -31,6 +30,8 @@ public class BankProcess {
             answer = pay(command);
         else if (command.startsWith("get_balance"))
             answer = getBalance(command);
+        else
+            answer = "invalid input";
         return answer;
     }
 
@@ -216,24 +217,27 @@ public class BankProcess {
             return "invalid receipt id";
         if (receipt.paid == 1)
             return "receipt is paid before";
-        int sourceId = receipt.sourceId;
-        if (sourceId == -1) {
-            sourceId = marketAccountID;
-        }
-        int destId = receipt.destId;
-        if (destId == -1) {
-            destId = marketAccountID;
-        }
-        Account from = Account.getAccountByNumber(sourceId);
-        Account to = Account.getAccountByNumber(destId);
-        if (from == null || to == null || from.equals(to))
-            return "invalid account id";
-        if(from.inventory < receipt.money)
+        Account from = Account.getAccountByNumber(receipt.sourceId);
+        Account to = Account.getAccountByNumber(receipt.destId);
+        if (from != null && from.inventory < receipt.money)
             return "source account does not have enough money";
-        from.inventory -= receipt.money;
-        to.inventory += receipt.money;
-        receipt.paid = 1;
-        return "done successfully";
+        if (receipt.sourceId == -1 && to != null) {
+            to.inventory += receipt.money;
+            receipt.paid = 1;
+            return "done successfully";
+        }
+        if (receipt.destId == -1 && from != null) {
+            from.inventory -= receipt.money;
+            receipt.paid = 1;
+            return "done successfully";
+        }
+        if (from != null && to != null) {
+            from.inventory -= receipt.money;
+            to.inventory += receipt.money;
+            receipt.paid = 1;
+            return "done successfully";
+        }
+        return "invalid account id";
     }
 
     private String getBalance(String command) {
