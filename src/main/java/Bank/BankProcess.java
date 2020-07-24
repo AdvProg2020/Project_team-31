@@ -1,9 +1,12 @@
 package Bank;
 
+import com.google.gson.JsonObject;
+
 import java.util.Date;
 
 public class BankProcess {
     private static BankProcess bankProcess;
+    private static final int marketAccountID = 1;
 
     public static BankProcess getInstance() {
         if (bankProcess == null)
@@ -22,23 +25,24 @@ public class BankProcess {
             answer = getToken(command);
         else if (command.startsWith("create_receipt"))
             answer = createReceipt(command);
-//        else if (command.startsWith("get_transactions"))
-//            answer = getTransactions(command);
-//        else if (command.startsWith("pay"))
-//            answer = pay(command);
-//        else if (command.startsWith("get_balance"))
-//            answer = getBalance(command);
+        else if (command.startsWith("get_transactions"))
+            answer = getTransactions(command);
+        else if (command.startsWith("pay"))
+            answer = pay(command);
+        else if (command.startsWith("get_balance"))
+            answer = getBalance(command);
         return answer;
     }
 
     private String createAccount(String command) {
         String[] data = command.split(" ");
-        if (!Account.freeUsername(data[3]))
+        Account preAccount = Account.getAccountByUsername(data[3]);
+        if (preAccount != null)
             return "username is not available";
         if (!data[4].equals(data[5]))
             return "password do not match";
-        new Account(data[1], data[2], data[3], data[4], Account.totalAccountNumber++);
-        return String.valueOf(Account.totalAccountNumber);
+        Account account = new Account(data[1], data[2], data[3], data[4]);
+        return String.valueOf(account.accountNumber);
     }
 
     private String getToken(String command) {
@@ -66,7 +70,7 @@ public class BankProcess {
         String[] data = command.split(" ");
         if (data[2].equals("deposit"))       //variz
             return deposit(data);
-        else if (data[2].equals("withdraw")) //baadasht
+        else if (data[2].equals("withdraw")) //bardasht
             return withdraw(data);
         else if (data[2].equals("move"))     //enteghal
             return move(data);
@@ -74,101 +78,172 @@ public class BankProcess {
     }
 
     private String deposit(String[] data) {
-        if (!data[3].matches("\\d+") || Integer.parseInt(data[3]) <= 0)
-            return "invalid money";
         if (data.length != 7)
             return "invalid parameters passed";
+        if (!data[3].matches("\\d+") || Integer.parseInt(data[3]) <= 0)
+            return "invalid money";
+        if (data[5].equals("-1"))
+            return "invalid account id";
         Account to = Account.getAccountByNumber(Integer.parseInt(data[5]));
-        if (to != null && !to.token.equals(data[1]))
-            return "token is invalid";
-        if (to != null && !to.validityOfToken())
-            return "token expired";
         if (to == null)
             return "dest account id is invalid";
+        if (!to.token.equals(data[1]))
+            return "token is invalid";
+        if (to.validityOfToken())
+            return "token expired";
         if (data[4].equals(data[5]))
             return "equal source and dest account";
-        if (!data[5].equals("-1"))
-            return "invalid account id";
+        if (!data[4].equals("-1"))
+            return "source account id is invalid";
         if (!data[6].matches("\"[a-zA-Z0-9]*\""))
             return "your input contains invalid characters";
-        new Receipt("deposit", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), data[6]);
-        return String.valueOf(Receipt.receiptID);
+        Receipt receipt = new Receipt("deposit", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), data[6]);
+        return String.valueOf(receipt.id);
     }
 
     private String withdraw(String[] data) {
-        if (!data[3].matches("\\d+") || Integer.parseInt(data[3]) <= 0)
-            return "invalid money";
         if (data.length != 7)
             return "invalid parameters passed";
+        if (!data[3].matches("\\d+") || Integer.parseInt(data[3]) <= 0)
+            return "invalid money";
+        if (data[4].equals("-1"))
+            return "invalid account id";
         Account from = Account.getAccountByNumber(Integer.parseInt(data[4]));
-        if (from != null && !from.token.equals(data[1]))
-            return "token is invalid";
-        if (from != null && !from.validityOfToken())
-            return "token expired";
         if (from == null)
             return "source account id is invalid";
+        if (!from.token.equals(data[1]))
+            return "token is invalid";
+        if (from.validityOfToken())
+            return "token expired";
         if (!data[5].equals("-1"))
             return "dest account id is invalid";
         if (data[4].equals(data[5]))
             return "equal source and dest account";
         if (!data[6].matches("\"[a-zA-Z0-9]*\""))
             return "your input contains invalid characters";
-        new Receipt("withdraw", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), data[6]);
-        return String.valueOf(Receipt.receiptID);
+        Receipt receipt = new Receipt("withdraw", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), data[6]);
+        return String.valueOf(receipt.id);
     }
 
     private String move(String[] data) {
-        if (!data[3].matches("\\d+") || Integer.parseInt(data[3]) <= 0)
-            return "invalid money";
         if (data.length != 7)
             return "invalid parameters passed";
+        if (!data[3].matches("\\d+") || Integer.parseInt(data[3]) <= 0)
+            return "invalid money";
+        if (data[5].equals("-1") || data[4].equals("-1"))
+            return "invalid account id";
         Account from = Account.getAccountByNumber(Integer.parseInt(data[4]));
-        if (from != null && !from.token.equals(data[1]))
-            return "token is invalid";
-        if (from != null && !from.validityOfToken())
-            return "token expired";
         if (from == null)
             return "source account id is invalid";
+        if (!from.token.equals(data[1]))
+            return "token is invalid";
+        if (from.validityOfToken())
+            return "token expired";
         Account to = Account.getAccountByNumber(Integer.parseInt(data[5]));
         if (to == null)
             return "dest account id is invalid";
         if (from.accountNumber == to.accountNumber)
             return "equal source and dest account";
-        if (data[5].equals("-1") || data[4].equals("-1")) //useless condition
-            return "invalid account id";
         if (!data[6].matches("\"[a-zA-Z0-9]*\""))
             return "your input contains invalid characters";
-        new Receipt("move", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), data[6]);
-        return String.valueOf(Receipt.receiptID);
+        Receipt receipt = new Receipt("move", Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), data[6]);
+        return String.valueOf(receipt.id);
     }
 
-//    private String getTransactions(String command) {
-//        String[] data = command.split(" ");
-//        if (!Account.getAccountByToken(data[1]).validityOfToken())
-//            return "token expired";
-//        if (data[2].equals("+"))
-//            return increaseHistory(data);
-//        if (data[2].equals("-"))
-//            return decreaseHistory(data);
-//        if (data[2].equals("*"))
-//            return allHistory(data);
-//        else Receipt.isThereAnyReceipt(data[2]);
-//    }
-//
-//    private String increaseHistory(String[] data) {
-//    }
-//
-//    private String decreaseHistory(String[] data) {
-//    }
-//
-//    private String allHistory(String[] data) {
-//    }
-//
-//    private String pay(String command) {
-//
-//    }
-//
-//    private String getBalance(String command) {
-//
-//    }
+    private String getTransactions(String command) {
+        String[] data = command.split(" ");
+        Account account = Account.getAccountByToken(data[1]);
+        if (account == null)
+            return "token is invalid";
+        if (account.validityOfToken())
+            return "token expired";
+        if (data[2].equals("+"))
+            return increaseHistory(account);
+        if (data[2].equals("-"))
+            return decreaseHistory(account);
+        if (data[2].equals("*"))
+            return allHistory(account);
+        Receipt receipt = Receipt.getReceiptById(Integer.parseInt(data[2]));
+        if (receipt == null)
+            return "invalid receipt id";
+        if (receipt.destId != account.accountNumber && receipt.sourceId != account.accountNumber)
+            return "invalid receipt id";
+        return receiptInfo(receipt);
+    }
+
+    private String increaseHistory(Account account) {
+        StringBuilder output = new StringBuilder();
+        for (Receipt receipt : Receipt.allReceipts) {
+            if (receipt.destId == account.accountNumber) {
+                output.append(receiptInfo(receipt)).append("*");
+            }
+        }
+        return output.toString();
+    }
+
+    private String decreaseHistory(Account account) {
+        StringBuilder output = new StringBuilder();
+        for (Receipt receipt : Receipt.allReceipts) {
+            if (receipt.sourceId == account.accountNumber) {
+                output.append(receiptInfo(receipt)).append("*");
+            }
+        }
+        return output.toString();
+    }
+
+    private String allHistory(Account account) {
+        StringBuilder output = new StringBuilder();
+        output.append(decreaseHistory(account)).append(increaseHistory(account));
+        return output.toString();
+    }
+
+    private String receiptInfo(Receipt receipt) {
+        JsonObject output = new JsonObject();
+        output.addProperty("receiptType", receipt.type);
+        output.addProperty("money", receipt.money);
+        output.addProperty("sourceAccountID", receipt.sourceId);
+        output.addProperty("destAccountID", receipt.destId);
+        output.addProperty("description", receipt.description);
+        output.addProperty("id", receipt.id);
+        output.addProperty("paid", receipt.paid);
+        return output.toString();
+    }
+
+    private String pay(String command) {
+        String[] data = command.split(" ");
+        Receipt receipt = Receipt.getReceiptById(Integer.parseInt(data[1]));
+        if (receipt == null)
+            return "invalid receipt id";
+        if (receipt.paid == 1)
+            return "receipt is paid before";
+        int sourceId = receipt.sourceId;
+        if (sourceId == -1) {
+            sourceId = marketAccountID;
+        }
+        int destId = receipt.destId;
+        if (destId == -1) {
+            destId = marketAccountID;
+        }
+        Account from = Account.getAccountByNumber(sourceId);
+        Account to = Account.getAccountByNumber(destId);
+        if (from == null || to == null || from.equals(to))
+            return "invalid account id";
+        if(from.inventory < receipt.money)
+            return "source account does not have enough money";
+        from.inventory -= receipt.money;
+        to.inventory += receipt.money;
+        receipt.paid = 1;
+        return "done successfully";
+    }
+
+    private String getBalance(String command) {
+        String[] data = command.split(" ");
+        Account account = Account.getAccountByToken(data[1]);
+        if (account == null)
+            return "token is invalid";
+        if (account.validityOfToken())
+            return "token expired";
+        return String.valueOf(account.inventory);
+
+    }
 }

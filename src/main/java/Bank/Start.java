@@ -10,10 +10,17 @@ public class Start {
 
     public static void main(String[] args) {
         try {
+            if(Account.allAccount.size() == 0) {
+                createMarketAccount();
+            }
             run();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void createMarketAccount() {
+        new Account("market", "account", "market", "1234");
     }
 
     public static void run() throws IOException {
