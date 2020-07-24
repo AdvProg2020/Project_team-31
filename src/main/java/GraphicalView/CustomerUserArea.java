@@ -23,7 +23,7 @@ public class CustomerUserArea implements Initializable {
     public Label discountCode;
     public Button logout;
     public Button editPersonalInfo;
-//    public Button addBalance;
+    //    public Button addBalance;
     public Button buyingHistoryButton;
     public Button login;
     public Button support;
@@ -36,7 +36,7 @@ public class CustomerUserArea implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         runner.changeMusic("UserArea");
-        if(DataBase.getInstance().role.equals("none")) {
+        if (DataBase.getInstance().role.equals("none")) {
             auctionButton.setDisable(true);
         }
         chargeDialog();
@@ -63,7 +63,8 @@ public class CustomerUserArea implements Initializable {
                 dataBase.dataOutputStream.writeUTF(jsonObject.toString());
                 dataBase.dataOutputStream.flush();
                 String answer = runner.jsonParser(dataBase.dataInputStream.readUTF()).get("answer").getAsString();
-                new Alert(Alert.AlertType.INFORMATION,answer , ButtonType.OK, ButtonType.CANCEL).showAndWait();
+                new Alert(Alert.AlertType.INFORMATION, answer, ButtonType.OK, ButtonType.CANCEL).showAndWait();
+                showPersonalInfo();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

@@ -56,6 +56,7 @@ public class SellerUserArea implements Initializable {
                 dataBase.dataOutputStream.flush();
                 String answer = runner.jsonParser(dataBase.dataInputStream.readUTF()).get("answer").getAsString();
                 new Alert(Alert.AlertType.INFORMATION,answer , ButtonType.OK, ButtonType.CANCEL).showAndWait();
+                showPersonalInfo();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -84,6 +85,7 @@ public class SellerUserArea implements Initializable {
                 dataBase.dataOutputStream.flush();
                 String answer = runner.jsonParser(dataBase.dataInputStream.readUTF()).get("answer").getAsString();
                 new Alert(Alert.AlertType.INFORMATION,answer , ButtonType.OK, ButtonType.CANCEL).showAndWait();
+                showPersonalInfo();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
