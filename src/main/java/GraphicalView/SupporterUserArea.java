@@ -29,6 +29,9 @@ public class SupporterUserArea implements Initializable {
     }
 
     private void refresh(TextField textField, String username) {
+        for (String value : newMassages.values())
+            if (value == null)
+                value = "";
         try {
             JsonObject jsonObject = runner.jsonMaker("manager", "supporter");
             jsonObject.addProperty("name", username);
@@ -38,7 +41,9 @@ public class SupporterUserArea implements Initializable {
                 jsonObject.addProperty("chat", textField.getText());
             dataBase.dataOutputStream.writeUTF(jsonObject.toString());
             dataBase.dataOutputStream.flush();
-            newMassages.values().forEach(k -> k = "");
+            for (String value : newMassages.values()) {
+                value = "";
+            }
             handleData(dataBase.dataInputStream.readUTF());
         } catch (Exception e) {
             e.printStackTrace();

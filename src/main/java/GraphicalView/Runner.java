@@ -82,34 +82,34 @@ public class Runner extends Application {
     }
 
     public void changeMusic(String pageName) {
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
-        switch (pageName) {
-            case "MainMenu":
-                if (musicNumber != 1)
-                    mediaPlayer = new MediaPlayer(media1);
-                musicNumber = 1;
-                break;
-            case "OffMenu":
-                if (musicNumber != 2)
-                    mediaPlayer = new MediaPlayer(media2);
-                musicNumber = 2;
-                break;
-            case "ProductMenu":
-                if (musicNumber != 3)
-                    mediaPlayer = new MediaPlayer(media3);
-                musicNumber = 3;
-                break;
-            case "UserArea":
-                if (musicNumber != 4)
-                    mediaPlayer = new MediaPlayer(media4);
-                musicNumber = 4;
-        }
-        mediaPlayer.setOnEndOfMedia(() -> {
-            mediaPlayer.seek(Duration.ZERO);
-            mediaPlayer.play();
-        });
-        mediaPlayer.play();
+//        if (mediaPlayer != null)
+//            mediaPlayer.stop();
+//        switch (pageName) {
+//            case "MainMenu":
+//                if (musicNumber != 1)
+//                    mediaPlayer = new MediaPlayer(media1);
+//                musicNumber = 1;
+//                break;
+//            case "OffMenu":
+//                if (musicNumber != 2)
+//                    mediaPlayer = new MediaPlayer(media2);
+//                musicNumber = 2;
+//                break;
+//            case "ProductMenu":
+//                if (musicNumber != 3)
+//                    mediaPlayer = new MediaPlayer(media3);
+//                musicNumber = 3;
+//                break;
+//            case "UserArea":
+//                if (musicNumber != 4)
+//                    mediaPlayer = new MediaPlayer(media4);
+//                musicNumber = 4;
+//        }
+//        mediaPlayer.setOnEndOfMedia(() -> {
+//            mediaPlayer.seek(Duration.ZERO);
+//            mediaPlayer.play();
+//        });
+//        mediaPlayer.play();
     }
 
     private void popup() {

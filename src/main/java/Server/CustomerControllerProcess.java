@@ -220,6 +220,8 @@ public class CustomerControllerProcess {
     }
 
     public JsonObject getMyChat(User user, JsonObject jsonObject) {
+        if (user.chat==null)
+            user.chat="";
         if (!jsonObject.get("newMassage").getAsString().equals(""))
             user.chat += "- " + jsonObject.get("newMassage").getAsString() + "\n";
         JsonObject data = new JsonObject();
